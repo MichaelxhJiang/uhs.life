@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import './facebook.js'
+import '/imports/startup/client'
 
 import './main.html';
 
@@ -30,14 +30,14 @@ Template.hello.events({
   'click button'(event, instance) {
     // increment the counter when button is clicked
     instance.counter.set(instance.counter.get() + 1);
-    /**Twitter Post
-    Meteor.call('postTwitter', "hello w0rld", function(response) {
+    //Twitter Post
+    Meteor.call('postTwitter', "hello w0rld!", function(response) {
       console.log(response);
     })
-    **/
-    
-    /**Facebook post
-    postFacebook("hello W0rld");
-    **/
+
+
+    //Facebook post
+    postFacebook("hello W0rld!");
+
   },
 });
