@@ -24,3 +24,5 @@ schiller:twit
 alanning:roles
 acemtp:algolia
 session
+cfs:standard-packages
+cfs:gridfs

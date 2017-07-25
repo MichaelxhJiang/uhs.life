@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Announcements } from '/imports/api/announcements/announcements.js';
+import { Images } from '/imports/api/announcements/images.js';
 import '/imports/startup/client'
 
 import './main.html';
@@ -34,7 +36,6 @@ Template.hello.events({
     Meteor.call('postTwitter', "hello w0rld!", function(response) {
       console.log(response);
     })
-
 
     //Facebook post
     postFacebook("hello W0rld!");
