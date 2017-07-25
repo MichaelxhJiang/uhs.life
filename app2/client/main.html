@@ -7,6 +7,8 @@
 
   {{> hello}}
   {{> info}}
+    {{> movies}}
+    {{> post}}
 </body>
 
 <template name="hello">
@@ -22,4 +24,21 @@
     <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
     <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
   </ul>
+</template>
+
+<template name="movies">
+    <input type="search" id="mySearch" placeholder="Search for test">
+    <button>Search</button>
+    <p>{{content.nbHits}} results. Here are the {{content.hitsPerPage}} first:</p>
+    <ul>
+        {{#each content.hits}}
+            <li>{{announcement}} {{description}}</li>
+        {{/each}}
+    </ul>
+</template>
+
+<template name="post">
+    <input type="search" id="announcement" placeholder="title">
+    <input type="search" id="description" placeholder="description">
+    <button>Post</button>
 </template>

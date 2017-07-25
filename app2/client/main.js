@@ -41,3 +41,28 @@ Template.hello.events({
 
   },
 });
+
+Template.movies.helpers({
+    content: function () {
+        return Session.get('content');
+    }
+});
+
+Template.movies.events({
+    'click button'(event, instance) {
+        searchPost(document.getElementById("mySearch").value);
+        console.log(document.getElementById("mySearch").value);
+    },
+});
+
+Template.post.events({
+    'click button'(event, instance) {
+      var announcement, description;
+      announcement = document.getElementById("announcement").value;
+        description = document.getElementById("description").value;
+        console.log(announcement);
+        console.log(description);
+        Meteor.call('postAnnouncement', announcement, description, function(response) {
+        })
+    },
+});
