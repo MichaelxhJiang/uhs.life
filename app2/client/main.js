@@ -17,33 +17,6 @@ if(Meteor.isClient) {
   };
 }
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
-});
-
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
-
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-    /**
-    //Twitter Post
-    Meteor.call('postTwitter', "hello w0rld!", function(response) {
-      console.log(response);
-    })
-
-    //Facebook post
-    postFacebook("hello W0rld!");
-    **/
-  },
-});
-
 /*
 * ADD NEW ANNOUNCEMENT
 */
@@ -59,9 +32,9 @@ Template.addAnnouncement.events({
     const imgId = Session.get('newImageId');
     console.log("adding announcement with imgId: " + imgId);
 
-    //add new announcement to collections
-    Announcements.insert({title: title, message: msg, imageId: imgId});
+    Meteor.call('postAnnouncement', title, msg, imgId, function(response) {
 
+      })
     // Clear form
     target.title.value = '';
     target.message.value = '';
@@ -103,10 +76,13 @@ Template.addImage.events({
 /*
 * ANNOUNCEMENT LIST
 */
+Template.announcements.onCreated(function announcementsOnCreated() {
+    searchAll();
+});
 Template.announcements.helpers({
-  announcement() {
-    return Announcements.find();  //return all announcements stored in collection
-  }
+    content: function () {
+        return Session.get('results');
+    }
 });
 
 Template.announcements.events({
@@ -139,27 +115,18 @@ Template.viewImage.helpers({
   }
 })
 
-Template.movies.helpers({
+/*
+ * SEARCH
+ */
+Template.search.helpers({
     content: function () {
         return Session.get('content');
     }
 });
 
-Template.movies.events({
+Template.search.events({
     'click button'(event, instance) {
         searchPost(document.getElementById("mySearch").value);
         console.log(document.getElementById("mySearch").value);
-    },
-});
-
-Template.post.events({
-    'click button'(event, instance) {
-      var announcement, description;
-      announcement = document.getElementById("announcement").value;
-        description = document.getElementById("description").value;
-        console.log(announcement);
-        console.log(description);
-        Meteor.call('postAnnouncement', announcement, description, function(response) {
-        })
     },
 });

@@ -7,13 +7,14 @@ var client = AlgoliaSearch("GJDCY9DKEW", "31f60dc3cc7926270934909c81f867ee");
 var index = client.initIndex('announcement');
 
 Meteor.methods({
-    'updateAnnouncement' : function(announcement, description, myID) {
+    'updateAnnouncement' : function(announcement, description, imgId, myID) {
 
         //updates object to the indice announcement
         //myID is hidden and can be accessed using .objectID on the announcement
         index.saveObject({
             announcement: announcement,
             description: description,
+            imgId: imgId,
             objectID: myID
         }, function(err, content) {
 

@@ -11,18 +11,17 @@
   {{> message}}
   {{> viewImage}}
   <h2>Algolia Search Engine</h2>
-  {{> hello}}
-  {{> movies}}
-  {{> post}}
+  {{> search}}
 </body>
 
 <template name="announcements">
   <h3>Announcement List</h3>
-  <ul>
-    {{#each announcement}}
-      <li class="announcement">{{title}}:{{message}}</li>
-    {{/each}}
-  </ul>
+    <p>{{content.nbHits}} results. Here are the {{content.hitsPerPage}} first:</p>
+    <ul>
+        {{#each content.hits}}
+            <li>{{announcement}} {{description}} {{imgId}}</li>
+        {{/each}}
+    </ul>
 </template>
 
 <template name="message">
@@ -56,12 +55,8 @@
   {{/with}}
 </template>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
 
-<template name="movies">
+<template name="search">
     <input type="search" id="mySearch" placeholder="Search for test">
     <button>Search</button>
     <p>{{content.nbHits}} results. Here are the {{content.hitsPerPage}} first:</p>
@@ -70,10 +65,4 @@
             <li>{{announcement}} {{description}}</li>
         {{/each}}
     </ul>
-</template>
-
-<template name="post">
-    <input type="search" id="announcement" placeholder="title">
-    <input type="search" id="description" placeholder="description">
-    <button>Post</button>
 </template>

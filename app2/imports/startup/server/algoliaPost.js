@@ -7,12 +7,13 @@ var client = AlgoliaSearch("GJDCY9DKEW", "31f60dc3cc7926270934909c81f867ee");
 var index = client.initIndex('announcement');
 
 Meteor.methods({
-    'postAnnouncement' : function(announcement, description) {
+    'postAnnouncement' : function(announcement, description, imgId) {
 
         //define object being posted with layout
         var objects = [{
             announcement: announcement,
-            description: description
+            description: description,
+            imgId: imgId
         }];
 
         //adds object to the indice announcement
