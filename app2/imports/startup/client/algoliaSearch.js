@@ -6,6 +6,12 @@ var client = AlgoliaSearch("GJDCY9DKEW", "1881fcb5fac28b033952f92b1bc33430");
 // select indice (collection) of data to be accesed. In this case it would be the announcements
 var index = client.initIndex('announcement');
 
+index.setSettings({
+    searchableAttributes: [
+        'title',
+    ]
+});
+
 //function to search for announcements with a keyword
 searchPost = function(keyword) {
 
@@ -25,3 +31,4 @@ searchPost = function(keyword) {
         }
     });
 }
+

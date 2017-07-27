@@ -1,3 +1,5 @@
+
+
 <head>
   <title>app2</title>
 </head>
@@ -59,11 +61,11 @@
 
 <template name="search">
     <input type="search" id="mySearch" placeholder="Search for test">
-    <button>Search</button>
+    <button id="searchButton">Search</button>
     <p>{{content.nbHits}} results. Here are the {{content.hitsPerPage}} first:</p>
     <ul>
         {{#each content.hits}}
-            <li class="announcement">{{announcement}} {{description}}</li>
+            <li class="announcement">{{announcement}} {{description}} {{imgId}}</li>
         {{/each}}
     </ul>
 </template>

@@ -118,6 +118,9 @@ Template.viewImage.helpers({
 /*
  * SEARCH
  */
+
+Template.search.rendered = function(){
+};
 Template.search.helpers({
     content: function () {
         return Session.get('content');
@@ -125,11 +128,9 @@ Template.search.helpers({
 });
 
 Template.search.events({
-    'click button'(event, instance) {
+    'keyup #mySearch' : function() {
         searchPost(document.getElementById("mySearch").value);
         console.log(document.getElementById("mySearch").value);
-    },
-    'click .announcement' : function() {
-      Session.set('currentAnnouncement', this); //set the current message clicked into session
     }
+
 });
