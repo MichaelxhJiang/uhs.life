@@ -26,3 +26,4 @@ acemtp:algolia
 session
 cfs:standard-packages
 cfs:gridfs
+raix:ui-dropped-event

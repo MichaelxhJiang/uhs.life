@@ -8,4 +8,6 @@ import './algoliaPost.js';
 import './algoliaUpdate.js';
 //This file is used to remove announcments using Algolia
 import './algoliaRemove.js';
-
+//import the collections into server
+import '../../api/announcements/announcements.js';
+import '../../api/announcements/images.js'
