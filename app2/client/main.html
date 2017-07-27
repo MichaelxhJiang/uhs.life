@@ -8,10 +8,11 @@
   {{> addAnnouncement}}
   {{> addImage}}
   {{> announcements}}
-  {{> message}}
-  {{> viewImage}}
   <h2>Algolia Search Engine</h2>
   {{> search}}
+  {{> message}}
+  {{> viewImage}}
+
 </body>
 
 <template name="announcements">
@@ -19,7 +20,7 @@
     <p>{{content.nbHits}} results. Here are the {{content.hitsPerPage}} first:</p>
     <ul>
         {{#each content.hits}}
-            <li>{{announcement}} {{description}} {{imgId}}</li>
+            <li class="announcement">{{announcement}} {{description}} {{imgId}}</li>
         {{/each}}
     </ul>
 </template>
@@ -40,7 +41,7 @@
 
 <template name="addImage">
   <div id="dropzone" class="dropzone" style="background-color:#0000FF">
-    Drop file(s) here to upload
+    Drop file here to upload
   </div>
 </template>
 
@@ -62,7 +63,7 @@
     <p>{{content.nbHits}} results. Here are the {{content.hitsPerPage}} first:</p>
     <ul>
         {{#each content.hits}}
-            <li>{{announcement}} {{description}}</li>
+            <li class="announcement">{{announcement}} {{description}}</li>
         {{/each}}
     </ul>
 </template>

@@ -96,10 +96,10 @@ Template.announcements.events({
 */
 Template.message.helpers({
   title() {
-    return Session.get('currentAnnouncement').title;  //return the title in session
+    return Session.get('currentAnnouncement').announcement;  //return the title in session
   },
   message() {
-    return Session.get('currentAnnouncement').message;  //return the message in session
+    return Session.get('currentAnnouncement').description;  //return the message in session
   }
 });
 
@@ -108,7 +108,7 @@ Template.message.helpers({
 */
 Template.viewImage.helpers({
   image() {
-    var imageId = Session.get('currentAnnouncement').imageId;
+    var imageId = Session.get('currentAnnouncement').imgId;
     console.log("image id: " + imageId);
     console.log(Images.findOne({_id:imageId}).url());
     return Images.findOne({_id:imageId}).url();
@@ -129,4 +129,7 @@ Template.search.events({
         searchPost(document.getElementById("mySearch").value);
         console.log(document.getElementById("mySearch").value);
     },
+    'click .announcement' : function() {
+      Session.set('currentAnnouncement', this); //set the current message clicked into session
+    }
 });
