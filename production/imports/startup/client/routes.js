@@ -9,7 +9,10 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 FlowRouter.route( '/', {
     action: function() {
-        BlazeLayout.render('applicationLayout', {main: 'login'});
+        if(Meteor.userId()){
+            BlazeLayout.render('applicationLayout', {main: 'stream'});
+        }else
+            BlazeLayout.render('applicationLayout', {main: 'login'});
     },
     name: 'root' // Optional route name.
 });
