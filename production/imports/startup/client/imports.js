@@ -5,7 +5,13 @@
  *
  * A semi-colon is not necessary at the end of an import, please omit it.
  */
-
+//import ui files
 import '../../ui/layouts/applicationLayout.js';
 import '../../ui/pages/login.js';
 import '../../ui/pages/stream.js'
+//This file defines functions to post and setup the facebook API
+import './facebook.js';
+//This file contains the search function used for Algolia
+import './algoliaSearch.js';
+//This file contains the search all function used for Algolia
+import './algoliaAll.js';

@@ -7,25 +7,77 @@ var client = AlgoliaSearch("GJDCY9DKEW", "31f60dc3cc7926270934909c81f867ee");
 var index = client.initIndex('announcement');
 
 Meteor.methods({
-    'postAnnouncement' : function(announcement, description, imgId) {
+   /**
+   @params title : string; text: string; fileType: string; textFirst: boolean
+   **/
+   'postAnnouncementTextMedia' : function(title, text, imgId, fileType, textFirst) {
 
-        //define object being posted with layout
-        var objects = [{
-            announcement: announcement,
-            description: description,
-            imgId: imgId
-        }];
+      //define object being posted with layout
+      var objects = [{
+         class: "announcement",
+         type: "text_media",
+         title: title,
+         text: text,
+         imgId: imgId,
+         fileType: fileType,
+         textFirst: textFirst
+      }];
 
-        //adds object to the indice announcement
-        index.addObjects(objects, function(err, content) {
+      //adds object to the indice announcement
+      index.addObjects(objects, function(err, content) {
 
-            //error catch for algolia issues
-            if(err) {
-                console.error('Algolia returned an error', err);
-            } else {
-                //prints the announcement posted
-                console.log(content);
-            }
-        });
-    },
+         //error catch for algolia issues
+         if(err) {
+            console.error('Algolia returned an error', err);
+         } else {
+            //prints the announcement posted
+            console.log(content);
+         }
+      });
+   },
+   'postAnnouncementText' : function(title, text) {
+
+      //define object being posted with layout
+      var objects = [{
+         class: "announcement",
+         type: "text",
+         title: title,
+         text: text
+      }];
+
+      //adds object to the indice announcement
+      index.addObjects(objects, function(err, content) {
+
+         //error catch for algolia issues
+         if(err) {
+            console.error('Algolia returned an error', err);
+         } else {
+            //prints the announcement posted
+            console.log(content);
+         }
+      });
+   },
+   'postAnnouncementMedia' : function(title, imgId, fileType) {
+
+      //define object being posted with layout
+      var objects = [{
+         class: "announcement",
+         type: "media",
+         title: title,
+         imgId: imgId,
+         fileType: fileType
+      }];
+
+      //adds object to the indice announcement
+      index.addObjects(objects, function(err, content) {
+
+         //error catch for algolia issues
+         if(err) {
+            console.error('Algolia returned an error', err);
+         } else {
+            //prints the announcement posted
+            console.log(content);
+         }
+      });
+   },
 });
