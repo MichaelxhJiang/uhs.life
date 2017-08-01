@@ -1,48 +1,91 @@
-
-
 <head>
   <title>app2</title>
 </head>
 
 <body>
   <h1>Welcome to Meteor!</h1>
-  <h2>Test Image upload</h2>
-  {{> addAnnouncement}}
-  {{> addImage}}
+  {{> addAnnouncementTextMedia}}
+  {{> addAnnouncementMedia}}
+  {{> addAnnouncementText}}
   {{> announcements}}
+
   <h2>Algolia Search Engine</h2>
   {{> search}}
   {{> message}}
-  {{> viewImage}}
-
 </body>
 
 <template name="announcements">
-  <h3>Announcement List</h3>
+  <h2>Announcement List</h2>
     <p>{{content.nbHits}} results. Here are the {{content.hitsPerPage}} first:</p>
     <ul>
         {{#each content.hits}}
-            <li class="announcement">{{announcement}} {{description}} {{imgId}}</li>
+            <li class="announcement">{{title}}</li>
         {{/each}}
     </ul>
 </template>
 
 <template name="message">
   <h2>Current message:</h2>
-    <h3>{{title}} : {{message}}</h3>
+    {{#with post}}
+      {{#if isTextMedia}}
+         <h2>TEXTMEDIA</h2>
+         <h3>{{title}}</h3>
+         <p>{{text}}</p>
+         {{> viewImage}}
+      {{else}}
+         {{#if isMedia}}
+            <h2>MEDIA</h2>
+            <h3>{{title}}</h3>
+            {{> viewImage}}
+         {{else}}
+            {{#if isText}}
+               <h2>TEXT</h2>
+               <h3>{{title}}</h3>
+               <p>{{text}}</p>
+            {{else}}
+               {{#if isBlog}}
+                  <h2>BLOG</h2>
+                  <h2></h2>
+                  <h3></h3>
+                  <p></p>
+               {{/if}}
+            {{/if}}
+         {{/if}}
+      {{/if}}
+    {{/with}}
 </template>
 
-<template name="addAnnouncement">
-  <h2>New Announcement</h2>
+<template name="addAnnouncementTextMedia">
+  <h2>New Announcement Text and Media</h2>
   <form class="new">
-        <input type="text" name="title" placeholder="Title here" />
-        <input type="text" name="message" placeholder="Message here" />
+        <input type="text" name="title" placeholder="Title here" /> <br>
+        <input type="text" name="text" placeholder="Message here" /> <br>
+        <input type="checkbox" name="textFirst" value="textFirst" checked>Text First <br>
+        {{> addImage}} <br>
         <input type="submit" value="Submit">
   </form>
 </template>
 
+<template name = "addAnnouncementMedia">
+   <h2>New Announcement Media ONLY</h2>
+   <form class="new">
+         <input type="text" name="title" placeholder="Title here" /> <br>
+         {{> addImage}} <br>
+         <input type="submit" value="Submit">
+   </form>
+</template>
+
+<template name = "addAnnouncementText">
+   <h2>New Announcement Text ONLY</h2>
+   <form class="new">
+      <input type="text" name="title" placeholder="Title here" /> <br>
+      <input type="text" name="text" placeholder="Message here" /> <br>
+      <input type="submit" value="Submit">
+   </form>
+</template>
+
 <template name="addImage">
-  <div id="dropzone" class="dropzone" style="background-color:#0000FF">
+  <div id="dropzone" class="dropzone" style="background-color:#303030">
     Drop file here to upload
   </div>
 </template>
@@ -65,7 +108,7 @@
     <p>{{content.nbHits}} results. Here are the {{content.hitsPerPage}} first:</p>
     <ul>
         {{#each content.hits}}
-            <li class="announcement">{{announcement}} {{description}} {{imgId}}</li>
+            <li class="announcement">{{title}}</li>
         {{/each}}
     </ul>
 </template>
