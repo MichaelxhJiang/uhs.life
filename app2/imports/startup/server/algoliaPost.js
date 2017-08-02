@@ -80,4 +80,27 @@ Meteor.methods({
          }
       });
    },
+   'postBlog' : function(title, description, imgId, fileType, content) {
+      //define object being posted with layout
+      var objects = [{
+         class: "blog",
+         title: title,
+         description: description,
+         imgId: imgId,
+         fileType: fileType,
+         content: content
+      }];
+
+      //adds object to the indice announcement
+      index.addObjects(objects, function(err, content) {
+
+         //error catch for algolia issues
+         if(err) {
+            console.error('Algolia returned an error', err);
+         } else {
+            //prints the announcement posted
+            console.log(content);
+         }
+      });
+   },
 });
