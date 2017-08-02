@@ -3,9 +3,8 @@
  */
 import './login.html'
 
-
-
 Template.login.onRendered(function () {
+    //disable register and hid all error prompts when the page initializes
     $('.email-warning').hide();
     $('#registerSubmit').prop('disabled', true);
 });
@@ -14,6 +13,7 @@ Template.login.onRendered(function () {
  * This function defines all the events on the login page.*/
 
 Template.login.events({
+    //toggle between register and login form
     'click .operation': function () {
         $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     },
@@ -25,9 +25,8 @@ Template.login.events({
             if(err){
                 console.log(err);
             }else
-                alert("success");
+                FlowRouter.go('/');
         });
-        FlowRouter.go('/');
     },
     'submit .register-form': function (evt) {
         const email = evt.target.registerEmail.value;
@@ -66,7 +65,9 @@ Template.login.events({
         }
     }
 });
-
+/**
+ * This local method validates the state of a String to see if it is a proper email
+ * **/
 function validateEmail(email) {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
