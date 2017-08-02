@@ -1,1 +1,31 @@
+/**
+  Only global level styling exists in this file, if the styling only exists for a page or component,
+  import via ui/stylingsheet folder.
+*/
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 @import '{}/imports/ui/stylingsheets/login.less';
+@import '{}/imports/ui/stylingsheets/buttons.less'
+@import '{}/imports/ui/stylingsheets/loading.less';
+@import '{}/imports/ui/stylingsheets/margin-padding.less';
+
+body{
+  font-family: "Roboto Condensed", "Source Sans Pro", "Times New Roman", serif;
+}
+
+h1,h2,h3,h4,h5{
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+
+h1{
+  font-size: 86px;
+}
+
+p{
+  font-size: 18px;
+}
+
+.full-screen{
+  padding: 0;
+}

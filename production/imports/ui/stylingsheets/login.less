@@ -1,3 +1,144 @@
-h1{
-  color: red;
+@primary: #4CAF50;
+
+.branding{
+  position: absolute;
+  z-index: 100;
+  padding-top: 55px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 60%;
+  .life-brand{
+    padding-left: 5%;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-size: 35px;
+  }
+}
+.login-menu{
+  position: absolute;
+  bottom: 0;
+  z-index: 100;
+  padding-bottom: 55px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 60%;
+  ul{
+    padding-left: 5%;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+  }
+  li{
+    float: left;
+    padding-right: 50px;
+  }
+  a{
+    color: #000;
+    transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    &:hover,&:focus,&:active{
+      color: #555555;
+      text-decoration: none;
+    }
+  }
+}
+
+.jumbotron-area{
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  background-color: #4CAF50;
+
+  background-position: center;
+  background-size: cover;
+}
+.jumbotron-greeting{
+  margin-bottom: 0;
+}
+.jumbotron-title{
+  font-family: "Roboto", sans-serif;
+  font-size: 34px;
+  font-weight: 300;
+  color: #555;
+}
+.jumbotron-details{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.information{
+  z-index: 1;
+  vertical-align: middle;
+  margin: auto;
+  padding-left: 5%;
+  padding-right: 20%;
+}
+
+
+.login-area{
+  align-items: center;
+  display: flex;
+  height: 100vh;
+}
+.form{
+  vertical-align: middle;
+  margin: auto;
+  width: 60%;
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -webkit-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+}
+.email-warning{
+  color: #f05959;
+}
+.form input[type="submit"] {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -webkit-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  cursor: pointer;
+  &:hover, &:active, &:focus{
+    background: #43A047;
+  }
+  &:disabled{
+    cursor: not-allowed;
+    background: #dddddd;
+  }
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
 }

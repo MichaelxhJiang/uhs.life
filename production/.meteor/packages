@@ -31,3 +31,4 @@ raix:ui-dropped-event
 cfs:standard-packages
 cfs:gridfs
 acemtp:algolia
+accounts-password

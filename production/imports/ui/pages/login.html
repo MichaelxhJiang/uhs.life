@@ -1,4 +1,48 @@
 <template name="login">
-    <h1>This is the login page</h1>
-    <a href="stream">Login</a>
+    <div class="container-fluid full-screen">
+        <div class="branding">
+            <span class="life-brand">uhs.life</span>
+        </div>
+        <div class="login-menu">
+            <ul class="login-menu-items">
+                <li><a href="http://google.ca">About</a></li>
+                <li><a href="http://google.ca">Help Center</a></li>
+                <li><a href="http://google.ca">Terms & Policies</a></li>
+            </ul>
+        </div>
+        <div class="col-lg-8 jumbotron-area">
+            <div class="information">
+                <h1 class="jumbotron-greeting">Welcome</h1>
+                <span class="jumbotron-title">Here are some important information</span>
+                <p class="jumbotron-details">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi delectus dolore ea est excepturi id, qui quo ratione sapiente suscipit? At cupiditate deserunt dolorum expedita facere illum nisi non quod.
+                    ommodi consectetur doloremque eius enim neque nostrum, reprehenderit repudiandae. Ab aspernatur cumque dolore doloribus eaque fugit illo ipsam ipsum minima nam nisi odio officia omnis, quasi quisquam sunt totam vitae.
+                    Adipisci alias aspernatur deleniti dolores exercitationem facilis illo ipsa laboriosam minima necessitatibus nemo nesciunt, non optio porro praesentium quae quia quos reiciendis sequi, soluta suscipit tempore tenetur ullam vero voluptas!
+                </p>
+                <a class="btn btn-lg btn-primary btn-white">Read More</a>
+            </div>
+        </div>
+        <div class="col-lg-4 login-area">
+            <div class="form">
+                <form class="register-form">
+                    <h1>Register</h1>
+                    <input type="text" placeholder="First Name" name="firstName" />
+                    <input type="text" placeholder="Last Name" name="lastName"/>
+                    <span class="email-warning">This email is invalid</span>
+                    <input type="email" placeholder="Email Address" id="registerEmail" name="registerEmail"/>
+                    <input type="password" placeholder="Password" name="registerPassword"/>
+                    <input type="submit" value="Let's Go!" id="registerSubmit"/>
+                    <p class="message">Already registered? <a href="" class="operation">Sign In</a></p>
+                </form>
+                <form class="login-form">
+                    <h1>Login</h1>
+                    <input type="text" placeholder="Email" name="email"/>
+                    <input type="password" placeholder="Password" name="password"/>
+                    <input type="submit" value="Login"/>
+                    <p class="message">Not registered? <a href="" class="operation">Create an account</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </template>
