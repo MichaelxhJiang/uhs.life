@@ -31,4 +31,3 @@ searchPost = function(keyword) {
         }
     });
 }
-

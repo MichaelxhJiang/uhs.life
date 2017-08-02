@@ -14,7 +14,8 @@ if(Meteor.isClient) {
       Meteor.call('setupTwitterAPI', function(response) {
          console.log(response);
       });
-      Session.set("textFirst", x);
+      //init session variables
+      Session.set("textFirst", true);
       Session.set("newImageId", "null");
       Session.set('newFileType', "null");
    };
