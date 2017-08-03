@@ -1,0 +1,145 @@
+@nav-color: #fff;
+.top-nav{
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+  background-color: @nav-color;
+  form{
+    width: 100%;
+    span{
+      position: absolute;
+      color: rgba(0,0,0,0.3);
+      right:2%;
+      margin-bottom: 0;
+      font-size: 60px;
+    }
+    input{
+      width: 100%;
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      font-size: 45px;
+      border-left: none;
+      border-top: none;
+      border-right: none;
+      text-align: center;
+      padding: 20px 30px 20px 30px;
+      border-bottom: 1px solid #b3b3b3;
+    }
+  }
+  nav{
+    transition: all .5s;
+
+    background-color: @nav-color;
+    display: flex;
+    width: 100%;
+    font-size: 35px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    .nav-extend{
+      background-color: @nav-color;
+      font-size: 25px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      float:left;
+      width:8%;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #b3b3b3;
+      cursor: pointer;
+      span{
+        vertical-align: middle;
+        width: 100%;
+      }
+    }
+    .nav-hub{
+      background-color: @nav-color;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      float:left;
+      width:85%;
+      text-align: center;
+      display: inline-block;
+      border-bottom: 1px solid #b3b3b3;
+      border-left: 1px solid #b3b3b3;
+      border-right: 1px solid #b3b3b3;
+    }
+    .nav-oper{
+      background-color: @nav-color;
+      font-size: 25px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      float:left;
+      width:7%;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      span{
+        vertical-align: middle;
+        width: 100%;
+      }
+      border-bottom: 1px solid #b3b3b3;
+    }
+  }
+}
+
+
+.side-nav{
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  border-right: 1px solid #b3b3b3;
+  background-color: @nav-color;
+  overflow-x: hidden;
+  transition: all 0.5s;
+  a{
+    text-decoration: none;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    &:hover, &:active, &:focus{
+      color: #333;
+    }
+  }
+  .side-nav-header{
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 81px;
+    border-bottom: 1px solid #b3b3b3;
+    h4{
+      width: 70%;
+    }
+    .logout-btn {
+      text-decoration: underline;
+      width: 30%;
+      font-size: 18px;
+    }
+  }
+  .side-nav-body{
+    ul{
+      list-style-type: circle;
+    }
+    a{
+      font-size: 25px;
+      padding: 20px 30px 20px 30px;
+      border-bottom: 1px solid #b3b3b3;
+      i{
+        float: right;
+        line-height: 35px;
+        display: inline-block;
+        transition: all 0.3s;
+      }
+    }
+    .expand-text{
+      display:inline-block;
+    }
+  }
+
+}
+

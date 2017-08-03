@@ -32,3 +32,5 @@ cfs:standard-packages
 cfs:gridfs
 acemtp:algolia
 accounts-password
+isotope:isotope
+fortawesome:fontawesome

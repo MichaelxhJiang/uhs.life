@@ -14,5 +14,6 @@ Template.stream.events({
     'click .logout': function (evt) {
         evt.preventDefault();
         Meteor.logout();
+        FlowRouter.reload();
     }
 });

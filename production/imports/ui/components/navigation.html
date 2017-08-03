@@ -1,0 +1,35 @@
+<template name="navigation">
+    <div class="top-nav">
+        <nav>
+            <div class="nav-extend"><span class="side-nav-prompt"><i class="fa fa-bars"></i>MENU</span></div>
+            <div class="nav-hub"><span>Stream | {{date}}</span></div>
+            <div class="nav-oper"><span class="top-operation-prompt">SEARCH</span></div>
+        </nav>
+        <div>
+            <form class="global-search">
+                <!--<span id="searchGlass"><i class="fa fa-search"></i></span>-->
+                <input type="text" placeholder="Volleyball practice schedule" class="main-search" id="global-search">
+            </form>
+        </div>
+    </div>
+
+    <div class="side-nav">
+        <div class="side-nav-header">
+            <h4>Yonglin Wang</h4>
+            <a href="" class="logout-btn">LOG OUT</a>
+        </div>
+        <div class="side-nav-body">
+            <a href="">Stream</a>
+            <a href="">Clubs</a>
+            <a href="" id="academics"><div class="expand-text">Academics</div><i class="fa fa-bars academics-icon"></i></a>
+            <ul class="course-list">
+                <li><a href="">ICS4U1</a></li>
+                <li><a href="">TEJ3M1</a></li>
+                <li><a href="">ENG4U1</a></li>
+                <li><a href="">MDM4U1</a></li>
+            </ul>
+            <a href="#">Contributions</a>
+        </div>
+    </div>
+    <div class="overlay"></div>
+</template>

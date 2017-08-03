@@ -24,9 +24,12 @@ Template.login.events({
         Meteor.loginWithPassword(email,pass,function (err) {
             if(err){
                 console.log(err);
-            }else
-                FlowRouter.go('/');
+            }else {
+                alert("You have successfully logged in!");
+                FlowRouter.reload();
+            }
         });
+
     },
     'submit .register-form': function (evt) {
         const email = evt.target.registerEmail.value;
