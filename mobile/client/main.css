@@ -1,0 +1,68 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,400italic');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:700');
+@import url('https://fonts.googleapis.com/css?family=Space+Mono:400,700');
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+body{
+    font-family: 'Montserrat', sans-serif, 'FontAwesome';
+    font-weight: 700;
+    display: flex;
+    background-color: rgba(226, 225, 224, 0.49);
+    text-align: center;
+    transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    margin-top: 0;
+    margin-left: 0;
+    padding-top: -16px;
+    padding-left: -16px;
+}
+
+
+a{
+    color: #333;
+}
+a:hover{
+    color: #333;
+}
+
+h1, h2, h3, h4, h5{
+    font-weight: 700;
+}
+
+/* Form Stylings*/
+form{
+    display: inline-block;
+    text-align: center;
+}
+.group{
+    position:relative;
+    margin-bottom:40px;
+}
+
+.fa-chevron-left{
+    color: #fff;
+    text-shadow: 1.5px 1.5px 1.5px #ccc;
+    font-size: 1.7em;
+}
+
+.back-button{
+    position : absolute;
+    top : 6%;
+    left : 6%;
+    transition: all 0.5s ease 0s;
+    -moz-transition: all 0.5s ease 0s;
+    -webkit-transition: all 0.5s ease 0s;
+    -o-transition: all 0.5s ease 0s;
+}
+
+
+
+
+
+
+
+
+
