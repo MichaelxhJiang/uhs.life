@@ -25,8 +25,7 @@ Template.login.events({
             if(err){
                 console.log(err);
             }else {
-                alert("You have successfully logged in!");
-                FlowRouter.reload();
+
             }
         });
 
@@ -56,6 +55,15 @@ Template.login.events({
             }
         });
     },
+    'click #googleLogin':function () {
+      Meteor.loginWithGoogle({
+          requestPermissions: ['profile','email'],
+      },(err)=>{
+          if(err){
+              alert("Authentication Unsuccessful");
+          }
+      });
+    },
     'keyup #registerEmail': function (evt) {
         evt.preventDefault();
         let email = evt.target.value;
@@ -75,3 +83,14 @@ function validateEmail(email) {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
+
+Accounts.onLogin( ()=>{
+    const redirect = Session.get('redirectAfterLogin');
+    if(redirect){
+        if(redirect !== '/login'){
+            FlowRouter.go(redirect);
+        }
+    }else{
+        FlowRouter.go('/');
+    }
+});

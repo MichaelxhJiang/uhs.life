@@ -34,3 +34,6 @@ acemtp:algolia
 accounts-password
 isotope:isotope
 fortawesome:fontawesome
+arillo:flow-router-helpers
+accounts-google
+service-configuration

@@ -1,22 +1,42 @@
 <template name="navigation">
     <div class="top-nav">
         <nav>
-            <div class="nav-extend"><span class="side-nav-prompt"><i class="fa fa-bars"></i>MENU</span></div>
+            <div class="nav-extend"><span class="side-nav-prompt"><i class="fa fa-bars"></i> MENU</span></div>
             <div class="nav-hub"><span>Stream | {{date}}</span></div>
             <div class="nav-oper"><span class="top-operation-prompt">SEARCH</span></div>
         </nav>
         <div>
             <form class="global-search">
-                <!--<span id="searchGlass"><i class="fa fa-search"></i></span>-->
-                <input type="text" placeholder="Volleyball practice schedule" class="main-search" id="global-search">
+                <input type="text" placeholder="Type something here to search" class="main-search" id="globalSearch">
             </form>
+            <div class="search-content">
+                <div class="container pt-60">
+                    <div class="search-prompt">
+                        <p><i class="fa fa-arrow-up" aria-hidden="true"></i> </p>
+                        <p class="unselectable">Type something in the box above to search</p>
+                    </div>
+                    <div class="col-lg-12 search-result">
+                        <h2>This is a test</h2>
+                        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt ex facilis fuga ipsum labore
+                            odit perspiciatis possimus sapiente ullam voluptates. Alias architecto dolorum est neque non?
+                            Exercitationem inventore laborum sit.
+                        </div>
+                        <div>Architecto aspernatur assumenda autem beatae dicta dolor earum error et eum excepturi
+                            exercitationem hic inventore laboriosam modi necessitatibus officiis pariatur praesentium quia quo
+                            rem reprehenderit similique, soluta suscipit ullam voluptatum.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="side-nav">
         <div class="side-nav-header">
-            <h4>Yonglin Wang</h4>
-            <a href="" class="logout-btn">LOG OUT</a>
+            <h4>
+                Yonglin Wang
+            </h4>
+            <a href="logout" class="logout-btn">LOG OUT</a>
         </div>
         <div class="side-nav-body">
             <a href="">Stream</a>
