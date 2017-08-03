@@ -18,6 +18,17 @@ if(Meteor.isClient) {
       Session.set("textFirst", true);
       Session.set("newImageId", "null");
       Session.set('newFileType', "null");
+
+      //test unsplash API
+      Meteor.call('setupUnsplash', function(response) {
+         console.log(response);
+         Meteor.call('searchKeyword', "test", function(err, json) {
+            console.log(JSON.stringify(json, null, 2));
+            var imgUrl = json.results[0].urls.regular;
+            console.log("extracted url: " + imgUrl);
+         });
+      });
+
    };
 }
 
