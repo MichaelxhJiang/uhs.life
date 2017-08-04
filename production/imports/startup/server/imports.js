@@ -10,6 +10,8 @@ import './algoliaPost.js';
 import './algoliaUpdate.js';
 //This file is used to remove announcments using Algolia
 import './algoliaRemove.js';
+//This file contains meteor account functions
+import './accounts.js';
 //import the collections into server
-import '../../api/announcements/suggestions.js';
-import '../../api/announcements/images.js'
+import '../../api/media/suggestions.js';
+import '../../api/media/images.js'
