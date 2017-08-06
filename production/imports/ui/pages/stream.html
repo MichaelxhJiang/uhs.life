@@ -1,9 +1,10 @@
 <template name="stream">
     {{> navigation}}
+    {{> editor}}
     <div class="container main">
         <div class="col-lg-12 content">
             <div class="button-group filter-button-group">
-                <button class="filter-btn is-checked" data-filter="*">ALL</button>
+                <button class="filter-btn is-checked" data-filter="*" data-tooltip="I'm a tooltip!">ALL</button>
                 <button class="filter-btn" data-filter=".a">Test A</button>
                 <button class="filter-btn" data-filter=".b">Test B</button>
                 <button class="filter-btn" data-filter=".image">Images</button>

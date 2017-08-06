@@ -1,0 +1,178 @@
+<template name="editor">
+    <div class="navbar-fixed-bottom">
+        <i class="material-icons" id="openEditor">add</i>
+    </div>
+    <div class="container-fluid editor-main" hidden>
+        <div class="container blog-editor" hidden>
+            <h2 class="editor-title">Creating a new draft</h2>
+            <p class="editor-subtitle">Blog Post</p>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <form class="form post-info-form full-width">
+                        <input type="text" placeholder="Title*">
+                        <input type="text" placeholder="Sub-title" name="sub">
+                    </form>
+                </div>
+            </div>
+            <div class="row mb-45">
+                <div class="col-lg-12 col-md-12">
+                    <div class="editable"></div>
+                </div>
+            </div>
+
+            <div class="row mb-60">
+                <div class="col-md-6 col-lg-6">
+                    <div class="editor-card">
+                        <div class="card-head">
+                            <h3>Tags &amp; Categories</h3>
+                            <span>Add tags so students can easily find your post!</span>
+                        </div>
+                        <div class="card-body">
+                            <input type="text" placeholder="write tags, separate different tags with comma">
+                            <h4>Your Tags:</h4>
+                            <p>Tag A, Tag B, </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="editor-card">
+                        <div class="card-head">
+                            <h3>Settings</h3>
+                            <span>Modify the settings for the post, for more information visit <a href="help">here</a>.</span>
+                        </div>
+                        <div class="card-body">
+                            <h4>Featured Image</h4>
+                            <form action="/file-upload" class="dropzone" id="dropzone"></form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-fixed-bottom editor-actions">
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-md-4 col-lg-4">
+                            <div class="editor-card publish">
+                                <h3>Publish</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <div class="editor-card preview">
+                                <h3>Preview</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <div class="editor-card save-draft">
+                                <h3>Save as draft</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container blog-drafts" hidden>
+            <div class="center-wrapper">
+                <div class="mb-45">
+                    <div class="row mb-30">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-30 text-center mt-30">
+                            <h2>Here are all your drafts,</h2>
+                            <h4>Click on one to continue to create</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 draft-item">
+                            <!-- Blog post example, with featured image -->
+                            <div class="editor-options draft-inline">
+                                <div class="image-preview">
+                                    <img src="https://dummyimage.com/800x600" class="img-responsive">
+                                </div>
+                                <div class="content-preview">
+                                    <h3 class="draft-title">This is an example of draft item with image</h3>
+                                    <span>Originally Created: Dec 24th, 2017. Format: Announcement</span>
+                                    <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                                    <div class="dropdown">
+                                        <button class="dropbtn">Quick Actions</button>
+                                        <div class="dropdown-content">
+                                            <a href="#">Publish</a>
+                                            <a href="#"><i class="fa fa-trash-o"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- No featured image -->
+                        <div class="col-lg-12 draft-item">
+                            <div class="editor-options draft-inline">
+                                <div class="content-preview">
+                                    <h3 class="draft-title">This is an example of draft item with no images</h3>
+                                    <span>Originally Created: Dec 24th, 2017. Tags: Test, Nice Tag, Wow</span>
+                                    <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                                    <div class="dropdown">
+                                        <button class="dropbtn">Quick Actions</button>
+                                        <div class="dropdown-content">
+                                            <a href="#">Publish</a>
+                                            <a href="#"><i class="fa fa-trash-o"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container blog-intro text-center">
+            <div class="center-wrapper">
+                <div class="post-source mb-45">
+                    <div class="row mb-30">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                            <h2>Welcome to The Composer</h2>
+                            <h4>Select a place to start writing</h4>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-lg-6" >
+                            <div class="editor-options" id="startNewDraft">
+                                <i class="fa fa-pencil fa-5x mb-15"></i>
+                                <p>Create from scratch</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="editor-options" id="checkDrafts">
+                                <i class="fa fa-file-text-o fa-5x mb-15"></i>
+                                <p>Resume a Draft</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-type" hidden>
+                    <div class="row mb-30">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                            <h2>Nice,</h2>
+                            <h4>What would you like to compose?</h4>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-lg-4" id="startNewDraft">
+                            <div class="editor-options">
+                                <i class="fa fa-bullhorn fa-5x mb-15"></i>
+                                <p>Announcement</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4" id="startBlog">
+                            <div class="editor-options">
+                                <i class="fa fa-newspaper-o fa-5x mb-15"></i>
+                                <p>Blog Post</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4" id="startNewDraft">
+                            <div class="editor-options">
+                                <i class="fa fa-commenting-o fa-5x mb-15"></i>
+                                <p>Suggestion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

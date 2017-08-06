@@ -9,12 +9,8 @@ let loggedIn = FlowRouter.group({
             let route;
             if (!(Meteor.loggingIn() || Meteor.userId())){
                 route = FlowRouter.current();
-                if(route.route.name !== 'login'){
-                    Session.set('redirectAfterLogin', route.path);
-                    console.log(Session.get('redirectAfterLogin'));
-                }else{
-                    Session.set('redirectAfterLogin', "/");
-                }
+                Session.set('redirectAfterLogin', route.path);
+                console.log(Session.get('redirectAfterLogin'));
                 FlowRouter.go('/login');
             }
         }
@@ -24,6 +20,7 @@ let loggedIn = FlowRouter.group({
 FlowRouter.route('/login',{
     action: function(){
         if(!Meteor.userId()){
+            Session.set('redirectAfterLogin', '/');
             BlazeLayout.render('applicationLayout', {main: 'login'});
         }else{
             FlowRouter.go('/');
@@ -53,4 +50,11 @@ loggedIn.route('/logout',{
         });
     },
     name: 'logout'
+});
+
+loggedIn.route('/first', {
+    action: function () {
+        BlazeLayout.render('applicationLayout',{main: 'firstTime'});
+    },
+    name: 'first'
 });

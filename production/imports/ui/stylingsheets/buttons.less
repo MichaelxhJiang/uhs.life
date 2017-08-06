@@ -5,6 +5,10 @@
   -moz-transition: all 0.3s ease 0s;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
+  &:disabled{
+    cursor: not-allowed;
+    background: #dddddd;
+  }
 }
 .btn-lg{
   padding: 15px 64px;
@@ -12,17 +16,24 @@
 }
 
 .btn-white{
-  background: #FFFFFF !important;
-  color: #4CAF50 !important;
+  background: #FFFFFF ;
+  color: #4CAF50;
   border-color: #f2f2f2;
-  transition: all 0.3s ease 0s;
-  -moz-transition: all 0.3s ease 0s;
-  -webkit-transition: all 0.3s ease 0s;
-  -o-transition: all 0.3s ease 0s;
   &:hover{
     color: #4CAF50;
     background-color: #e8e8e8;
     border-color: #e8e8e8;
+  }
+}
+
+.btn-grey{
+  background: #ddd ;
+  color: #4CAF50 ;
+  border-color: #ddd;
+  &:hover{
+    color: #4CAF50;
+    background-color: #bbb;
+    border-color: #bbb;
   }
 }
 
@@ -39,22 +50,28 @@
 }
 
 .btn-login{
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
+   text-transform: uppercase;
+   outline: 0;
+   background: #4CAF50;
+   width: 100%;
+   border: 0;
+   padding: 15px;
+   color: #FFFFFF;
+   font-size: 20px;
+   cursor: pointer;
+   &:hover, &:active, &:focus{
+     background: #43A047;
+   }
+   &:disabled{
+     cursor: not-allowed;
+     background: #dddddd;
+   }
+ }
+.btn-wide{
   text-transform: uppercase;
-  outline: 0;
-  background: #4CAF50;
+  border: none;
   width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 20px;
+  padding: 10px;
+  font-size: 16px;
   cursor: pointer;
-  &:hover, &:active, &:focus{
-    background: #43A047;
-  }
-  &:disabled{
-    cursor: not-allowed;
-    background: #dddddd;
-  }
 }

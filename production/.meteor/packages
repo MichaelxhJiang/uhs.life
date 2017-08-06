@@ -37,3 +37,6 @@ fortawesome:fontawesome
 arillo:flow-router-helpers
 accounts-google
 service-configuration
+u2622:persistent-session
+froala:editor
+dbarrett:dropzonejs

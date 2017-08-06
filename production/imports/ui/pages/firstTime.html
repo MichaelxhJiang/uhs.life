@@ -1,0 +1,85 @@
+<template name="firstTime">
+    <div class="image-container full-height" style="background-image: url('http://demos.creative-tim.com/material-bootstrap-wizard/assets/img/wizard-book.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div class="wizard-container">
+                        <div class="card">
+                            <div class="card-head">
+                                <div id="firstIntro">
+                                    <h2>Hello There!</h2>
+                                    <p>Thank you for signing up for uhs.life! Since it's your first time here, we would like to know some things about you, it's really short!</p>
+                                </div>
+                                <div id="teachIntro" hidden>
+                                    <h2>Connect Teach Assist</h2>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit scelerisque erat in lobortis. Aliquam vehicula vel magna nec mattis.
+                                    </p>
+                                </div>
+                                <div id="emailIntro" hidden>
+                                    <h2>Newsletter subscription</h2>
+                                    <p>
+                                        Uhs.life offers a weekly news summary, on everything UHS related. Why not subscribe to it? <br> If you check your gapps account often, simply click "Join
+                                        The Club", or if you prefer to receive the news letter on your personal email, simply change the address bellow.
+                                    </p>
+                                </div>
+                                <div id="confirmIntro" hidden>
+                                    <h2>Just one more step...</h2>
+                                    <p>
+                                        We are almost done here, please confirm the information bellow, and agree to the Terms of Service of uhs.life.
+                                    </p>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="card-body">
+                                <div class="info-form" id="beginIntro">
+                                    <p>
+                                        This is just a test
+                                    </p>
+                                    <a href="" class="btn btn-lg btn-login" id="startFirst">
+                                        Let's go!
+                                    </a>
+                                </div>
+                                <div class="info-form" id="teachAssistInfo" hidden>
+                                    <form class="form ">
+                                        <input type="text" name="teachUser" placeholder="Student Number">
+                                        <input type="password" name="teachPass" placeholder="Teach Assist Password">
+                                        <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="AUTHORIZE">
+                                        <span>No, I do not want to connect my Teach Assist, please <a href="" id="skipNext">skip</a></span>
+                                    </form>
+                                </div>
+                                <div class="info-form" id="subscriptionEmail" hidden>
+                                    <form class="form">
+                                        <input type="email" placeholder="Your Email">
+                                        <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="Join the club">
+                                        <span>No, I do not want weekly briefing, please <a href="" id="skipEmail">skip</a></span>
+                                    </form>
+                                </div>
+                                <div class="info-form" id="confirmDetails" hidden>
+                                    <form class="form" id="finalForm">
+                                        <label for="introName">Your Name</label>
+                                        <input type="text" value="Yonglin Wang" id="introName" disabled>
+                                        <label for="introStudentNum">Your Student Number</label>
+                                        <input type="text" value="123456789" id="introStudentNum" disabled>
+                                        <label for="introSubEmail">The email that we will be sending news letters to</label>
+                                        <input type="email" value="123456789@gapps.yrdsb.ca" id="introSubEmail">
+                                        <div class="form-group">
+                                            <label><input type="checkbox" id="introConsent"> I have read and agreed with the Terms of Service</label>
+                                        </div>
+                                        <input type="submit" class="btn btn-lg btn-login" value="Confirm">
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="final-message" hidden>
+                        <h1>Thank You!</h1>
+                        <h2>We are now redirecting you back to uhs.life!</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>

@@ -39,13 +39,17 @@
 */
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+@import url('https://fonts.googleapis.com/css?family=Material+Icons');
 @import '{}/imports/ui/stylingsheets/login.less';
 @import '{}/imports/ui/stylingsheets/buttons.less';
 @import '{}/imports/ui/stylingsheets/loading.less';
 @import '{}/imports/ui/stylingsheets/navigation.less';
+@import '{}/imports/ui/stylingsheets/editor.less';
 @import '{}/imports/ui/stylingsheets/stream.less';
+@import '{}/imports/ui/stylingsheets/firstTime.less';
 @import '{}/imports/ui/stylingsheets/margin-padding.less';
-
+@light-grey: rgb(236, 235, 234);
+@primary-dark: #43A047;
 *{
   box-sizing: border-box;
 }
@@ -53,24 +57,38 @@ body{
   font-family: "Roboto Condensed", "Source Sans Pro", "Times New Roman", serif;
   transition: all 0.5s;
 }
-
 h1,h2,h3,h4,h5{
   font-family: "Roboto", sans-serif;
   font-weight: 300;
 }
-
 h1{
   font-size: 86px;
 }
-
+h2{
+  font-size: 56px;
+}
+h3{
+  font-size: 35px;
+}
+h4{
+  font-size: 25px;
+}
 p{
   font-size: 18px;
+}
+a{
+  color: #4CAF50;
 }
 
 .full-screen{
   padding: 0;
 }
-
+.full-height{
+  height: 100vh;
+}
 .fa-2x {
   vertical-align: middle;
+}
+*:focus {
+  outline: none;
 }

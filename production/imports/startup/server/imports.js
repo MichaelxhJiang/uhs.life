@@ -9,5 +9,5 @@ import './algoliaUpdate.js';
 //This file is used to remove announcments using Algolia
 import './algoliaRemove.js';
 //import the collections into server
-import '../../api/announcements/suggestions.js';
-import '../../api/announcements/images.js'
+import '../../api/media/suggestions.js';
+import '../../api/media/images.js'

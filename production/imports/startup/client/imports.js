@@ -9,7 +9,9 @@
 import '../../ui/layouts/applicationLayout.js';
 import '../../ui/components/navigation.js'
 import '../../ui/pages/login.js';
-import '../../ui/pages/stream.js'
+import '../../ui/pages/stream.js';
+import '../../ui/pages/firstTime.js';
+import '../../ui/components/editor.js';
 //This file defines functions to post and setup the facebook API
 import './facebook.js';
 //This file contains the search function used for Algolia
