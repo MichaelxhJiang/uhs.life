@@ -5,15 +5,15 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "babel-runtime": "^6.20.0",
+    "babel-runtime": "^6.25.0",
     "es6-promise": "^4.1.1",
     "imagesloaded": "^4.1.3",
+    "isomorphic-fetch": "^2.2.1",
     "jquery-tooltipster": "^3.3.0",
     "medium-editor": "^5.23.2",
     "meteor-node-stubs": "~0.2.4",
     "mfb": "^0.12.0",
-    "typedjs-placeholder": "^1.1.4"
-    "isomorphic-fetch": "^2.2.1",
+    "typedjs-placeholder": "^1.1.4",
     "unsplash-js": "^4.6.0"
   }
 }
