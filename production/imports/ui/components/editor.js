@@ -4,8 +4,10 @@
 
 import { Images } from '../../api/media/images.js';
 import './editor.html';
+var current;
 
 Template.editor.onRendered(function (){
+
     if (Meteor.isClient){
         let arrayOfImageIds = [];
         Dropzone.autoDiscover = false;
@@ -14,7 +16,7 @@ Template.editor.onRendered(function (){
             maxFiles:1,
             maxFilesize: 8,
             thumbnailWidth: 400,
-            dictDefaultMessage: "Drop an image here to be the header image, or click to select an image.",
+            dictDefaultMessage: "Drop an image here to be the featured image, or click to select an image using the browser.",
             accept: function(file, done){
                 Images.insert(file, function(err, fileObj){
                     if(err){
@@ -26,7 +28,49 @@ Template.editor.onRendered(function (){
                         console.log(fileObj, fileObj.url());
                         // do something with this image ID, like save it somewhere
                         arrayOfImageIds.push(imageId);
-                    };
+                    }
+                });
+
+            }
+        });
+        let announcementDrop = new Dropzone("form#announcementImage", {
+            maxFiles:1,
+            maxFilesize: 8,
+            thumbnailWidth: 400,
+            dictDefaultMessage: "Drop your poster here, or click to select an image using the browser.",
+            accept: function(file, done){
+                Images.insert(file, function(err, fileObj){
+                    if(err){
+                        alert("Error");
+                    } else {
+                        // gets the ID of the image that was uploaded
+                        var imageId = fileObj._id;
+                        done();
+                        console.log(fileObj, fileObj.url());
+                        // do something with this image ID, like save it somewhere
+                        arrayOfImageIds.push(imageId);
+                    }
+                });
+
+            }
+        });
+        let announcementImageTwo = new Dropzone("#announcementImageTwo", {
+            maxFiles:1,
+            maxFilesize: 8,
+            thumbnailWidth: 400,
+            dictDefaultMessage: "Drop your poster here, or click to select an image using the browser.",
+            accept: function(file, done){
+                Images.insert(file, function(err, fileObj){
+                    if(err){
+                        alert("Error");
+                    } else {
+                        // gets the ID of the image that was uploaded
+                        var imageId = fileObj._id;
+                        done();
+                        console.log(fileObj, fileObj.url());
+                        // do something with this image ID, like save it somewhere
+                        arrayOfImageIds.push(imageId);
+                    }
                 });
 
             }
@@ -53,44 +97,49 @@ Template.editor.onRendered(function (){
             toolbarButtonsSM: ['fullscreen', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|',  'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
             placeholderText: 'Tell your story here...',
         });
-        let $floaty = $('.floaty');
-
-        $floaty.on('mouseover click', function(e) {
-            $floaty.addClass('is-active');
-            e.stopPropagation();
-        });
-
-        $floaty.on('mouseout', function() {
-            $floaty.removeClass('is-active');
-        });
-
-        $('.container').on('click', function() {
-            $floaty.removeClass('is-active');
-        });
     }
 });
 
 Template.editor.events({
     'click #openEditor': function () {
-        swapElements('#openEditor', '.editor-main');
+        swapElements('.editor-open', '.editor-main','a');
         $('html, body').css({
             overflow: 'hidden',
             height: '100%'
         });
     },
     'click #startNewDraft': function () {
-        swapElements('.post-source','.post-type');
+        swapElements('.blog-intro','.post-type');
     },
     'click #checkDrafts': function () {
-        swapElements('.blog-intro', '.blog-drafts')
+        swapElements('.blog-intro', '.blog-drafts');
     },
     'click #startBlog': function () {
-        swapElements('.blog-intro', '.blog-editor');
+        swapElements('.post-type', '.blog-editor');
+    },
+    'click #startAnnouncement': function () {
+        swapElements('.post-type', '.blog-announcements');
+    },
+    'click .editor-back': function () {
+        swapElements('.editor-main', '.editor-open');
+        $('html, body').css({
+            overflow: visible,
+            height: auto
+        });
+    },
+    'click #imageOnly': function () {
+        swapElements('.announcement-type', '.image-only');
+    },
+    'click #textOnly': function () {
+        swapElements('.announcement-type', '.text-only');
+    },
+    'click #textAndImage': function () {
+        swapElements('.announcement-type', '.text-and-image');
     }
 });
-function swapElements(a,b){
+function swapElements(a,b,check){
     $(a).fadeOut('fast', function () {
-        $(this).replaceWith($(b));
         $(b).fadeIn("slow");
     });
+    current = b;
 }

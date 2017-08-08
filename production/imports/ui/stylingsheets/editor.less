@@ -20,6 +20,23 @@
   padding: 15px;
   border-radius: 2px;
 }
+.editor-back{
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  float: right;
+  font-size: 80px;
+  margin-right: 3%;
+  cursor: pointer;
+  color: #777777;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  &:hover{
+    text-decoration: none;
+    color: #555555;
+  }
+}
 .publish{
   background-color: @primary;
   color: #fff;
@@ -182,6 +199,17 @@
   background-color: #3e8e41;
 }
 
+.announcement-text{
+  width: 100%;
+  resize: none;
+  min-height: 30vh;
+  font-size: 20px;
+  padding: 15px;
+  border: 2px solid #818181;
+  &:hover, &:focus{
+    border-color: @primary;
+  }
+}
 
 
 i.material-icons {

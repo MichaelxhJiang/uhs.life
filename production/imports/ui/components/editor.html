@@ -1,8 +1,11 @@
 <template name="editor">
-    <div class="navbar-fixed-bottom">
+    <div class="navbar-fixed-bottom editor-open">
         <i class="material-icons" id="openEditor">add</i>
     </div>
     <div class="container-fluid editor-main" hidden>
+        <div class="navbar-fixed-top">
+            <a class="editor-back">&times;</a>
+        </div>
         <div class="container blog-editor" hidden>
             <h2 class="editor-title">Creating a new draft</h2>
             <p class="editor-subtitle">Blog Post</p>
@@ -65,6 +68,117 @@
                                 <h3>Save as draft</h3>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container blog-announcements" hidden>
+            <div class="announcement-type text-center">
+                <div class="row mb-30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                        <h2>Solid,</h2>
+                        <h4>How would you like to present your news?</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="editor-options" id="imageOnly">
+                            <i class="fa fa-picture-o fa-5x mb-15"></i>
+                            <p>I made a <b>Poster</b>. (Image Only)</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4" id="textOnly">
+                        <div class="editor-options">
+                            <i class="fa fa-font fa-5x mb-15"></i>
+                            <p>I wrote some <b>Text</b>. (Text Only)</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4" id="textAndImage">
+                        <div class="editor-options">
+                            <i class="fa fa-heart-o fa-5x mb-15"></i>
+                            <p>I have both a poster and some text.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center image-only" hidden>
+                <div class="row mb-30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                        <h2>Upload an image announcement</h2>
+                        <h4>Simply drop your image in the box below, and add a headline</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <form class="form post-info-form full-width">
+                            <input type="text" placeholder="Headline*">
+                        </form>
+                    </div>
+                </div>
+                <div class="row mb-45">
+                    <div class="col-lg-12 col-md-12">
+                        <form action="/file-upload" class="dropzone" id="announcementImage"></form>
+                    </div>
+                </div>
+                <div class="row mb-45">
+                    <div class="col-lg-12 col-md-12">
+                        <button class="btn btn-login">POST</button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-only" hidden>
+                <div class="row mb-30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                        <h2>Text Only Announcements</h2>
+                        <h4>Write/Paste your information in the big box below, 140 characters max.</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <form class="form post-info-form full-width">
+                            <input type="text" placeholder="Headline*">
+                        </form>
+                    </div>
+                </div>
+                <div class="row mb-45">
+                    <div class="col-lg-12 col-md-12">
+                        <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="140"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-45">
+                    <div class="col-lg-12 col-md-12">
+                        <btn class="btn btn-login">POST</btn>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-and-image" hidden>
+                <div class="row mb-30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                        <h2>Text and Image Announcements</h2>
+                        <h4>Write/Paste your information in the big box below, 140 characters max.</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <form class="form post-info-form full-width">
+                            <input type="text" placeholder="Headline*">
+                        </form>
+                    </div>
+                </div>
+                <div class="row mb-45">
+                    <div class="col-lg-12 col-md-12">
+                        <h3>Text Portion</h3>
+                        <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="140"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-45">
+                    <div class="col-lg-12 col-md-12">
+                        <form action="/file-upload" class="dropzone" id="announcementImageTwo"></form>
+                    </div>
+                </div>
+                <div class="row mb-45">
+                    <div class="col-lg-12 col-md-12">
+                        <button class="btn btn-login">POST</button>
                     </div>
                 </div>
             </div>
@@ -144,32 +258,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="post-type" hidden>
-                    <div class="row mb-30">
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                            <h2>Nice,</h2>
-                            <h4>What would you like to compose?</h4>
-                        </div>
+            </div>
+        </div>
+        <div class="container post-type text-center">
+            <div class="row mb-30">
+                <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                    <h2>Nice,</h2>
+                    <h4>What would you like to compose?</h4>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-lg-4" id="startAnnouncement">
+                    <div class="editor-options">
+                        <i class="fa fa-bullhorn fa-5x mb-15"></i>
+                        <p>Announcement</p>
                     </div>
-                    <div class="row text-center">
-                        <div class="col-lg-4" id="startNewDraft">
-                            <div class="editor-options">
-                                <i class="fa fa-bullhorn fa-5x mb-15"></i>
-                                <p>Announcement</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4" id="startBlog">
-                            <div class="editor-options">
-                                <i class="fa fa-newspaper-o fa-5x mb-15"></i>
-                                <p>Blog Post</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4" id="startNewDraft">
-                            <div class="editor-options">
-                                <i class="fa fa-commenting-o fa-5x mb-15"></i>
-                                <p>Suggestion</p>
-                            </div>
-                        </div>
+                </div>
+                <div class="col-lg-4" id="startBlog">
+                    <div class="editor-options">
+                        <i class="fa fa-newspaper-o fa-5x mb-15"></i>
+                        <p>Blog Post</p>
+                    </div>
+                </div>
+                <div class="col-lg-4" id="startNewDraft">
+                    <div class="editor-options">
+                        <i class="fa fa-commenting-o fa-5x mb-15"></i>
+                        <p>Suggestion</p>
                     </div>
                 </div>
             </div>
