@@ -15,5 +15,6 @@ import './accounts.js';
 //This file includes mailchimp API functions
 import './mailchimp.js'
 //import the collections into server
-import '../../api/media/suggestions.js';
-import '../../api/media/images.js'
+import '../../api/posts/suggestions.js';
+import '../../api/posts/images.js'
+import '../../api/posts/images.js';

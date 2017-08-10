@@ -2,7 +2,8 @@
  * Created by Yonglin Wang on 8/4/2017.
  */
 
-import { Images } from '../../api/media/images.js';
+import { Images } from '../../api/posts/images.js';
+import { Drafts } from '../../api/posts/drafts.js';
 import './editor.html';
 var current;
 
@@ -18,19 +19,32 @@ Template.editor.onRendered(function (){
             thumbnailWidth: 400,
             dictDefaultMessage: "Drop an image here to be the featured image, or click to select an image using the browser.",
             accept: function(file, done){
-                Images.insert(file, function(err, fileObj){
-                    if(err){
-                        alert("Error");
-                    } else {
-                        // gets the ID of the image that was uploaded
-                        var imageId = fileObj._id;
-                        done();
-                        console.log(fileObj, fileObj.url());
-                        // do something with this image ID, like save it somewhere
-                        arrayOfImageIds.push(imageId);
-                    }
-                });
-
+               var FSFile = new FS.File(file);
+               //console.log(FSFile);
+               Images.insert(FSFile, function (err, fileObj) {
+                 if (err){
+                    console.log(err);
+                 } else {
+                    console.log("New image got uploaded");
+                    //remove the currently uploaded image
+                    //if there is none, this will not do anything
+                    Images.remove({_id:Session.get('newImageId')}, function(err) {
+                       if(err) {
+                          console.log("error removing image:\n" + err);
+                       }
+                    });
+                    /**
+                    //retreive file extension
+                    var fileUrl = '/cfs/files/images/'+file._id;
+                    console.log("file.val = " + fileObj.extension());
+                    Session.set('newFileType', fileObj.extension());   //update the file type
+                    **/
+                    Session.set('newImageId', fileObj._id); //update the image id to current image
+                    console.log("new image id: " + Session.get('newImageId'));
+                    console.log("new image url: " + fileObj.url());
+                    done();
+                 }
+              });
             }
         });
         let announcementDrop = new Dropzone("form#announcementImage", {
@@ -39,18 +53,32 @@ Template.editor.onRendered(function (){
             thumbnailWidth: 400,
             dictDefaultMessage: "Drop your poster here, or click to select an image using the browser.",
             accept: function(file, done){
-                Images.insert(file, function(err, fileObj){
-                    if(err){
-                        alert("Error");
-                    } else {
-                        // gets the ID of the image that was uploaded
-                        var imageId = fileObj._id;
-                        done();
-                        console.log(fileObj, fileObj.url());
-                        // do something with this image ID, like save it somewhere
-                        arrayOfImageIds.push(imageId);
-                    }
-                });
+               var FSFile = new FS.File(file);
+               //console.log(FSFile);
+               Images.insert(FSFile, function (err, fileObj) {
+                 if (err){
+                    console.log(err);
+                 } else {
+                    console.log("New image got uploaded");
+                    //remove the currently uploaded image
+                    //if there is none, this will not do anything
+                    Images.remove({_id:Session.get('newImageId')}, function(err) {
+                       if(err) {
+                          console.log("error removing image:\n" + err);
+                       }
+                    });
+                    /**
+                    //retreive file extension
+                    var fileUrl = '/cfs/files/images/'+file._id;
+                    console.log("file.val = " + fileObj.extension());
+                    Session.set('newFileType', fileObj.extension());   //update the file type
+                    **/
+                    Session.set('newImageId', fileObj._id); //update the image id to current image
+                    console.log("new image id: " + Session.get('newImageId'));
+
+                    done();
+                 }
+              });
 
             }
         });
@@ -60,18 +88,32 @@ Template.editor.onRendered(function (){
             thumbnailWidth: 400,
             dictDefaultMessage: "Drop your poster here, or click to select an image using the browser.",
             accept: function(file, done){
-                Images.insert(file, function(err, fileObj){
-                    if(err){
-                        alert("Error");
-                    } else {
-                        // gets the ID of the image that was uploaded
-                        var imageId = fileObj._id;
-                        done();
-                        console.log(fileObj, fileObj.url());
-                        // do something with this image ID, like save it somewhere
-                        arrayOfImageIds.push(imageId);
-                    }
-                });
+               var FSFile = new FS.File(file);
+              //console.log(FSFile);
+              Images.insert(FSFile, function (err, fileObj) {
+                if (err){
+                   console.log(err);
+                } else {
+                   console.log("New image got uploaded");
+                   //remove the currently uploaded image
+                   //if there is none, this will not do anything
+                   Images.remove({_id:Session.get('newImageId')}, function(err) {
+                      if(err) {
+                        console.log("error removing image:\n" + err);
+                      }
+                   });
+                   /**
+                   //retreive file extension
+                   var fileUrl = '/cfs/files/images/'+file._id;
+                   console.log("file.val = " + fileObj.extension());
+                   Session.set('newFileType', fileObj.extension());   //update the file type
+                   **/
+                   Session.set('newImageId', fileObj._id); //update the image id to current image
+                   console.log("new image id: " + Session.get('newImageId'));
+                   console.log("new image url: " + fileObj.url());
+                   done();
+                }
+             });
 
             }
         });
@@ -129,13 +171,27 @@ Template.editor.events({
     },
     'click #imageOnly': function () {
         swapElements('.announcement-type', '.image-only');
+        Session.set('announcementType', 'imageOnly');
     },
     'click #textOnly': function () {
         swapElements('.announcement-type', '.text-only');
+        Session.set('announcementType', 'textOnly');
     },
     'click #textAndImage': function () {
         swapElements('.announcement-type', '.text-and-image');
-    }
+        Session.set('announcementType', 'textAndImage');
+    },
+    'click .btn-login': function () {
+      var type = Session.get('announcementType');
+      console.log('submitting ' + type);
+      if (type === "imageOnly") {
+         //Meteor.call('postDraftImage');
+      } else if (type === "textOnly") {
+         //Meteor.call('postDraftText');
+      } else {
+         //Meteor.call('postDraftTextImage');
+      }
+   }
 });
 function swapElements(a,b,check){
     $(a).fadeOut('fast', function () {
