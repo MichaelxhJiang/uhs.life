@@ -12,6 +12,8 @@ import './algoliaUpdate.js';
 import './algoliaRemove.js';
 //This file contains meteor account functions
 import './accounts.js';
+//This file includes mailchimp API functions
+import './mailchimp.js'
 //import the collections into server
 import '../../api/media/suggestions.js';
 import '../../api/media/images.js'
