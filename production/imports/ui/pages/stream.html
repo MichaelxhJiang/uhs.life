@@ -1,9 +1,9 @@
 <template name="stream">
-    {{> navigation}}
+    {{> navigation title="Your Stream"}}
     {{> editor}}
     <div class="container main">
         <div class="col-lg-12 content">
-            <div class="button-group filter-button-group">
+            <div class="button-group filter-button-group mb-30">
                 <button class="filter-btn is-checked" data-filter="*" data-tooltip="I'm a tooltip!">ALL</button>
                 <button class="filter-btn" data-filter=".a">Test A</button>
                 <button class="filter-btn" data-filter=".b">Test B</button>
@@ -11,17 +11,28 @@
             </div>
             <div class="grid">
                 <div class="grid-sizer"></div>
+                <div class="gutter-sizer"></div>
                 <div class="grid-item image">
                     <div class="item-container">
-                        <img src="https://dummyimage.com/16:9x1080" alt="Avatar" class="item-image">
+                        <img src="https://scontent-yyz1-1.xx.fbcdn.net/v/t1.0-9/19961612_1162370627202516_5150713573691931465_n.jpg?oh=efa1c7e82253081ab69e9008387a4a6d&oe=5A2CE7DF" alt="Test Image" class="item-image">
                         <div class="overlay">
-                            <div class="text">Hello World</div>
+                            <div class="text">
+                                <h3>This is a headline</h3>
+                                <span>Posted By: Yonglin Wang</span>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.Ab aliquam atque eveniet facere
+                                    itaque sed ullam voluptate voluptatem.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="grid-item a">
-                    <h2>Test A</h2>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aliquam atque eveniet facere
+                    <div class="post-title mb-10">
+                        <h3>This is another headline</h3>
+                        <span class="author-info">
+                            <a href="https://google.ca" class="link-sm">Yonglin Wang</a> <p>Effective: July 29th 2017</p>
+                        </span>
+                    </div>
+                    <div>Lorem ipsum dolor sit amet, <a href="https://google.ca">consectetur adipisicing elit.</a> Ab aliquam atque eveniet facere
                         itaque sed ullam voluptate voluptatem. Accusamus alias dolores esse neque nihil omnis quaerat
                         soluta sunt, unde voluptatum.
                     </div>
@@ -31,7 +42,7 @@
                     </div>
                 </div>
                 <div class="grid-item b">
-                    <h2>Test B</h2>
+                    <h3>Test B</h3>
                     <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aliquam atque eveniet facere
                         itaque sed ullam voluptate voluptatem. Accusamus alias dolores esse neque nihil omnis quaerat
                         soluta sunt, unde voluptatum.
@@ -49,7 +60,7 @@
                     </div>
                 </div>
                 <div class="grid-item b">
-                    <h2>Test B</h2>
+                    <h3>Test B</h3>
                     <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aliquam atque eveniet facere
                         itaque sed ullam voluptate voluptatem. Accusamus alias dolores esse neque nihil omnis quaerat
                         soluta sunt, unde voluptatum.
@@ -62,7 +73,7 @@
                 <div class="grid-item image">
                     <img class="img-responsive" src="https://dummyimage.com/16:9x1080" />
                 </div><div class="grid-item image">
-                    <img class="img-responsive" src="https://dummyimage.com/16:9x1080" />
+                    <img class="img-responsive" src="https://scontent-yyz1-1.xx.fbcdn.net/v/t1.0-9/18893090_1129639927142253_8618964973264668114_n.jpg?oh=0b39f3bb2b98b6feef6a3ac3f70e8925&oe=59EE81D9" />
                 </div><div class="grid-item image">
                     <img class="img-responsive" src="https://dummyimage.com/16:9x1080" />
                 </div><div class="grid-item image">

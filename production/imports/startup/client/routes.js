@@ -29,6 +29,12 @@ FlowRouter.route('/login',{
     name: 'login'
 });
 
+FlowRouter.route('/detail',{
+    action: function () {
+        BlazeLayout.render('applicationLayout',{main: 'details'})
+    }
+});
+
 loggedIn.route( '/', {
     action: function() {
         BlazeLayout.render('applicationLayout', {main: 'stream'});

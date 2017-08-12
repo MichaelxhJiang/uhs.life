@@ -11,6 +11,7 @@ import '../../ui/components/navigation.js'
 import '../../ui/pages/login.js';
 import '../../ui/pages/stream.js';
 import '../../ui/pages/firstTime.js';
+import '../../ui/pages/details.js';
 import '../../ui/components/editor.js';
 //This file defines functions to post and setup the facebook API
 import './facebook.js';

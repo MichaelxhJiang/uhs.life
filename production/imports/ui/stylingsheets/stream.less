@@ -20,10 +20,13 @@
   color: @primary;
 }
 .grid-sizer, .grid-item {
-  width: 33.3%;
+  width: 48%;
+}
+.gutter-sizer{
+  width: 4%;
 }
 .grid-item{
-  padding: 15px;
+ margin-bottom: 15px;
 }
 /* 2 columns wide */
 .grid-item--width2 { width: 66.6%; }
@@ -59,13 +62,23 @@
 }
 
 .text {
-  white-space: nowrap;
+  width: 80%;
   color: white;
-  font-size: 20px;
+
   position: absolute;
   overflow: hidden;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
+  p{
+    font-size: 18px;
+  }
+}
+.post-title{
+  margin-bottom: 10px;
+  h3{
+    margin-top: 0;
+    margin-bottom:0;
+  }
 }

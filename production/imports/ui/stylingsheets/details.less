@@ -1,0 +1,100 @@
+.post-header{
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  background-position: bottom;
+  background-attachment: fixed;
+  background-size: cover;
+  color: #FFFFFF;
+  div{
+    width: 100%;
+    margin: auto;
+    position: absolute;
+  }
+  h1{
+    text-align: center;
+  }
+  p{
+    font-size: 20px;
+  }
+}
+.post-header:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  opacity: .3;
+}
+.scroll-down{
+  padding-bottom: 30px;
+}
+.post-body{
+  font-size: 18px;
+  p{
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  .img-caption{
+    margin-bottom: 20px;
+    color: grey;
+    letter-spacing: 2px;
+    margin-top: 0;
+    font-style: italic;
+    font-size: 14px;  
+  }
+}
+.author-info{
+  font-family: 'Roboto Mono',Serif;
+  a{
+    margin-right: 15px;
+  }
+}
+.post-info{
+  font-size: 14px;
+  display: flex;
+}
+.author-img-container{
+  margin-right: 5px;
+}
+.name{
+  font-size: 18px;
+  display: block;
+}
+.key-info{
+  display: flex;
+  width:60%;
+}
+.other-info{
+  float: right;
+  width: 40%;
+  text-align: right;
+}
+.credit-info{
+  font-style: italic;
+}
+.recommend-card{
+  border: 2px solid #999;
+  transition: all 0.3s;
+  cursor: pointer;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  text-align: center;
+  &:hover{
+    border-color: @primary;
+  }
+  h3{
+    margin-top:0;
+    font-size: 16px;
+  }
+  p{
+    font-size: 12px;
+    color: grey;
+    margin-bottom:0;
+  }
+}

@@ -28,11 +28,11 @@ Template.navigation.events({
             sideNav.css('margin-left', '0');
             sideNavPrompt.html("<i class='fa fa-times'></i> CLOSE");
             $('.top-nav').css('margin-left', '+=320px');
-            $('.main').css('margin-left', '+=320px');
+            $('.main').css('margin-right', '-=320px');
         }else{
             sideNav.css('margin-left','-320px');
             $('.top-nav').css('margin-left','-=320px');
-            $('.main').css('margin-left','-=320px');
+            $('.main').css('margin-right','+=320px');
             sideNavPrompt.html("<i class='fa fa-bars'></i> MENU");
         }
     },

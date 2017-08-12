@@ -104,8 +104,7 @@ Template.editor.events({
     'click #openEditor': function () {
         swapElements('.editor-open', '.editor-main','a');
         $('html, body').css({
-            overflow: 'hidden',
-            height: '100%'
+            overflow: 'hidden'
         });
     },
     'click #startNewDraft': function () {
@@ -123,8 +122,7 @@ Template.editor.events({
     'click .editor-back': function () {
         swapElements('.editor-main', '.editor-open');
         $('html, body').css({
-            overflow: visible,
-            height: auto
+            overflow: 'visible'
         });
     },
     'click #imageOnly': function () {

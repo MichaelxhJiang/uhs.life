@@ -27,7 +27,7 @@
  *
  *     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
- *      Buddha Bless:  "No Bugs, teach assist send api"
+ *      Buddha Bless:  "No Bugs"
  *
  * ========================================================= */
 
@@ -39,6 +39,7 @@
 */
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
 @import url('https://fonts.googleapis.com/css?family=Material+Icons');
 @import '{}/imports/ui/stylingsheets/login.less';
 @import '{}/imports/ui/stylingsheets/buttons.less';
@@ -47,6 +48,7 @@
 @import '{}/imports/ui/stylingsheets/editor.less';
 @import '{}/imports/ui/stylingsheets/stream.less';
 @import '{}/imports/ui/stylingsheets/firstTime.less';
+@import '{}/imports/ui/stylingsheets/details.less';
 @import '{}/imports/ui/stylingsheets/margin-padding.less';
 @light-grey: rgb(236, 235, 234);
 @primary-dark: #43A047;
@@ -77,9 +79,26 @@ p{
   font-size: 18px;
 }
 a{
-  color: #4CAF50;
+  background-color: transparent;
+  color: inherit;
+  text-decoration: none;
+  -webkit-transition: background .15s cubic-bezier(0.33, 0.66, 0.66, 1);
+  transition: background .15s cubic-bezier(0.33, 0.66, 0.66, 1);
+  border-bottom: 3px solid #b4f8b8;
+  -webkit-box-shadow: inset 0 -4px 0 #b4f8b8;
+  box-shadow: inset 0 -4px 0 #b4f8b8;
+  overflow-wrap: break-word;
+  &:hover{
+    text-decoration: none;
+    background-color: #b4f8b8;
+    color: #000;
+  }
 }
-
+.link-sm{
+  border-bottom: 2px solid #b4f8b8;
+  -webkit-box-shadow: inset 0 -3px 0 #b4f8b8;
+  box-shadow: inset 0 -3px 0 #b4f8b8;
+}
 .full-screen{
   padding: 0;
 }

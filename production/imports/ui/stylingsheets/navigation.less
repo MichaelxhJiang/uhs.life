@@ -4,7 +4,7 @@
   position: fixed;
   transition: all 0.5s;
   width: 100%;
-  z-index: 3;
+  z-index: 2000;
   background-color: @nav-color;
   form{
     display: block;
@@ -124,10 +124,13 @@
   a{
     text-decoration: none;
     color: #818181;
+    border:none;
+    box-shadow: none;
     display: block;
     transition: 0.3s;
     &:hover, &:active, &:focus{
       color: #333;
+      background: #FFFFFF;
     }
   }
   .side-nav-header{

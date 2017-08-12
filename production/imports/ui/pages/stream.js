@@ -11,7 +11,8 @@ Template.stream.onRendered(function () {
             itemSelector: '.grid-item',
             percentPosition: true,
             masonry: {
-                columnWidth: '.grid-sizer'
+                columnWidth: '.grid-sizer',
+                gutter: '.gutter-sizer'
             }
         });
         $grid.imagesLoaded().progress( function() {
@@ -19,7 +20,8 @@ Template.stream.onRendered(function () {
                 itemSelector: '.grid-item',
                 percentPosition: true,
                 masonry: {
-                    columnWidth: '.grid-sizer'
+                    columnWidth: '.grid-sizer',
+                    gutter: '.gutter-sizer'
                 }
             });
         });
