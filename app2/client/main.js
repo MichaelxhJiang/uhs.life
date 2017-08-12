@@ -12,7 +12,7 @@ if(Meteor.isClient) {
 
       //Setup Twitter API
       Meteor.call('setupTwitterAPI', function(response) {
-         console.log(response);
+         //console.log(response);
       });
       //init session variables
       Session.set("textFirst", true);
@@ -21,13 +21,22 @@ if(Meteor.isClient) {
 
       //test unsplash API
       Meteor.call('setupUnsplash', function(response) {
-         console.log(response);
+         //console.log(response);
          Meteor.call('searchKeyword', "test", function(err, json) {
-            console.log(JSON.stringify(json, null, 2));
+            //console.log(JSON.stringify(json, null, 2));
             var imgUrl = json.results[0].urls.regular;
             console.log("extracted url: " + imgUrl);
          });
       });
+      //test mail chimp
+      //Meteor.call('createCampaign', 'test email', 'bulletin');
+      var object = {
+         student_number: "073212482",
+         password: "845qvftj"
+      }
+      var test = encodeURIComponent(JSON.stringify(object))
+      console.log(test);
+
 
    };
 }
@@ -238,3 +247,22 @@ Template.search.events({
    }
 
 });
+
+/*
+ * MailChimp
+ */
+Template.mailChimp.events({
+   'submit .new'(event) {
+      // Prevent default browser form submit
+      event.preventDefault();
+      // Get value from form element
+      const target = event.target;
+      const email = target.email.value;
+
+      Meteor.call('addSubscriber', email, 'subscribed', function(response) {
+         //console.log(JSON.stringify(response, null, 2));
+      })
+      // Clear form
+      target.email.value = '';
+   }
+})
