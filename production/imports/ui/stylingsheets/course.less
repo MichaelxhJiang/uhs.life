@@ -1,0 +1,112 @@
+@knowledge: #FFECB3;
+@knowledge-bar: #FFC107;
+@thinking: #C8E6C9;
+@thinking-bar: #4CAF50;
+@communication: #E1BEE7;
+@communication-bar: #9C27B0;
+@application: #FFE0B2;
+@application-bar:#FF9800;
+@not-available:#E0E0E0;
+.course-header{
+  height: 100vh;
+  background-size: cover;
+  background-position: bottom;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+}
+.sections-container{
+  width: 100%;
+  text-align: center;
+}
+.scroll-down{
+  position: absolute;
+  color: #FFFFFF;
+}
+.section-card{
+  transition: all .3s;
+  background-color: #FFFFFF;
+  padding: 20px;
+}
+.assessment-body{
+  border: 1px solid #999999;
+}
+.assessment-performance{
+  position: relative;
+}
+.important{
+  font-size: 25px;
+}
+.performance{
+  cursor: pointer;
+  color: #FFFFFF;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: relative;
+  p{
+    margin-bottom: 0;
+  }
+  .general-info{
+    z-index:9;
+    position:relative;
+  }
+  .performance-progress{
+    z-index: 1;
+    width:0;
+    height:100%;
+    position:absolute;
+    left:0;
+    top:0;
+  }
+}
+.knowledge{
+  background: @knowledge;
+  .performance-progress{
+    background: @knowledge-bar;
+  }
+}
+.thinking{
+  background: @thinking;
+  .performance-progress{
+    background: @thinking-bar;
+  }
+}
+.communication{
+  background: @communication;
+  .performance-progress{
+    background: @communication-bar;
+  }
+}
+.application{
+  background: @application;
+  .performance-progress{
+    background: @application-bar;
+  }
+}
+.not-available{
+  background: #d3d3d3;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.performance-presenter{
+  color: #FFFFFF;
+  position: absolute;
+  z-index: 100;
+  background: red;
+  width: 100%;
+  left:0;
+  top:0;
+  height: 100%;
+  padding: 20px;
+  h3{
+    margin-top:0;
+  }
+}
+.no-display{
+  display: none;
+}
+.close-presenter{
+  position: absolute;
+  right: 25px;
+  cursor: pointer;
+}

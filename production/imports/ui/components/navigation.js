@@ -16,6 +16,10 @@ Template.navigation.helpers({
     },
     'username': function () {
         return Meteor.user().profile.fullName;
+    },
+    'isClose': function () {
+        let path = FlowRouter.current().name;
+
     }
 });
 

@@ -35,6 +35,12 @@ FlowRouter.route('/detail',{
     }
 });
 
+FlowRouter.route('/course',{
+    action: function () {
+        BlazeLayout.render('applicationLayout',{main: 'course'})
+    }
+});
+
 loggedIn.route( '/', {
     action: function() {
         BlazeLayout.render('applicationLayout', {main: 'stream'});
