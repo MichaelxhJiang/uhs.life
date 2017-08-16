@@ -167,6 +167,9 @@ Template.editor.events({
     },
     'click .btn-login': function (event, template) {
       var type = Session.get('announcementType');
+
+      var date = new Date();  //get current date
+
       console.log('submitting ' + type);
       if (type === "imageOnly") {
          var title = template.find('#imageOnlyTitle').value;
@@ -180,7 +183,7 @@ Template.editor.events({
                tags.push(arr[i]);
             }
             //post draft image
-            Meteor.call('postDraftImage', title, imgId, fileType, tags);
+            Meteor.call('postDraftImage', title, imgId, fileType, tags, date);
          });
       } else if (type === "textOnly") {
          var title = template.find('#textOnlyTitle').value;
@@ -194,12 +197,12 @@ Template.editor.events({
             //get tags from text
             Meteor.call('getTags', text, function(err, arr2) {
                for (var j = 0; j < arr2.length; ++j) {
-                  if (!tags.contains(arr2[i])) {
+                  if (tags.indexOf(arr2[i]) === -1) {
                      tags.push(arr2[i]);
                   }
                }
                //post draft
-               Meteor.call('postDraftText', title, text, tags);
+               Meteor.call('postDraftText', title, text, tags, date);
             });
          });
       } else if (type === "textAndImage"){
@@ -216,12 +219,12 @@ Template.editor.events({
             //get tags from text
             Meteor.call('getTags', text, function(err, arr2) {
                for (var j = 0; j < arr2.length; ++j) {
-                  if (!tags.contains(arr2[i])) {
+                  if (tags.indexOf(arr2[i]) === -1) {
                      tags.push(arr2[i]);
                   }
                }
                //post draft
-               Meteor.call('postDraftTextImage', title, text, imgId, fileType, true, tags);
+               Meteor.call('postDraftTextImage', title, text, imgId, fileType, true, tags, date);
             });
          });
       }
@@ -233,7 +236,8 @@ Template.editor.events({
       var subTitle = template.find('#blogSubTitle').value;
       var content = "TODO";
       var tags = [];
-      Meteor.call('postDraftBlog', title, subTitle, null, null, content, tags);
+      var date = new Date();
+      Meteor.call('postDraftBlog', title, subTitle, null, null, content, tags, date);
    }
 });
 function swapElements(a,b,check){

@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Drafts } from './drafts.js';
 
 Meteor.methods({
-   'postDraftTextImage' : function(title, text, imgId, fileType, textFirst, tags) {
+   'postDraftTextImage' : function(title, text, imgId, fileType, textFirst, tags, date) {
       var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
@@ -16,7 +16,8 @@ Meteor.methods({
          imgId: imgId,
          fileType: fileType,
          textFirst: textFirst,
-         tags: tags
+         tags: tags,
+         date: date
       };
 
       //adds draft to the Drafts collection
@@ -27,7 +28,7 @@ Meteor.methods({
          }
       });
    },
-   'postDraftText' : function(title, text, tags) {
+   'postDraftText' : function(title, text, tags, date) {
       var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
@@ -38,7 +39,8 @@ Meteor.methods({
          type: "text",
          title: title,
          text: text,
-         tags: tags
+         tags: tags,
+         date: date
       };
 
       //adds draft to the Drafts collection
@@ -49,7 +51,7 @@ Meteor.methods({
          }
       });
    },
-   'postDraftImage' : function(title, imgId, fileType, tags) {
+   'postDraftImage' : function(title, imgId, fileType, tags, date) {
       var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
@@ -61,7 +63,8 @@ Meteor.methods({
          title: title,
          imgId: imgId,
          fileType: fileType,
-         tags: tags
+         tags: tags,
+         date: date
       };
 
       //adds draft to the Drafts collection
@@ -72,7 +75,7 @@ Meteor.methods({
          }
       });
    },
-   'postDraftBlog' : function(title, subtitle, imgId, fileType, content, tags) {
+   'postDraftBlog' : function(title, subtitle, imgId, fileType, content, tags, date) {
       var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
@@ -85,7 +88,8 @@ Meteor.methods({
          imgId: imgId,
          fileType: fileType,
          content: content,
-         tags: tags
+         tags: tags,
+         date: date
       };
 
       //adds draft to the Drafts collection
