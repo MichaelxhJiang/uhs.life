@@ -1,6 +1,10 @@
 import '../lib/charting.js'
+import '../lib/alert.js'
+
 import './course.html';
+
 Template.course.onRendered(function () {
+    alertSuccess("YES!", "This is a success");
     $( document ).ready(function() {
         new WOW().init();
         drawChart('knowledgeChart', 80);

@@ -5,7 +5,7 @@ Chart.defaults.global.legend.display = false;
 Chart.defaults.global.tooltips.enabled = true;
 
 drawChart = function(chartId, mark){
-    var color
+    let color;
     if(mark >= 95){
         color = "#009688";
     }else if(mark >= 90){
@@ -25,9 +25,9 @@ drawChart = function(chartId, mark){
     }else if(mark < 55){
         color = "#f44336";
     }
-    var ctx = document.getElementById(chartId).getContext("2d");
+    let ctx = document.getElementById(chartId).getContext("2d");
     //This will get the first returned node in the jQuery collection.
-    var myNewChart = new Chart(ctx, {
+    let myNewChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: [

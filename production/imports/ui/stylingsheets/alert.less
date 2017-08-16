@@ -1,0 +1,52 @@
+@failed: #f44336;
+.bootbox{
+  z-index: 9003;
+}
+.bootbox-body{
+  h3{
+    margin-top: 0;
+    font-weight: 700;
+  }
+}
+.modal-backdrop{
+  z-index: 9002;
+}
+.modal-header{
+  background: @failed;
+  color: #FFFFFF;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+.modal-content{
+  border:none;
+  border-radius: 0;
+}
+.modal-footer{
+  text-align: center;
+  border: none;
+  padding-top: 0;
+}
+.modal{
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.btn-confirm{
+  text-transform: uppercase;
+  outline: 0;
+  background: @failed;
+  width: 50%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 20px;
+  cursor: pointer;
+  &:hover, &:active, &:focus{
+    background: #c62828;
+    color: #FFFFFF;
+  }
+  &:disabled{
+    cursor: not-allowed;
+    background: #dddddd;
+  }
+}
