@@ -33,15 +33,10 @@ Template.editor.onRendered(function (){
                           console.log("error removing image:\n" + err);
                        }
                     });
-                    /**
                     //retreive file extension
-                    var fileUrl = '/cfs/files/images/'+file._id;
-                    console.log("file.val = " + fileObj.extension());
                     Session.set('newFileType', fileObj.extension());   //update the file type
-                    **/
                     Session.set('newImageId', fileObj._id); //update the image id to current image
-                    console.log("new image id: " + Session.get('newImageId'));
-                    console.log("new image url: " + fileObj.url());
+
                     done();
                  }
               });
@@ -67,14 +62,9 @@ Template.editor.onRendered(function (){
                           console.log("error removing image:\n" + err);
                        }
                     });
-                    /**
                     //retreive file extension
-                    var fileUrl = '/cfs/files/images/'+file._id;
-                    console.log("file.val = " + fileObj.extension());
                     Session.set('newFileType', fileObj.extension());   //update the file type
-                    **/
                     Session.set('newImageId', fileObj._id); //update the image id to current image
-                    console.log("new image id: " + Session.get('newImageId'));
 
                     done();
                  }
@@ -102,15 +92,10 @@ Template.editor.onRendered(function (){
                         console.log("error removing image:\n" + err);
                       }
                    });
-                   /**
                    //retreive file extension
-                   var fileUrl = '/cfs/files/images/'+file._id;
-                   console.log("file.val = " + fileObj.extension());
                    Session.set('newFileType', fileObj.extension());   //update the file type
-                   **/
                    Session.set('newImageId', fileObj._id); //update the image id to current image
-                   console.log("new image id: " + Session.get('newImageId'));
-                   console.log("new image url: " + fileObj.url());
+
                    done();
                 }
              });
@@ -157,6 +142,7 @@ Template.editor.events({
     },
     'click #startBlog': function () {
         swapElements('.post-type', '.blog-editor');
+        Session.set('announcementType', 'blog');
     },
     'click #startAnnouncement': function () {
         swapElements('.post-type', '.blog-announcements');
@@ -179,16 +165,75 @@ Template.editor.events({
         swapElements('.announcement-type', '.text-and-image');
         Session.set('announcementType', 'textAndImage');
     },
-    'click .btn-login': function () {
+    'click .btn-login': function (event, template) {
       var type = Session.get('announcementType');
       console.log('submitting ' + type);
       if (type === "imageOnly") {
-         //Meteor.call('postDraftImage');
+         var title = template.find('#imageOnlyTitle').value;
+         const imgId = Session.get('newImageId');
+         const fileType = Session.get('newFileType');
+         var tags = [];
+
+         //get tags form title
+         Meteor.call('getTags', title, function(err, arr) {
+            for (var i = 0; i < arr.length; ++i) {
+               tags.push(arr[i]);
+            }
+            //post draft image
+            Meteor.call('postDraftImage', title, imgId, fileType, tags);
+         });
       } else if (type === "textOnly") {
-         //Meteor.call('postDraftText');
-      } else {
-         //Meteor.call('postDraftTextImage');
+         var title = template.find('#textOnlyTitle').value;
+         var text = template.find('#textOnlyText').value;
+         var tags = [];
+         //get tags from title
+         Meteor.call('getTags', title, function(err, arr) {
+            for (var i = 0; i < arr.length; ++i) {
+               tags.push(arr[i]);
+            }
+            //get tags from text
+            Meteor.call('getTags', text, function(err, arr2) {
+               for (var j = 0; j < arr2.length; ++j) {
+                  if (!tags.contains(arr2[i])) {
+                     tags.push(arr2[i]);
+                  }
+               }
+               //post draft
+               Meteor.call('postDraftText', title, text, tags);
+            });
+         });
+      } else if (type === "textAndImage"){
+         const imgId = Session.get('newImageId');
+         const fileType = Session.get('newFileType');
+         var title = template.find('#textImageTitle').value;
+         var text = template.find('#textImageText').value;
+         var tags = [];
+         //get tags from title
+         Meteor.call('getTags', title, function(err, arr) {
+            for (var i = 0; i < arr.length; ++i) {
+               tags.push(arr[i]);
+            }
+            //get tags from text
+            Meteor.call('getTags', text, function(err, arr2) {
+               for (var j = 0; j < arr2.length; ++j) {
+                  if (!tags.contains(arr2[i])) {
+                     tags.push(arr2[i]);
+                  }
+               }
+               //post draft
+               Meteor.call('postDraftTextImage', title, text, imgId, fileType, true, tags);
+            });
+         });
       }
+      Session.set('newFileType', null);   //update the file type
+      Session.set('newImageId', null); //update the image id to current image
+   },
+   'click .publish' : function(event, template) {
+      var title = template.find('#blogTitle').value;
+      var subTitle = template.find('#blogSubTitle').value;
+      var content = "TODO";
+      var tags = [];
+      Meteor.call('postDraftBlog', title, subTitle, null, null, content, tags);
    }
 });
 function swapElements(a,b,check){
