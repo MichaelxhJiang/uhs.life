@@ -3,3 +3,7 @@ import '../../ui/pages/login.js';
 import '../../ui/pages/signup.js';
 import '../../ui/pages/base.js';
 import '../../ui/pages/home.js';
+import '../../ui/pages/newsDetail.js';
+import '../../ui/components/sidebar.js';
+import '../../ui/components/botnav.js';
+import '../../ui/components/topnav.js';

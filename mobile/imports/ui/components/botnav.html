@@ -1,0 +1,41 @@
+<template name="botnav">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <nav class="menu">
+                    <input type="radio" name="menu" id="home" checked>
+                    <input type="radio" name="menu" id="marks">
+                    <input type="radio" name="menu" id="news">
+                    <input type="radio" name="menu" id="settings">
+                    <div class="list">
+                        <div class="overlay">
+                            <span class="overlay-recent"></span>
+                            <span class="overlay-favourite"></span>
+                            <span class="overlay-cloud"></span>
+                            <span class="overlay-settings"></span>
+                        </div>
+                        <div class="link-wrap">
+                            <label for="home">
+                                <i class="fa fa-home" aria-hidden="true"></i>
+                                <span>Home</span>
+                            </label>
+                            <label for="marks">
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                                <span>Marks</span>
+                            </label>
+                            <label for="news">
+                                <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                <span>News</span>
+                            </label>
+                            <label for="settings">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                <span>Settings</span>
+                            </label>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </nav>
+</template>

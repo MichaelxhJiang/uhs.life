@@ -56,3 +56,16 @@ FlowRouter.route( '/home', {
     },
     name: 'login' // Optional route name.
 });
+
+FlowRouter.route( '/newsDetail', {
+    action: function() {
+        var authentication = 0;
+        //parseInt(Cookie.get('auth'));
+        if(authentication != 1){
+            BlazeLayout.render( 'applicationLayout', { main: 'newsDetail' } );
+        }else{
+            BlazeLayout.render( 'applicationLayout', { main: 'overview' } );
+        }
+    },
+    name: 'newsDetail' // Optional route name.
+});

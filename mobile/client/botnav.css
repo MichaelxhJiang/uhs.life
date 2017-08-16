@@ -1,0 +1,88 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+.navbar {
+    z-index: 99;
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    border-radius: 0;
+    background: black;
+    transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+
+}
+
+
+*,:after,:before{box-sizing:border-box}
+.clearfix:after,.clearfix:before{content:'';display:table}
+.clearfix:after{clear:both;display:block}
+
+.wrap{
+    width:100%;
+    max-width:410px;
+    margin:50px auto 0;
+}
+input[name="menu"]{display:none}
+
+.list{
+    width:100%;
+    height:60px;
+    padding:5px;
+    overflow:hidden;
+    background: white;
+    position:relative;
+}
+.list .link-wrap{
+    width:100%;
+    height:100%;
+    display:table;
+}
+
+.list .link-wrap>label{
+    color: gray;
+    z-index:999;
+    width:100px;
+    font-size:13px;
+    cursor:pointer;
+    padding:4px 12px;
+    text-align:center;
+    position:relative;
+    display:table-cell;
+    vertical-align:middle;
+    text-transform:uppercase;
+}
+.list .link-wrap>label>i,
+.list .link-wrap>label>span{
+    transition:all .2s ease-in-out 0s;
+}
+.list .link-wrap>label>i{
+    font-size:18px;
+    margin-bottom:5px;
+}
+.list .link-wrap>label>span{
+    height:0;
+    display:block;
+    font-weight:500;
+    transform:translateY(45px);
+}
+
+
+#home:checked ~ .list .link-wrap label[for="home"]>span,
+#marks:checked ~ .list label[for="marks"]>span,
+#news:checked ~ .list label[for="news"]>span,
+#settings:checked ~ .list label[for="settings"]>span{
+    transform:translateY(0);
+    height:auto;
+    color: cornflowerblue;
+}
+
+#home:checked ~ .list .link-wrap [for="home"]>i,
+#marks:checked ~ .list .link-wrap [for="marks"]>i,
+#news:checked ~ .list .link-wrap [for="news"]>i,
+#settings:checked ~ .list .link-wrap [for="settings"]>i
+{
+    color: cornflowerblue;
+}
