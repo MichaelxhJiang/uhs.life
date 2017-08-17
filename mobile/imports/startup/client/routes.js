@@ -69,3 +69,16 @@ FlowRouter.route( '/newsDetail', {
     },
     name: 'newsDetail' // Optional route name.
 });
+
+FlowRouter.route( '/marks', {
+    action: function() {
+        var authentication = 0;
+        //parseInt(Cookie.get('auth'));
+        if(authentication != 1){
+            BlazeLayout.render( 'applicationLayout', { main: 'marks' } );
+        }else{
+            BlazeLayout.render( 'applicationLayout', { main: 'overview' } );
+        }
+    },
+    name: 'marks' // Optional route name.
+});
