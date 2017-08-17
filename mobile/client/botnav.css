@@ -12,6 +12,7 @@
     -moz-transition: all 0.3s ease 0s;
     -webkit-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
+    box-shadow: 0px -1px 1px 1px rgba(0, 0, 0, 0.2);
 
 }
 

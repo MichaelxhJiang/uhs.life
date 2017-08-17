@@ -2,24 +2,32 @@
     z-index: 99;
     position: fixed;
     top: 0;
-    height: 60px;
+    height: 50px;
     width: 100%;
     border-radius: 0;
-    background: #eee;
+    background: cornflowerblue;
     transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     -webkit-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
-
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .topnav-back{
     position: absolute;
     font-size: 25px;
-    top: 30%;
-    left: 7%;
+    top: 23%;
+    left: 5%;
     transition: all 0.5s ease 0s;
     -moz-transition: all 0.5s ease 0s;
     -webkit-transition: all 0.5s ease 0s;
     -o-transition: all 0.5s ease 0s;
+}
+
+.fa-times {
+    color: white;
+}
+
+.topnav-container{
+    box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
