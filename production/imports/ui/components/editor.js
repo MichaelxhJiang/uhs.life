@@ -176,34 +176,56 @@ Template.editor.events({
          const imgId = Session.get('newImageId');
          const fileType = Session.get('newFileType');
          var tags = [];
+         var categories = [];
 
          //get tags form title
-         Meteor.call('getTags', title, function(err, arr) {
-            for (var i = 0; i < arr.length; ++i) {
-               tags.push(arr[i]);
+         Meteor.call('getCategories', title, function(err, arr) {
+            if (err) {
+               console.log(err);
+            } else {
+               for (var i = 0; i < arr.length && arr.length != 0; ++i) {
+                  categories.push(arr[i]);
+               }
+               //post draft image
+               Meteor.call('postDraftImage', title, imgId, fileType, tags, categories, date);
+
+               //reset session vars
+               Session.set('newFileType', null);   //update the file type
+               Session.set('newImageId', null); //update the image id to current image
             }
-            //post draft image
-            Meteor.call('postDraftImage', title, imgId, fileType, tags, date);
          });
       } else if (type === "textOnly") {
          var title = template.find('#textOnlyTitle').value;
          var text = template.find('#textOnlyText').value;
          var tags = [];
+         var categories = [];
          //get tags from title
-         Meteor.call('getTags', title, function(err, arr) {
-            for (var i = 0; i < arr.length; ++i) {
-               tags.push(arr[i]);
-            }
-            //get tags from text
-            Meteor.call('getTags', text, function(err, arr2) {
-               for (var j = 0; j < arr2.length; ++j) {
-                  if (tags.indexOf(arr2[i]) === -1) {
-                     tags.push(arr2[i]);
-                  }
+         Meteor.call('getCategories', title, function(err, arr) {
+            if (err) {
+               console.log(err);
+            } else {
+               for (var i = 0; i < arr.length && arr.length != 0; ++i) {
+                  categories.push(arr[i]);
                }
-               //post draft
-               Meteor.call('postDraftText', title, text, tags, date);
-            });
+               //get tags from text
+               Meteor.call('getCategories', text, function(err, arr2) {
+                  if (err) {
+                     console.log(err);
+                  } else {
+                     for (var j = 0; j < arr2.length && arr2.length != 0; ++j) {
+                        if (categories.indexOf(arr2[j]) === -1) {
+                           categories.push(arr2[j]);
+                        }
+                     }
+                     //post draft
+                     Meteor.call('postDraftText', title, text, tags, categories, date);
+
+                     //reset session vars
+                     Session.set('newFileType', null);   //update the file type
+                     Session.set('newImageId', null); //update the image id to current image
+                  }
+               });
+            }
          });
       } else if (type === "textAndImage"){
          const imgId = Session.get('newImageId');
@@ -211,33 +233,96 @@ Template.editor.events({
          var title = template.find('#textImageTitle').value;
          var text = template.find('#textImageText').value;
          var tags = [];
+         var categories = [];
          //get tags from title
-         Meteor.call('getTags', title, function(err, arr) {
-            for (var i = 0; i < arr.length; ++i) {
-               tags.push(arr[i]);
-            }
-            //get tags from text
-            Meteor.call('getTags', text, function(err, arr2) {
-               for (var j = 0; j < arr2.length; ++j) {
-                  if (tags.indexOf(arr2[i]) === -1) {
-                     tags.push(arr2[i]);
-                  }
+         Meteor.call('getCategories', title, function(err, arr) {
+            if (err) {
+               console.log(err);
+            } else {
+               for (var i = 0; i < arr.length && arr.length != 0; ++i) {
+                  categories.push(arr[i]);
                }
-               //post draft
-               Meteor.call('postDraftTextImage', title, text, imgId, fileType, true, tags, date);
-            });
+               //get tags from text
+               Meteor.call('getCategories', text, function(err, arr2) {
+                  if (err) {
+                     console.log(err);
+                  } else {
+                     for (var j = 0; j < arr2.length && arr2.length != 0; ++j) {
+                        if (categories.indexOf(arr2[j]) === -1) {
+                           categories.push(arr2[j]);
+                        }
+                     }
+                     //post draft
+                     Meteor.call('postDraftTextImage', title, text, imgId, fileType, true, tags, categories, date);
+
+                     //reset session vars
+                     Session.set('newFileType', null);   //update the file type
+                     Session.set('newImageId', null); //update the image id to current image
+                  }
+               });
+            }
          });
       }
-      Session.set('newFileType', null);   //update the file type
-      Session.set('newImageId', null); //update the image id to current image
    },
    'click .publish' : function(event, template) {
       var title = template.find('#blogTitle').value;
       var subTitle = template.find('#blogSubTitle').value;
       var content = "TODO";
-      var tags = [];
+      const imgId = Session.get('newImageId');
+      const fileType = Session.get('newFileType');
+      //get tags
+      var str = template.find('#blogTags').value;
+      var separators = [' , ', ', ', ',', ' ,'];
+      var tags = str.split(new RegExp(separators.join('|'), 'g'));
+
+      var categories = [];
       var date = new Date();
-      Meteor.call('postDraftBlog', title, subTitle, null, null, content, tags, date);
+
+
+      //find all categories that post belongs to
+      Meteor.call('getCategories', title, function(err, arr) { //search title
+         if (err) {
+            console.log(err);
+         } else {
+            console.log('arr: ' + arr);
+            for (var i = 0; i < arr.length && arr.length != 0; ++i) {
+               categories.push(arr[i]);
+            }
+            //get tags from text
+            Meteor.call('getCategories', subTitle, function(err, arr2) {   //search subtitle
+               if (err) {
+                  console.log(err);
+               } else {
+                  console.log('arr2: ' + arr2);
+                  for (var j = 0; j < arr2.length && arr2.length != 0; ++j) {
+                     if (categories.indexOf(arr2[j]) === -1) {
+                        categories.push(arr2[j]);
+                     }
+                  }
+
+                  Meteor.call('getCategories', content, function(err, arr3) { //search content
+                     if (err) {
+                        console.log(err);
+                     } else {
+                        console.log('arr3: ' + arr3);
+                        for (var k = 0; k < arr3.length && arr3.length != 0; ++k) {
+                           if (categories.indexOf(arr3[k]) === -1) {
+                              categories.push(arr3[k]);
+                           }
+                        }
+                        //post draft
+                        Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, categories, date);
+                        //reset sessions vars
+                        Session.set('newFileType', null);   //update the file type
+                        Session.set('newImageId', null); //update the image id to current image
+                     }
+                  });
+               }
+            });
+         }
+      });
+
+      //Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, date);
    }
 });
 function swapElements(a,b,check){
