@@ -82,3 +82,16 @@ FlowRouter.route( '/marks', {
     },
     name: 'marks' // Optional route name.
 });
+
+FlowRouter.route( '/search', {
+    action: function() {
+        var authentication = 0;
+        //parseInt(Cookie.get('auth'));
+        if(authentication != 1){
+            BlazeLayout.render( 'applicationLayout', { main: 'search' } );
+        }else{
+            BlazeLayout.render( 'applicationLayout', { main: 'overview' } );
+        }
+    },
+    name: 'search' // Optional route name.
+});

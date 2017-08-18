@@ -1,43 +1,38 @@
 /* Side Navigation */
 .sidenav {
     height: 100%; /* 100% Full-height */
-    width: 100%; /* 0 width - change this with JavaScript */
+    width: 400px; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 0; /* Stay on top */
-    top: 0;
     color: #777;
     overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
+    padding-top: 50px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
     background: #f7f7f7;
-    left: -2000px;
+    top: -1000px;
 }
 
 .side-nav-content{
-    position: absolute;
-    text-align: center;
 }
 .slide-in {
     transition: 0.5s;
-    left: 0;
+    top: 0;
 }
 
 /* The navigation menu links */
 .sidenav a {
-    width: 90%;
-    border: 2px solid #000000;
+    width: 100%;
     background: transparent;
     padding: 8px 8px 8px 8px;
     text-decoration: none;
     text-align: center;
-    font-size: 18px;
+    font-size: 22px;
     display: block;
     outline: none;
     transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     -webkit-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
-    margin-top: 3px;
 }
 
 .sidenav ul {
@@ -48,8 +43,7 @@
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover, .offcanvas a:focus {
     cursor: pointer;
-    color: white;
-    background-color: #000000;
+    color: cornflowerblue;
 }
 
 .float-bottom {
@@ -59,29 +53,3 @@
     width: 100%
 }
 
-
-/* Logout Button */
-.logoutButton {
-    border: 2px solid #fc7970;
-    background: transparent;
-    width: 100%;
-    outline: none;
-    transition: all 0.3s ease 0s;
-    -moz-transition: all 0.3s ease 0s;
-    -webkit-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 1.5em;
-    color: #fc7970;
-}
-
-.logoutText {
-    margin-top: 10px;
-}
-
-.logoutButton:hover {
-    cursor: pointer;
-    color: white;
-    background-color: #fc7970;
-}

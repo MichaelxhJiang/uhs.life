@@ -13,4 +13,7 @@ Template.botnav.events({
     'click #marks': function (evt, template) {
         FlowRouter.go("/marks");
     },
+    'click #news': function (evt, template) {
+        FlowRouter.go("/search");
+    },
 });
