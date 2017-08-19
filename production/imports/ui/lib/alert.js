@@ -9,15 +9,11 @@ alertError = function (title, body) {
                 label:"Got it",
                 className: 'btn-confirm'
             }
-        },
-        callback: function(){
-            console.log("test");
         }
     });
 }
 
 alertSuccess = function (title, body) {
-    console.log('test2');
     bootbox.alert({
         title: "<i class='fa fa-5x fa-check-circle-o'></i>",
         message: "<h3>"+title+"</h3><p>"+ body +"</p>",
@@ -26,11 +22,29 @@ alertSuccess = function (title, body) {
                 label:"Got it",
                 className: 'btn-confirm'
             }
-        },
-        callback: function(){
-            console.log('success alert happend')
         }
     });
     $(".modal-header").css('background','#4caf50');
     $(".btn-confirm").css('background','#4caf50');
+}
+
+alertConfirm = function (title,body,callback) {
+    bootbox.confirm({
+        title: "<i class='fa fa-5x fa-question-circle-o'></i>",
+        message: "<h3>"+title+"</h3><p>"+ body +"</p>",
+        buttons: {
+            confirm: {
+                label: 'Yes',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'No',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            callback(result);
+        }
+    });
+    $(".modal-header").css('background','#2196F3');
 }

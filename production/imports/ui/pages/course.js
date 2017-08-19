@@ -4,7 +4,9 @@ import '../lib/alert.js'
 import './course.html';
 
 Template.course.onRendered(function () {
-    alertSuccess("YES!", "This is a success");
+    alertConfirm("YES!", "This is a success",function (result) {
+        console.log(result);
+    });
     $( document ).ready(function() {
         new WOW().init();
         drawChart('knowledgeChart', 80);
