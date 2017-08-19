@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Drafts } from './drafts.js';
 
 Meteor.methods({
-   'postDraftTextImage' : function(title, text, imgId, fileType, textFirst, tags, date) {
+   'postDraftTextImage' : function(title, text, imgId, fileType, textFirst, tags, categories, date) {
       var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
@@ -17,6 +17,7 @@ Meteor.methods({
          fileType: fileType,
          textFirst: textFirst,
          tags: tags,
+         categories: categories,
          date: date
       };
 
@@ -28,7 +29,7 @@ Meteor.methods({
          }
       });
    },
-   'postDraftText' : function(title, text, tags, date) {
+   'postDraftText' : function(title, text, tags, categories, date) {
       var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
@@ -40,6 +41,7 @@ Meteor.methods({
          title: title,
          text: text,
          tags: tags,
+         categories,
          date: date
       };
 
@@ -51,7 +53,7 @@ Meteor.methods({
          }
       });
    },
-   'postDraftImage' : function(title, imgId, fileType, tags, date) {
+   'postDraftImage' : function(title, imgId, fileType, tags, categories, date) {
       var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
@@ -64,6 +66,7 @@ Meteor.methods({
          imgId: imgId,
          fileType: fileType,
          tags: tags,
+         categories,
          date: date
       };
 
@@ -75,7 +78,7 @@ Meteor.methods({
          }
       });
    },
-   'postDraftBlog' : function(title, subtitle, imgId, fileType, content, tags, date) {
+   'postDraftBlog' : function(title, subtitle, imgId, fileType, content, tags, categories, date) {
       var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
@@ -89,6 +92,7 @@ Meteor.methods({
          fileType: fileType,
          content: content,
          tags: tags,
+         categories,
          date: date
       };
 

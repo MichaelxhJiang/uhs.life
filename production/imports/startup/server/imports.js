@@ -14,8 +14,8 @@ import './algoliaRemove.js';
 import './accounts.js';
 //This file includes mailchimp API functions
 import './mailchimp.js'
-//This file includes dictionary of tags and maps them with keywords
-import './tags.js'
+//This file includes dictionary of categories and maps them with keywords
+import './categories.js'
 //This file contains methods for draft collection
 import '../../api/posts/draftMethods.js';
 //import the collections into server
