@@ -4,14 +4,22 @@
 
 import { Images } from '../../api/posts/images.js';
 import { Drafts } from '../../api/posts/drafts.js';
+
 import './editor.html';
 var current;
 
 Template.editor.onRendered(function (){
-
+    $(document).ready(function () {
+        $('.category-select').select2({
+            placeholder: "Click to select matching categories",
+            allowClear: true
+        });
+        $('.input-daterange').datepicker({});
+    });
     if (Meteor.isClient){
         let arrayOfImageIds = [];
         Dropzone.autoDiscover = false;
+        $(".tags").tagsinput('items');
 
         let dropzone = new Dropzone("form#dropzone", {
             maxFiles:1,
@@ -166,24 +174,24 @@ Template.editor.events({
         Session.set('announcementType', 'textAndImage');
     },
     'click .btn-login': function (event, template) {
-      var type = Session.get('announcementType');
+      let type = Session.get('announcementType');
 
-      var date = new Date();  //get current date
+      let date = new Date();  //get current date
 
       console.log('submitting ' + type);
       if (type === "imageOnly") {
-         var title = template.find('#imageOnlyTitle').value;
+         let title = template.find('#imageOnlyTitle').value;
          const imgId = Session.get('newImageId');
          const fileType = Session.get('newFileType');
-         var tags = [];
-         var categories = [];
+         let tags = [];
+         let categories = [];
 
          //get tags form title
          Meteor.call('getCategories', title, function(err, arr) {
             if (err) {
                console.log(err);
             } else {
-               for (var i = 0; i < arr.length && arr.length != 0; ++i) {
+               for (var i = 0; i < arr.length && arr.length !== 0; ++i) {
                   categories.push(arr[i]);
                }
                //post draft image
@@ -204,7 +212,7 @@ Template.editor.events({
             if (err) {
                console.log(err);
             } else {
-               for (var i = 0; i < arr.length && arr.length != 0; ++i) {
+               for (var i = 0; i < arr.length && arr.length !== 0; ++i) {
                   categories.push(arr[i]);
                }
                //get tags from text
@@ -212,7 +220,7 @@ Template.editor.events({
                   if (err) {
                      console.log(err);
                   } else {
-                     for (var j = 0; j < arr2.length && arr2.length != 0; ++j) {
+                     for (var j = 0; j < arr2.length && arr2.length !== 0; ++j) {
                         if (categories.indexOf(arr2[j]) === -1) {
                            categories.push(arr2[j]);
                         }
@@ -239,7 +247,7 @@ Template.editor.events({
             if (err) {
                console.log(err);
             } else {
-               for (var i = 0; i < arr.length && arr.length != 0; ++i) {
+               for (var i = 0; i < arr.length && arr.length !== 0; ++i) {
                   categories.push(arr[i]);
                }
                //get tags from text
@@ -247,7 +255,7 @@ Template.editor.events({
                   if (err) {
                      console.log(err);
                   } else {
-                     for (var j = 0; j < arr2.length && arr2.length != 0; ++j) {
+                     for (var j = 0; j < arr2.length && arr2.length !== 0; ++j) {
                         if (categories.indexOf(arr2[j]) === -1) {
                            categories.push(arr2[j]);
                         }
@@ -323,7 +331,25 @@ Template.editor.events({
       });
 
       //Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, date);
-   }
+   },
+    'click #getFeaturedUnsplash': function (evt, template) {
+        $('#unsplashPrompt').html("Please Wait...");
+        Meteor.call('setupUnsplash', function (err) {
+            if(err){
+                console.log(err);
+            }else{
+                Meteor.call('searchKeyword', "nature",function (err,data) {
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log(data);
+                        $('#dropzone').replaceWith("<img src='"+data.results[0].urls.regular+"' class='img-responsive'/>");
+                        $('#unsplashPrompt').html("Here you go! This will be your featured image");
+                    }
+                })
+            }
+        })
+    }
 });
 function swapElements(a,b,check){
     $(a).fadeOut('fast', function () {

@@ -15,11 +15,17 @@ Meteor.methods({
       });
    },
    'searchKeyword' : function(key) {
-      const result = unsplash.search.photos(key, 1, 1)
-     .then(toJson)
-     .then(json => {
-       return json;
-     });
-     return result;
-   }
+       return unsplash.search.photos(key, 1, 10)
+         .then(toJson)
+         .then(json => {
+             return json;
+         });
+   }, 
+    'getRandomPhoto': function () {
+        return unsplash.photos.getRandomPhoto()
+            .then(toJson)
+            .then(json => {
+                return json;
+            });
+    }
 });
