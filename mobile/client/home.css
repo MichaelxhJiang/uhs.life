@@ -22,9 +22,13 @@
 /**
  * Card Styles
  */
-.card-wrapper{
+
+.home-container{
+    margin-bottom: 50px;
+}
+.home-card-wrapper{
     max-width: 600px;
-    margin-right: -10px;
+    margin-right: -8px;
 }
 .card {
     background-color: #fff;

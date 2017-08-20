@@ -1,0 +1,110 @@
+.marks-border-tlr-radius {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.marks-text-center { text-align: center; }
+
+.marks-radius { border-radius: 2px; }
+
+.marks-padding-tb { padding-top: 1.6rem; padding-bottom: 1.6rem;}
+
+.marks-shadowDepth0 { box-shadow: 0 1px 3px rgba(0,0,0, 0.12); }
+
+.marks-shadowDepth1 {
+    box-shadow:
+            0 1px 3px rgba(0,0,0, 0.12),
+            0 1px 2px rgba(0,0,0, 0.24);
+}
+
+.marks-card-wrapper{
+    width: 400px;
+    margin-right: -8px;
+}
+.marks-card {
+    background-color: #fff;
+    height: 150px;
+    margin-bottom: 0.6rem;
+    padding:0;
+}
+
+.marks-card-padding {
+    padding: 1.0rem;
+}
+
+.marks-card-content {
+    position: relative;
+}
+
+/* card article */
+.marks-card__article a {
+    text-decoration: none;
+    color: #444;
+    transition: all 0.5s ease;
+}
+.marks-card__article a:hover {
+    color: #2980b9;
+}
+
+.marks-progress-bar{
+    position: relative;
+    margin-top: -26px;
+    width: 100%;
+    height: 6px;
+    background: mediumseagreen;
+}
+
+.marks-progress-bar-yellow{
+    position: relative;
+    margin-top: -26px;
+    width: 78%;
+    height: 6px;
+    background: #ffe432;
+}
+
+.marks-progress-bar-red{
+    position: relative;
+    margin-top: -26px;
+    width: 43%;
+    height: 6px;
+    background: #8b1d27;
+}
+
+.marks-course-title{
+    position: relative;
+    text-align: left;
+    margin-top: 0px;
+    font-size: 40px;
+}
+
+.marks-course-subtitle{
+    position: relative;
+    text-align: left;
+    margin-top: -35px;
+    font-size: 15px;
+}
+
+.marks-course-teacher{
+    position: relative;
+    text-align: left;
+    margin-top: -15px;
+    font-size: 15px;
+}
+
+.marks-course-room{
+    position: relative;
+    text-align: left;
+    margin-top: -15px;
+    font-size: 15px;
+}
+
+.marks-course-mark{
+    position: relative;
+    text-align: right;
+    margin-top: -100px;
+    font-size: 50px;
+}
+
+.marks-container{
+    margin-bottom: 60px;
+}

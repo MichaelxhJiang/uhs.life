@@ -1,7 +1,7 @@
 /* Side Navigation */
 .sidenav {
     height: 100%; /* 100% Full-height */
-    width: 400px; /* 0 width - change this with JavaScript */
+    width: 100%; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 0; /* Stay on top */
     color: #777;
