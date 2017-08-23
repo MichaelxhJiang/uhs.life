@@ -1,9 +1,9 @@
 <template name="details">
-    {{> navigation title="12 Advantages of doing yoga" oper="true"}}
+    {{> navigation oper="true"}}
     <div class="main post-body">
-        <div class="container-fluid post-header center-wrapper" style="background-image: url('img/test.jpg')">
+        <div class="container-fluid post-header center-wrapper" style="background-image: url({{postSplash}})">
             <div>
-                <h1>Self-improvement.</h1>
+                <h1>{{postSubtitle}}</h1>
             </div>
             <div class="navbar-fixed-bottom text-center text-capitalize scroll-down">
                 <p>Scroll Down</p>
@@ -14,20 +14,23 @@
             <div class="post-info mt-30">
                 <div class="key-info">
                     <div class="author-img-container">
-                        <img src="https://dummyimage.com/1:1x1080" height="45" class="img-circle"/>
+                        <img src="{{picture}}" height="45" class="img-circle"/>
                     </div>
                     <div>
-                        <span class="name">Yonglin Wang</span>
+                        <span class="name">{{name}}</span>
                         <span class="description">The Co-creator of UHS Life</span>
                     </div>
                 </div>
                 <div class="other-info">
                     <span class="name">Posted: July 29th, 2017</span>
-                    <span>Tags: </span>
+                    <span>Tags:
+                        {{postTags}}
+                    </span>
                 </div>
             </div>
             <div class="post-text mt-30">
-                <h2>This is a title - This block experiments with href links and unordered list</h2>
+                {{{postBody}}}
+                <!--<h2>This is a title - This block experiments with href links and unordered list</h2>
                 <p>Lorem ipsum dolor sit amet, <a href="/">consectetur adipisicing elit.</a> A culpa deserunt ducimus eligendi, excepturi fugit illo nam nesciunt non numquam odit pariatur quae qui repellendus tenetur. Assumenda autem quas veritatis.</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cumque deserunt eligendi exercitationem, harum impedit labore libero optio perspiciatis quas quisquam ut? Distinctio, dolore, sequi. Earum explicabo, nihil? Commodi, veritatis?</p>
                 <ul>
@@ -51,10 +54,10 @@
                 <h2>This is an image test block</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A culpa deserunt ducimus eligendi, excepturi fugit illo nam nesciunt non numquam odit pariatur quae qui repellendus tenetur. Assumenda autem quas veritatis.</p>
                 <div class="img-container">
-                    <img class="img-responsive" src="img/test.jpg">
+                    <img class="img-responsive" src="/img/test.jpg">
                     <p class="img-caption text-capitalize">Credit: Some random dude on Unsplash</p>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cumque deserunt eligendi exercitationem, harum impedit labore libero optio perspiciatis quas quisquam ut? Distinctio, dolore, sequi. Earum explicabo, nihil? Commodi, veritatis?</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cumque deserunt eligendi exercitationem, harum impedit labore libero optio perspiciatis quas quisquam ut? Distinctio, dolore, sequi. Earum explicabo, nihil? Commodi, veritatis?</p>-->
             </div>
         </div>
         <div class="container post-after mb-60">

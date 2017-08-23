@@ -1,0 +1,113 @@
+<template name="dashboard">
+    <div class="container-fluid">
+        <div class="col-lg-2 dash-component dash-sidebar">
+            {{> dashSideBar}}
+        </div>
+        <div class="col-lg-10 col-lg-offset-2 dash-component dash-body">
+            {{> Template.dynamic template=dash}}
+        </div>
+    </div>
+
+</template>
+
+<template name="dashHome">
+    <div class="container">
+        <div class="row text-center mb-60">
+            <div class="col-lg-12">
+                <h2>Welcome home, Name.</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="dash-item">
+                    <h3 class="text-center">
+                        New Posts
+                        <hr>
+                    </h3>
+                    <div class="editor-options draft-inline">
+                        <div class="content-preview">
+                            <h4 class="draft-title">This is an example of draft item with no images</h4>
+
+                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
+                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="editor-options draft-inline">
+                        <div class="content-preview">
+                            <h4 class="draft-title">This is an example of draft item with no images</h4>
+
+                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
+                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="editor-options draft-inline">
+                        <div class="content-preview">
+                            <h4 class="draft-title">This is an example of draft item with no images</h4>
+
+                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
+                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="editor-options draft-inline">
+                        <div class="content-preview">
+                            <h4 class="draft-title">This is an example of draft item with no images</h4>
+
+                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
+                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="editor-options draft-inline">
+                        <div class="content-preview">
+                            <h4 class="draft-title">This is an example of draft item with no images</h4>
+
+                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
+                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="editor-options draft-inline">
+                        <div class="content-preview">
+                            <h4 class="draft-title">This is an example of draft item with no images</h4>
+
+                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
+                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="dashSideBar">
+    <div class="side-nav-header">
+        <h4>
+            Yonglin Wang
+        </h4>
+        <a href="logout" class="logout-btn">LOG OUT</a>
+    </div>
+    <div class="side-nav-body">
+        <a href=""><i class="fa fa-home"></i> Home</a>
+        <a href=""><i class="fa fa-file-text-o"></i> Posts</a>
+        <a href=""><i class="fa fa-group"></i> Users</a>
+        <a href=""><i class="fa fa-newspaper-o"></i> Newsletters</a>
+        <a href=""><i class="fa fa-gear"></i> Settings</a>
+    </div>
+</template>

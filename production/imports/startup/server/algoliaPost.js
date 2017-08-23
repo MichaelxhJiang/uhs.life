@@ -10,7 +10,7 @@ Meteor.methods({
    /**
    @params title : string; text: string; fileType: string; textFirst: boolean
    **/
-   'postAnnouncementTextMedia' : function(title, text, imgId, fileType, textFirst) {
+   'postAnnouncementTextMedia' : function(title, text, imgId, fileType, textFirst, inJson) {
 
       //define object being posted with layout
       var objects = [{

@@ -12,6 +12,14 @@ let loggedIn = FlowRouter.group({
                 Session.set('redirectAfterLogin', route.path);
                 console.log(Session.get('redirectAfterLogin'));
                 FlowRouter.go('/login');
+            }else{
+                Tracker.autorun(function () {
+                    let user = Meteor.user();
+                    if(user){
+                        Session.set('name', user.services.google.name);
+                        Session.set('user_img', user.services.google.picture);
+                    }
+                });
             }
         }
     ]
@@ -29,13 +37,23 @@ FlowRouter.route('/login',{
     name: 'login'
 });
 
-FlowRouter.route('/detail',{
-    action: function () {
+loggedIn.route('/blog/:postId',{
+    action: function (params) {
+        if(params.postId === 'preview'){
+            console.log('you are now in preview mode');
+            Session.set('post_data', Session.get('preview_json'))
+        }
         BlazeLayout.render('applicationLayout',{main: 'details'})
     }
 });
 
-FlowRouter.route('/course',{
+loggedIn.route('/dashboard',{
+    action: function () {
+        BlazeLayout.render('dashboard',{dash: 'dashHome'})
+    }
+});
+
+loggedIn.route('/course',{
     action: function () {
         BlazeLayout.render('applicationLayout',{main: 'course'})
     }

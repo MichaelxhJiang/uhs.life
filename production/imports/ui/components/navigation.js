@@ -15,11 +15,7 @@ Template.navigation.helpers({
         return "Friday April 7th"
     },
     'username': function () {
-        return Meteor.user().profile.fullName;
-    },
-    'isClose': function () {
-        let path = FlowRouter.current().name;
-
+        return Session.get('name');
     }
 });
 
@@ -105,3 +101,7 @@ Template.navigation.events({
         }
     }
 });
+
+setTitle = function (title) {
+    $('.nav-hub').html('<span>'+title+'</span>');
+}

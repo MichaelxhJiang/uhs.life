@@ -27,5 +27,12 @@ Meteor.methods({
             .then(json => {
                 return json;
             });
+    },
+    'getPhoto': function (id) {
+        return unsplash.photos.getPhoto(id)
+            .then(toJson)
+            .then(json => {
+                return json;
+            });
     }
 });

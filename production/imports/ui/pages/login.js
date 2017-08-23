@@ -86,7 +86,6 @@ function validateEmail(email) {
 
 Accounts.onLogin( ()=>{
     const redirect = Session.get('redirectAfterLogin');
-    console.log("onLogin() called");
     if(redirect){
         if(redirect !== '/login'){
             FlowRouter.go(redirect);

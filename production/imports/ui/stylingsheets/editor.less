@@ -32,9 +32,12 @@
   -moz-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
+  border:none;
+  box-shadow: none;
   &:hover{
     text-decoration: none;
     color: #555555;
+    background: none;
   }
 }
 .publish{
@@ -429,4 +432,9 @@ i.material-icons:hover {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-
+.btn-save{
+  background-color: gray;
+  &:hover, &:focus, &:active{
+    background-color: darkgrey;
+  }
+}

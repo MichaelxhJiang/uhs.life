@@ -12,6 +12,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <form class="form post-info-form full-width">
+                        <!--Blog Title-->
                         <input type="text" placeholder="Title*" id="blogTitle">
                         <input type="text" placeholder="Sub-title" name="sub" id="blogSubTitle">
                     </form>
@@ -45,13 +46,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-6">
+                <div class="col-md-6 col-lg-6 mb-80">
                     <div class="editor-card">
                         <div class="card-body">
                             <h3>Featured Splash Image</h3>
                             <p>Upload an image to help attract users to your blog, stock photos work well, avoid images with text. Please credit the photographer with the form below.</p>
                             <form action="/file-upload" class="dropzone" id="dropzone"></form>
-                            <h4 id="unsplashPrompt">Want to avoid the hassle? <a href="" id="getFeaturedUnsplash">Click here</a> and we will pick an image for you!</h4>
+                            <h5 id="unsplashPrompt">Want to avoid the hassle? <a href="" id="getFeaturedUnsplash">Click here</a> and we will find an image for you!</h5>
                             <hr />
                             <h3>Pick a release date</h3>
                             <p>Use the date selector bellow to select the day you would like this post published.</p>
@@ -60,6 +61,14 @@
                                 <div class="input-group-addon">to</div>
                                 <input type="text" class="form-control">
                             </div>
+                            <hr />
+                            <h3>Set the visibility</h3>
+                            <p>Choose who this blog post is written for, public means people outside the board will receive access.</p>
+                            <select name="category-selector" class="category-select" multiple style="width: 75%">
+                                <option value="1">Public*</option>
+                                <option value="2">Students</option>
+                                <option value="3">Teachers and Staff</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -73,7 +82,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-4">
-                            <div class="editor-card preview">
+                            <div class="editor-card preview btn-preview">
                                 <h3>Preview</h3>
                             </div>
                         </div>
@@ -153,8 +162,8 @@
                         </select>
                     </div>
                     <div class="col-lg-4 col-md-3">
-                        <h3>Pick a release date</h3>
-                        <p>Use the date selector bellow to select the day you would like this post published.</p>
+                        <h3>Pick a date range</h3>
+                        <p>Use the date selector bellow to select the days you would like this post to be visible to the rest of the users.</p>
                         <div class="input-group input-daterange">
                             <input type="text" class="form-control">
                             <div class="input-group-addon">to</div>
@@ -163,8 +172,11 @@
                     </div>
                 </div>
                 <div class="row mb-45">
-                    <div class="col-lg-12 col-md-12">
+                    <div class="col-lg-6 col-md-6">
                         <button class="btn btn-login btn-post">POST</button>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <button class="btn btn-login btn-save">SAVE FOR LATER</button>
                     </div>
                 </div>
             </div>
@@ -206,8 +218,8 @@
                         </select>
                     </div>
                     <div class="col-lg-4 col-md-3">
-                        <h3>Pick a release date</h3>
-                        <p>Use the date selector bellow to select the day you would like this post published.</p>
+                        <h3>Pick a date range</h3>
+                        <p>Use the date selector bellow to select the days you would like this post to be visible to the rest of the users.</p>
                         <div class="input-group input-daterange">
                             <input type="text" class="form-control">
                             <div class="input-group-addon">to</div>
@@ -216,8 +228,11 @@
                     </div>
                 </div>
                 <div class="row mb-45">
-                    <div class="col-lg-12 col-md-12">
-                        <btn class="btn btn-login btn-post">POST</btn>
+                    <div class="col-lg-6 col-md-6">
+                        <button class="btn btn-login btn-post">POST</button>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <button class="btn btn-login btn-save">SAVE FOR LATER</button>
                     </div>
                 </div>
             </div>
@@ -265,8 +280,8 @@
                         </select>
                     </div>
                     <div class="col-lg-4 col-md-3">
-                        <h3>Pick a release date</h3>
-                        <p>Use the date selector bellow to select the day you would like this post published.</p>
+                        <h3>Pick a date range</h3>
+                        <p>Use the date selector bellow to select the days you would like this post to be visible to the rest of the users.</p>
                         <div class="input-group input-daterange">
                             <input type="text" class="form-control">
                             <div class="input-group-addon">to</div>
@@ -275,8 +290,11 @@
                     </div>
                 </div>
                 <div class="row mb-45">
-                    <div class="col-lg-12 col-md-12">
+                    <div class="col-lg-6 col-md-6">
                         <button class="btn btn-login btn-post">POST</button>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <button class="btn btn-login btn-save">SAVE FOR LATER</button>
                     </div>
                 </div>
             </div>
@@ -359,29 +377,47 @@
             </div>
         </div>
         <div class="container post-type text-center" hidden>
-            <div class="row mb-30">
-                <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                    <h2>Nice,</h2>
-                    <h4>What would you like to compose?</h4>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col-lg-4" id="startAnnouncement">
-                    <div class="editor-options">
-                        <i class="fa fa-bullhorn fa-5x mb-15"></i>
-                        <p>Announcement</p>
+            <div class="center-wrapper">
+                <div class="mb-45">
+                    <div class="row mb-30">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                            <h2>Nice,</h2>
+                            <h4>What would you like to compose?</h4>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4" id="startBlog">
-                    <div class="editor-options">
-                        <i class="fa fa-newspaper-o fa-5x mb-15"></i>
-                        <p>Blog Post</p>
+                    <div class="row text-center mb-30">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="startAnnouncement">
+                            <div class="editor-options">
+                                <i class="fa fa-bullhorn fa-5x mb-15"></i>
+                                <p>Announcement</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="startBlog">
+                            <div class="editor-options">
+                                <i class="fa fa-newspaper-o fa-5x mb-15"></i>
+                                <p>Blog Post</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="startNewDraft">
+                            <div class="editor-options">
+                                <i class="fa fa-commenting-o fa-5x mb-15"></i>
+                                <p>Suggestion</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4" id="startNewDraft">
-                    <div class="editor-options">
-                        <i class="fa fa-commenting-o fa-5x mb-15"></i>
-                        <p>Suggestion</p>
+                    <div class="row text-center">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="startAnnouncement">
+                            <div class="editor-options">
+                                <i class="fa fa-calendar-o fa-5x mb-15"></i>
+                                <p>Schedule</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="startAnnouncement">
+                            <div class="editor-options">
+                                <i class="fa fa-toggle-right fa-5x mb-15"></i>
+                                <p>Gallery</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

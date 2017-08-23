@@ -27,27 +27,26 @@ Template.editor.onRendered(function (){
             thumbnailWidth: 400,
             dictDefaultMessage: "Drop an image here to be the featured image, or click to select an image using the browser.",
             accept: function(file, done){
-               var FSFile = new FS.File(file);
-               //console.log(FSFile);
-               Images.insert(FSFile, function (err, fileObj) {
-                 if (err){
-                    console.log(err);
-                 } else {
-                    console.log("New image got uploaded");
-                    //remove the currently uploaded image
-                    //if there is none, this will not do anything
-                    Images.remove({_id:Session.get('newImageId')}, function(err) {
-                       if(err) {
-                          console.log("error removing image:\n" + err);
-                       }
-                    });
-                    //retreive file extension
-                    Session.set('newFileType', fileObj.extension());   //update the file type
-                    Session.set('newImageId', fileObj._id); //update the image id to current image
+                var FSFile = new FS.File(file);
+                //console.log(FSFile);
+                Images.insert(FSFile, function (err, fileObj) {
+                    if (err){
+                        console.log(err);
+                    } else {
+                        //remove the currently uploaded image
+                        //if there is none, this will not do anything
+                        Images.remove({_id:Session.get('newImageId')}, function(err) {
+                            if(err) {
+                                console.log("error removing image:\n" + err);
+                            }
+                        });
+                        //retreive file extension
+                        Session.set('newFileType', fileObj.extension());   //update the file type
+                        Session.set('newImageId', fileObj._id); //update the image id to current image
 
-                    done();
-                 }
-              });
+                        done();
+                    }
+                });
             }
         });
         let announcementDrop = new Dropzone("form#announcementImage", {
@@ -56,27 +55,27 @@ Template.editor.onRendered(function (){
             thumbnailWidth: 400,
             dictDefaultMessage: "Drop your poster here, or click to select an image using the browser.",
             accept: function(file, done){
-               var FSFile = new FS.File(file);
-               //console.log(FSFile);
-               Images.insert(FSFile, function (err, fileObj) {
-                 if (err){
-                    console.log(err);
-                 } else {
-                    console.log("New image got uploaded");
-                    //remove the currently uploaded image
-                    //if there is none, this will not do anything
-                    Images.remove({_id:Session.get('newImageId')}, function(err) {
-                       if(err) {
-                          console.log("error removing image:\n" + err);
-                       }
-                    });
-                    //retreive file extension
-                    Session.set('newFileType', fileObj.extension());   //update the file type
-                    Session.set('newImageId', fileObj._id); //update the image id to current image
+                var FSFile = new FS.File(file);
+                //console.log(FSFile);
+                Images.insert(FSFile, function (err, fileObj) {
+                    if (err){
+                        console.log(err);
+                    } else {
+                        console.log("New image got uploaded");
+                        //remove the currently uploaded image
+                        //if there is none, this will not do anything
+                        Images.remove({_id:Session.get('newImageId')}, function(err) {
+                            if(err) {
+                                console.log("error removing image:\n" + err);
+                            }
+                        });
+                        //retreive file extension
+                        Session.set('newFileType', fileObj.extension());   //update the file type
+                        Session.set('newImageId', fileObj._id); //update the image id to current image
 
-                    done();
-                 }
-              });
+                        done();
+                    }
+                });
 
             }
         });
@@ -86,27 +85,26 @@ Template.editor.onRendered(function (){
             thumbnailWidth: 400,
             dictDefaultMessage: "Drop your poster here, or click to select an image using the browser.",
             accept: function(file, done){
-               var FSFile = new FS.File(file);
-              //console.log(FSFile);
-              Images.insert(FSFile, function (err, fileObj) {
-                if (err){
-                   console.log(err);
-                } else {
-                   console.log("New image got uploaded");
-                   //remove the currently uploaded image
-                   //if there is none, this will not do anything
-                   Images.remove({_id:Session.get('newImageId')}, function(err) {
-                      if(err) {
-                        console.log("error removing image:\n" + err);
-                      }
-                   });
-                   //retreive file extension
-                   Session.set('newFileType', fileObj.extension());   //update the file type
-                   Session.set('newImageId', fileObj._id); //update the image id to current image
-
-                   done();
-                }
-             });
+                var FSFile = new FS.File(file);
+                //console.log(FSFile);
+                Images.insert(FSFile, function (err, fileObj) {
+                    if (err){
+                        console.log(err);
+                    } else {
+                        console.log("New image got uploaded");
+                        //remove the currently uploaded image
+                        //if there is none, this will not do anything
+                        Images.remove({_id:Session.get('newImageId')}, function(err) {
+                            if(err) {
+                                console.log("error removing image:\n" + err);
+                            }
+                        });
+                        //retreive file extension
+                        Session.set('newFileType', fileObj.extension());   //update the file type
+                        Session.set('newImageId', fileObj._id); //update the image id to current image
+                        done();
+                    }
+                });
 
             }
         });
@@ -140,7 +138,7 @@ Template.editor.events({
         swapElements('.editor-open', '.editor-main','a');
         $('html, body').css({
             overflow: 'hidden'
-        });
+        }); // Disables the Scrolling
     },
     'click #startNewDraft': function () {
         swapElements('.blog-intro','.post-type');
@@ -159,7 +157,7 @@ Template.editor.events({
         swapElements('.editor-main', '.editor-open');
         $('html, body').css({
             overflow: 'visible'
-        });
+        }); // Disables the Scrolling
     },
     'click #imageOnly': function () {
         swapElements('.announcement-type', '.image-only');
@@ -173,167 +171,73 @@ Template.editor.events({
         swapElements('.announcement-type', '.text-and-image');
         Session.set('announcementType', 'textAndImage');
     },
-    'click .btn-login': function (event, template) {
-      let type = Session.get('announcementType');
+    'click .btn-post': function (event, template) {
+        let type = Session.get('announcementType');
 
-      let date = new Date();  //get current date
+        console.log('submitting ' + type);
+    },
+    'click .publish' : function(event, template) {
+        var title = template.find('#blogTitle').value;
+        var subTitle = template.find('#blogSubTitle').value;
+        var content = "TODO";
+        const imgId = Session.get('newImageId');
+        const fileType = Session.get('newFileType');
+        //get tags
+        var str = template.find('#blogTags').value;
+        var separators = [' , ', ', ', ',', ' ,'];
+        var tags = str.split(new RegExp(separators.join('|'), 'g'));
 
-      console.log('submitting ' + type);
-      if (type === "imageOnly") {
-         let title = template.find('#imageOnlyTitle').value;
-         const imgId = Session.get('newImageId');
-         const fileType = Session.get('newFileType');
-         let tags = [];
-         let categories = [];
+        var categories = [];
+        var date = new Date();
 
-         //get tags form title
-         Meteor.call('getCategories', title, function(err, arr) {
+
+        //find all categories that post belongs to
+        Meteor.call('getCategories', title, function(err, arr) { //search title
             if (err) {
-               console.log(err);
+                console.log(err);
             } else {
-               for (var i = 0; i < arr.length && arr.length !== 0; ++i) {
-                  categories.push(arr[i]);
-               }
-               //post draft image
-               Meteor.call('postDraftImage', title, imgId, fileType, tags, categories, date);
-
-               //reset session vars
-               Session.set('newFileType', null);   //update the file type
-               Session.set('newImageId', null); //update the image id to current image
-            }
-         });
-      } else if (type === "textOnly") {
-         var title = template.find('#textOnlyTitle').value;
-         var text = template.find('#textOnlyText').value;
-         var tags = [];
-         var categories = [];
-         //get tags from title
-         Meteor.call('getCategories', title, function(err, arr) {
-            if (err) {
-               console.log(err);
-            } else {
-               for (var i = 0; i < arr.length && arr.length !== 0; ++i) {
-                  categories.push(arr[i]);
-               }
-               //get tags from text
-               Meteor.call('getCategories', text, function(err, arr2) {
-                  if (err) {
-                     console.log(err);
-                  } else {
-                     for (var j = 0; j < arr2.length && arr2.length !== 0; ++j) {
-                        if (categories.indexOf(arr2[j]) === -1) {
-                           categories.push(arr2[j]);
-                        }
-                     }
-                     //post draft
-                     Meteor.call('postDraftText', title, text, tags, categories, date);
-
-                     //reset session vars
-                     Session.set('newFileType', null);   //update the file type
-                     Session.set('newImageId', null); //update the image id to current image
-                  }
-               });
-            }
-         });
-      } else if (type === "textAndImage"){
-         const imgId = Session.get('newImageId');
-         const fileType = Session.get('newFileType');
-         var title = template.find('#textImageTitle').value;
-         var text = template.find('#textImageText').value;
-         var tags = [];
-         var categories = [];
-         //get tags from title
-         Meteor.call('getCategories', title, function(err, arr) {
-            if (err) {
-               console.log(err);
-            } else {
-               for (var i = 0; i < arr.length && arr.length !== 0; ++i) {
-                  categories.push(arr[i]);
-               }
-               //get tags from text
-               Meteor.call('getCategories', text, function(err, arr2) {
-                  if (err) {
-                     console.log(err);
-                  } else {
-                     for (var j = 0; j < arr2.length && arr2.length !== 0; ++j) {
-                        if (categories.indexOf(arr2[j]) === -1) {
-                           categories.push(arr2[j]);
-                        }
-                     }
-                     //post draft
-                     Meteor.call('postDraftTextImage', title, text, imgId, fileType, true, tags, categories, date);
-
-                     //reset session vars
-                     Session.set('newFileType', null);   //update the file type
-                     Session.set('newImageId', null); //update the image id to current image
-                  }
-               });
-            }
-         });
-      }
-   },
-   'click .publish' : function(event, template) {
-      var title = template.find('#blogTitle').value;
-      var subTitle = template.find('#blogSubTitle').value;
-      var content = "TODO";
-      const imgId = Session.get('newImageId');
-      const fileType = Session.get('newFileType');
-      //get tags
-      var str = template.find('#blogTags').value;
-      var separators = [' , ', ', ', ',', ' ,'];
-      var tags = str.split(new RegExp(separators.join('|'), 'g'));
-
-      var categories = [];
-      var date = new Date();
-
-
-      //find all categories that post belongs to
-      Meteor.call('getCategories', title, function(err, arr) { //search title
-         if (err) {
-            console.log(err);
-         } else {
-            console.log('arr: ' + arr);
-            for (var i = 0; i < arr.length && arr.length != 0; ++i) {
-               categories.push(arr[i]);
-            }
-            //get tags from text
-            Meteor.call('getCategories', subTitle, function(err, arr2) {   //search subtitle
-               if (err) {
-                  console.log(err);
-               } else {
-                  console.log('arr2: ' + arr2);
-                  for (var j = 0; j < arr2.length && arr2.length != 0; ++j) {
-                     if (categories.indexOf(arr2[j]) === -1) {
-                        categories.push(arr2[j]);
-                     }
-                  }
-
-                  Meteor.call('getCategories', content, function(err, arr3) { //search content
-                     if (err) {
+                console.log('arr: ' + arr);
+                for (var i = 0; i < arr.length && arr.length != 0; ++i) {
+                    categories.push(arr[i]);
+                }
+                //get tags from text
+                Meteor.call('getCategories', subTitle, function(err, arr2) {   //search subtitle
+                    if (err) {
                         console.log(err);
-                     } else {
-                        console.log('arr3: ' + arr3);
-                        for (var k = 0; k < arr3.length && arr3.length != 0; ++k) {
-                           if (categories.indexOf(arr3[k]) === -1) {
-                              categories.push(arr3[k]);
-                           }
+                    } else {
+                        console.log('arr2: ' + arr2);
+                        for (var j = 0; j < arr2.length && arr2.length != 0; ++j) {
+                            if (categories.indexOf(arr2[j]) === -1) {
+                                categories.push(arr2[j]);
+                            }
                         }
-                        //post draft
-                        Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, categories, date);
-                        //reset sessions vars
-                        Session.set('newFileType', null);   //update the file type
-                        Session.set('newImageId', null); //update the image id to current image
-                     }
-                  });
-               }
-            });
-         }
-      });
 
-      //Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, date);
-   },
+                        Meteor.call('getCategories', content, function(err, arr3) { //search content
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log('arr3: ' + arr3);
+                                for (var k = 0; k < arr3.length && arr3.length != 0; ++k) {
+                                    if (categories.indexOf(arr3[k]) === -1) {
+                                        categories.push(arr3[k]);
+                                    }
+                                }
+                                //post draft
+                                Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, categories, date);
+                                //reset sessions vars
+                                Session.set('newFileType', null);   //update the file type
+                                Session.set('newImageId', null); //update the image id to current image
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        //Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, date);
+    },
     'click #getFeaturedUnsplash': function (evt, template) {
-        $('#unsplashPrompt').html("Please Wait...");
+        $('#unsplashPrompt').html("<i class='fa fa-spinner fa-pulse fa-fw'></i> Please Wait...");
         Meteor.call('setupUnsplash', function (err) {
             if(err){
                 console.log(err);
@@ -341,14 +245,48 @@ Template.editor.events({
                 Meteor.call('searchKeyword', "nature",function (err,data) {
                     if(err){
                         console.log(err);
+                        $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one.");
                     }else{
                         console.log(data);
-                        $('#dropzone').replaceWith("<img src='"+data.results[0].urls.regular+"' class='img-responsive'/>");
-                        $('#unsplashPrompt').html("Here you go! This will be your featured image");
+                        let num = getRandomInt(0,9);
+                        Session.set('unsplash_img', data.results[num].id);
+                        $('#dropzone').replaceWith("<img src='"+data.results[num].urls.regular+"' class='img-responsive unsplash-container'/>");
+                        Session.set('newImageId', data.results[num].id);
+                        $('#unsplashPrompt').html("Here you go! This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a>");
                     }
                 })
             }
         })
+    },
+    'click #newUnsplash': function () {
+        $('#unsplashPrompt').html("<i class='fa fa-spinner fa-pulse fa-fw'></i> Please Wait...");
+        Meteor.call('getRandomPhoto',function (err,data) {
+            if(err){
+                console.log(err);
+                $('.unsplash-container').replaceWith("<form action='/file-upload' class='dropzone' id='dropzone'></form>");
+                $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one instead.");
+            }else{
+                console.log(data);
+                Session.set('unsplash_img', data.id);
+                $('.unsplash-container').replaceWith("<img src='"+data.urls.regular+"' class='img-responsive unsplash-container'/>");
+                $('#unsplashPrompt').html("Here you go! Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to upload a new image");
+            }
+        })
+    },
+    'click .btn-preview': function () {
+        let previewPost = {
+            title: $('#blogTitle').val(),
+            subtitle: $('#blogSubTitle').val(),
+            content: $('.editable').froalaEditor('html.get'),
+            tags: $(".tags").val(),
+            featured: Session.get('unsplash_img'),
+            hasUnsplash: true
+        };
+        Session.set('preview_json', previewPost);
+        $('html, body').css({
+            overflow: 'visible'
+        }); // Disables the Scrolling
+        FlowRouter.go('/blog/preview');
     }
 });
 function swapElements(a,b,check){
@@ -356,4 +294,7 @@ function swapElements(a,b,check){
         $(b).fadeIn("slow");
     });
     current = b;
+}
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }

@@ -13,6 +13,7 @@ Accounts.onCreateUser(function (options, user) {
       }
    } else {
       console.log('not gapps yrdsb account');
+      throw Meteor.error(403, "NAGA");
    }
    return user;
 });
