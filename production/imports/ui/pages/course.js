@@ -4,11 +4,11 @@ import '../lib/alert.js'
 import './course.html';
 
 Template.course.onRendered(function () {
-    alertConfirm("YES!", "This is a success",function (result) {
+    /*alertConfirm("YES!", "This is a success",function (result) {
         console.log(result);
-    });
+    });*/
     $( document ).ready(function() {
-        new WOW().init();
+        setProgressBar('90%');
         drawChart('knowledgeChart', 80);
         drawChart('thinkingChart', 75);
         drawChart('communicationChart', 90);

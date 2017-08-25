@@ -15,6 +15,7 @@ Template.editor.onRendered(function (){
             allowClear: true
         });
         $('.input-daterange').datepicker({});
+        $('.input-date').datepicker({});
     });
     if (Meteor.isClient){
         let arrayOfImageIds = [];
