@@ -20,12 +20,11 @@
   padding: 15px;
   border-radius: 2px;
 }
-.editor-back{
+.editor-control{
   font-family: "Roboto", sans-serif;
   font-weight: 300;
-  float: right;
-  font-size: 80px;
-  margin-right: 3%;
+  font-size: 68px;
+
   cursor: pointer;
   color: #777777;
   -webkit-transition: all 0.3s;
@@ -34,11 +33,23 @@
   transition: all 0.3s;
   border:none;
   box-shadow: none;
+  margin-top: 30px;
+  i{
+    -webkit-text-stroke: 7px @light-grey;
+  }
   &:hover{
     text-decoration: none;
     color: #555555;
     background: none;
   }
+}
+.editor-close{
+  float: right;
+  margin-right: 3%;
+}
+.editor-back{
+  float: left;
+  margin-left: 3%;
 }
 .publish{
   background-color: @primary;
@@ -115,6 +126,15 @@
 }
 .center-wrapper{
   width: 100%;
+}
+.priority-toggle{
+  cursor: pointer;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  h4{
+    margin-bottom: 0;
+  }
 }
 .editor-options{
   transition: all 0.3s ease;

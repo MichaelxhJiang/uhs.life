@@ -6,8 +6,7 @@ import { Images } from '../../api/posts/images.js';
 import { Drafts } from '../../api/posts/drafts.js';
 
 import './editor.html';
-var current;
-
+var operationStack = ['.editor-open'];
 Template.editor.onRendered(function (){
     $(document).ready(function () {
         $('.category-select').select2({
@@ -136,40 +135,62 @@ Template.editor.onRendered(function (){
 
 Template.editor.events({
     'click #openEditor': function () {
-        swapElements('.editor-open', '.editor-main','a');
+        swapElements('.editor-open', '.editor-main');
+        if(operationStack.length === 1){
+            operationStack.push('.blog-intro');
+        }
         $('html, body').css({
             overflow: 'hidden'
         }); // Disables the Scrolling
     },
     'click #startNewDraft': function () {
         swapElements('.blog-intro','.post-type');
+        operationStack.push('.post-type');
     },
     'click #checkDrafts': function () {
         swapElements('.blog-intro', '.blog-drafts');
+        operationStack.push('.blog-drafts');
     },
     'click #startBlog': function () {
         swapElements('.post-type', '.blog-editor');
+        operationStack.push('.blog-editor');
         Session.set('announcementType', 'blog');
     },
     'click #startAnnouncement': function () {
         swapElements('.post-type', '.blog-announcements');
+        operationStack.push('.announcement-type');
     },
-    'click .editor-back': function () {
+    'click .editor-close': function () {
         swapElements('.editor-main', '.editor-open');
         $('html, body').css({
             overflow: 'visible'
         }); // Disables the Scrolling
     },
+    'click .editor-back': function () {
+        console.log(operationStack);
+        if(operationStack.length-2 === 0){
+            swapElements('.editor-main','.editor-open');
+            $('html, body').css({
+                overflow: 'visible'
+            }); // Enables the Scrolling
+        }else{
+            swapElements(operationStack[operationStack.length-1],operationStack[operationStack.length-2]);
+        }
+        operationStack.pop();
+    },
     'click #imageOnly': function () {
         swapElements('.announcement-type', '.image-only');
+        operationStack.push('.image-only');
         Session.set('announcementType', 'imageOnly');
     },
     'click #textOnly': function () {
         swapElements('.announcement-type', '.text-only');
+        operationStack.push('.text-only');
         Session.set('announcementType', 'textOnly');
     },
     'click #textAndImage': function () {
         swapElements('.announcement-type', '.text-and-image');
+        operationStack.push('.text-and-image');
         Session.set('announcementType', 'textAndImage');
     },
     'click .btn-post': function (event, template) {
@@ -276,25 +297,24 @@ Template.editor.events({
     },
     'click .btn-preview': function () {
         let previewPost = {
-            title: $('#blogTitle').val(),
+            title: $('#blogTitle').val() + " (This is a preview)",
             subtitle: $('#blogSubTitle').val(),
             content: $('.editable').froalaEditor('html.get'),
             tags: $(".tags").val(),
             featured: Session.get('unsplash_img'),
             hasUnsplash: true
         };
-        Session.set('preview_json', previewPost);
+        Session.setPersistent('preview_json', previewPost);
         $('html, body').css({
             overflow: 'visible'
         }); // Disables the Scrolling
-        FlowRouter.go('/blog/preview');
+        window.open('/blog/preview', '_blank');
     }
 });
-function swapElements(a,b,check){
+function swapElements(a,b){
     $(a).fadeOut('fast', function () {
         $(b).fadeIn("slow");
     });
-    current = b;
 }
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;

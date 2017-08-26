@@ -23,7 +23,8 @@ Template.course.onRendered(function () {
             $('#test7').animate({ width: '78%' }, 1500);
         });
         $('.performance-presenter').hide();
-    })
+    });
+    $('.insights').hide();
 });
 
 Template.course.events({
@@ -61,5 +62,17 @@ Template.course.events({
     'click .close-presenter': function (evt, template) {
         let data = $(evt.target).closest($('.performance-presenter'));
         data.slideUp('fast');
+    },
+    'click .filter-btn': function (evt) {
+        let filterValue = $(evt.target).attr('data-tab');
+        $('.is-checked').removeClass('is-checked');
+        $(evt.target).addClass('is-checked');
+        if(filterValue === 'insights'){
+            $('.assessments').fadeOut('fast');
+            $('.insights').fadeIn('slow');
+        }else{
+            $('.insights').fadeOut('fast');
+            $('.assessments').fadeIn('slow');
+        }
     }
 });

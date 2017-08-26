@@ -5,9 +5,14 @@
   -moz-transition: all 0.3s ease 0s;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
+  border:none;
+  box-shadow: none;
   &:disabled{
     cursor: not-allowed;
     background: #dddddd;
+  }
+  &:hover, &:active, &:focus{
+    background: none;
   }
 }
 .btn-lg{

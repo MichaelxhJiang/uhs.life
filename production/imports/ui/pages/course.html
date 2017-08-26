@@ -37,166 +37,332 @@
             <div class="row mt-30">
                 <div class="col-md-12 text-center assessment-tabs">
                     <div class="button-group filter-button-group mb-30">
-                        <button class="filter-btn is-checked">Assessments</button>
-                        <button class="filter-btn" >Insights</button>
+                        <button class="filter-btn is-checked" data-tab="assessments">Assessments</button>
+                        <button class="filter-btn" data-tab="insights">Insights</button>
+                        <button class="filter-btn" data-tab="reading">Articles</button>
+                        <button class="filter-btn" data-tab="resources">Resources</button>
                     </div>
                 </div>
             </div>
-            <div class="row mb-30">
-                <div class="col-md-6">
-                    <div class="assessment-body text-center">
-                        <div class="assessment-info">
-                            <h3>Binary Quiz</h3>
-                            <p>The student demonstrated great binary counting skillz.</p>
-                        </div>
-                        <div class="assessment-performance">
-                            <div class="performance-presenter" hidden>
-                                <div class="close-presenter">
-                                    <i class="fa fa-2x fa-times"></i>
+            <div class="assessments">
+                <div class="row mb-30">
+                    <div class="col-md-6">
+                        <div class="assessment-body text-center">
+                            <div class="assessment-info">
+                                <h3>Binary Quiz</h3>
+                                <p>The student demonstrated great binary counting skillz.</p>
+                            </div>
+                            <div class="assessment-performance">
+                                <div class="performance-presenter" hidden>
+                                    <div class="close-presenter">
+                                        <i class="fa fa-2x fa-times"></i>
+                                    </div>
+                                    <h4 class="presenter-section">Section Title</h4>
+                                    <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
+                                    <h5 class="mb-30">Weight: 10</h5>
+                                    <h4 class="text-left">Insights:</h4>
+                                    <ul class="text-left">
+                                        <li>This is insight number 1</li>
+                                        <li>Your performance in this section caused your mark to rise by 2.1%</li>
+                                    </ul>
                                 </div>
-                                <h4 class="presenter-section">Section Title</h4>
-                                <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
-                                <h5 class="mb-30">Weight: 10</h5>
-                                <h4 class="text-left">Insights:</h4>
-                                <ul class="text-left">
-                                    <li>This is insight number 1</li>
-                                    <li>Your performance in this section caused your mark to rise by 2.1%</li>
-                                </ul>
+                                <div class="knowledge performance">
+                                    <div class="performance-progress" id="test1"></div>
+                                    <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                                </div>
+                                <div class="thinking performance">
+                                    <div class="performance-progress" id="test2"></div>
+                                    <div class="general-info"><p>Thinking - <span class="important">80%</span></p></div>
+                                </div>
+                                <div class="communication performance">
+                                    <div class="performance-progress" id="test3"></div>
+                                    <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
+                                </div>
+                                <div class="application performance">
+                                    <div class="performance-progress" id="test4"></div>
+                                    <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                                </div>
                             </div>
-                            <div class="knowledge performance">
-                                <div class="performance-progress" id="test1"></div>
-                                <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="assessment-body text-center">
+                            <div class="assessment-info">
+                                <h3>Hardware Quiz</h3>
+                                <p>The student demonstrated extensive understanding in computer hardware.</p>
                             </div>
-                            <div class="thinking performance">
-                                <div class="performance-progress" id="test2"></div>
-                                <div class="general-info"><p>Thinking - <span class="important">80%</span></p></div>
-                            </div>
-                            <div class="communication performance">
-                                <div class="performance-progress" id="test3"></div>
-                                <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
-                            </div>
-                            <div class="application performance">
-                                <div class="performance-progress" id="test4"></div>
-                                <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                            <div class="assessment-performance">
+                                <div class="performance-presenter" hidden>
+                                    <div class="close-presenter">
+                                        <i class="fa fa-2x fa-times"></i>
+                                    </div>
+                                    <h4 class="presenter-section">Section Title</h4>
+                                    <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
+                                    <h5 class="mb-30">Weight: 10</h5>
+                                    <h4 class="text-left">Insights:</h4>
+                                    <ul class="text-left">
+                                        <li>This is insight number 1</li>
+                                        <li>Your performance in this section caused your mark to rise by 2.1%</li>
+                                    </ul>
+                                </div>
+                                <div class="knowledge performance">
+                                    <div class="performance-progress" id="test5"></div>
+                                    <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                                </div>
+                                <div class="thinking performance not-available">
+                                    <div class="performance-progress" id="test2"></div>
+                                    <div class="general-info"><p>Thinking - <span class="important">No Marks Avaliable</span></p></div>
+                                </div>
+                                <div class="communication performance">
+                                    <div class="performance-progress" id="test6"></div>
+                                    <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
+                                </div>
+                                <div class="application performance">
+                                    <div class="performance-progress" id="test7"></div>
+                                    <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="assessment-body text-center">
-                        <div class="assessment-info">
-                            <h3>Hardware Quiz</h3>
-                            <p>The student demonstrated extensive understanding in computer hardware.</p>
-                        </div>
-                        <div class="assessment-performance">
-                            <div class="performance-presenter" hidden>
-                                <div class="close-presenter">
-                                    <i class="fa fa-2x fa-times"></i>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="assessment-body text-center">
+                            <div class="assessment-info">
+                                <h3>Binary Quiz</h3>
+                                <p>The student demonstrated great binary counting skillz.</p>
+                            </div>
+                            <div class="assessment-performance">
+                                <div class="performance-presenter" hidden>
+                                    <div class="close-presenter">
+                                        <i class="fa fa-2x fa-times"></i>
+                                    </div>
+                                    <h4 class="presenter-section">Section Title</h4>
+                                    <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
+                                    <h5 class="mb-30">Weight: 10</h5>
+                                    <h4 class="text-left">Insights:</h4>
+                                    <ul class="text-left">
+                                        <li>This is insight number 1</li>
+                                        <li>Your performance in this section caused your mark to rise by 2.1%</li>
+                                    </ul>
                                 </div>
-                                <h4 class="presenter-section">Section Title</h4>
-                                <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
-                                <h5 class="mb-30">Weight: 10</h5>
-                                <h4 class="text-left">Insights:</h4>
-                                <ul class="text-left">
-                                    <li>This is insight number 1</li>
-                                    <li>Your performance in this section caused your mark to rise by 2.1%</li>
-                                </ul>
+                                <div class="knowledge performance">
+                                    <div class="performance-progress" id="test1"></div>
+                                    <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                                </div>
+                                <div class="thinking performance">
+                                    <div class="performance-progress" id="test2"></div>
+                                    <div class="general-info"><p>Thinking - <span class="important">80%</span></p></div>
+                                </div>
+                                <div class="communication performance">
+                                    <div class="performance-progress" id="test3"></div>
+                                    <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
+                                </div>
+                                <div class="application performance">
+                                    <div class="performance-progress" id="test4"></div>
+                                    <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                                </div>
                             </div>
-                            <div class="knowledge performance">
-                                <div class="performance-progress" id="test5"></div>
-                                <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="assessment-body text-center">
+                            <div class="assessment-info">
+                                <h3>Binary Quiz</h3>
+                                <p>The student demonstrated great binary counting skillz.</p>
                             </div>
-                            <div class="thinking performance not-available">
-                                <div class="performance-progress" id="test2"></div>
-                                <div class="general-info"><p>Thinking - <span class="important">No Marks Avaliable</span></p></div>
-                            </div>
-                            <div class="communication performance">
-                                <div class="performance-progress" id="test6"></div>
-                                <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
-                            </div>
-                            <div class="application performance">
-                                <div class="performance-progress" id="test7"></div>
-                                <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                            <div class="assessment-performance">
+                                <div class="performance-presenter" hidden>
+                                    <div class="close-presenter">
+                                        <i class="fa fa-2x fa-times"></i>
+                                    </div>
+                                    <h4 class="presenter-section">Section Title</h4>
+                                    <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
+                                    <h5 class="mb-30">Weight: 10</h5>
+                                    <h4 class="text-left">Insights:</h4>
+                                    <ul class="text-left">
+                                        <li>This is insight number 1</li>
+                                        <li>Your performance in this section caused your mark to rise by 2.1%</li>
+                                    </ul>
+                                </div>
+                                <div class="knowledge performance">
+                                    <div class="performance-progress" id="test1"></div>
+                                    <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                                </div>
+                                <div class="thinking performance">
+                                    <div class="performance-progress" id="test2"></div>
+                                    <div class="general-info"><p>Thinking - <span class="important">80%</span></p></div>
+                                </div>
+                                <div class="communication performance">
+                                    <div class="performance-progress" id="test3"></div>
+                                    <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
+                                </div>
+                                <div class="application performance">
+                                    <div class="performance-progress" id="test4"></div>
+                                    <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="assessment-body text-center">
-                        <div class="assessment-info">
-                            <h3>Binary Quiz</h3>
-                            <p>The student demonstrated great binary counting skillz.</p>
-                        </div>
-                        <div class="assessment-performance">
-                            <div class="performance-presenter" hidden>
-                                <div class="close-presenter">
-                                    <i class="fa fa-2x fa-times"></i>
+            <div class="insights">
+                <div class="row mb-30">
+                    <div class="col-md-6">
+                        <div class="assessment-body text-center">
+                            <div class="assessment-info">
+                                <h3>Binary Quiz</h3>
+                                <p>The student demonstrated great binary counting skillz.</p>
+                            </div>
+                            <div class="assessment-performance">
+                                <div class="performance-presenter" hidden>
+                                    <div class="close-presenter">
+                                        <i class="fa fa-2x fa-times"></i>
+                                    </div>
+                                    <h4 class="presenter-section">Section Title</h4>
+                                    <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
+                                    <h5 class="mb-30">Weight: 10</h5>
+                                    <h4 class="text-left">Insights:</h4>
+                                    <ul class="text-left">
+                                        <li>This is insight number 1</li>
+                                        <li>Your performance in this section caused your mark to rise by 2.1%</li>
+                                    </ul>
                                 </div>
-                                <h4 class="presenter-section">Section Title</h4>
-                                <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
-                                <h5 class="mb-30">Weight: 10</h5>
-                                <h4 class="text-left">Insights:</h4>
-                                <ul class="text-left">
-                                    <li>This is insight number 1</li>
-                                    <li>Your performance in this section caused your mark to rise by 2.1%</li>
-                                </ul>
+                                <div class="knowledge performance">
+                                    <div class="performance-progress" id="test1"></div>
+                                    <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                                </div>
+                                <div class="thinking performance">
+                                    <div class="performance-progress" id="test2"></div>
+                                    <div class="general-info"><p>Thinking - <span class="important">80%</span></p></div>
+                                </div>
+                                <div class="communication performance">
+                                    <div class="performance-progress" id="test3"></div>
+                                    <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
+                                </div>
+                                <div class="application performance">
+                                    <div class="performance-progress" id="test4"></div>
+                                    <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                                </div>
                             </div>
-                            <div class="knowledge performance">
-                                <div class="performance-progress" id="test1"></div>
-                                <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="assessment-body text-center">
+                            <div class="assessment-info">
+                                <h3>Hardware Quiz</h3>
+                                <p>The student demonstrated extensive understanding in computer hardware.</p>
                             </div>
-                            <div class="thinking performance">
-                                <div class="performance-progress" id="test2"></div>
-                                <div class="general-info"><p>Thinking - <span class="important">80%</span></p></div>
-                            </div>
-                            <div class="communication performance">
-                                <div class="performance-progress" id="test3"></div>
-                                <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
-                            </div>
-                            <div class="application performance">
-                                <div class="performance-progress" id="test4"></div>
-                                <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                            <div class="assessment-performance">
+                                <div class="performance-presenter" hidden>
+                                    <div class="close-presenter">
+                                        <i class="fa fa-2x fa-times"></i>
+                                    </div>
+                                    <h4 class="presenter-section">Section Title</h4>
+                                    <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
+                                    <h5 class="mb-30">Weight: 10</h5>
+                                    <h4 class="text-left">Insights:</h4>
+                                    <ul class="text-left">
+                                        <li>This is insight number 1</li>
+                                        <li>Your performance in this section caused your mark to rise by 2.1%</li>
+                                    </ul>
+                                </div>
+                                <div class="knowledge performance">
+                                    <div class="performance-progress" id="test5"></div>
+                                    <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                                </div>
+                                <div class="thinking performance not-available">
+                                    <div class="performance-progress" id="test2"></div>
+                                    <div class="general-info"><p>Thinking - <span class="important">No Marks Avaliable</span></p></div>
+                                </div>
+                                <div class="communication performance">
+                                    <div class="performance-progress" id="test6"></div>
+                                    <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
+                                </div>
+                                <div class="application performance">
+                                    <div class="performance-progress" id="test7"></div>
+                                    <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="assessment-body text-center">
-                        <div class="assessment-info">
-                            <h3>Binary Quiz</h3>
-                            <p>The student demonstrated great binary counting skillz.</p>
-                        </div>
-                        <div class="assessment-performance">
-                            <div class="performance-presenter" hidden>
-                                <div class="close-presenter">
-                                    <i class="fa fa-2x fa-times"></i>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="assessment-body text-center">
+                            <div class="assessment-info">
+                                <h3>Binary Quiz</h3>
+                                <p>The student demonstrated great binary counting skillz.</p>
+                            </div>
+                            <div class="assessment-performance">
+                                <div class="performance-presenter" hidden>
+                                    <div class="close-presenter">
+                                        <i class="fa fa-2x fa-times"></i>
+                                    </div>
+                                    <h4 class="presenter-section">Section Title</h4>
+                                    <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
+                                    <h5 class="mb-30">Weight: 10</h5>
+                                    <h4 class="text-left">Insights:</h4>
+                                    <ul class="text-left">
+                                        <li>This is insight number 1</li>
+                                        <li>Your performance in this section caused your mark to rise by 2.1%</li>
+                                    </ul>
                                 </div>
-                                <h4 class="presenter-section">Section Title</h4>
-                                <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
-                                <h5 class="mb-30">Weight: 10</h5>
-                                <h4 class="text-left">Insights:</h4>
-                                <ul class="text-left">
-                                    <li>This is insight number 1</li>
-                                    <li>Your performance in this section caused your mark to rise by 2.1%</li>
-                                </ul>
+                                <div class="knowledge performance">
+                                    <div class="performance-progress" id="test1"></div>
+                                    <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                                </div>
+                                <div class="thinking performance">
+                                    <div class="performance-progress" id="test2"></div>
+                                    <div class="general-info"><p>Thinking - <span class="important">80%</span></p></div>
+                                </div>
+                                <div class="communication performance">
+                                    <div class="performance-progress" id="test3"></div>
+                                    <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
+                                </div>
+                                <div class="application performance">
+                                    <div class="performance-progress" id="test4"></div>
+                                    <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                                </div>
                             </div>
-                            <div class="knowledge performance">
-                                <div class="performance-progress" id="test1"></div>
-                                <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="assessment-body text-center">
+                            <div class="assessment-info">
+                                <h3>Binary Quiz</h3>
+                                <p>The student demonstrated great binary counting skillz.</p>
                             </div>
-                            <div class="thinking performance">
-                                <div class="performance-progress" id="test2"></div>
-                                <div class="general-info"><p>Thinking - <span class="important">80%</span></p></div>
-                            </div>
-                            <div class="communication performance">
-                                <div class="performance-progress" id="test3"></div>
-                                <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
-                            </div>
-                            <div class="application performance">
-                                <div class="performance-progress" id="test4"></div>
-                                <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                            <div class="assessment-performance">
+                                <div class="performance-presenter" hidden>
+                                    <div class="close-presenter">
+                                        <i class="fa fa-2x fa-times"></i>
+                                    </div>
+                                    <h4 class="presenter-section">Section Title</h4>
+                                    <h3>You got <span class="important">10</span> out of <span class="important">10</span></h3>
+                                    <h5 class="mb-30">Weight: 10</h5>
+                                    <h4 class="text-left">Insights:</h4>
+                                    <ul class="text-left">
+                                        <li>This is insight number 1</li>
+                                        <li>Your performance in this section caused your mark to rise by 2.1%</li>
+                                    </ul>
+                                </div>
+                                <div class="knowledge performance">
+                                    <div class="performance-progress" id="test1"></div>
+                                    <div class="general-info"><p>Knowledge - <span class="important">90%</span></p></div>
+                                </div>
+                                <div class="thinking performance">
+                                    <div class="performance-progress" id="test2"></div>
+                                    <div class="general-info"><p>Thinking - <span class="important">80%</span></p></div>
+                                </div>
+                                <div class="communication performance">
+                                    <div class="performance-progress" id="test3"></div>
+                                    <div class="general-info"><p>Communication - <span class="important">95%</span></p></div>
+                                </div>
+                                <div class="application performance">
+                                    <div class="performance-progress" id="test4"></div>
+                                    <div class="general-info"><p>Application - <span class="important">60%</span></p></div>
+                                </div>
                             </div>
                         </div>
                     </div>
