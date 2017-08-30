@@ -167,7 +167,6 @@ Template.editor.events({
         }); // Disables the Scrolling
     },
     'click .editor-back': function () {
-        console.log(operationStack);
         if(operationStack.length-2 === 0){
             swapElements('.editor-main','.editor-open');
             $('html, body').css({
@@ -197,6 +196,17 @@ Template.editor.events({
         let type = Session.get('announcementType');
 
         console.log('submitting ' + type);
+    },
+    'input .announcement-text': function (evt) {
+        let maxlength = $(evt.target).attr("maxlength");
+        let length = $(evt.target).val().length;
+
+        if( length >= maxlength ){
+            console.log("You have reached the maximum number of characters.");
+            $('.announcement-counter').text(0);
+        }else{
+            $('.announcement-counter').text(maxlength - length);
+        }
     },
     'click .publish' : function(event, template) {
         var title = template.find('#blogTitle').value;

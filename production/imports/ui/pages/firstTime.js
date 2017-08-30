@@ -25,6 +25,15 @@ Template.firstTime.events({
     },
     'submit #finalForm': function (evt,template) {
         evt.preventDefault();
+        let id = Session.get('id');
+        Meteor.call('initUserProfile', id,{
+            studentNum: '123456',
+            token: 'asdhiouaSasdio231321'
+        }, function (err) {
+            if(err){
+                alert('error');
+            }
+        });
         swapElements('.wizard-container', '.final-message');
     }
 });
