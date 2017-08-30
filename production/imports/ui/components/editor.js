@@ -132,7 +132,6 @@ Template.editor.onRendered(function (){
         });
     }
 });
-
 Template.editor.events({
     'click #openEditor': function () {
         swapElements('.editor-open', '.editor-main');
@@ -194,8 +193,134 @@ Template.editor.events({
     },
     'click .btn-post': function (event, template) {
         let type = Session.get('announcementType');
-
         console.log('submitting ' + type);
+        if (type === "imageOnly") {
+            let headline = template.find('#imageOnlyHeadline').value;
+            let imgId = Session.get('newImageId');
+            let tags = $(template.find(".tags")).val();
+            console.log(tags);
+            let dateRange = null;
+            let draftedDate = new Date();
+            let categories = null;
+            let editable = null;
+
+            //meta
+            let imageFirst = null;
+            let hasUnsplash = null;
+            let visibility = null;
+
+            if (!imgId) {
+                //TODO
+                console.log('No image uploaded');
+            }
+            if (!headline) {
+                //TODO
+                console.log('No headline entered');
+            }
+
+            let json = {
+                type: 'announcement',
+                subType: 'imageOnly',
+                dateRange: dateRange,
+                draftedDate: draftedDate,
+                editable: editable,
+                content: null,
+                tags: tags,
+                categories: categories,
+                imgId: imgId,
+                meta: {
+                    imageFirst: imageFirst,
+                    hasUnsplash: hasUnsplash,
+                    visibility: visibility
+                }
+            }
+
+            Meteor.call('postImage', json);
+        } else if (type === "textOnly") {
+            let headline = template.find('#textOnlyHeadline').value;
+            console.log(headline);
+            let content = template.find('#textContent').value;
+            console.log(content);
+            let tags = $("#tags").val();
+            console.log(template.find("#tags"));
+            console.log(tags);
+            let dateRange = null;
+            let draftedDate = new Date();
+            let categories = null;
+            let editable = null;
+
+            //meta
+            let imageFirst = null;
+            let hasUnsplash = null;
+            let visibility = null;
+
+            if (!headline) {
+                //TODO
+                console.log('No headline entered');
+            }
+
+            let json = {
+                type: 'announcement',
+                subType: 'textOnly',
+                dateRange: dateRange,
+                draftedDate: draftedDate,
+                editable: editable,
+                content: content,
+                tags: tags,
+                categories: categories,
+                imgId: null,
+                meta: {
+                    imageFirst: imageFirst,
+                    hasUnsplash: hasUnsplash,
+                    visibility: visibility
+                }
+            }
+
+            Meteor.call('postText', json);
+        } else {
+            let headline = template.find('#imageOnlyHeadline').value;
+            let content = template.find('#textContent').value;
+            let imgId = Session.get('newImageId');
+            let tags = $(".tags").val();
+            console.log(tags);
+            let dateRange = null;
+            let draftedDate = new Date();
+            let categories = null;
+            let editable = null;
+
+            //meta
+            let imageFirst = null;
+            let hasUnsplash = null;
+            let visibility = null;
+
+            if (!imgId) {
+                //TODO
+                console.log('No image uploaded');
+            }
+            if (!headline) {
+                //TODO
+                console.log('No headline entered');
+            }
+
+            let json = {
+                type: 'announcement',
+                subType: 'imageOnly',
+                dateRange: dateRange,
+                draftedDate: draftedDate,
+                editable: editable,
+                content: content,
+                tags: tags,
+                categories: categories,
+                imgId: imgId,
+                meta: {
+                    imageFirst: imageFirst,
+                    hasUnsplash: hasUnsplash,
+                    visibility: visibility
+                }
+            }
+
+            Meteor.call('postImageText', json);
+        }
     },
     'input .announcement-text': function (evt) {
         let maxlength = $(evt.target).attr("maxlength");
@@ -209,20 +334,45 @@ Template.editor.events({
         }
     },
     'click .publish' : function(event, template) {
-        var title = template.find('#blogTitle').value;
-        var subTitle = template.find('#blogSubTitle').value;
-        var content = "TODO";
-        const imgId = Session.get('newImageId');
-        const fileType = Session.get('newFileType');
-        //get tags
-        var str = template.find('#blogTags').value;
-        var separators = [' , ', ', ', ',', ' ,'];
-        var tags = str.split(new RegExp(separators.join('|'), 'g'));
+        let title = $('#blogTitle').val() + " (This is a preview)";
+        let subtitle = $('#blogSubTitle').val();
+        let content = $('.editable').froalaEditor('html.get');
+        let str = $(".tags").val();
+        let separators = [' , ', ', ', ',', ' ,'];
+        let tags = str.split(new RegExp(separators.join('|'), 'g'));
+        let imgId = Session.get('newImageId');
+        console.log(tags);
+        console.log(str);
+        console.log(title);
+        console.log(subtitle);
+        console.log(content);
+        let dateRange = null;
+        let draftedDate = new Date();
+        let categories = null;
+        let editable = null;
 
-        var categories = [];
-        var date = new Date();
+        //meta
+        let imageFirst = null;
+        let hasUnsplash = null;
+        let visibility = null; 
 
-
+        let json = {
+            type: 'announcement',
+            subType: 'imageOnly',
+            dateRange: dateRange,
+            draftedDate: draftedDate,
+            editable: editable,
+            content: content,
+            tags: tags,
+            categories: categories,
+            imgId: imgId,
+            meta: {
+                imageFirst: imageFirst,
+                hasUnsplash: hasUnsplash,
+                visibility: visibility
+            }
+        }
+        /**
         //find all categories that post belongs to
         Meteor.call('getCategories', title, function(err, arr) { //search title
             if (err) {
@@ -265,7 +415,7 @@ Template.editor.events({
                 });
             }
         });
-
+        **/
         //Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, date);
     },
     'click #getFeaturedUnsplash': function (evt, template) {

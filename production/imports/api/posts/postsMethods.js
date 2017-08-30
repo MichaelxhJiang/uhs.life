@@ -44,7 +44,7 @@ Meteor.methods({
             }
         });
     },
-    'postDraftBlog' : function(json) {
+    'postBlog' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
