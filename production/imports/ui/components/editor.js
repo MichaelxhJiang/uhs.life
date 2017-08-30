@@ -2,8 +2,8 @@
  * Created by Yonglin Wang on 8/4/2017.
  */
 
-import { Images } from '../../api/posts/images.js';
-import { Drafts } from '../../api/posts/drafts.js';
+import { Images } from '../../api/images/images.js';
+import { Drafts } from '../../api/drafts/drafts.js';
 
 import './editor.html';
 var operationStack = ['.editor-open'];
