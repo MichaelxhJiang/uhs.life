@@ -6,6 +6,7 @@ import '../../ui/pages/home.js';
 import '../../ui/pages/newsDetail.js';
 import '../../ui/pages/marks.js';
 import '../../ui/pages/search.js';
+import '../../ui/pages/marksDetail.js';
 import '../../ui/components/sidebar.js';
 import '../../ui/components/botnav.js';
 import '../../ui/components/topnav.js';

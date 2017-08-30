@@ -1,0 +1,163 @@
+.marksDetail-card-wrapper{
+    max-width: 360px;
+    max-height: 640px;
+}
+
+#marksDetail-swiper-container {
+    margin-top: 60px;
+    width: 100%;
+    height: 100%;
+}
+#marksDetail-swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: transparent;
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+#marksDetail-swiper-item {
+    position: absolute;
+    text-align: center;
+}
+
+#marksDetail-swiper-pagination{
+    position: absolute;
+    bottom: 13px;
+}
+
+.marksDetail-card {
+    background-color: #fff;
+    width: 340px;
+    height: 500px;
+    margin-bottom: 2.0rem;
+    padding:0;
+}
+
+.marksDetail-main-title{
+    position: absolute;
+    top: 0px;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.marksDetail-top-progress-bar{
+    position: absolute;
+    top: 0px;
+    right: 0;
+    width: 100%;
+    height: 10px;
+    background: mediumseagreen;
+}
+
+.marksDetail-sub-knowledge{
+    position: absolute;
+    text-align: left;
+    top: 100px;
+}
+
+.marksDetail-sub-application{
+    position: absolute;
+    text-align: left;
+    top: 170px;
+
+}
+
+.marksDetail-sub-communication{
+    position: absolute;
+    text-align: left;
+    top: 240px;
+
+}
+
+.marksDetail-sub-thinking{
+    position: absolute;
+    text-align: left;
+    top: 310px;
+
+}
+
+.marksDetail-smaller-progress-wrapper{
+    width: 100%;
+    margin-bottom: -40px;
+}
+
+.marksDetail-knowledge-progress-bar{
+    position: relative;
+    right: 0;
+    top: 120px;
+    width: 90%;
+    height: 20px;
+    background: #ffcc00;
+}
+
+.marksDetail-application-progress-bar{
+    position: relative;
+    right: 0;
+    top: 120px;
+    width: 60%;
+    height: 20px;
+    background: forestgreen;
+}
+
+.marksDetail-communication-progress-bar{
+    position: relative;
+    right: 0;
+    top: 120px;
+    width: 86%;
+    height: 20px;
+    background: rebeccapurple;
+}
+
+.marksDetail-thinking-progress-bar{
+    position: relative;
+    right: 0;
+    top: 120px;
+    width: 79%;
+    height: 20px;
+    background: darkred;
+}
+
+.marksDetail-progress-bar-back{
+    position: relative;
+    right: 0;
+    top: 140px;
+    width: 100%;
+    height: 20px;
+    background: #d4dee2;
+}
+
+.marksDetail-progress-bar-label{
+    position: relative;
+    top: 76px;
+    text-align: center;
+    color: white;
+
+}
+
+.marksDetail-course-mark{
+    position: absolute;
+    right: 15px;
+    text-align: right;
+    margin-top: 10px;
+    font-size: 42px;
+}
+
+.marksDetail-assessment-card {
+    position: relative;
+    background-color: #fff;
+    width: 600px;
+    height: 200px;
+    margin-bottom: 2.0rem;
+}
