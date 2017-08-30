@@ -18,9 +18,10 @@
 }
 
 .marks-card-wrapper{
-    width: 400px;
+    width: 360px;
     margin-right: -8px;
 }
+
 .marks-card {
     background-color: #fff;
     height: 150px;
