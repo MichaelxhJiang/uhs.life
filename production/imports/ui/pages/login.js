@@ -60,7 +60,7 @@ Template.login.events({
           requestPermissions: ['profile','email'],
       },(err)=>{
           if(err){
-              alert("Authentication Unsuccessful");
+              alertError("Sorry...", err.message);
           }
       });
     },
