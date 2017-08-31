@@ -32,9 +32,13 @@ Template.firstTime.events({
         }, function (err) {
             if(err){
                 alert('error');
+            }else{
+                swapElements('.wizard-container', '.final-message');
+                setTimeout(function () {
+                    FlowRouter.go('/')
+                }, 3000);
             }
         });
-        swapElements('.wizard-container', '.final-message');
     }
 });
 

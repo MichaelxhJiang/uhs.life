@@ -132,6 +132,10 @@ Template.editor.onRendered(function (){
         });
     }
 });
+Template.announcementOptions.onRendered(function () {
+    console.log('sped');
+    $(".announce-tags").tagsinput('items');
+});
 
 Template.editor.events({
     'click #openEditor': function () {
