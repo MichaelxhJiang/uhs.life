@@ -30,12 +30,6 @@ if(Meteor.isClient) {
       });
       //test mail chimp
       //Meteor.call('createCampaign', 'test email', 'bulletin');
-      var object = {
-         student_number: "073212482",
-         password: "845qvftj"
-      }
-      var test = encodeURIComponent(JSON.stringify(object))
-      console.log(test);
 
 
    };
