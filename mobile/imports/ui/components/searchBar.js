@@ -19,5 +19,15 @@ Template.searchBar.events({
             container.removeClass("slide-in");
             toggle.removeClass("is-active");
         }
+    },
+    'keyup .search-bar' : function() {
+        searchPost(document.getElementById("search-bar").value);
     }
 });
+
+Template.searchBar.helpers({
+    content: function () {
+        return Session.get('content');
+    }
+});
+

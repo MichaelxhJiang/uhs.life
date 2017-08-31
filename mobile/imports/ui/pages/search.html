@@ -3,4 +3,27 @@
     {{> searchBar}}
     {{> botnav}}
     {{> sidebar}}
+    {{#each content.hits}}
+        <div class="home-card-wrapper">
+            <div class="card radius shadowDepth1">
+                <div class="card__image border-tlr-radius">
+                    <img src="http://lorempixel.com/400/200/sports/" alt="image" class="border-tlr-radius">
+                </div>
+
+                <div class="card__content card__padding">
+
+                    <div class="card-meta">
+                        <a href="/newsDetail">Admin</a>
+                        <time>17th March</time>
+                    </div>
+
+                    <article class="card__article">
+                        <h2>
+                            <a href="/newsDetail">{{title}}</a>
+                        </h2>
+                    </article>
+                </div>
+            </div>
+        </div>
+    {{/each}}
 </template>
