@@ -213,11 +213,13 @@ Template.editor.events({
         let draftedDate = new Date();
         let categories = null;
         let editable = null;
+        let authorId = Meteor.userId();
+        console.log(authorId);
 
         //meta
         let imageFirst = null;
         let hasUnsplash = null;
-        let visibility = null; 
+        let visibility = null;
 
         let json = {
             type: 'announcement',
@@ -225,6 +227,8 @@ Template.editor.events({
             dateRange: dateRange,
             draftedDate: draftedDate,
             editable: editable,
+            title: title,
+            subtitle: subtitle,
             content: content,
             tags: tags,
             categories: categories,
@@ -341,7 +345,9 @@ Template.announcementOptions.events({
         if (type === "imageOnly") {
             let headline = $('#imageOnlyHeadline').val();
             let imgId = Session.get('newImageId');
-            let tags = $(".announce-tags")[0].value();
+            let str = $(".announce-tags")[0].value();
+            let separators = [' , ', ', ', ',', ' ,'];
+            let tags = str.split(new RegExp(separators.join('|'), 'g'));
 
             console.log(tags);
 
@@ -349,11 +355,12 @@ Template.announcementOptions.events({
                 draftedDate = new Date(),
                 categories = null,
                 editable = null;
+                authorId = Meteor.userId();
+            console.log(authorId);
 
             //meta
             let imageFirst = null,
-                hasUnsplash = null,
-                visibility = null;
+                hasUnsplash = null;
 
             if (!imgId) {
                 alertError('Post Incomplete!', "You haven't uploaded an image yet!")
@@ -376,7 +383,6 @@ Template.announcementOptions.events({
                 meta: {
                     imageFirst: imageFirst,
                     hasUnsplash: hasUnsplash,
-                    visibility: visibility
                 }
             }
 
@@ -386,17 +392,20 @@ Template.announcementOptions.events({
             console.log(headline);
             let content = $('#textContent').value;
             console.log(content);
-            let tags = $(".announce-tags")[1].value();
+            let str = $(".announce-tags")[1].value();
+            let separators = [' , ', ', ', ',', ' ,'];
+            let tags = str.split(new RegExp(separators.join('|'), 'g'));
             console.log(tags);
             let dateRange = null;
             let draftedDate = new Date();
             let categories = null;
             let editable = null;
+            let authorId = Meteor.userId();
+            console.log(authorId);
 
             //meta
             let imageFirst = null;
             let hasUnsplash = null;
-            let visibility = null;
 
             if (!headline) {
                 //TODO
@@ -416,7 +425,6 @@ Template.announcementOptions.events({
                 meta: {
                     imageFirst: imageFirst,
                     hasUnsplash: hasUnsplash,
-                    visibility: visibility
                 }
             }
 
@@ -425,17 +433,20 @@ Template.announcementOptions.events({
             let headline = $('#imageOnlyHeadline').value;
             let content = $('#textContent').value;
             let imgId = Session.get('newImageId');
-            let tags = $(".announce-tags")[2].value();
+            let str = $(".announce-tags")[2].value();
+            let separators = [' , ', ', ', ',', ' ,'];
+            let tags = str.split(new RegExp(separators.join('|'), 'g'));
             console.log(tags);
             let dateRange = null;
             let draftedDate = new Date();
             let categories = null;
             let editable = null;
+            let authorId = Meteor.userId();
+            console.log(authorId);
 
             //meta
             let imageFirst = null;
             let hasUnsplash = null;
-            let visibility = null;
 
             if (!imgId) {
                 //TODO
@@ -459,7 +470,6 @@ Template.announcementOptions.events({
                 meta: {
                     imageFirst: imageFirst,
                     hasUnsplash: hasUnsplash,
-                    visibility: visibility
                 }
             }
 
@@ -467,15 +477,6 @@ Template.announcementOptions.events({
         }
     }
 });
-
-function swapElements(a,b){
-    $(a).fadeOut('fast', function () {
-        $(b).fadeIn("slow");
-    });
-}
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 function initDropZone(id, info){
     return new Dropzone("form#"+id, {
         maxFiles:info.number || 1,
@@ -505,4 +506,12 @@ function initDropZone(id, info){
             });
         }
     });
+}
+function swapElements(a,b){
+    $(a).fadeOut('fast', function () {
+        $(b).fadeIn("slow");
+    });
+}
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
