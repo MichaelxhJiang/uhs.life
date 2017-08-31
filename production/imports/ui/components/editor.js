@@ -7,47 +7,53 @@ import { Drafts } from '../../api/drafts/drafts.js';
 
 import './editor.html';
 var operationStack = ['.editor-open'];
+let hasUnsplash = false;
 Template.editor.onRendered(function (){
     $(document).ready(function () {
         $('.category-select').select2({
             placeholder: "Click to select matching categories",
             allowClear: true
         });
+        $('.visibility-select').select2({
+            placeholder: "Click to select the scope of this post",
+        });
         $('.input-daterange').datepicker({});
         $('.input-date').datepicker({});
+    });
+    $('.editable').froalaEditor({
+        scaytAutoload: false,
+        //This setting can be completely ignored.
+        scaytOptions: {
+            enableOnTouchDevices: false,
+            localization:'en',
+            extraModules: 'ui',
+            DefaultSelection: 'American English',
+            spellcheckLang: 'en_US',
+            contextMenuSections: 'suggest|moresuggest',
+            serviceProtocol: 'https',
+            servicePort:'80',
+            serviceHost:'svc.webspellchecker.net',
+            servicePath:'spellcheck/script/ssrv.cgi',
+            contextMenuForMisspelledOnly: true,
+            scriptPath: 'https://demo.webspellchecker.net/froala/customscayt.js'
+        },
+        //ignore end
+        toolbarButtons: ['fullscreen','|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
+        toolbarButtonsSM: ['fullscreen', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|',  'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
+        placeholderText: 'Tell your story here...',
     });
     if (Meteor.isClient){
         let arrayOfImageIds = [];
         Dropzone.autoDiscover = false;
         $(".tags").tagsinput('items');
-
-        let dropzone = new Dropzone("form#dropzone", {
-            maxFiles:1,
-            maxFilesize: 8,
-            thumbnailWidth: 400,
-            dictDefaultMessage: "Drop an image here to be the featured image, or click to select an image using the browser.",
-            accept: function(file, done){
-                var FSFile = new FS.File(file);
-                //console.log(FSFile);
-                Images.insert(FSFile, function (err, fileObj) {
-                    if (err){
-                        console.log(err);
-                    } else {
-                        //remove the currently uploaded image
-                        //if there is none, this will not do anything
-                        Images.remove({_id:Session.get('newImageId')}, function(err) {
-                            if(err) {
-                                console.log("error removing image:\n" + err);
-                            }
-                        });
-                        //retreive file extension
-                        Session.set('newFileType', fileObj.extension());   //update the file type
-                        Session.set('newImageId', fileObj._id); //update the image id to current image
-
-                        done();
-                    }
-                });
-            }
+        let blogDrop = initDropZone('dropzone',{
+            number:1,
+            size: 8,
+            message: "Drop an image here to be the featured image, or click to select an image using the browser.",
+        });
+        let suggestionDrop = initDropZone('suggestionImage',{
+            number:1,
+            size: 8
         });
         let announcementDrop = new Dropzone("form#announcementImage", {
             maxFiles:1,
@@ -108,28 +114,6 @@ Template.editor.onRendered(function (){
 
             }
         });
-        $('.editable').froalaEditor({
-            scaytAutoload: false,
-            //This setting can be completely ignored.
-            scaytOptions: {
-                enableOnTouchDevices: false,
-                localization:'en',
-                extraModules: 'ui',
-                DefaultSelection: 'American English',
-                spellcheckLang: 'en_US',
-                contextMenuSections: 'suggest|moresuggest',
-                serviceProtocol: 'https',
-                servicePort:'80',
-                serviceHost:'svc.webspellchecker.net',
-                servicePath:'spellcheck/script/ssrv.cgi',
-                contextMenuForMisspelledOnly: true,
-                scriptPath: 'https://demo.webspellchecker.net/froala/customscayt.js'
-            },
-            //ignore end
-            toolbarButtons: ['fullscreen','|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
-            toolbarButtonsSM: ['fullscreen', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|',  'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
-            placeholderText: 'Tell your story here...',
-        });
     }
 });
 Template.announcementOptions.onRendered(function () {
@@ -164,6 +148,10 @@ Template.editor.events({
     'click #startAnnouncement': function () {
         swapElements('.post-type', '.blog-announcements');
         operationStack.push('.announcement-type');
+    },
+    'click #startSuggestion': function () {
+        swapElements('.post-type', '.suggestions');
+        operationStack.push('.suggestions');
     },
     'click .editor-close': function () {
         swapElements('.editor-main', '.editor-open');
@@ -291,7 +279,6 @@ Template.editor.events({
             }
         });
         **/
-        //Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, date);
     },
     'click #getFeaturedUnsplash': function (evt, template) {
         $('#unsplashPrompt').html("<i class='fa fa-spinner fa-pulse fa-fw'></i> Please Wait...");
@@ -307,8 +294,8 @@ Template.editor.events({
                         console.log(data);
                         let num = getRandomInt(0,9);
                         Session.set('unsplash_img', data.results[num].id);
+                        hasUnsplash = true;
                         $('#dropzone').replaceWith("<img src='"+data.results[num].urls.regular+"' class='img-responsive unsplash-container'/>");
-                        Session.set('newImageId', data.results[num].id);
                         $('#unsplashPrompt').html("Here you go! This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a>");
                     }
                 })
@@ -331,13 +318,14 @@ Template.editor.events({
         })
     },
     'click .btn-preview': function () {
+        let imageID = (hasUnsplash) ? Session.get('unsplash_img') : Session.get('newImageId');
         let previewPost = {
             title: $('#blogTitle').val() + " (This is a preview)",
             subtitle: $('#blogSubTitle').val(),
             content: $('.editable').froalaEditor('html.get'),
             tags: $(".tags").val(),
-            featured: Session.get('unsplash_img'),
-            hasUnsplash: true
+            featured: imageID,
+            hasUnsplash: hasUnsplash
         };
         Session.setPersistent('preview_json', previewPost);
         $('html, body').css({
@@ -485,8 +473,36 @@ function swapElements(a,b){
         $(b).fadeIn("slow");
     });
 }
-
-
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function initDropZone(id, info){
+    return new Dropzone("form#"+id, {
+        maxFiles:info.number || 1,
+        maxFilesize: info.size || 8,
+        thumbnailWidth: 400,
+        dictDefaultMessage: info.message || "Drop your image here, or click to select an image using the browser.",
+        accept: function(file, done){
+            let FSFile = new FS.File(file);
+            //console.log(FSFile);
+            Images.insert(FSFile, function (err, fileObj) {
+                if (err){
+                    console.log(err);
+                } else {
+                    //remove the currently uploaded image
+                    //if there is none, this will not do anything
+                    Images.remove({_id:Session.get('newImageId')}, function(err) {
+                        if(err) {
+                            console.log("error removing image:\n" + err);
+                        }
+                    });
+                    //retreive file extension
+                    Session.set('newFileType', fileObj.extension());   //update the file type
+                    Session.set('newImageId', fileObj._id); //update the image id to current image
+
+                    done();
+                }
+            });
+        }
+    });
 }
