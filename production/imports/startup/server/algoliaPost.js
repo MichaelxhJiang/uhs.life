@@ -10,7 +10,7 @@ Meteor.methods({
    /**
    @params title : string; text: string; fileType: string; textFirst: boolean
    **/
-   'postAnnouncementTextMedia' : function(title, text, imgId, fileType, textFirst, inJson) {
+   'postTextImageAlgolia' : function(title, text, imgId, fileType, textFirst, inJson) {
 
       //define object being posted with layout
       var objects = [{
@@ -35,7 +35,7 @@ Meteor.methods({
          }
       });
    },
-   'postAnnouncementText' : function(title, text) {
+   'postTextAlgolia' : function(title, text) {
 
       //define object being posted with layout
       var objects = [{
@@ -57,7 +57,7 @@ Meteor.methods({
          }
       });
    },
-   'postAnnouncementMedia' : function(title, imgId, fileType) {
+   'postImageAlgolia' : function(title, imgId, fileType) {
 
       //define object being posted with layout
       var objects = [{
@@ -80,7 +80,7 @@ Meteor.methods({
          }
       });
    },
-   'postBlog' : function(title, description, imgId, fileType, content) {
+   'postBlogAlgolia' : function(title, description, imgId, fileType, content) {
       //define object being posted with layout
       var objects = [{
          class: "blog",

@@ -18,7 +18,8 @@ import './mailchimp.js'
 import './categories.js'
 //This file contains methods for draft collection
 import '../../api/drafts/draftMethods.js';
+//This file contains methods for posts collection
+import '../../api/posts/postsMethods.js';
 //import the collections into server
 import '../../api/suggestions/suggestions.js';
 import '../../api/images/images.js'
-import '../../api/images/images.js';
