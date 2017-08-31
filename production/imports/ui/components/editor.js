@@ -2,8 +2,8 @@
  * Created by Yonglin Wang on 8/4/2017.
  */
 
-import { Images } from '../../api/posts/images.js';
-import { Drafts } from '../../api/posts/drafts.js';
+import { Images } from '../../api/images/images.js';
+import { Drafts } from '../../api/drafts/drafts.js';
 
 import './editor.html';
 var operationStack = ['.editor-open'];
@@ -132,7 +132,12 @@ Template.editor.onRendered(function (){
         });
     }
 });
+Template.announcementOptions.onRendered(function () {
+    this.$(".announce-tags").tagsinput('items');
+});
 
+
+/* Events */
 Template.editor.events({
     'click #openEditor': function () {
         swapElements('.editor-open', '.editor-main');
@@ -167,7 +172,6 @@ Template.editor.events({
         }); // Disables the Scrolling
     },
     'click .editor-back': function () {
-        console.log(operationStack);
         if(operationStack.length-2 === 0){
             swapElements('.editor-main','.editor-open');
             $('html, body').css({
@@ -193,26 +197,57 @@ Template.editor.events({
         operationStack.push('.text-and-image');
         Session.set('announcementType', 'textAndImage');
     },
-    'click .btn-post': function (event, template) {
-        let type = Session.get('announcementType');
+    'input .announcement-text': function (evt) {
+        let maxlength = $(evt.target).attr("maxlength");
+        let length = $(evt.target).val().length;
 
-        console.log('submitting ' + type);
+        if( length >= maxlength ){
+            console.log("You have reached the maximum number of characters.");
+            $('.announcement-counter').text(0);
+        }else{
+            $('.announcement-counter').text(maxlength - length);
+        }
     },
     'click .publish' : function(event, template) {
-        var title = template.find('#blogTitle').value;
-        var subTitle = template.find('#blogSubTitle').value;
-        var content = "TODO";
-        const imgId = Session.get('newImageId');
-        const fileType = Session.get('newFileType');
-        //get tags
-        var str = template.find('#blogTags').value;
-        var separators = [' , ', ', ', ',', ' ,'];
-        var tags = str.split(new RegExp(separators.join('|'), 'g'));
+        let title = $('#blogTitle').val() + " (This is a preview)";
+        let subtitle = $('#blogSubTitle').val();
+        let content = $('.editable').froalaEditor('html.get');
+        let str = $(".tags").val();
+        let separators = [' , ', ', ', ',', ' ,'];
+        let tags = str.split(new RegExp(separators.join('|'), 'g'));
+        let imgId = Session.get('newImageId');
+        console.log(tags);
+        console.log(str);
+        console.log(title);
+        console.log(subtitle);
+        console.log(content);
+        let dateRange = null;
+        let draftedDate = new Date();
+        let categories = null;
+        let editable = null;
 
-        var categories = [];
-        var date = new Date();
+        //meta
+        let imageFirst = null;
+        let hasUnsplash = null;
+        let visibility = null; 
 
-
+        let json = {
+            type: 'announcement',
+            subType: 'imageOnly',
+            dateRange: dateRange,
+            draftedDate: draftedDate,
+            editable: editable,
+            content: content,
+            tags: tags,
+            categories: categories,
+            imgId: imgId,
+            meta: {
+                imageFirst: imageFirst,
+                hasUnsplash: hasUnsplash,
+                visibility: visibility
+            }
+        }
+        /**
         //find all categories that post belongs to
         Meteor.call('getCategories', title, function(err, arr) { //search title
             if (err) {
@@ -255,7 +290,7 @@ Template.editor.events({
                 });
             }
         });
-
+        **/
         //Meteor.call('postDraftBlog', title, subTitle, imgId, fileType, content, tags, date);
     },
     'click #getFeaturedUnsplash': function (evt, template) {
@@ -311,11 +346,147 @@ Template.editor.events({
         window.open('/blog/preview', '_blank');
     }
 });
+Template.announcementOptions.events({
+    'click .btn-post': function (event, template) {
+        let type = Session.get('announcementType');
+        console.log('submitting ' + type);
+        if (type === "imageOnly") {
+            let headline = $('#imageOnlyHeadline').val();
+            let imgId = Session.get('newImageId');
+            let tags = $(".announce-tags")[0].value();
+
+            console.log(tags);
+
+            let dateRange = null,
+                draftedDate = new Date(),
+                categories = null,
+                editable = null;
+
+            //meta
+            let imageFirst = null,
+                hasUnsplash = null,
+                visibility = null;
+
+            if (!imgId) {
+                alertError('Post Incomplete!', "You haven't uploaded an image yet!")
+            }
+            if (!headline) {
+                //TODO
+                alertError('Post Incomplete!', "You haven't added a headline!")
+            }
+
+            let json = {
+                type: 'announcement',
+                subType: 'imageOnly',
+                dateRange: dateRange,
+                draftedDate: draftedDate,
+                editable: editable,
+                content: null,
+                tags: tags,
+                categories: categories,
+                imgId: imgId,
+                meta: {
+                    imageFirst: imageFirst,
+                    hasUnsplash: hasUnsplash,
+                    visibility: visibility
+                }
+            }
+
+            //Meteor.call('postImage', json);
+        } else if (type === "textOnly") {
+            let headline = $('#textOnlyHeadline').value;
+            console.log(headline);
+            let content = $('#textContent').value;
+            console.log(content);
+            let tags = $(".announce-tags")[1].value();
+            console.log(tags);
+            let dateRange = null;
+            let draftedDate = new Date();
+            let categories = null;
+            let editable = null;
+
+            //meta
+            let imageFirst = null;
+            let hasUnsplash = null;
+            let visibility = null;
+
+            if (!headline) {
+                //TODO
+                console.log('No headline entered');
+            }
+
+            let json = {
+                type: 'announcement',
+                subType: 'textOnly',
+                dateRange: dateRange,
+                draftedDate: draftedDate,
+                editable: editable,
+                content: content,
+                tags: tags,
+                categories: categories,
+                imgId: null,
+                meta: {
+                    imageFirst: imageFirst,
+                    hasUnsplash: hasUnsplash,
+                    visibility: visibility
+                }
+            }
+
+            //Meteor.call('postText', json);
+        } else {
+            let headline = $('#imageOnlyHeadline').value;
+            let content = $('#textContent').value;
+            let imgId = Session.get('newImageId');
+            let tags = $(".announce-tags")[2].value();
+            console.log(tags);
+            let dateRange = null;
+            let draftedDate = new Date();
+            let categories = null;
+            let editable = null;
+
+            //meta
+            let imageFirst = null;
+            let hasUnsplash = null;
+            let visibility = null;
+
+            if (!imgId) {
+                //TODO
+                console.log('No image uploaded');
+            }
+            if (!headline) {
+                //TODO
+                console.log('No headline entered');
+            }
+
+            let json = {
+                type: 'announcement',
+                subType: 'imageOnly',
+                dateRange: dateRange,
+                draftedDate: draftedDate,
+                editable: editable,
+                content: content,
+                tags: tags,
+                categories: categories,
+                imgId: imgId,
+                meta: {
+                    imageFirst: imageFirst,
+                    hasUnsplash: hasUnsplash,
+                    visibility: visibility
+                }
+            }
+
+            //Meteor.call('postImageText', json);
+        }
+    }
+});
+
 function swapElements(a,b){
     $(a).fadeOut('fast', function () {
         $(b).fadeIn("slow");
     });
 }
+
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }

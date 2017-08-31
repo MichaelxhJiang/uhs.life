@@ -260,55 +260,11 @@
                     <h4>Simply drop your image in the box below, and add a headline</h4>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <form class="form post-info-form full-width">
-                        <input type="text" placeholder="Headline*" id="imageOnlyTitle">
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <form action="/file-upload" class="dropzone" id="announcementImage"></form>
-                </div>
-            </div>
-            <div class="row mb-45 text-left">
-                <div class="col-lg-4 col-md-3">
-                    <h3>Add Some Tags</h3>
-                    <p>By adding some tags, other users can more easily find your post by search. To add a tag, simply write in the text box below, hit enter after every tag.</p>
-                    <input data-role="tagsinput" class="tags" placeholder="Write your tags here">
-                </div>
-                <div class="col-lg-4 col-md-3">
-                    <h3>Select Categories</h3>
-                    <p>By selecting the categories this post belongs to, we can improve the user feed experience. To select click on the box below and pick an option from the drop up box, you can choose multiple if needed.</p>
-                    <select name="category-selector" class="category-select" multiple style="width: 75%">
-                        <option value="1">Mustard</option>
-                        <option value="2">Ketchup</option>
-                        <option value="3">Relish</option>
-                        <option value="angular">Angular</option>
-                        <option value="css">CSS</option>
-                        <option value="design">Graphic Design</option>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-3">
-                    <h3>Pick a date range</h3>
-                    <p>Use the date selector bellow to select the days you would like this post to be visible to the rest of the users.</p>
-                    <div class="input-group input-daterange">
-                        <input type="text" class="form-control">
-                        <div class="input-group-addon">to</div>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-45">
-                <div class="col-lg-6 col-md-6">
-                    <button class="btn btn-login btn-post">POST</button>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <button class="btn btn-login btn-save">SAVE FOR LATER</button>
-                </div>
-            </div>
+            {{> announcementHeadline id="imageOnlyHeadline"}}
+            {{> announcementImageInput id="announcementImage"}}
+            {{> announcementOptions imgAndText=false}}
         </div>
+
         <div class="text-center text-only" hidden>
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
@@ -316,55 +272,11 @@
                     <h4>Write/Paste your information in the big box below, 140 characters max.</h4>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <form class="form post-info-form full-width">
-                        <input type="text" placeholder="Headline*" id="textOnlyTitle">
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="140" id="textOnlyText"></textarea>
-                </div>
-            </div>
-            <div class="row mb-45 text-left">
-                <div class="col-lg-4 col-md-3">
-                    <h3>Add Some Tags</h3>
-                    <p>By adding some tags, other users can more easily find your post by search. To add a tag, simply write in the text box below, hit enter after every tag.</p>
-                    <input data-role="tagsinput" class="tags" placeholder="Write your tags here">
-                </div>
-                <div class="col-lg-4 col-md-3">
-                    <h3>Select Categories</h3>
-                    <p>By selecting the categories this post belongs to, we can improve the user feed experience. To select click on the box below and pick an option from the drop up box, you can choose multiple if needed.</p>
-                    <select name="category-selector" class="category-select" multiple style="width: 75%">
-                        <option value="1">Mustard</option>
-                        <option value="2">Ketchup</option>
-                        <option value="3">Relish</option>
-                        <option value="angular">Angular</option>
-                        <option value="css">CSS</option>
-                        <option value="design">Graphic Design</option>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-3">
-                    <h3>Pick a date range</h3>
-                    <p>Use the date selector bellow to select the days you would like this post to be visible to the rest of the users.</p>
-                    <div class="input-group input-daterange">
-                        <input type="text" class="form-control">
-                        <div class="input-group-addon">to</div>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-45">
-                <div class="col-lg-6 col-md-6">
-                    <button class="btn btn-login btn-post">POST</button>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <button class="btn btn-login btn-save">SAVE FOR LATER</button>
-                </div>
-            </div>
+            {{> announcementHeadline id="textOnlyHeadline"}}
+            {{> announcementTextInput}}
+            {{> announcementOptions imgAndText=false}}
         </div>
+
         <div class="text-center text-and-image" hidden>
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
@@ -372,74 +284,91 @@
                     <h4>Write/Paste your information in the big box below, 140 characters max.</h4>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <form class="form post-info-form full-width">
-                        <input type="text" placeholder="Headline*" id="textImageTitle">
-                    </form>
+            {{> announcementHeadline id="textImageHeadline"}}
+            {{> announcementTextInput}}
+            {{> announcementImageInput id="announcementImageTwo"}}
+            {{> announcementOptions imgAndText=true}}
+
+        </div>
+    </div>
+</template>
+<template name="announcementHeadline">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <form class="form post-info-form full-width">
+                <input type="text" placeholder="Headline*" id="{{id}}">
+            </form>
+        </div>
+    </div>
+</template>
+
+<template name="announcementOptions">
+    <div class="row mb-45 text-left">
+        <div class="col-lg-4 col-md-3">
+            <h3>Add Some Tags</h3>
+            <p>By adding some tags, other users can more easily find your post by search. To add a tag, simply write in the text box below, hit enter after every tag.</p>
+            <input data-role="tagsinput" class="announce-tags" placeholder="Write your tags here">
+            <h3>Select Categories</h3>
+            <p>By selecting the categories this post belongs to, we can improve the user feed experience. To select click on the box below and pick an option from the drop up box, you can choose multiple if needed.</p>
+            <select name="category-selector" class="category-select" multiple style="width: 75%">
+                <option value="1">Mustard</option>
+                <option value="2">Ketchup</option>
+                <option value="3">Relish</option>
+                <option value="angular">Angular</option>
+                <option value="css">CSS</option>
+                <option value="design">Graphic Design</option>
+            </select>
+        </div>
+        <div class="col-lg-4 col-md-3">
+            {{#if imgAndText}}
+            <h3>Set Priority</h3>
+            <p class="mb-15">Selecting a priority helps us determine the best way to present your announcement to other users.</p>
+            <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                <div class="is-checked priority-toggle">
+                    <i class="fa fa-file-image-o fa-3x"></i>
+                    <h4 class="">Image</h4>
                 </div>
             </div>
-            <div class="row mb-45">
-                <div class="col-lg-12 col-md-12">
-                    <h3>Text Portion</h3>
-                    <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="140" id="textImageText"></textarea>
+            <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                <div class="priority-toggle">
+                    <i class="fa fa-file-text-o fa-3x"></i>
+                    <h4 class="">Text</h4>
                 </div>
             </div>
-            <div class="row mb-45">
-                <div class="col-lg-12 col-md-12">
-                    <form action="/file-upload" class="dropzone" id="announcementImageTwo"></form>
-                </div>
+                {{/ if}}
+        </div>
+        <div class="col-lg-4 col-md-3">
+            <h3>Pick a date range</h3>
+            <p>Use the date selector bellow to select the days you would like this post to be visible to the rest of the users.</p>
+            <div class="input-group input-daterange">
+                <input type="text" class="form-control">
+                <div class="input-group-addon">to</div>
+                <input type="text" class="form-control">
             </div>
-            <div class="row mb-45 text-left">
-                <div class="col-lg-4 col-md-3">
-                    <h3>Add Some Tags</h3>
-                    <p>By adding some tags, other users can more easily find your post by search. To add a tag, simply write in the text box below, hit enter after every tag.</p>
-                    <input data-role="tagsinput" class="tags" placeholder="Write your tags here">
-                    <h3>Select Categories</h3>
-                    <p>By selecting the categories this post belongs to, we can improve the user feed experience. To select click on the box below and pick an option from the drop up box, you can choose multiple if needed.</p>
-                    <select name="category-selector" class="category-select" multiple style="width: 75%">
-                        <option value="1">Mustard</option>
-                        <option value="2">Ketchup</option>
-                        <option value="3">Relish</option>
-                        <option value="angular">Angular</option>
-                        <option value="css">CSS</option>
-                        <option value="design">Graphic Design</option>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-3">
-                    <h3>Set Priority</h3>
-                    <p class="mb-15">Selecting a priority helps us determine the best way to present your announcement to other users.</p>
-                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
-                        <div class="is-checked priority-toggle">
-                            <i class="fa fa-file-image-o fa-3x"></i>
-                            <h4 class="">Image</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
-                        <div class="priority-toggle">
-                            <i class="fa fa-file-text-o fa-3x"></i>
-                            <h4 class="">Text</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-3">
-                    <h3>Pick a date range</h3>
-                    <p>Use the date selector bellow to select the days you would like this post to be visible to the rest of the users.</p>
-                    <div class="input-group input-daterange">
-                        <input type="text" class="form-control">
-                        <div class="input-group-addon">to</div>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-45">
-                <div class="col-lg-6 col-md-6">
-                    <button class="btn btn-login btn-post">POST</button>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <button class="btn btn-login btn-save">SAVE FOR LATER</button>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="row mb-45">
+        <div class="col-lg-6 col-md-6">
+            <button class="btn btn-login btn-post">POST</button>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <button class="btn btn-login btn-save">SAVE FOR LATER</button>
+        </div>
+    </div>
+</template>
+<template name="announcementTextInput">
+    <div class="row mb-45">
+        <div class="col-lg-12 col-md-12">
+            <h3>Text Portion</h3>
+            <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="140" id="textContent"></textarea>
+            <p class="text-left">You have <span class="announcement-counter">140</span> characters left.</p>
+        </div>
+    </div>
+</template>
+<template name="announcementImageInput">
+    <div class="row mb-45">
+        <div class="col-lg-12 col-md-12">
+            <form action="/file-upload" class="dropzone" id="{{id}}"></form>
         </div>
     </div>
 </template>

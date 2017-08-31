@@ -17,8 +17,9 @@ import './mailchimp.js'
 //This file includes dictionary of categories and maps them with keywords
 import './categories.js'
 //This file contains methods for draft collection
-import '../../api/posts/draftMethods.js';
+import '../../api/drafts/draftMethods.js';
+//This file contains methods for posts collection
+import '../../api/posts/postsMethods.js';
 //import the collections into server
-import '../../api/posts/suggestions.js';
-import '../../api/posts/images.js'
-import '../../api/posts/images.js';
+import '../../api/suggestions/suggestions.js';
+import '../../api/images/images.js'

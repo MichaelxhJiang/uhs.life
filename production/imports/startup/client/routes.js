@@ -17,7 +17,11 @@ let loggedIn = FlowRouter.group({
                     let user = Meteor.user();
                     if(user){
                         Session.set('name', user.services.google.name);
+                        Session.set('id', user._id);
                         Session.set('user_img', user.services.google.picture);
+                        if(!user.profile.init){
+                            FlowRouter.go('/first')
+                        }
                     }
                 });
             }
