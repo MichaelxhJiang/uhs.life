@@ -11,3 +11,5 @@ import '../../ui/components/sidebar.js';
 import '../../ui/components/botnav.js';
 import '../../ui/components/topnav.js';
 import '../../ui/components/searchBar.js';
+import '../../api/algoliaAll.js';
+import '../../api/algoliaSearch.js';

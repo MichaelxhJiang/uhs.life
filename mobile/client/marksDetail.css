@@ -4,15 +4,16 @@
 }
 
 #marksDetail-swiper-container {
-    margin-top: 60px;
+    margin-top: 50px;
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 #marksDetail-swiper-slide {
+    position: relative;
     text-align: center;
     font-size: 18px;
     background: transparent;
-
     /* Center slide text vertically */
     display: -webkit-box;
     display: -ms-flexbox;
@@ -28,13 +29,13 @@
     align-items: center;
 }
 #marksDetail-swiper-item {
-    position: absolute;
+    margin-top: 10px;
     text-align: center;
 }
 
 #marksDetail-swiper-pagination{
-    position: absolute;
-    bottom: 13px;
+    position: fixed;
+    top: 600px;
 }
 
 .marksDetail-card {
@@ -42,7 +43,8 @@
     width: 340px;
     height: 500px;
     margin-bottom: 2.0rem;
-    padding:0;
+    display: block;
+    margin-top: 10px;
 }
 
 .marksDetail-main-title{
@@ -155,9 +157,16 @@
 }
 
 .marksDetail-assessment-card {
-    position: relative;
     background-color: #fff;
-    width: 600px;
-    height: 200px;
+    width: 340px;
+    height: 250px;
     margin-bottom: 2.0rem;
+    display: block;
+}
+
+.marksDetail-down-scroll{
+    float: left;
+    overflow-y: scroll;
+    height:85vh;
+    position: relative;
 }
