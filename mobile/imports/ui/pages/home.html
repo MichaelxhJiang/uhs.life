@@ -2,92 +2,62 @@
     <!-- Navigation -->
     {{> botnav}}
     <div class="home-container">
-        <div class="home-card-wrapper">
-            <div class="card radius shadowDepth1">
-                <div class="card__image border-tlr-radius">
-                    <img src="http://lorempixel.com/400/200/sports/" alt="image" class="border-tlr-radius">
-                </div>
+        {{#each content.hits}}
+            {{#if typeCheck getType "text_media"}}
+                <div class="home-card-wrapper">
+                    <div class="card radius shadowDepth1">
+                        <div class="card__image border-tlr-radius">
+                            <img src="http://lorempixel.com/400/200/sports/" alt="image" class="border-tlr-radius">
+                        </div>
 
-                <div class="card__content card__padding">
+                        <div class="card__content card__padding">
 
-                    <div class="card-meta">
-                        <a href="/newsDetail">Admin</a>
-                        <time>17th March</time>
+                            <div class="card-meta">
+                                <a href="/newsDetail">Admin</a>
+                                <time>17th March</time>
+                            </div>
+
+                            <article class="card__article">
+                                <h2>
+                                    <a href="/newsDetail">{{title}}</a>
+                                </h2>
+                            </article>
+                        </div>
                     </div>
-
-                    <article class="card__article">
-                        <h2>
-                            <a href="/newsDetail">uhs.life - OFFICIALLY LAUNCHED!</a>
-                        </h2>
-                    </article>
                 </div>
-            </div>
-        </div>
-
-        <div class="home-card-wrapper">
-            <div class="card radius shadowDepth1">
-                <div class="card__image border-tlr-radius">
-                    <img src="http://lorempixel.com/400/200/sports/" alt="image" class="border-tlr-radius">
-                </div>
-
-                <div class="card__content card__padding">
-
-                    <div class="card-meta">
-                        <a href="#">Admin</a>
-                        <time>17th March</time>
+            {{else}}
+                {{#if typeCheck getType "media"}}
+                    <div class="home-card-wrapper">
+                        <div class="card radius shadowDepth1">
+                            <div class="card__image border-tlr-radius">
+                                <img src="http://lorempixel.com/400/200/sports/" alt="image" class="border-tlr-radius">
+                            </div>
+                        </div>
                     </div>
+                {{else}}
+                    {{#if typeCheck getType "text"}}
+                        <div class="home-card-wrapper">
+                            <div class="card radius shadowDepth1">
 
-                    <article class="card__article">
-                        <h2>
-                            <a href="#">uhs.life - OFFICIALLY LAUNCHED!</a>
-                        </h2>
-                    </article>
-                </div>
-            </div>
-        </div>
+                                <div class="card__content card__padding">
 
-        <div class="home-card-wrapper">
-            <div class="card radius shadowDepth1">
-                <div class="card__image border-tlr-radius">
-                    <img src="http://lorempixel.com/400/200/sports/" alt="image" class="border-tlr-radius">
-                </div>
+                                    <div class="card-meta">
+                                        <a href="/newsDetail">Admin</a>
+                                        <time>17th March</time>
+                                    </div>
 
-                <div class="card__content card__padding">
-
-                    <div class="card-meta">
-                        <a href="#">Admin</a>
-                        <time>17th March</time>
-                    </div>
-
-                    <article class="card__article">
-                        <h2>
-                            <a href="#">uhs.life - OFFICIALLY LAUNCHED!</a>
-                        </h2>
-                    </article>
-                </div>
-            </div>
-        </div>
-
-        <div class="home-card-wrapper">
-            <div class="card radius shadowDepth1">
-                <div class="card__image border-tlr-radius">
-                    <img src="http://lorempixel.com/400/200/sports/" alt="image" class="border-tlr-radius">
-                </div>
-
-                <div class="card__content card__padding">
-
-                    <div class="card-meta">
-                        <a href="#">Admin</a>
-                        <time>17th March</time>
-                    </div>
-
-                    <article class="card__article">
-                        <h2>
-                            <a href="#">uhs.life - OFFICIALLY LAUNCHED!</a>
-                        </h2>
-                    </article>
-                </div>
-            </div>
-        </div>
+                                    <article class="card__article">
+                                        <h2>
+                                            <a href="/newsDetail">{{title}}</a>
+                                        </h2>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+            {{counter}}
+        {{/each}}
     </div>
 </template>
