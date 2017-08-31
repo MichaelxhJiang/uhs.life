@@ -203,28 +203,30 @@ Template.editor.events({
         let str = $(".tags").val();
         let separators = [' , ', ', ', ',', ' ,'];
         let tags = str.split(new RegExp(separators.join('|'), 'g'));
-        let imgId = Session.get('newImageId');
-        console.log(tags);
-        console.log(str);
+        let imgId = (hasUnsplash) ? Session.get('unsplash_img') : Session.get('newImageId');
+        let releaseDate = $('.input-date').val();
+        let draftedDate = new Date();
+        let categories = $('.category-select').val();
+        let editable = null;
+        let authorId = Meteor.userId();
+
+        /*TEMP
         console.log(title);
         console.log(subtitle);
         console.log(content);
-        let dateRange = null;
-        let draftedDate = new Date();
-        let categories = null;
-        let editable = null;
-        let authorId = Meteor.userId();
-        console.log(authorId);
+        console.log(tags);
+        console.log(categories);
+        console.log(releaseDate);
+        console.log(draftedDate);
+        console.log(authorId);*/
 
         //meta
-        let imageFirst = null;
-        let hasUnsplash = null;
-        let visibility = null;
+        let visibility = $('visibility-select').val();
 
         let json = {
             type: 'announcement',
             subType: 'imageOnly',
-            dateRange: dateRange,
+            releaseDate: releaseDate,
             draftedDate: draftedDate,
             editable: editable,
             title: title,
