@@ -9,6 +9,7 @@
         </div>
         {{> blogEditor}}
         {{> announcementEditor}}
+        {{> suggestionEditor}}
         <div class="container blog-drafts" hidden>
             <div class="center-wrapper">
                 <div class="mb-45">
@@ -108,14 +109,14 @@
                                 <p>Blog Post</p>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="startNewDraft">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="startSuggestion">
                             <div class="editor-options">
                                 <i class="fa fa-commenting-o fa-5x mb-15"></i>
                                 <p>Suggestion</p>
                             </div>
                         </div>
                     </div>
-                    <div class="row text-center">
+<!--                    <div class="row text-center">
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="startAnnouncement">
                             <div class="editor-options">
                                 <i class="fa fa-calendar-o fa-5x mb-15"></i>
@@ -127,8 +128,7 @@
                                 <i class="fa fa-toggle-right fa-5x mb-15"></i>
                                 <p>Gallery</p>
                             </div>
-                        </div>
-                    </div>
+                        </div>-->
                 </div>
             </div>
         </div>
@@ -172,11 +172,13 @@
                             <option value="css">CSS</option>
                             <option value="design">Graphic Design</option>
                         </select>
-
+                        <hr />
+                        <input type='checkbox' class='ios8-switch ios8-switch-lg' id='checkboxContribute'>
+                        <label for='checkboxContribute'>Allow Others To Contribute</label>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 mb-80">
+            <div class="col-md-6 col-lg-6 ">
                 <div class="editor-card">
                     <div class="card-body">
                         <h3>Featured Splash Image</h3>
@@ -190,33 +192,29 @@
                         <hr />
                         <h3>Set the visibility</h3>
                         <p>Choose who this blog post is written for, public means people outside the board will receive access.</p>
-                        <select name="category-selector" class="category-select" multiple style="width: 75%">
-                            <option value="1">Public*</option>
-                            <option value="2">Students</option>
-                            <option value="3">Teachers and Staff</option>
+                        <select name="category-selector" class="visibility-select" style="width: 75%">
+                            <option value="1">Everyone</option>
+                            <option value="2">Students Only</option>
+                            <option value="3">Teachers and Staff Only</option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="navbar-fixed-bottom editor-actions">
-            <div class="container">
-                <div class="row text-center">
-                    <div class="col-md-4 col-lg-4">
-                        <div class="editor-card publish">
-                            <h3>Publish</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <div class="editor-card preview btn-preview">
-                            <h3>Preview</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <div class="editor-card save-draft">
-                            <h3>Save as draft</h3>
-                        </div>
-                    </div>
+        <div class="row text-center mb-80">
+            <div class="col-md-4 col-lg-4">
+                <div class="editor-card publish">
+                    <h3>Publish</h3>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div class="editor-card preview btn-preview">
+                    <h3>Preview</h3>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div class="editor-card save-draft">
+                    <h3>Save as draft</h3>
                 </div>
             </div>
         </div>
@@ -273,7 +271,7 @@
                 </div>
             </div>
             {{> announcementHeadline id="textOnlyHeadline"}}
-            {{> announcementTextInput}}
+            {{> announcementTextInput max="140"}}
             {{> announcementOptions imgAndText=false}}
         </div>
 
@@ -285,7 +283,7 @@
                 </div>
             </div>
             {{> announcementHeadline id="textImageHeadline"}}
-            {{> announcementTextInput}}
+            {{> announcementTextInput max="140"}}
             {{> announcementImageInput id="announcementImageTwo"}}
             {{> announcementOptions imgAndText=true}}
 
@@ -301,7 +299,6 @@
         </div>
     </div>
 </template>
-
 <template name="announcementOptions">
     <div class="row mb-45 text-left">
         <div class="col-lg-4 col-md-3">
@@ -320,6 +317,13 @@
             </select>
         </div>
         <div class="col-lg-4 col-md-3">
+            <h3>Set the visibility</h3>
+            <p>Choose who this blog post is written for, public means people outside the board will receive access.</p>
+            <select name="category-selector" class="visibility-select" style="width: 75%">
+                <option value="1">Everyone</option>
+                <option value="2">Students</option>
+                <option value="3">Teachers and Staff</option>
+            </select>
             {{#if imgAndText}}
             <h3>Set Priority</h3>
             <p class="mb-15">Selecting a priority helps us determine the best way to present your announcement to other users.</p>
@@ -360,7 +364,7 @@
     <div class="row mb-45">
         <div class="col-lg-12 col-md-12">
             <h3>Text Portion</h3>
-            <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="140" id="textContent"></textarea>
+            <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="{{max}}" id="textContent"></textarea>
             <p class="text-left">You have <span class="announcement-counter">140</span> characters left.</p>
         </div>
     </div>
@@ -370,5 +374,22 @@
         <div class="col-lg-12 col-md-12">
             <form action="/file-upload" class="dropzone" id="{{id}}"></form>
         </div>
+    </div>
+</template>
+
+<template name="suggestionEditor">
+    <div class="container suggestions" hidden>
+        <div class="mb-45">
+            <div class="row mb-30 text-center">
+                <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                    <h2>Nice,</h2>
+                    <h4>What would you like to compose?</h4>
+                </div>
+            </div>
+        </div>
+        {{> announcementHeadline id="suggestionHeadline"}}
+        {{> announcementTextInput max="500"}}
+        <h3>Add an image if you like!</h3>
+        {{> announcementImageInput id="suggestionImage"}}
     </div>
 </template>
