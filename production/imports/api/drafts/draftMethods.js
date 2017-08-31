@@ -31,7 +31,7 @@ Meteor.methods({
         });
     },
     'postDraftImage' : function(json) {
-        var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
+        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
         }
@@ -45,7 +45,7 @@ Meteor.methods({
         });
     },
     'postDraftBlog' : function(json) {
-        var accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
+        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
         }
@@ -58,4 +58,11 @@ Meteor.methods({
             }
         });
     },
+    'getDraftsByUserId' : function(userId) {
+      let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
+      if (accessLevel === 'teacher' || accessLevel === 'admin') {
+          //TODO
+      }
+      return Drafts.find({"authorId": userId});
+   }
 });

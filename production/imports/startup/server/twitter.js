@@ -36,12 +36,15 @@ Meteor.methods({
     });
   },
   //post to twitter account
-  'postTwitter' : function(msg) {
-    T.post('statuses/update', { status: msg}, function(err, data, response) {
+  'postTextAnnouncementTwitter' : function(obj) {
+    let headline = obj.headline,
+      content = obj.content;
+
+    T.post('statuses/update', { status: headline + '\n' + content}, function(err, data, response) {
       console.log(data)
     });
   },
-  //test function to post with an image
+  //test function to post with an image DO NOT USE
   'postImgTwitter' : function(msg) {
     var fs = require('fs');
     // post a tweet with media
