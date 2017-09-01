@@ -207,8 +207,8 @@ Template.editor.events({
         let releaseDate = $('.input-date').val();
         let draftedDate = new Date();
         let categories = $('.category-select').val();
-        let editable = null;
         let authorId = Meteor.userId();
+        let imageFirst = null;
 
         /*TEMP
         console.log(title);

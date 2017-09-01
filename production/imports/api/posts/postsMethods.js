@@ -7,7 +7,15 @@ Meteor.methods({
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
       }
-
+      let errStr = "", err = false;
+      if (json.type === "announcement") {
+         err = true;
+         errStr += "Not an announcement. ";
+      }
+      if (json.subType === "textOnly") {
+         err = true;
+         errStr += "Not text first announcement type. ";
+      }
       json.meta.approved = false;
       json.meta.screeningStage = 0;
 
