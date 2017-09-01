@@ -1,3 +1,4 @@
+import { Images } from '../../api/images/images.js';
 import './details.html';
 
 Template.details.onRendered(function () {
@@ -43,6 +44,15 @@ Template.details.helpers({
                             return data.urls.full;
                         }
                     })
+                }
+            });
+        }else{
+            Tracker.autorun(function () {
+                let image = Images.findOne({_id: data.featured});
+                if(image){
+                    let url = image.url();
+                    $('.post-header').css('background-image',"url("+url+")");
+                    return true;
                 }
             });
         }

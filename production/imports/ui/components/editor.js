@@ -333,6 +333,7 @@ Template.editor.events({
             featured: imageID,
             hasUnsplash: hasUnsplash
         };
+        console.log(imageID);
         Session.setPersistent('preview_json', previewPost);
         $('html, body').css({
             overflow: 'visible'
@@ -499,10 +500,11 @@ function initDropZone(id, info){
                             console.log("error removing image:\n" + err);
                         }
                     });
+                    console.log(fileObj);
                     //retreive file extension
+                    hasUnsplash = false;
                     Session.set('newFileType', fileObj.extension());   //update the file type
                     Session.set('newImageId', fileObj._id); //update the image id to current image
-
                     done();
                 }
             });
