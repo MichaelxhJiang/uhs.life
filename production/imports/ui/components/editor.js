@@ -55,64 +55,15 @@ Template.editor.onRendered(function (){
             number:1,
             size: 8
         });
-        let announcementDrop = new Dropzone("form#announcementImage", {
-            maxFiles:1,
-            maxFilesize: 8,
-            thumbnailWidth: 400,
-            dictDefaultMessage: "Drop your poster here, or click to select an image using the browser.",
-            accept: function(file, done){
-                var FSFile = new FS.File(file);
-                //console.log(FSFile);
-                Images.insert(FSFile, function (err, fileObj) {
-                    if (err){
-                        console.log(err);
-                    } else {
-                        console.log("New image got uploaded");
-                        //remove the currently uploaded image
-                        //if there is none, this will not do anything
-                        Images.remove({_id:Session.get('newImageId')}, function(err) {
-                            if(err) {
-                                console.log("error removing image:\n" + err);
-                            }
-                        });
-                        //retreive file extension
-                        Session.set('newFileType', fileObj.extension());   //update the file type
-                        Session.set('newImageId', fileObj._id); //update the image id to current image
-
-                        done();
-                    }
-                });
-
-            }
+        let announcementDrop = initDropZone("announcementImage", {
+            number:1,
+            size: 8,
+            message: "Drop your poster here, or click to select an image using the browser.",
         });
         let announcementImageTwo = new Dropzone("#announcementImageTwo", {
-            maxFiles:1,
-            maxFilesize: 8,
-            thumbnailWidth: 400,
-            dictDefaultMessage: "Drop your poster here, or click to select an image using the browser.",
-            accept: function(file, done){
-                var FSFile = new FS.File(file);
-                //console.log(FSFile);
-                Images.insert(FSFile, function (err, fileObj) {
-                    if (err){
-                        console.log(err);
-                    } else {
-                        console.log("New image got uploaded");
-                        //remove the currently uploaded image
-                        //if there is none, this will not do anything
-                        Images.remove({_id:Session.get('newImageId')}, function(err) {
-                            if(err) {
-                                console.log("error removing image:\n" + err);
-                            }
-                        });
-                        //retreive file extension
-                        Session.set('newFileType', fileObj.extension());   //update the file type
-                        Session.set('newImageId', fileObj._id); //update the image id to current image
-                        done();
-                    }
-                });
-
-            }
+            number:1,
+            size: 8,
+            message: "Drop your poster here, or click to select an image using the browser."
         });
     }
 });
@@ -209,17 +160,6 @@ Template.editor.events({
         let categories = $('.category-select').val();
         let authorId = Meteor.userId();
         let imageFirst = null;
-
-        /*TEMP
-        console.log(title);
-        console.log(subtitle);
-        console.log(content);
-        console.log(tags);
-        console.log(categories);
-        console.log(releaseDate);
-        console.log(draftedDate);
-        console.log(authorId);*/
-
         //meta
         let visibility = $('visibility-select').val();
 
@@ -316,18 +256,9 @@ Template.announcementOptions.events({
                }
             }
             let authorId = Meteor.userId();
-            let startDate = $('#startDate').val();
-            let endDate = $('#endDate').val();
+            let startDate = $('.startDate')[0].value;
+            let endDate = $('.endDate')[0].value;
             let draftedDate = new Date();
-
-            /*TEMP
-            console.log(headline);
-            console.log(tags);
-            console.log(categories);
-            console.log(draftedDate);
-            console.log(authorId);
-            console.log(startDate);
-            console.log(endDate);*/
 
             //meta
 
@@ -340,6 +271,7 @@ Template.announcementOptions.events({
             }
 
             let json = {
+                author: authorId,
                 type: 'announcement',
                 subType: 'imageOnly',
                 startDate: startDate,
@@ -351,7 +283,7 @@ Template.announcementOptions.events({
                 meta: {
                     hasUnsplash: hasUnsplash,
                 }
-            }
+            };
 
             console.log(JSON.stringify(json, 2, null));
             //Meteor.call('postImage', json);
@@ -373,18 +305,9 @@ Template.announcementOptions.events({
             }
 
             let authorId = Meteor.userId();
-            let startDate = $('#startDate').val();
-            let endDate = $('#endDate').val();
+            let startDate = $('.startDate')[1].value;
+            let endDate = $('.endDate')[1].value;
             let draftedDate = new Date();
-
-            /*TEMP*/
-            console.log(headline);
-            console.log(tags);
-            console.log(categories);
-            console.log(draftedDate);
-            console.log(authorId);
-            console.log($('#startDate')[0]);
-            console.log($('#endDate')[1]);
 
             //meta
 
@@ -398,10 +321,11 @@ Template.announcementOptions.events({
             }
 
             let json = {
+                author: authorId,
                 type: 'announcement',
                 subType: 'textOnly',
-                //startDate: startDate,
-                //endDate: endDate,
+                startDate: startDate,
+                endDate: endDate,
                 draftedDate: draftedDate,
                 headline: headline,
                 content: content,
@@ -411,7 +335,7 @@ Template.announcementOptions.events({
                     hasUnsplash: hasUnsplash,
                 }
             }
-            console.log(JSON.stringify(json, 2, null));
+            console.log(json);
             Meteor.call('postText', json, function(err) {
                if (err) {
                   console.log(err);
@@ -428,16 +352,16 @@ Template.announcementOptions.events({
             let options = $('.category-select')[3].options;
             let categories = [];
 
-            for (var i = 0; i < options.length; i++) {
-               var opt = options[i];
+            for (let i = 0; i < options.length; i++) {
+               let opt = options[i];
                if (opt.selected) {
                   categories.push(opt.value);
                }
             }
 
             let authorId = Meteor.userId();
-            let startDate = $('#startDate').val();
-            let endDate = $('#endDate').val();
+            let startDate = $('.startDate')[2].value;
+            let endDate = $('.endDate')[2].value;
             let draftedDate = new Date();
 
             //meta
@@ -457,6 +381,7 @@ Template.announcementOptions.events({
             }
 
             let json = {
+                author: authorId,
                 type: 'announcement',
                 subType: 'imageText',
                 headline: headline,
@@ -464,7 +389,6 @@ Template.announcementOptions.events({
                 startDate: startDate,
                 endDate: endDate,
                 draftedDate: draftedDate,
-                content: content,
                 tags: tags,
                 categories: categories,
                 imgId: imgId,
@@ -472,7 +396,7 @@ Template.announcementOptions.events({
                     imageFirst: imageFirst,
                     hasUnsplash: hasUnsplash,
                 }
-            }
+            };
             console.log(JSON.stringify(json, null, 2));
             //Meteor.call('postImageText', json);
         }
