@@ -29,8 +29,7 @@ Meteor.methods({
          errStr += "Missing image. ";
       }
       if (err) {
-         console.error(errStr);
-         return false;
+         throw new Meteor.Error(400, errStr);
       }
       json.meta.approved = false;
       json.meta.screeningStage = 0;
@@ -67,10 +66,9 @@ Meteor.methods({
          err = true;
          errStr += "Missing content. ";
       }
-      if (err) {
-         console.error(errStr);
-         return false;
-      }
+       if (err) {
+           throw new Meteor.Error(400, errStr);
+       }
 
       json.meta.approved = false;
       json.meta.screeningStage = 0;
@@ -94,10 +92,11 @@ Meteor.methods({
          err = true;
          errStr += "Not an announcement. ";
       }
-      if (json.subType !== "textImage") {
+      if (json.subType !== "imageOnly") {
          err = true;
          errStr += "Not correct announcement type. ";
       }
+      console.log(json.headline);
       if (!json.headline) {
          err = true;
          errStr += "Missing headline. ";
@@ -106,10 +105,9 @@ Meteor.methods({
          err = true;
          errStr += "Missing image. ";
       }
-      if (err) {
-         console.error(errStr);
-         return false;
-      }
+       if (err) {
+           throw new Meteor.Error(400, errStr);
+       }
 
       json.meta.approved = false;
       json.meta.screeningStage = 0;
@@ -149,10 +147,9 @@ Meteor.methods({
          err = true;
          errStr += "Missing image. ";
       }
-      if (err) {
-         console.error(errStr);
-         return false;
-      }
+       if (err) {
+           throw new Meteor.Error(400, errStr);
+       }
 
       json.meta.approved = false;
       json.meta.screeningStage = 0;

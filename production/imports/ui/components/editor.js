@@ -244,13 +244,12 @@ Template.announcementOptions.events({
         if (type === "imageOnly") {
             let headline = $('#imageOnlyHeadline').val();
             let imgId = Session.get('newImageId');
-            let str = $(".announce-tags")[0].value;
             let separators = [' , ', ', ', ',', ' ,'];
-            let tags = str.split(new RegExp(separators.join('|'), 'g'));
+            let tags = $(".announce-tags")[0].value.split(new RegExp(separators.join('|'), 'g'));
             let options = $('.category-select')[1].options;
             let categories = [];
-            for (var i = 0; i < options.length; i++) {
-               var opt = options[i];
+            for (let i = 0; i < options.length; i++) {
+               let opt = options[i];
                if (opt.selected) {
                   categories.push(opt.value);
                }
@@ -277,6 +276,7 @@ Template.announcementOptions.events({
                 startDate: startDate,
                 endDate: endDate,
                 draftedDate: draftedDate,
+                headline: headline,
                 tags: tags,
                 categories: categories,
                 imgId: imgId,
@@ -285,11 +285,26 @@ Template.announcementOptions.events({
                 }
             };
 
-            console.log(JSON.stringify(json, 2, null));
-            //Meteor.call('postImage', json);
+            Meteor.call('postImage', json, function (err) {
+                if(err){
+                    alertError('Post Failed!', err.message);
+                }else{
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    if(operationStack.length-2 === 0){
+                        swapElements('.editor-main','.editor-open');
+                        $('html, body').css({
+                            overflow: 'visible'
+                        }); // Enables the Scrolling
+                    }else{
+                        swapElements(operationStack[operationStack.length-1],operationStack[operationStack.length-2]);
+                    }
+                    operationStack.pop();
+                }
+            });
+
         } else if (type === "textOnly") {
             let headline = $('#textOnlyHeadline').val();
-            let content = $('#textContent').val();
+            let content = $('.announcement-text')[0].value;
             let str = $(".announce-tags")[1].value;
             let separators = [' , ', ', ', ',', ' ,'];
             let tags = str.split(new RegExp(separators.join('|'), 'g'));
@@ -297,8 +312,8 @@ Template.announcementOptions.events({
             let options = $('.category-select')[2].options;
             let categories = [];
 
-            for (var i = 0; i < options.length; i++) {
-               var opt = options[i];
+            for (let i = 0; i < options.length; i++) {
+               let opt = options[i];
                if (opt.selected) {
                   categories.push(opt.value);
                }
@@ -334,16 +349,27 @@ Template.announcementOptions.events({
                 meta: {
                     hasUnsplash: hasUnsplash,
                 }
-            }
-            console.log(json);
-            Meteor.call('postText', json, function(err) {
-               if (err) {
-                  console.log(err);
-               }
+            };
+
+            Meteor.call('postText', json, function (err) {
+                if(err){
+                    alertError('Post Failed!', err.message);
+                }else{
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    if(operationStack.length-2 === 0){
+                        swapElements('.editor-main','.editor-open');
+                        $('html, body').css({
+                            overflow: 'visible'
+                        }); // Enables the Scrolling
+                    }else{
+                        swapElements(operationStack[operationStack.length-1],operationStack[operationStack.length-2]);
+                    }
+                    operationStack.pop();
+                }
             });
         } else {
             let headline = $('#imageTextHeadline').val();
-            let content = $('#textContent').val();
+            let content = $('.announcement-text')[1].value;
             let imgId = Session.get('newImageId');
             let str = $(".announce-tags")[2].value;
             let separators = [' , ', ', ', ',', ' ,'];
@@ -397,8 +423,23 @@ Template.announcementOptions.events({
                     hasUnsplash: hasUnsplash,
                 }
             };
-            console.log(JSON.stringify(json, null, 2));
-            //Meteor.call('postImageText', json);
+            Meteor.call('postImageText', json, function (err) {
+                console.log('posted');
+                if(err){
+                    alertError('Post Failed!', err.message);
+                }else{
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    if(operationStack.length-2 === 0){
+                        swapElements('.editor-main','.editor-open');
+                        $('html, body').css({
+                            overflow: 'visible'
+                        }); // Enables the Scrolling
+                    }else{
+                        swapElements(operationStack[operationStack.length-1],operationStack[operationStack.length-2]);
+                    }
+                    operationStack.pop();
+                }
+            });
         }
     }
 });
@@ -422,7 +463,6 @@ function initDropZone(id, info){
                             console.log("error removing image:\n" + err);
                         }
                     });
-                    console.log(fileObj);
                     //retreive file extension
                     hasUnsplash = false;
                     Session.set('newFileType', fileObj.extension());   //update the file type

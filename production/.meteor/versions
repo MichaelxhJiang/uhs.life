@@ -3,6 +3,7 @@ accounts-google@1.2.0
 accounts-oauth@1.1.15
 acemtp:algolia@3.9.1
 ajduke:bootstrap-tagsinput@0.7.1
+alanning:roles@1.2.16
 allow-deny@1.0.6
 amplify@1.0.0
 arillo:flow-router-helpers@0.5.2
