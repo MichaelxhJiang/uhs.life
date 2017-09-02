@@ -8,13 +8,29 @@ Meteor.methods({
          //TODO
       }
       let errStr = "", err = false;
-      if (json.type === "announcement") {
+      if (json.type !== "announcement") {
          err = true;
          errStr += "Not an announcement. ";
       }
-      if (json.subType === "textOnly") {
+      if (json.subType !== "textImage") {
          err = true;
-         errStr += "Not text first announcement type. ";
+         errStr += "Not correct announcement type. ";
+      }
+      if (!json.headline) {
+         err = true;
+         errStr += "Missing headline. ";
+      }
+      if (!json.content) {
+         err = true;
+         errStr += "Missing content. ";
+      }
+      if (!json.imgId) {
+         err = true;
+         errStr += "Missing image. ";
+      }
+      if (err) {
+         console.error(errStr);
+         return false;
       }
       json.meta.approved = false;
       json.meta.screeningStage = 0;
@@ -26,11 +42,34 @@ Meteor.methods({
             console.error(err);
          }
       });
+
    },
    'postText' : function(json) {
       let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
+      }
+
+      let errStr = "", err = false;
+      if (json.type !== "announcement") {
+         err = true;
+         errStr += "Not an announcement. ";
+      }
+      if (json.subType !== "textOnly") {
+         err = true;
+         errStr += "Not correct announcement type. ";
+      }
+      if (!json.headline) {
+         err = true;
+         errStr += "Missing headline. ";
+      }
+      if (!json.content) {
+         err = true;
+         errStr += "Missing content. ";
+      }
+      if (err) {
+         console.error(errStr);
+         return false;
       }
 
       json.meta.approved = false;
@@ -50,6 +89,28 @@ Meteor.methods({
          //TODO
       }
 
+      let errStr = "", err = false;
+      if (json.type !== "announcement") {
+         err = true;
+         errStr += "Not an announcement. ";
+      }
+      if (json.subType !== "textImage") {
+         err = true;
+         errStr += "Not correct announcement type. ";
+      }
+      if (!json.headline) {
+         err = true;
+         errStr += "Missing headline. ";
+      }
+      if (!json.imgId) {
+         err = true;
+         errStr += "Missing image. ";
+      }
+      if (err) {
+         console.error(errStr);
+         return false;
+      }
+
       json.meta.approved = false;
       json.meta.screeningStage = 0;
 
@@ -65,6 +126,32 @@ Meteor.methods({
       let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
          //TODO
+      }
+
+      let errStr = "", err = false;
+      if (json.type !== "blog") {
+         err = true;
+         errStr += "Not a blog. ";
+      }
+      if (!json.title) {
+         err = true;
+         errStr += "Missing title. ";
+      }
+      if (!json.subtitle) {
+         err = true;
+         errStr += "Missing subtitle. ";
+      }
+      if (!json.content) {
+         err = true;
+         errStr += "Missing content. ";
+      }
+      if (!json.imgId) {
+         err = true;
+         errStr += "Missing image. ";
+      }
+      if (err) {
+         console.error(errStr);
+         return false;
       }
 
       json.meta.approved = false;
