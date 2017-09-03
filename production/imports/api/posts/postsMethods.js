@@ -33,6 +33,7 @@ Meteor.methods({
       }
       json.meta.approved = false;
       json.meta.screeningStage = 0;
+      json.meta.display = true;
 
       //adds draft to the Posts collection
       Posts.insert(json, function(err, content) {
@@ -72,6 +73,7 @@ Meteor.methods({
 
       json.meta.approved = false;
       json.meta.screeningStage = 0;
+      json.meta.display = true;
 
       //adds draft to the Posts collection
       Posts.insert(json, function(err, content) {
@@ -111,6 +113,7 @@ Meteor.methods({
 
       json.meta.approved = false;
       json.meta.screeningStage = 0;
+      json.meta.display = true;
 
       //adds draft to the Posts collection
       Posts.insert(json, function(err, content) {
@@ -153,6 +156,7 @@ Meteor.methods({
 
       json.meta.approved = false;
       json.meta.screeningStage = 0;
+      json.meta.display = true;
 
       //adds draft to the Posts collection
       Posts.insert(json, function(err, content) {

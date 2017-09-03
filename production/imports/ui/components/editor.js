@@ -20,7 +20,8 @@ Template.editor.onRendered(function (){
         $('.input-daterange').datepicker({});
         $('.input-date').datepicker({});
     });
-    $('.editable').froalaEditor({
+    let $editor = $('.editable');
+    $editor.froalaEditor({
         scaytAutoload: false,
         //This setting can be completely ignored.
         scaytOptions: {
@@ -41,7 +42,34 @@ Template.editor.onRendered(function (){
         toolbarButtons: ['fullscreen','|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
         toolbarButtonsSM: ['fullscreen', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|',  'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
         placeholderText: 'Tell your story here...',
+        tableStyles: {
+            class1: 'table',
+        }
     });
+    $editor.on('froalaEditor.image.beforeUpload', function (e, editor, images) {
+        let self = $(this);
+
+        Images.insert(images[0], function (err, fileObj) {
+            //console.log("editor ",  editor);
+            //console.log("after insert:", fileObj._id);
+            Tracker.autorun(function (c) {
+                fileObj = Images.findOne(fileObj._id);
+                let url = fileObj.url();
+                if (url) {
+                    let imgList = $('img.fr-fic');
+                    self.froalaEditor('image.insert', url, true);
+                    imgList[imgList.length-1].remove();
+                    return {
+                        link: url
+                    };
+                }
+            });
+        });
+    });
+/*    $editor.on('froalaEditor.image.uploaded', function (e, editor, response) {
+        let imgList = $('img.fr-fic');
+        imgList[imgList.length-1].remove();
+    });*/
     if (Meteor.isClient){
         let arrayOfImageIds = [];
         Dropzone.autoDiscover = false;
@@ -146,6 +174,12 @@ Template.editor.events({
         }else{
             $('.announcement-counter').text(maxlength - length);
         }
+    },
+    'click .priority-toggle': function (evt) {
+        let priority = $(evt.target).attr('data-priority');
+        $('.is-checked').removeClass('is-checked');
+        $(evt.target).addClass('is-checked');
+        Session.set('priority', priority);
     },
     'click .publish' : function(event, template) {
         let title = $('#blogTitle').val() + " (This is a preview)";
@@ -391,7 +425,7 @@ Template.announcementOptions.events({
             let draftedDate = new Date();
 
             //meta
-            let imageFirst = null;
+            let priority = Session.get('priority');
 
             if (!imgId) {
                 //TODO
@@ -419,7 +453,7 @@ Template.announcementOptions.events({
                 categories: categories,
                 imgId: imgId,
                 meta: {
-                    imageFirst: imageFirst,
+                    priority: priority,
                     hasUnsplash: hasUnsplash,
                 }
             };

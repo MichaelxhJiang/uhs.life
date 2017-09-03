@@ -6,9 +6,10 @@ import './navigation.html'
 import '../lib/morphext.js'
 
 Template.navigation.onRendered(function () {
-    $('.course-list').hide();
+    //$('.course-list').hide();
     $('.main-search').hide();
     $('.search-content').hide();
+    $('.nav-overlay').hide();
     $(".text-morph").Morphext({
         // The [in] animation type. Refer to Animate.css for a list of available animations.
         animation: "flipInX",
@@ -40,12 +41,32 @@ Template.navigation.events({
             sideNav.css('margin-left', '0');
             sideNavPrompt.html("<i class='fa fa-times'></i> CLOSE");
             $('.top-nav').css('margin-left', '+=320px');
-            $('.main').css('margin-right', '-=320px');
+            $('.main').css('margin-left', '+=320px');
+            $('.nav-overlay').fadeIn('fast');
         }else{
             sideNav.css('margin-left','-320px');
             $('.top-nav').css('margin-left','-=320px');
-            $('.main').css('margin-right','+=320px');
+            $('.main').css('margin-left','-=320px');
             sideNavPrompt.html("<i class='fa fa-bars'></i> MENU");
+            $('.nav-overlay').fadeOut('fast');
+        }
+    },
+    'click .nav-overlay': function () {
+        let sideNav = $('.side-nav');
+        let sideNavPrompt = $('.side-nav-prompt');
+        let width = parseInt(sideNav.css('margin-left'));
+        if(width !== 0) {
+            sideNav.css('margin-left', '0');
+            sideNavPrompt.html("<i class='fa fa-times'></i> CLOSE");
+            $('.top-nav').css('margin-left', '+=320px');
+            $('.main').css('margin-left', '+=320px');
+            $('.nav-overlay').fadeIn('fast');
+        }else{
+            sideNav.css('margin-left','-320px');
+            $('.top-nav').css('margin-left','-=320px');
+            $('.main').css('margin-left','-=320px');
+            sideNavPrompt.html("<i class='fa fa-bars'></i> MENU");
+            $('.nav-overlay').fadeOut('fast');
         }
     },
     'click .nav-oper': function () {
