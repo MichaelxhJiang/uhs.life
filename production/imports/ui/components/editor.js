@@ -289,7 +289,7 @@ Template.announcementOptions.events({
             //Meteor.call('postImage', json);
         } else if (type === "textOnly") {
             let headline = $('#textOnlyHeadline').val();
-            let content = $('#textContent').val();
+            let content = $('.announcement-text')[0].value;
             let str = $(".announce-tags")[1].value;
             let separators = [' , ', ', ', ',', ' ,'];
             let tags = str.split(new RegExp(separators.join('|'), 'g'));
@@ -342,8 +342,8 @@ Template.announcementOptions.events({
                }
             });
         } else {
-            let headline = $('#imageTextHeadline').val();
-            let content = $('#textContent').val();
+            let headline = $('#textImageHeadline').val();
+            let content = $('.announcement-text')[1].value;
             let imgId = Session.get('newImageId');
             let str = $(".announce-tags")[2].value;
             let separators = [' , ', ', ', ',', ' ,'];
