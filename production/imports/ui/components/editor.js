@@ -403,7 +403,6 @@ Template.announcementOptions.events({
             });
         } else {
             let headline = $('#textImageHeadline').val();
-            let headline = $('#imageTextHeadline').val();
             let content = $('.announcement-text')[1].value;
             let imgId = Session.get('newImageId');
             let str = $(".announce-tags")[2].value;
