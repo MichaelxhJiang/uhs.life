@@ -20,7 +20,8 @@ Template.editor.onRendered(function (){
         $('.input-daterange').datepicker({});
         $('.input-date').datepicker({});
     });
-    $('.editable').froalaEditor({
+    let $editor = $('.editable');
+    $editor.froalaEditor({
         scaytAutoload: false,
         //This setting can be completely ignored.
         scaytOptions: {
@@ -41,7 +42,34 @@ Template.editor.onRendered(function (){
         toolbarButtons: ['fullscreen','|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
         toolbarButtonsSM: ['fullscreen', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|',  'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
         placeholderText: 'Tell your story here...',
+        tableStyles: {
+            class1: 'table',
+        }
     });
+    $editor.on('froalaEditor.image.beforeUpload', function (e, editor, images) {
+        let self = $(this);
+
+        Images.insert(images[0], function (err, fileObj) {
+            //console.log("editor ",  editor);
+            //console.log("after insert:", fileObj._id);
+            Tracker.autorun(function (c) {
+                fileObj = Images.findOne(fileObj._id);
+                let url = fileObj.url();
+                if (url) {
+                    let imgList = $('img.fr-fic');
+                    self.froalaEditor('image.insert', url, true);
+                    imgList[imgList.length-1].remove();
+                    return {
+                        link: url
+                    };
+                }
+            });
+        });
+    });
+/*    $editor.on('froalaEditor.image.uploaded', function (e, editor, response) {
+        let imgList = $('img.fr-fic');
+        imgList[imgList.length-1].remove();
+    });*/
     if (Meteor.isClient){
         let arrayOfImageIds = [];
         Dropzone.autoDiscover = false;
@@ -147,6 +175,12 @@ Template.editor.events({
             $('.announcement-counter').text(maxlength - length);
         }
     },
+    'click .priority-toggle': function (evt) {
+        let priority = $(evt.target).attr('data-priority');
+        $('.is-checked').removeClass('is-checked');
+        $(evt.target).addClass('is-checked');
+        Session.set('priority', priority);
+    },
     'click .publish' : function(event, template) {
         let title = $('#blogTitle').val() + " (This is a preview)";
         let subtitle = $('#blogSubTitle').val();
@@ -244,13 +278,12 @@ Template.announcementOptions.events({
         if (type === "imageOnly") {
             let headline = $('#imageOnlyHeadline').val();
             let imgId = Session.get('newImageId');
-            let str = $(".announce-tags")[0].value;
             let separators = [' , ', ', ', ',', ' ,'];
-            let tags = str.split(new RegExp(separators.join('|'), 'g'));
+            let tags = $(".announce-tags")[0].value.split(new RegExp(separators.join('|'), 'g'));
             let options = $('.category-select')[1].options;
             let categories = [];
-            for (var i = 0; i < options.length; i++) {
-               var opt = options[i];
+            for (let i = 0; i < options.length; i++) {
+               let opt = options[i];
                if (opt.selected) {
                   categories.push(opt.value);
                }
@@ -277,6 +310,7 @@ Template.announcementOptions.events({
                 startDate: startDate,
                 endDate: endDate,
                 draftedDate: draftedDate,
+                headline: headline,
                 tags: tags,
                 categories: categories,
                 imgId: imgId,
@@ -285,8 +319,23 @@ Template.announcementOptions.events({
                 }
             };
 
-            console.log(JSON.stringify(json, 2, null));
-            //Meteor.call('postImage', json);
+            Meteor.call('postImage', json, function (err) {
+                if(err){
+                    alertError('Post Failed!', err.message);
+                }else{
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    if(operationStack.length-2 === 0){
+                        swapElements('.editor-main','.editor-open');
+                        $('html, body').css({
+                            overflow: 'visible'
+                        }); // Enables the Scrolling
+                    }else{
+                        swapElements(operationStack[operationStack.length-1],operationStack[operationStack.length-2]);
+                    }
+                    operationStack.pop();
+                }
+            });
+
         } else if (type === "textOnly") {
             let headline = $('#textOnlyHeadline').val();
             let content = $('.announcement-text')[0].value;
@@ -297,8 +346,8 @@ Template.announcementOptions.events({
             let options = $('.category-select')[2].options;
             let categories = [];
 
-            for (var i = 0; i < options.length; i++) {
-               var opt = options[i];
+            for (let i = 0; i < options.length; i++) {
+               let opt = options[i];
                if (opt.selected) {
                   categories.push(opt.value);
                }
@@ -334,15 +383,27 @@ Template.announcementOptions.events({
                 meta: {
                     hasUnsplash: hasUnsplash,
                 }
-            }
-            console.log(json);
-            Meteor.call('postText', json, function(err) {
-               if (err) {
-                  console.log(err);
-               }
+            };
+
+            Meteor.call('postText', json, function (err) {
+                if(err){
+                    alertError('Post Failed!', err.message);
+                }else{
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    if(operationStack.length-2 === 0){
+                        swapElements('.editor-main','.editor-open');
+                        $('html, body').css({
+                            overflow: 'visible'
+                        }); // Enables the Scrolling
+                    }else{
+                        swapElements(operationStack[operationStack.length-1],operationStack[operationStack.length-2]);
+                    }
+                    operationStack.pop();
+                }
             });
         } else {
             let headline = $('#textImageHeadline').val();
+            let headline = $('#imageTextHeadline').val();
             let content = $('.announcement-text')[1].value;
             let imgId = Session.get('newImageId');
             let str = $(".announce-tags")[2].value;
@@ -365,7 +426,7 @@ Template.announcementOptions.events({
             let draftedDate = new Date();
 
             //meta
-            let imageFirst = null;
+            let priority = Session.get('priority');
 
             if (!imgId) {
                 //TODO
@@ -393,12 +454,27 @@ Template.announcementOptions.events({
                 categories: categories,
                 imgId: imgId,
                 meta: {
-                    imageFirst: imageFirst,
+                    priority: priority,
                     hasUnsplash: hasUnsplash,
                 }
             };
-            console.log(JSON.stringify(json, null, 2));
-            //Meteor.call('postImageText', json);
+            Meteor.call('postImageText', json, function (err) {
+                console.log('posted');
+                if(err){
+                    alertError('Post Failed!', err.message);
+                }else{
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    if(operationStack.length-2 === 0){
+                        swapElements('.editor-main','.editor-open');
+                        $('html, body').css({
+                            overflow: 'visible'
+                        }); // Enables the Scrolling
+                    }else{
+                        swapElements(operationStack[operationStack.length-1],operationStack[operationStack.length-2]);
+                    }
+                    operationStack.pop();
+                }
+            });
         }
     }
 });
@@ -422,7 +498,6 @@ function initDropZone(id, info){
                             console.log("error removing image:\n" + err);
                         }
                     });
-                    console.log(fileObj);
                     //retreive file extension
                     hasUnsplash = false;
                     Session.set('newFileType', fileObj.extension());   //update the file type
