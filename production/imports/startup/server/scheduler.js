@@ -3,7 +3,7 @@ import { Posts } from '../../api/posts/posts.js';
 
 Meteor.methods({
    'scheduleAnnouncement' : function(annnouncementId, startDate, endDate) {
-      let announcement = Posts.findOne('_id': announcementId);
+      let announcement = Posts.findOne({'_id': announcementId});
 
       if (announcement.type === 'announcement') {
          let sDate = new Date(startDate);
@@ -36,8 +36,8 @@ Meteor.methods({
          return -1;
       }
    },
-   'scheduleBlog' : function(blogId, releaseDate, function() {
-      let blog = Posts.findOne('_id':blogId);
+   'scheduleBlog' : function(blogId, releaseDate) {
+      let blog = Posts.findOne({'_id':blogId});
       if (blog.type === 'blog') {
          let rDate = new Date(releaseDate);
          let cDate = new Date();
@@ -55,5 +55,5 @@ Meteor.methods({
          console.log('not a blog');
          return -1;
       }
-   })
-})
+   }
+});

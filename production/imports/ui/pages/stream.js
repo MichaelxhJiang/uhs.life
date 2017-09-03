@@ -5,7 +5,6 @@ import imagesLoaded from 'imagesloaded';
 import './stream.html'
 
 Template.stream.onRendered(function () {
-
         let $grid = $('.grid');
         $grid.isotope({
             itemSelector: '.grid-item',
