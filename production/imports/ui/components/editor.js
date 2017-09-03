@@ -6,7 +6,7 @@ import { Images } from '../../api/images/images.js';
 import { Drafts } from '../../api/drafts/drafts.js';
 
 import './editor.html';
-var operationStack = ['.editor-open'];
+let operationStack = ['.editor-open'];
 let hasUnsplash = false;
 Template.editor.onRendered(function (){
     $(document).ready(function () {
@@ -17,8 +17,12 @@ Template.editor.onRendered(function (){
         $('.visibility-select').select2({
             placeholder: "Click to select the scope of this post",
         });
-        $('.input-daterange').datepicker({});
-        $('.input-date').datepicker({});
+        $('.input-daterange').datepicker({
+            startDate: '+0d'
+        });
+        $('.input-date').datepicker({
+            startDate: '+0d'
+        });
     });
     let $editor = $('.editable');
     $editor.froalaEditor({
