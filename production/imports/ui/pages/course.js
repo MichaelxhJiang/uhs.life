@@ -3,6 +3,10 @@ import '../lib/alert.js'
 
 import './course.html';
 
+Template.course.onCreated(function () {
+    Session.set('navTitle', 'TEJ4M1 | Grade 12 Computer Engineering ;; You Received: ' + '90%')
+});
+
 Template.course.onRendered(function () {
     /*alertConfirm("YES!", "This is a success",function (result) {
         console.log(result);
