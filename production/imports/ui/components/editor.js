@@ -43,12 +43,18 @@ Template.editor.onRendered(function (){
             scriptPath: 'https://demo.webspellchecker.net/froala/customscayt.js'
         },
         //ignore end
-        toolbarButtons: ['fullscreen','|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
+        toolbarButtons: ['fullscreen','|', 'paragraphFormat', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', '|', 'print', 'help', '|', 'undo', 'redo'],
         toolbarButtonsSM: ['fullscreen', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|',  'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
         placeholderText: 'Tell your story here...',
         tableStyles: {
             class1: 'table',
-        }
+        },
+        paragraphFormat: {
+            N: 'Normal',
+            H2: 'Title',
+            PRE: 'Code'
+        },
+        fileAllowedTypes: ['application/pdf', 'application/msword']
     });
     $editor.on('froalaEditor.image.beforeUpload', function (e, editor, images) {
         let self = $(this);
