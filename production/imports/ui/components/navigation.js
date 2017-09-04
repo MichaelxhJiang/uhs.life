@@ -8,13 +8,13 @@ let morphSettings = {
     // The [in] animation type. Refer to Animate.css for a list of available animations.
     animation: "flipInX",
     // An array of phrases to rotate are created based on this separator. Change it if you wish to separate the phrases differently (e.g. So Simple | Very Doge | Much Wow | Such Cool).
-    separator: "::",
+    separator: ";;",
     // The delay between the changing of each phrase in milliseconds.
     speed: 5000,
     complete: function () {
         // Called after the entrance animation is executed.
     }
-}
+};
 Template.navigation.onRendered(function () {
     //$('.course-list').hide();
     $('.main-search').hide();
@@ -31,7 +31,7 @@ Template.navigation.helpers({
         return Session.get('name');
     },
     'title': function () {
-        return 'Stream ;; ' + moment().format("MMM Do YYYY")
+        return Session.get('navTitle');
     }
 });
 
@@ -139,7 +139,7 @@ Template.navigation.events({
 });
 
 setTitle = function (title) {
-    $('.nav-hub').html('<span>'+title+'</span>');
+    $('.nav-title-text').html('<span>'+title+'</span>');
     $(".text-morph").Morphext(morphSettings);
 };
 
