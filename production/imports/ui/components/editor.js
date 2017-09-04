@@ -220,6 +220,23 @@ Template.editor.events({
             visibility: visibility
          }
       }
+      Meteor.call('posts.postBlog', json, function (err) {
+         if(err){
+            alertError('Post Failed!', err.message);
+         }else{
+            alertSuccess('Success!', 'The post has been submitted.');
+
+            if(operationStack.length-2 === 0){
+               swapElements('.editor-main','.editor-open');
+               $('html, body').css({
+                  overflow: 'visible'
+               }); // Enables the Scrolling
+            }else{
+               swapElements(operationStack[operationStack.length-1],operationStack[operationStack.length-2]);
+            }
+            operationStack.pop();
+         }
+      });
    },
    'click #getFeaturedUnsplash': function (evt, template) {
       $('#unsplashPrompt').html("<i class='fa fa-spinner fa-pulse fa-fw'></i> Please Wait...");
@@ -325,7 +342,7 @@ Template.announcementOptions.events({
             }
          };
 
-         Meteor.call('postImage', json, function (err) {
+         Meteor.call('posts.postImage', json, function (err) {
             if(err){
                alertError('Post Failed!', err.message);
             }else{
@@ -392,7 +409,7 @@ Template.announcementOptions.events({
             }
          };
 
-         Meteor.call('postText', json, function (err) {
+         Meteor.call('posts.postText', json, function (err) {
             if(err){
                alertError('Post Failed!', err.message);
             }else{
@@ -464,7 +481,7 @@ Template.announcementOptions.events({
                hasUnsplash: hasUnsplash,
             }
          };
-         Meteor.call('postImageText', json, function (err) {
+         Meteor.call('posts.postImageText', json, function (err) {
             console.log('posted');
             if(err){
                alertError('Post Failed!', err.message);
@@ -517,7 +534,7 @@ Template.suggestionEditor.events({
       };
       console.log(json);
 
-      Meteor.call('postSuggestion', json, function (err) {
+      Meteor.call('posts.postSuggestion', json, function (err) {
          console.log('posted');
          if(err){
             alertError('Post Failed!', err.message);
@@ -545,7 +562,7 @@ function initDropZone(id, info){
       dictDefaultMessage: info.message || "Drop your image here, or click to select an image using the browser.",
       accept: function(file, done){
          let FSFile = new FS.File(file);
-         
+
          Images.insert(FSFile, function (err, fileObj) {
             if (err){
                console.log(err);

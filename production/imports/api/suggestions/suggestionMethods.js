@@ -1,7 +1,13 @@
 import { Suggestions } from './suggestions.js';
 
+if (Meteor.isServer) {
+   Meteor.publish('suggestions', function suggestionsPublication() {
+    return Suggestions.find();  //TODO only show drafts of current user
+  });
+}
+
 Meteor.methods({
-    'postSuggestion' : function(json) {
+    'suggestions.postSuggestion' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -35,5 +41,8 @@ Meteor.methods({
             }
         });
 
+    },
+    'suggestions.getSuggestions' : function() {
+        return Suggestions.find();
     },
 })

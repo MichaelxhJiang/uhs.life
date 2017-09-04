@@ -1,8 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Posts } from './posts.js';
 
+if (Meteor.isServer) {
+   Meteor.publish('posts', function postsPublication() {
+    return Posts.find();
+  });
+}
+
 Meteor.methods({
-    'postTextImage' : function(json) {
+    'posts.postTextImage' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -51,7 +57,7 @@ Meteor.methods({
         });
 
     },
-    'postText' : function(json) {
+    'posts.postText' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -97,7 +103,7 @@ Meteor.methods({
             }
         });
     },
-    'postImage' : function(json) {
+    'posts.postImage' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -144,7 +150,7 @@ Meteor.methods({
             }
         });
     },
-    'postBlog' : function(json) {
+    'posts.postBlog' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -193,7 +199,15 @@ Meteor.methods({
             }
         });
     },
-    'getUnapprovedPosts' : function() {
+    'posts.getDisplayPosts' : function() {
+        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
+        if (accessLevel === 'teacher' || accessLevel === 'admin') {
+            //TODO
+        }
+
+        return Posts.find({'meta.approved':true, 'display': true});
+    },
+    'posts.getUnapprovedPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -201,7 +215,7 @@ Meteor.methods({
 
         return Posts.find({'meta.approved':false, 'meta.screeningStage': {$ne: -1}});
     },
-    'getApprovedPosts' : function() {
+    'posts.getApprovedPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -209,7 +223,7 @@ Meteor.methods({
 
         return Posts.find({'meta.approved':true, 'meta.screeningStage': 3});
     },
-    'getRejectedPosts' : function() {
+    'posts.getRejectedPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -217,7 +231,7 @@ Meteor.methods({
 
         return Posts.find({'meta.approved':false, 'meta.screeningStage': -1});
     },
-    'getPostsByUserId' : function (userId) {
+    'posts.getPostsByUserId' : function (userId) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -225,7 +239,7 @@ Meteor.methods({
 
         return Posts.find({'authorId': userId});
     },
-    'approvePost' : function(postId) {
+    'posts.approvePost' : function(postId) {
         let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -276,7 +290,7 @@ Meteor.methods({
             }
         });
     },
-    'unApprovePost' : function (postId) {
+    'posts.unApprovePost' : function (postId) {
         let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -284,7 +298,7 @@ Meteor.methods({
 
         Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.approved':false, 'meta.screeningStage':0, 'display': false}});
     },
-    'rejectPost' : function (postId) {
+    'posts.rejectPost' : function (postId) {
         let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -292,7 +306,7 @@ Meteor.methods({
 
         Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.screeningStage':-1}});
     },
-    'unRejectPost' : function (postId) {
+    'posts.unRejectPost' : function (postId) {
         let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
