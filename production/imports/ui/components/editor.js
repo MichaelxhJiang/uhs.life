@@ -130,8 +130,8 @@ Template.editor.events({
       Session.set('announcementType', 'blog');
    },
    'click #startAnnouncement': function () {
-      swapElements('.post-type', '.blog-announcements');
-      operationStack.push('.announcement-type');
+      swapElements('.post-type', '.announcement-menu');
+      operationStack.push('.announcement-menu');
    },
    'click #startSuggestion': function () {
       swapElements('.post-type', '.suggestions');
@@ -156,17 +156,17 @@ Template.editor.events({
       operationStack.pop();
    },
    'click #imageOnly': function () {
-      swapElements('.announcement-type', '.image-only');
+      swapElements('.announcement-menu', '.image-only');
       operationStack.push('.image-only');
       Session.set('announcementType', 'imageOnly');
    },
    'click #textOnly': function () {
-      swapElements('.announcement-type', '.text-only');
+      swapElements('.announcement-menu', '.text-only');
       operationStack.push('.text-only');
       Session.set('announcementType', 'textOnly');
    },
    'click #textAndImage': function () {
-      swapElements('.announcement-type', '.text-and-image');
+      swapElements('.announcement-menu', '.text-and-image');
       operationStack.push('.text-and-image');
       Session.set('announcementType', 'textAndImage');
    },
