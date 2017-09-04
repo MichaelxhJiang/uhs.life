@@ -7,6 +7,7 @@
             <a class="editor-control editor-back"><i class="fa fa-arrow-left"></i></a>
             <a class="editor-control editor-close"><i class="fa fa-times"></i></a>
         </div>
+        {{> announcementMenu}}
         {{> blogEditor}}
         {{> announcementEditor}}
         {{> suggestionEditor}}
@@ -229,8 +230,8 @@
     </div>
 </template>
 
-<template name="announcementEditor">
-    <div class="container blog-announcements" hidden>
+<template name="announcementMenu">
+    <div class="container announcement-menu" hidden>
         <div class="announcement-type text-center">
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
@@ -259,6 +260,11 @@
                 </div>
             </div>
         </div>
+    </div>
+</template>
+
+<template name="announcementEditor">
+    <div class="container blog-announcements">
         <div class="text-center image-only" hidden>
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">

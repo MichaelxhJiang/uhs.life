@@ -14,7 +14,48 @@
     <div class="container">
         <div class="row text-center mb-60">
             <div class="col-lg-12">
-                <h2>Welcome home, Name.</h2>
+                <h2>Home</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="dash-item">
+                    <div class="dash-item-header text-center">
+                        <h3>New Announcement Requests</h3>
+                        <p>Click on one to edit its details</p>
+                    </div>
+                    <hr />
+                    <div class="editor-options new-post draft-inline">
+                        <div class="content-preview">
+                            <h4 class="draft-title">This is an example of draft item with no images</h4>
+                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
+                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="editor-options new-post draft-inline">
+                        <div class="content-preview">
+                            <h4 class="draft-title">This is an example of draft item with no images</h4>
+
+                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
+                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="dashUsers">
+    <div class="container">
+        <div class="row text-center mb-60">
+            <div class="col-lg-12">
+                <h2>User Manager</h2>
             </div>
         </div>
         <div class="row">
@@ -27,7 +68,6 @@
                     <div class="editor-options draft-inline">
                         <div class="content-preview">
                             <h4 class="draft-title">This is an example of draft item with no images</h4>
-
                             <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
                             <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
                             <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
@@ -98,16 +138,72 @@
 
 <template name="dashSideBar">
     <div class="side-nav-header">
-        <h4>
-            Yonglin Wang
-        </h4>
+        <h4>Yonglin Wang</h4>
         <a href="logout" class="logout-btn">LOG OUT</a>
     </div>
     <div class="side-nav-body">
-        <a href=""><i class="fa fa-home"></i> Home</a>
+        <a href="dash-home"><i class="fa fa-home"></i> Home</a>
+        <a href=""><i class="fa fa-bullhorn"></i> Announcements</a>
         <a href=""><i class="fa fa-file-text-o"></i> Posts</a>
-        <a href=""><i class="fa fa-group"></i> Users</a>
+        <a href=""><i class="fa fa-pencil-square-o"></i> View Suggestions</a>
+        <a href=""><i class="fa fa-list"></i> Manage Categories</a>
+        <a href=""><i class="fa fa-group"></i> Manage Users</a>
         <a href=""><i class="fa fa-newspaper-o"></i> Newsletters</a>
         <a href=""><i class="fa fa-gear"></i> Settings</a>
+    </div>
+</template>
+
+<template name="dashPostEditor">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editing Announcement Request Content</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="newPostHeadline">Headline</label>
+                            <input type="text" aria-describedby="textHeadline" placeholder="Enter a new headline" id="newPostHeadline">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPostBody">Text Content</label>
+                            <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="140" id="newPostBody"></textarea>
+                            <small class="text-left">You have <span class="announcement-counter">140</span> characters left.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPostTags">Tags</label>
+                            <input data-role="tagsinput" class="announce-tags" placeholder="Write your tags here" id="newPostTags">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPostCategories">Categories</label>
+                            <select name="category-selector" class="category-select" multiple style="width: 75%" id="newPostCategories">
+                                <option value="1">Mustard</option>
+                                <option value="2">Ketchup</option>
+                                <option value="3">Relish</option>
+                                <option value="angular">Angular</option>
+                                <option value="css">CSS</option>
+                                <option value="design">Graphic Design</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Date Range</label>
+                            <div class="input-group input-daterange">
+                                <input type="text" class="form-control startDate" >
+                                <div class="input-group-addon">to</div>
+                                <input type="text" class="form-control endDate">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-wide">Update</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 </template>
