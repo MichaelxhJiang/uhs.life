@@ -2,12 +2,12 @@ import schedule from 'node-schedule';
 import { Posts } from '../../api/posts/posts.js';
 
 Meteor.methods({
-   'scheduleAnnouncement' : function(annnouncementId, startDate, endDate) {
+   'scheduleAnnouncement' : function(annnouncementId) {
       let announcement = Posts.findOne({'_id': announcementId});
 
       if (announcement.type === 'announcement') {
-         let sDate = new Date(startDate);
-         let eDate = new Date(endDate);
+         let sDate = new Date(announcement.startDate);
+         let eDate = new Date(announcement.endDate);
          let cDate = new Date();
          let flag = false;
 
@@ -36,10 +36,11 @@ Meteor.methods({
          return -1;
       }
    },
-   'scheduleBlog' : function(blogId, releaseDate) {
+   'scheduleBlog' : function(blogId) {
       let blog = Posts.findOne({'_id':blogId});
+
       if (blog.type === 'blog') {
-         let rDate = new Date(releaseDate);
+         let rDate = new Date(blog.releaseDate);
          let cDate = new Date();
 
          if (rDate.getTime() < cDate.getTime()) { //already past start date
