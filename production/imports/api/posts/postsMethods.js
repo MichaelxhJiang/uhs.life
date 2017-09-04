@@ -40,7 +40,7 @@ Meteor.methods({
         }
         json.meta.approved = false;
         json.meta.screeningStage = 0;
-        json.meta.display = true;
+        json.meta.display = false;
 
         //adds draft to the Posts collection
         Posts.insert(json, function(err, content) {
@@ -87,7 +87,7 @@ Meteor.methods({
 
         json.meta.approved = false;
         json.meta.screeningStage = 0;
-        json.meta.display = true;
+        json.meta.display = false;
 
         //adds draft to the Posts collection
         Posts.insert(json, function(err, content) {
@@ -134,7 +134,7 @@ Meteor.methods({
 
         json.meta.approved = false;
         json.meta.screeningStage = 0;
-        json.meta.display = true;
+        json.meta.display = false;
 
         //adds draft to the Posts collection
         Posts.insert(json, function(err, content) {
@@ -183,7 +183,7 @@ Meteor.methods({
 
         json.meta.approved = false;
         json.meta.screeningStage = 0;
-        json.meta.display = true;
+        json.meta.display = false;
 
         //adds draft to the Posts collection
         Posts.insert(json, function(err, content) {
@@ -235,16 +235,42 @@ Meteor.methods({
             if (err) {
                 console.log(err);
             } else {
+               Meteor.call('scheduleAnnouncement', postId, function(err) {
+                  if (err) {
+                     console.log(err);
+                  }
+               });
+
                 //Post on twitter
                 Meteor.call('setupTwitterAPI', function(err) {
                     if(err) {
                         console.log(err);
                     } else {
-                        Meteor.call('postTextAnnouncementTwitter', obj, function(err) {
-                            if (err) {
-                                console.log(err);
-                            }
-                        })
+                       let type = Posts.findOne({'_id':postId}).type, subType = Posts.findOne({'_id':postId}).subType;
+                       if (type === 'announcement') {
+                          if (subType === 'textOnly') {
+                              Meteor.call('postTextAnnouncementTwitter', obj, function(err) {
+                                  if (err) {
+                                      console.log(err);
+                                  }
+                              });
+                           } else if (subType === 'imageOnly') {
+                              Meteor.call('postImageAnnouncementTwitter', obj, function(err) {
+                                  if (err) {
+                                      console.log(err);
+                                  }
+                              });
+                           } else {
+                              Meteor.call('postTextImageAnnouncementTwitter', obj, function(err) {
+                                  if (err) {
+                                      console.log(err);
+                                  }
+                              });
+                           }
+                        }  else {
+                           console.log('This post is not announcement');
+                           return -1;
+                        }
                     }
                 });
             }
@@ -256,7 +282,7 @@ Meteor.methods({
             //TODO
         }
 
-        Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.approved':false, 'meta.screeningStage':0}});
+        Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.approved':false, 'meta.screeningStage':0, 'display': false}});
     },
     'rejectPost' : function (postId) {
         let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
