@@ -99,7 +99,12 @@ Template.stream.helpers({
             getUnsplashLink(this.imgId);
             return Session.get('unsplashFeatured');
         }else if(this.imgId){
-            return Images.findOne({_id: this.imgId}).url();
+            try{
+                return Images.findOne({_id: this.imgId}).url();
+            }catch(e){
+                //console.log('error getting photo')
+            }
+
         }
     }
 
@@ -123,6 +128,7 @@ getUnsplashLink = function (id) {
         if(err){
             console.log(err);
         }else{
+            console.log(id);
             Meteor.call('getPhoto', id, function (err,data) {
                 if(err){
                     console.log(err);
