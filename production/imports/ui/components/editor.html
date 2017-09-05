@@ -7,6 +7,7 @@
             <a class="editor-control editor-back"><i class="fa fa-arrow-left"></i></a>
             <a class="editor-control editor-close"><i class="fa fa-times"></i></a>
         </div>
+        {{> announcementMenu}}
         {{> blogEditor}}
         {{> announcementEditor}}
         {{> suggestionEditor}}
@@ -70,17 +71,25 @@
                             <h4>Select a place to start writing</h4>
                         </div>
                     </div>
-                    <div class="row text-center">
-                        <div class="col-lg-6" >
+                    <div class="row text-center mb-30">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" >
                             <div class="editor-options" id="startNewDraft">
                                 <i class="fa fa-pencil fa-5x mb-15"></i>
                                 <p>Create from scratch</p>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-sm-12 col-xs-12">
                             <div class="editor-options" id="checkDrafts">
                                 <i class="fa fa-file-text-o fa-5x mb-15"></i>
                                 <p>Resume a Draft</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-lg-12">
+                            <div class="editor-options" id="checkDrafts">
+                                <i class="fa fa-list fa-5x mb-15" aria-hidden="true"></i>
+                                <p>Check all your posts</p>
                             </div>
                         </div>
                     </div>
@@ -221,8 +230,8 @@
     </div>
 </template>
 
-<template name="announcementEditor">
-    <div class="container blog-announcements" hidden>
+<template name="announcementMenu">
+    <div class="container announcement-menu" hidden>
         <div class="announcement-type text-center">
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
@@ -251,6 +260,11 @@
                 </div>
             </div>
         </div>
+    </div>
+</template>
+
+<template name="announcementEditor">
+    <div class="container blog-announcements">
         <div class="text-center image-only" hidden>
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
@@ -300,10 +314,11 @@
     </div>
 </template>
 <template name="announcementOptions">
+    {{#if imgAndText}}
     <div class="row mb-45 text-left">
-        <div class="col-lg-4 col-md-3">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <h3>Add Some Tags</h3>
-            <p>By adding some tags, other users can more easily find your post by search. To add a tag, simply write in the text box below, hit enter after every tag.</p>
+            <p>By adding some tags, other users can easily find your post by search. To add a tag, simply write in the text box below, hit enter after every tag.</p>
             <input data-role="tagsinput" class="announce-tags" placeholder="Write your tags here">
             <h3>Select Categories</h3>
             <p>By selecting the categories this post belongs to, we can improve the user feed experience. To select click on the box below and pick an option from the drop up box, you can choose multiple if needed.</p>
@@ -316,41 +331,62 @@
                 <option value="design">Graphic Design</option>
             </select>
         </div>
-        <div class="col-lg-4 col-md-3">
-            <h3>Set the visibility</h3>
-            <p>Choose who this blog post is written for, public means people outside the board will receive access.</p>
-            <select name="category-selector" class="visibility-select" style="width: 75%">
-                <option value="1">Everyone</option>
-                <option value="2">Students</option>
-                <option value="3">Teachers and Staff</option>
-            </select>
-            {{#if imgAndText}}
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <h3>Set Priority</h3>
             <p class="mb-15">Selecting a priority helps us determine the best way to present your announcement to other users.</p>
             <div class="col-md-6 col-sm-6 col-xs-6 text-center">
-                <div class="is-checked priority-toggle">
+                <div class="is-checked priority-toggle" data-priority="image">
                     <i class="fa fa-file-image-o fa-3x"></i>
                     <h4 class="">Image</h4>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-6 text-center">
-                <div class="priority-toggle">
+            <div class="col-md-6 col-sm-6 col-xs-6 text-center" >
+                <div class="priority-toggle" data-priority="text">
                     <i class="fa fa-file-text-o fa-3x"></i>
                     <h4 class="">Text</h4>
                 </div>
             </div>
-                {{/ if}}
         </div>
-        <div class="col-lg-4 col-md-3">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <h3>Pick a date range</h3>
             <p>Use the date selector bellow to select the days you would like this post to be visible to the rest of the users.</p>
             <div class="input-group input-daterange">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control startDate" >
                 <div class="input-group-addon">to</div>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control endDate">
             </div>
         </div>
     </div>
+    {{else}}
+        <div class="row mb-45 text-left">
+            <div class="col-lg-4 col-md-3">
+                <h3>Add Some Tags</h3>
+                <p>By adding some tags, other users can more easily find your post by search. To add a tag, simply write in the text box below, hit enter after every tag.</p>
+                <input data-role="tagsinput" class="announce-tags" placeholder="Write your tags here">
+            </div>
+            <div class="col-lg-4 col-md-3">
+                <h3>Select Categories</h3>
+                <p>By selecting the categories this post belongs to, we can improve the user feed experience. To select click on the box below and pick an option from the drop up box, you can choose multiple if needed.</p>
+                <select name="category-selector" class="category-select" multiple style="width: 75%">
+                    <option value="1">Mustard</option>
+                    <option value="2">Ketchup</option>
+                    <option value="3">Relish</option>
+                    <option value="angular">Angular</option>
+                    <option value="css">CSS</option>
+                    <option value="design">Graphic Design</option>
+                </select>
+            </div>
+            <div class="col-lg-4 col-md-3">
+                <h3>Pick a date range</h3>
+                <p>Use the date selector bellow to select the days you would like this post to be visible to the rest of the users.</p>
+                <div class="input-group input-daterange">
+                    <input type="text" class="form-control startDate" >
+                    <div class="input-group-addon">to</div>
+                    <input type="text" class="form-control endDate">
+                </div>
+            </div>
+        </div>
+    {{/ if}}
     <div class="row mb-45">
         <div class="col-lg-6 col-md-6">
             <button class="btn btn-login btn-post">POST</button>
@@ -382,8 +418,8 @@
         <div class="mb-45">
             <div class="row mb-30 text-center">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                    <h2>Nice,</h2>
-                    <h4>What would you like to compose?</h4>
+                    <h2>Feedback and suggestions,</h2>
+                    <h4>Voice your concerns to the school admins and the developers of uhs.life directly.</h4>
                 </div>
             </div>
         </div>
@@ -391,5 +427,10 @@
         {{> announcementTextInput max="500"}}
         <h3>Add an image if you like!</h3>
         {{> announcementImageInput id="suggestionImage"}}
+        <div class="row mb-45">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-login btn-post">POST</button>
+            </div>
+        </div>
     </div>
 </template>

@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Images } from '../imports/api/announcements/images.js';
 import '/imports/startup/client'
+import schedule from 'node-schedule';
 
 import './main.html';
 
@@ -30,7 +31,6 @@ if(Meteor.isClient) {
       });
       //test mail chimp
       //Meteor.call('createCampaign', 'test email', 'bulletin');
-
 
    };
 }

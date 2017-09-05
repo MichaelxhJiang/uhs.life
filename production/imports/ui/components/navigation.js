@@ -4,22 +4,23 @@
 import Typed from 'typedjs-placeholder'
 import './navigation.html'
 import '../lib/morphext.js'
-
+let morphSettings = {
+    // The [in] animation type. Refer to Animate.css for a list of available animations.
+    animation: "flipInX",
+    // An array of phrases to rotate are created based on this separator. Change it if you wish to separate the phrases differently (e.g. So Simple | Very Doge | Much Wow | Such Cool).
+    separator: ";;",
+    // The delay between the changing of each phrase in milliseconds.
+    speed: 5000,
+    complete: function () {
+        // Called after the entrance animation is executed.
+    }
+};
 Template.navigation.onRendered(function () {
-    $('.course-list').hide();
+    //$('.course-list').hide();
     $('.main-search').hide();
     $('.search-content').hide();
-    $(".text-morph").Morphext({
-        // The [in] animation type. Refer to Animate.css for a list of available animations.
-        animation: "flipInX",
-        // An array of phrases to rotate are created based on this separator. Change it if you wish to separate the phrases differently (e.g. So Simple | Very Doge | Much Wow | Such Cool).
-        separator: ",::,",
-        // The delay between the changing of each phrase in milliseconds.
-        speed: 5000,
-        complete: function () {
-            // Called after the entrance animation is executed.
-        }
-    });
+    $('.nav-overlay').hide();
+    $(".text-morph").Morphext(morphSettings);
 });
 
 Template.navigation.helpers({
@@ -28,6 +29,9 @@ Template.navigation.helpers({
     },
     'username': function () {
         return Session.get('name');
+    },
+    'title': function () {
+        return Session.get('navTitle');
     }
 });
 
@@ -40,12 +44,32 @@ Template.navigation.events({
             sideNav.css('margin-left', '0');
             sideNavPrompt.html("<i class='fa fa-times'></i> CLOSE");
             $('.top-nav').css('margin-left', '+=320px');
-            $('.main').css('margin-right', '-=320px');
+            $('.main').css('margin-left', '+=320px');
+            $('.nav-overlay').fadeIn('fast');
         }else{
             sideNav.css('margin-left','-320px');
             $('.top-nav').css('margin-left','-=320px');
-            $('.main').css('margin-right','+=320px');
+            $('.main').css('margin-left','-=320px');
             sideNavPrompt.html("<i class='fa fa-bars'></i> MENU");
+            $('.nav-overlay').fadeOut('fast');
+        }
+    },
+    'click .nav-overlay': function () {
+        let sideNav = $('.side-nav');
+        let sideNavPrompt = $('.side-nav-prompt');
+        let width = parseInt(sideNav.css('margin-left'));
+        if(width !== 0) {
+            sideNav.css('margin-left', '0');
+            sideNavPrompt.html("<i class='fa fa-times'></i> CLOSE");
+            $('.top-nav').css('margin-left', '+=320px');
+            $('.main').css('margin-left', '+=320px');
+            $('.nav-overlay').fadeIn('fast');
+        }else{
+            sideNav.css('margin-left','-320px');
+            $('.top-nav').css('margin-left','-=320px');
+            $('.main').css('margin-left','-=320px');
+            sideNavPrompt.html("<i class='fa fa-bars'></i> MENU");
+            $('.nav-overlay').fadeOut('fast');
         }
     },
     'click .nav-oper': function () {
@@ -115,7 +139,8 @@ Template.navigation.events({
 });
 
 setTitle = function (title) {
-    $('.nav-hub').html('<span>'+title+'</span>');
+    $('.nav-title-text').html('<span>'+title+'</span>');
+    $(".text-morph").Morphext(morphSettings);
 };
 
 setProgressBar = function (percentage) {

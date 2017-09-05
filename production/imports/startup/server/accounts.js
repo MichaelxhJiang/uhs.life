@@ -16,17 +16,15 @@ Accounts.onCreateUser(function (options,user){
    console.log('account created');
     if (user.profile == undefined) {
         user.profile = {
-            init: false
+            init: false,
+            teacher: false
         };
     }
-/*    const email = user.services.google.email;
+    const email = user.services.google.email;
     const hasNumbers = email.match(/\d+/g);
-    if (hasNumbers) {
-        console.log('student');
-
-    } else {
-        console.log('teacher');
-    }*/
+    if (!hasNumbers) {
+        user.profile.teacher = true;
+    }
     return user;
 });
 
@@ -39,5 +37,13 @@ Meteor.methods({
         Meteor.users.update({_id: id}, {$set: {"profile.studentNum": info.studentNum}});
         Meteor.users.update({_id: id}, {$set: {"profile.teachToken": info.token}});
         Meteor.users.update({_id: id}, {$set: {"profile.terms": true}});
+        const email = user.services.google.email;
+        const hasNumbers = email.match(/\d+/g);
+        if (hasNumbers) {
+            console.log('student');
+            Roles.addUsersToRoles(user,['student']);
+        } else {
+            Roles.addUsersToRoles(user,['teacher', 'blogEditor', 'announcementEditor'])
+        }
     }
 });

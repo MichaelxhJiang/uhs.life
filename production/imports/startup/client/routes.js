@@ -44,9 +44,11 @@ FlowRouter.route('/login',{
 loggedIn.route('/blog/:postId',{
     action: function (params) {
         if(params.postId === 'preview'){
-            console.log('you are now in preview mode');
             Session.set('post_data', Session.get('preview_json'))
+        }else{
+            Session.set('post_data', Posts.findOne({_id: params.postId}))
         }
+        window.scrollTo(0, 0);
         BlazeLayout.render('applicationLayout',{main: 'details'})
     }
 });

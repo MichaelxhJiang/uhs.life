@@ -16,6 +16,7 @@
     "medium-editor": "^5.23.2",
     "meteor-node-stubs": "~0.2.4",
     "mfb": "^0.12.0",
+    "node-schedule": "^1.2.4",
     "typedjs-placeholder": "^1.1.4",
     "unsplash-js": "^4.6.0"
   }

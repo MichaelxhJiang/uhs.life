@@ -13,13 +13,17 @@ import './algoliaRemove.js';
 //This file contains meteor account functions
 import './accounts.js';
 //This file includes mailchimp API functions
-import './mailchimp.js'
+import './mailchimp.js';
 //This file includes dictionary of categories and maps them with keywords
-import './categories.js'
+import './categories.js';
+//This file includes a job scheduler
+import './scheduler.js';
 //This file contains methods for draft collection
 import '../../api/drafts/draftMethods.js';
 //This file contains methods for posts collection
 import '../../api/posts/postsMethods.js';
+//This file contains methods for suggestion collection
+import '../../api/suggestions/suggestionMethods';
 //import the collections into server
 import '../../api/suggestions/suggestions.js';
 import '../../api/images/images.js'

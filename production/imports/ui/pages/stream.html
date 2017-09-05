@@ -1,5 +1,5 @@
 <template name="stream">
-    {{> navigation title="Your Stream"}}
+    {{> navigation}}
     {{> editor}}
     <div class="container main">
         <div class="col-lg-12 content">
@@ -12,7 +12,81 @@
             <div class="grid">
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
-                <div class="grid-item image">
+                {{#each allPosts}}
+                    {{#if isImageOnly}}
+                        <div class="grid-item image">
+                            <div class="item-container">
+                                <img class="img-responsive" src="{{imageLink}}" />
+                                <div class="overlay-small">
+                                    <div class="text">
+                                        <h4>{{headline}}</h4>
+                                        <div class="image-only-author">
+                                            <div class="author-img-container">
+                                                <img src="{{picture}}" height="25" class="img-circle"/>
+                                            </div>
+                                            <p>{{writer}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/ if}}
+                    {{#if isTextOnly}}
+                        <div class="grid-item a">
+                            <div class="post-title mb-10">
+                                <h3>{{headline}}</h3>
+                            </div>
+                            <p>
+                                {{content}}
+                            </p>
+                            <span class="grid-item-footer">{{writer}} | Effective: {{effectiveDate}}</span>
+                        </div>
+                    {{/ if}}
+                    {{#if isImageText}}
+                        {{#if imageOverText}}
+                            <div class="grid-item image">
+                                <div class="item-container">
+                                    <img src="{{imageLink}}" alt="Test Image" class="item-image">
+                                    <div class="overlay">
+                                        <div class="text">
+                                            <h3>{{headline}}</h3>
+                                            <span>{{writer}}</span>
+                                            <p>{{content}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/ if}}
+                        {{#if textOverImage}}
+                            <div class="grid-item image text-over-image" style="background: url({{imageLink}})">
+                                <div class="overlay-partial">
+                                    <div class="post-title mb-10">
+                                        <h3>{{headline}}</h3>
+                                        <p class="author-info">
+                                            <a href="https://google.ca" class="link-sm">{{writer}}</a>
+                                        </p>
+                                    </div>
+                                    <p>{{content}}</p>
+                                    <span class="grid-item-footer">Effective: {{effectiveDate}}</span>
+                                </div>
+                            </div>
+                        {{/ if}}
+                    {{/ if}}
+                    {{#if isBlog}}
+                        <div class="grid-item image blog-item" id="{{_id}}">
+                            <img class="img-responsive" src="{{imageLink}}" />
+                            <div class="grid-blog-body">
+                                <h3>{{title}}</h3>
+                                <p class="author-info">
+                                    <a class="link-sm">{{writer}}</a>
+                                </p>
+                                <p>{{subtitle}}</p>
+                                <a href="" class="btn btn-primary btn-wide">Read More</a>
+                            </div>
+                        </div>
+                    {{/ if}}
+                {{/ each}}
+                <!--<div class="grid-item image">
                     <div class="item-container">
                         <img src="https://scontent-yyz1-1.xx.fbcdn.net/v/t1.0-9/19961612_1162370627202516_5150713573691931465_n.jpg?oh=efa1c7e82253081ab69e9008387a4a6d&oe=5A2CE7DF" alt="Test Image" class="item-image">
                         <div class="overlay">
@@ -84,7 +158,6 @@
                     </div>
                 </div>
                 <div class="grid-item image">
-
                     <div class="item-container">
                         <img class="img-responsive" src="https://scontent-yyz1-1.xx.fbcdn.net/v/t1.0-9/18893090_1129639927142253_8618964973264668114_n.jpg?oh=0b39f3bb2b98b6feef6a3ac3f70e8925&oe=59EE81D9" />
                         <div class="overlay-small">
@@ -112,7 +185,7 @@
                     <img class="img-responsive" src="https://dummyimage.com/16:9x1080" />
                 </div><div class="grid-item image">
                     <img class="img-responsive" src="https://dummyimage.com/16:9x1080" />
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

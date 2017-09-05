@@ -1,8 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Drafts } from './drafts.js';
 
+if (Meteor.isServer) {
+   Meteor.publish('drafts', function draftsPublication() {
+    return Drafts.find();  //TODO only show drafts of current user
+  });
+}
+
 Meteor.methods({
-    'postDraftTextImage' : function(json) {
+    'drafts.postDraftTextImage' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -16,7 +22,7 @@ Meteor.methods({
             }
         });
     },
-    'postDraftText' : function(json) {
+    'drafts.postDraftText' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -30,7 +36,7 @@ Meteor.methods({
             }
         });
     },
-    'postDraftImage' : function(json) {
+    'drafts.postDraftImage' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -44,7 +50,7 @@ Meteor.methods({
             }
         });
     },
-    'postDraftBlog' : function(json) {
+    'drafts.postDraftBlog' : function(json) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
@@ -58,7 +64,7 @@ Meteor.methods({
             }
         });
     },
-    'getDraftsByUserId' : function(userId) {
+    'drafts.getDraftsByUserId' : function(userId) {
       let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
       if (accessLevel === 'teacher' || accessLevel === 'admin') {
           //TODO
