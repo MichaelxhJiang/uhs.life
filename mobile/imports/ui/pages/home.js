@@ -19,12 +19,20 @@ Template.home.helpers({
         return Session.get('results');
     },
     getType: function (i){
-        console.log(Session.get('results').hits[counter].type);
-        return Session.get('results').hits[counter].type;
+        return Session.get('results').hits[counter].subType;
     },
     counter: function(){
         counter++;
+    },
+    shortenDate: function(){
+        let temp = Session.get('results').hits[counter].releaseDate;
+        let tempArray = temp.split(" ");
+        return tempArray[1] + " " + tempArray[2] + "," + tempArray[3];
+    },
+    checkContent: function(){
+        return Session.get('results').hits[counter].content !== null;
     }
+
 });
 
 Template.registerHelper('typeCheck', function(v1, v2) {
