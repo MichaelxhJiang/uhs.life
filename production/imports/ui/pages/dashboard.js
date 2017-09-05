@@ -2,6 +2,35 @@
  * Created by Yonglin Wang on 8/22/2017.
  */
 import './dashboard.html'
+import { Images } from '../../api/images/images.js';
+
+const Posts = new Mongo.Collection('posts');
+
+Template.dashHome.onRendered(function () {
+   Tracker.autorun(function () {
+       Meteor.subscribe('posts');
+   });
+});
+
+Template.dashHome.helpers({
+    'post': function () {
+        Posts.findOne();
+        return Posts.find({
+            'meta.approved': false,
+            'type': 'announcement'
+        });
+    },
+    'writer': function () {
+        //console.log(this);
+        return Meteor.users.findOne({_id: this.author}).services.google.name;
+    },
+    'noImage': function () {
+        return (this.subType === 'textOnly')
+    },
+    'imageLink': function () {
+        return Images.findOne({_id: this.imgId}).url();
+    }
+});
 
 Template.dashboard.events({
     'click .new-post': function () {

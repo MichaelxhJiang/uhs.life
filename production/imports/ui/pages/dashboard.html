@@ -25,26 +25,32 @@
                         <p>Click on one to edit its details</p>
                     </div>
                     <hr />
-                    <div class="editor-options new-post draft-inline">
-                        <div class="content-preview">
-                            <h4 class="draft-title">This is an example of draft item with no images</h4>
-                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
-                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
-                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
-                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="editor-options new-post draft-inline">
-                        <div class="content-preview">
-                            <h4 class="draft-title">This is an example of draft item with no images</h4>
-
-                            <p class="meta">Yonglin Wang | Dec 24th, 2017 | Tags: Test, Nice Tag, Wow... | Category: ... | </p>
-                            <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
-                            <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
-                            <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
-                        </div>
-                    </div>
+                    {{#each post}}
+                        {{#if noImage}}
+                            <div class="editor-options new-post draft-inline">
+                                <div class="content-preview">
+                                    <h4 class="draft-title">{{headline}}</h4>
+                                    <p class="meta">{{writer}} | {{startDate}} - {{endDate}} | Tags: {{tags}} | Category: ... | </p>
+                                    <p class="draft-body">{{content}}</p>
+                                    <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                                    <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                                </div>
+                            </div>
+                        {{else}}
+                            <div class="editor-options new-post with-image draft-inline">
+                                <div class="image-preview">
+                                    <img src="{{imageLink}}" class="img-responsive">
+                                </div>
+                                <div class="content-preview">
+                                    <h3 class="draft-title">{{headline}}</h3>
+                                    <p class="meta">{{writer}} | {{startDate}} - {{endDate}} | Tags: {{tags}} | Category: ... | </p>
+                                    <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                                    <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                                </div>
+                            </div>
+                        {{/ if}}
+                        <hr />
+                    {{/ each}}
                 </div>
             </div>
         </div>

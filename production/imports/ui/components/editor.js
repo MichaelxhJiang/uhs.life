@@ -204,10 +204,10 @@ Template.editor.events({
       let visibility = $('visibility-select').val();
 
       let json = {
+         author: authorId,
          type: 'blog',
          releaseDate: releaseDate,
          draftedDate: draftedDate,
-         editable: editable,
          title: title,
          subtitle: subtitle,
          content: content,

@@ -3,7 +3,7 @@ import { Posts } from './posts.js';
 
 if (Meteor.isServer) {
    Meteor.publish('posts', function postsPublication() {
-    return Posts.find();
+    return Posts.find({});
   });
 }
 
