@@ -13,9 +13,6 @@ Template.details.helpers({
    'picture': function () {
        return Session.get('user_img');
    },
-    'postTitle': function () {
-
-    },
     'postSubtitle': function () {
         let data = Session.get('post_data');
         return data.subtitle;
@@ -30,12 +27,12 @@ Template.details.helpers({
     },
     'postSplash': function () {
         let data = Session.get('post_data');
-        if(data.hasUnsplash){
+        if(data.meta.hasUnsplash){
             Meteor.call('setupUnsplash', function (err) {
                 if(err){
                     console.log(err);
                 }else{
-                    Meteor.call('getPhoto', data.featured,function (err,data) {
+                    Meteor.call('getPhoto', data.imgId,function (err,data) {
                         if(err){
                             console.log(err);
                         }else{
@@ -48,7 +45,7 @@ Template.details.helpers({
             });
         }else{
             Tracker.autorun(function () {
-                let image = Images.findOne({_id: data.featured});
+                let image = Images.findOne({_id: data.imgId});
                 if(image){
                     let url = image.url();
                     $('.post-header').css('background-image',"url("+url+")");

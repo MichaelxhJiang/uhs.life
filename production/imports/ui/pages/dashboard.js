@@ -4,8 +4,6 @@
 import './dashboard.html'
 import { Images } from '../../api/images/images.js';
 
-const Posts = new Mongo.Collection('posts');
-
 Template.dashHome.onRendered(function () {
    Tracker.autorun(function () {
        Meteor.subscribe('posts');
@@ -14,7 +12,6 @@ Template.dashHome.onRendered(function () {
 
 Template.dashHome.helpers({
     'post': function () {
-        Posts.findOne();
         return Posts.find({
             'meta.approved': false,
             'type': 'announcement'

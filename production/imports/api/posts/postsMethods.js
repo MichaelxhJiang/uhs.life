@@ -18,7 +18,7 @@ Meteor.methods({
             err = true;
             errStr += "Not an announcement. ";
         }
-        if (json.subType !== "textImage") {
+        if (json.subType !== "imageText") {
             err = true;
             errStr += "Not correct announcement type. ";
         }
@@ -30,6 +30,7 @@ Meteor.methods({
             err = true;
             errStr += "Missing content. ";
         }
+        console.log(json.imgId);
         if (!json.imgId) {
             err = true;
             errStr += "Missing image. ";
