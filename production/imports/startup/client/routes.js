@@ -29,6 +29,20 @@ let loggedIn = FlowRouter.group({
     ]
 });
 
+let admin = FlowRouter.group({
+    triggersEnter: [
+        function () {
+            console.log('welcome to admin');
+        }
+    ]
+});
+
+loggedIn.route('/dashboard/users', {
+    action: function () {
+        BlazeLayout.render('dashboard',{dash: 'dashUsers'})
+    }
+});
+
 FlowRouter.route('/login',{
     action: function(){
         if(!Meteor.userId()){
@@ -44,9 +58,10 @@ FlowRouter.route('/login',{
 loggedIn.route('/blog/:postId',{
     action: function (params) {
         if(params.postId === 'preview'){
-            Session.set('post_data', Session.get('preview_json'))
+            Session.setPersistent('post_data', Session.get('preview_json'))
         }else{
-            Session.set('post_data', Posts.findOne({_id: params.postId}))
+            console.log(params.postId);
+            Session.setPersistent('post_data', Posts.findOne({_id: params.postId}))
         }
         window.scrollTo(0, 0);
         BlazeLayout.render('applicationLayout',{main: 'details'})
@@ -90,7 +105,16 @@ loggedIn.route('/logout',{
 
 loggedIn.route('/first', {
     action: function () {
-        BlazeLayout.render('applicationLayout',{main: 'firstTime'});
+        Tracker.autorun(function () {
+            let user = Meteor.user();
+            if(user){
+                if(user.profile.init){
+                    FlowRouter.go('/')
+                }else{
+                    BlazeLayout.render('applicationLayout',{main: 'firstTime'});
+                }
+            }
+        });
     },
     name: 'first'
 });

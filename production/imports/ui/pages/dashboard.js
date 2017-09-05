@@ -17,6 +17,9 @@ Template.dashHome.helpers({
             'type': 'announcement'
         });
     },
+    'testProfile': function () {
+        return Session.get('user_img');
+    },
     'writer': function () {
         //console.log(this);
         return Meteor.users.findOne({_id: this.author}).services.google.name;
@@ -25,7 +28,14 @@ Template.dashHome.helpers({
         return (this.subType === 'textOnly')
     },
     'imageLink': function () {
-        return Images.findOne({_id: this.imgId}).url();
+        try{
+            return Images.findOne({_id: this.imgId}).url();
+        }catch (e){
+
+        }
+    },
+    'hasContent': function () {
+        return this.subType !== 'imageOnly'
     }
 });
 
