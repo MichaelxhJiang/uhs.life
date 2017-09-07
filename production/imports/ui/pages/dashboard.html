@@ -27,7 +27,7 @@
                     <hr />
                     {{#each post}}
                         {{#if noImage}}
-                            <div class="editor-options new-post draft-inline">
+                            <div class="editor-options new-post draft-inline" id="{{_id}}">
                                 <div>
                                     <div class="content-preview">
                                         <h4 class="draft-title">{{headline}}</h4>
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                         {{else}}
-                            <div class="editor-options new-post with-image draft-inline">
+                            <div class="editor-options new-post with-image draft-inline" id="{{_id}}">
                                 <div>
                                     <div class="flexed mb-15">
                                         <div class="image-preview">
@@ -93,6 +93,32 @@
     </div>
 </template>
 
+<template name="dashCategories">
+    <div class="container">
+        <div class="row text-center mb-60">
+            <div class="col-lg-12">
+                <h2>Category Manager</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="dash-item text-center">
+                    <h3>All users</h3>
+                    <p>Use the tool bellow to filter and search for users</p>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                {{#each category}}
+                    <div class="dash-item">
+                        <h3>Yonglin Wang</h3>
+                    </div>
+                {{/each}}
+
+            </div>
+        </div>
+    </div>
+</template>
+
 <template name="dashSideBar">
     <div class="side-nav-header">
         <h4>Yonglin Wang</h4>
@@ -100,10 +126,10 @@
     </div>
     <div class="side-nav-body">
         <a href="/dashboard"><i class="fa fa-home"></i> Home</a>
-        <a href=""><i class="fa fa-bullhorn"></i> Announcements</a>
-        <a href=""><i class="fa fa-file-text-o"></i> Posts</a>
-        <a href=""><i class="fa fa-pencil-square-o"></i> View Suggestions</a>
-        <a href=""><i class="fa fa-list"></i> Manage Categories</a>
+<!--        <a href=""><i class="fa fa-bullhorn"></i> Announcements</a>
+        <a href=""><i class="fa fa-file-text-o"></i> Posts</a>-->
+        <a href="/dashboard/suggestions"><i class="fa fa-pencil-square-o"></i> Suggestions</a>
+        <a href="/dashboard/categories"><i class="fa fa-list"></i> Manage Categories</a>
         <a href="/dashboard/users"><i class="fa fa-group"></i> Manage Users</a>
         <a href=""><i class="fa fa-newspaper-o"></i> Newsletters</a>
         <a href=""><i class="fa fa-gear"></i> Settings</a>
@@ -119,7 +145,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form>
+                    <form class="dash-announcement-edit">
                         <div class="form-group">
                             <label for="newPostHeadline">Headline</label>
                             <input type="text" aria-describedby="textHeadline" placeholder="Enter a new headline" id="newPostHeadline">
@@ -144,14 +170,14 @@
                                 <option value="design">Graphic Design</option>
                             </select>
                         </div>
-                        <div class="form-group">
+<!--                        <div class="form-group">
                             <label for="">Date Range</label>
                             <div class="input-group input-daterange">
                                 <input type="text" class="form-control startDate" >
                                 <div class="input-group-addon">to</div>
                                 <input type="text" class="form-control endDate">
                             </div>
-                        </div>
+                        </div>-->
                         <button type="submit" class="btn btn-primary btn-wide">Update</button>
                     </form>
                 </div>

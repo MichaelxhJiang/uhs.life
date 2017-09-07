@@ -1,15 +1,15 @@
 /**
  * Created by Yonglin Wang on 8/30/2017.
  */
-import categories from './categories.js'
+import { Categories } from './categories.js'
 
 Meteor.methods({
     'addNewCategory': function (details) {
         let categoryInfo = {
             name: details.name,
             description: details.description,
-            imageId: details.imgId,
-            featured: details.featured,
+            imageId: details.imgId || null,
+            featured: details.featured || false,
             tracking: {
                 numPost: 0,
                 lastestPostIds: []
@@ -18,7 +18,7 @@ Meteor.methods({
             children: [],
             isSubCategory: false
         };
-        categories.insert(categoryInfo);
+        Categories.insert(categoryInfo);
     },
     'removeCategory': function (query) {
         categories.remove({_id: query});
@@ -37,6 +37,6 @@ Meteor.methods({
             children: [],
             isSubCategory: false
         };
-        categories.update({_id: id},{$set: newCategory});
+        Categories.update({_id: id},{$set: newCategory});
     }
 });

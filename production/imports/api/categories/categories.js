@@ -1,4 +1,10 @@
 /**
  * Created by Yonglin Wang on 8/30/2017.
  */
-export const Drafts = new Mongo.Collection('categories');
+export const Categories = new Mongo.Collection('categories');
+
+if (Meteor.isServer) {
+    Meteor.publish('categories', function postsPublication() {
+        return Categories.find({});
+    });
+}

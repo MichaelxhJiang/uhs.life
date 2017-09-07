@@ -23,7 +23,9 @@ import '../../api/drafts/draftMethods.js';
 //This file contains methods for posts collection
 import '../../api/posts/postsMethods.js';
 //This file contains methods for suggestion collection
-import '../../api/suggestions/suggestionMethods';
+import '../../api/suggestions/suggestionMethods.js';
+//This file contains methods for suggestion collection
+import '../../api/categories/categoriesMethods.js';
 //import the collections into server
 import '../../api/suggestions/suggestions.js';
 import '../../api/images/images.js'

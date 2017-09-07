@@ -43,6 +43,12 @@ loggedIn.route('/dashboard/users', {
     }
 });
 
+loggedIn.route('/dashboard/categories', {
+    action: function () {
+        BlazeLayout.render('dashboard',{dash: 'dashCategories'})
+    }
+});
+
 FlowRouter.route('/login',{
     action: function(){
         if(!Meteor.userId()){

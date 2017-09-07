@@ -246,7 +246,7 @@ Meteor.methods({
             //TODO
         }
 
-        Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, obj) {
+        Posts.update ({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, obj) {
             if (err) {
                 console.log(err);
             } else {
