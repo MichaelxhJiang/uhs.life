@@ -195,7 +195,7 @@ Template.editor.events({
         let separators = [' , ', ', ', ',', ' ,'];
         let tags = str.split(new RegExp(separators.join('|'), 'g'));
         let imgId = (hasUnsplash) ? Session.get('unsplash_img') : Session.get('newImageId');
-        let releaseDate = $('.input-date').val();
+        let releaseDate = new Date($('.input-date').val());
         let draftedDate = new Date();
         let categories = $('.category-select').val();
         let authorId = Meteor.userId();
@@ -314,8 +314,8 @@ Template.announcementOptions.events({
                 }
             }
             let authorId = Meteor.userId();
-            let startDate = $('.startDate')[0].value;
-            let endDate = $('.endDate')[0].value;
+            let startDate = new Date($('.startDate')[0].value);
+            let endDate = new Date($('.endDate')[0].value);
             let draftedDate = new Date();
 
             //meta
@@ -380,8 +380,8 @@ Template.announcementOptions.events({
             }
 
             let authorId = Meteor.userId();
-            let startDate = $('.startDate')[1].value;
-            let endDate = $('.endDate')[1].value;
+            let startDate = new Date($('.startDate')[1].value);
+            let endDate = new Date($('.endDate')[1].value);
             let draftedDate = new Date();
 
             //meta
@@ -446,8 +446,8 @@ Template.announcementOptions.events({
             }
 
             let authorId = Meteor.userId();
-            let startDate = $('.startDate')[2].value;
-            let endDate = $('.endDate')[2].value;
+            let startDate = new Date($('.startDate')[2].value);
+            let endDate = new Date($('.endDate')[2].value);
             let draftedDate = new Date();
 
             //meta
