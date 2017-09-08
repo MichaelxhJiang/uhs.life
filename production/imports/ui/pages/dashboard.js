@@ -14,8 +14,8 @@ Template.dashHome.onRendered(function () {
 Template.dashHome.helpers({
     'post': function () {
         return Posts.find({
-            'meta.approved': false,
-            'type': 'announcement'
+            'meta.approved': false
+            //'type': 'announcement'
         });
     },
     'testProfile': function () {
@@ -49,7 +49,8 @@ Template.dashboard.events({
         Session.set('editingId', id);
         let info = Posts.findOne({_id: id});
         Session.set('dashEditorData', info);
-        Modal.show('dashPostEditor');
+        if(!$(evt.target).attr('class').includes('btn-reject') && !$(evt.target).attr('class').includes('btn-approve'))
+            Modal.show('dashPostEditor');
     },
     'click .btn-approve': function (evt) {
         let obj = $(evt.target).closest($('.new-post'));
@@ -57,6 +58,15 @@ Template.dashboard.events({
         Meteor.call('posts.approvePost', id, function (err) {
             if(err){
                 alertError("Error Occurred When Approving Post", err.message)
+            }
+        })
+    },
+    'click .btn-reject': function (evt) {
+        let obj = $(evt.target).closest($('.new-post'));
+        let id = obj.attr('id');
+        Meteor.call('posts.removePost', id, function (err) {
+            if(err){
+                alertError("Error Occurred When Removing Post", err.message)
             }
         })
     }
