@@ -206,7 +206,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'meta.approved':true, 'display': true});
+        return Posts.find({'meta.approved':true, 'display': true}).fetch();
     },
     'posts.getUnapprovedPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
@@ -214,7 +214,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'meta.approved':false, 'meta.screeningStage': {$ne: -1}});
+        return Posts.find({'meta.approved':false, 'meta.screeningStage': {$ne: -1}}).fetch();
     },
     'posts.getApprovedPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
@@ -222,7 +222,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'meta.approved':true, 'meta.screeningStage': 3});
+        return Posts.find({'meta.approved':true, 'meta.screeningStage': 3}).fetch();
     },
     'posts.getRejectedPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
@@ -230,7 +230,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'meta.approved':false, 'meta.screeningStage': -1});
+        return Posts.find({'meta.approved':false, 'meta.screeningStage': -1}).fetch();
     },
     'posts.getPostsByUserId' : function (userId) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
@@ -238,7 +238,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'authorId': userId});
+        return Posts.find({'authorId': userId}).fetch();
     },
     'posts.approvePost' : function(postId) {
         let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
@@ -246,7 +246,7 @@ Meteor.methods({
             //TODO
         }
 
-        Posts.update ({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, obj) {
+        Posts.update ({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, response) {
             if (err) {
                 console.log(err);
             } else {
@@ -255,13 +255,13 @@ Meteor.methods({
                      console.log(err);
                   }
                });
-
+               let obj = Posts.findOne({'_id':postId});
                 //Post on twitter
-                Meteor.call('setupTwitterAPI', function(err) {
+                Meteor.call('setupTwitterAPI', function(err, response) {
                     if(err) {
                         console.log(err);
                     } else {
-                       let type = Posts.findOne({'_id':postId}).type, subType = Posts.findOne({'_id':postId}).subType;
+                       let type = obj.type, subType = obj.subType;
                        if (type === 'announcement') {
                           if (subType === 'textOnly') {
                               Meteor.call('postTextAnnouncementTwitter', obj, function(err) {
