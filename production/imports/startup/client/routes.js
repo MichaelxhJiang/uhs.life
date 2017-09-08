@@ -67,7 +67,12 @@ loggedIn.route('/blog/:postId',{
             Session.setPersistent('post_data', Session.get('preview_json'))
         }else{
             console.log(params.postId);
-            Session.setPersistent('post_data', Posts.findOne({_id: params.postId}))
+            Tracker.autorun(function () {
+               let post = Posts.findOne({_id: params.postId});
+               if(post){
+                   Session.setPersistent('post_data', post);
+               }
+            });
         }
         window.scrollTo(0, 0);
         BlazeLayout.render('applicationLayout',{main: 'details'})

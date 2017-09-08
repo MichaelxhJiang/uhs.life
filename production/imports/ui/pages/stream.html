@@ -62,12 +62,9 @@
                                 <div class="overlay-partial">
                                     <div class="post-title mb-10">
                                         <h3>{{headline}}</h3>
-                                        <p class="author-info">
-                                            <a href="https://google.ca" class="link-sm">{{writer}}</a>
-                                        </p>
                                     </div>
                                     <p>{{content}}</p>
-                                    <span class="grid-item-footer">Effective: {{effectiveDate}}</span>
+                                    <span class="grid-item-footer">{{writer}} | Effective: {{effectiveDate}}</span>
                                 </div>
                             </div>
                         {{/ if}}
@@ -77,115 +74,13 @@
                             <img class="img-responsive" src="{{imageLink}}" />
                             <div class="grid-blog-body">
                                 <h3>{{title}}</h3>
-                                <p class="author-info">
-                                    <a class="link-sm">{{writer}}</a>
-                                </p>
+                                <span class="grid-item-footer">{{writer}}</span>
                                 <p>{{subtitle}}</p>
                                 <a href="" class="btn btn-primary btn-wide">Read More</a>
                             </div>
                         </div>
                     {{/ if}}
                 {{/ each}}
-                <!--<div class="grid-item image">
-                    <div class="item-container">
-                        <img src="https://scontent-yyz1-1.xx.fbcdn.net/v/t1.0-9/19961612_1162370627202516_5150713573691931465_n.jpg?oh=efa1c7e82253081ab69e9008387a4a6d&oe=5A2CE7DF" alt="Test Image" class="item-image">
-                        <div class="overlay">
-                            <div class="text">
-                                <h3>This is a headline</h3>
-                                <span>Posted By: Yonglin Wang</span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.Ab aliquam atque eveniet facere
-                                    itaque sed ullam voluptate voluptatem.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-item a">
-                    <div class="post-title mb-10">
-                        <h3>This is another headline</h3>
-                        <p class="author-info">
-                            <a href="https://google.ca" class="link-sm">Yonglin Wang</a>
-                        </p>
-                    </div>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aliquam atque eveniet facere
-                        itaque sed ullam voluptate voluptatem. Accusamus alias dolores esse neque nihil omnis quaerat
-                        soluta sunt, unde voluptatum.
-                    </p>
-                    <span class="grid-item-footer">Effective: July 29th 2017</span>
-                </div>
-                <div class="grid-item b">
-                    <div class="post-title mb-10">
-                        <h3>This is another headline</h3>
-                        <p class="author-info">
-                            <a href="https://google.ca" class="link-sm">Yonglin Wang</a>
-                        </p>
-                    </div>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aliquam atque eveniet facere
-                        itaque sed ullam voluptate voluptatem. Accusamus alias dolores esse neque nihil omnis quaerat
-                        soluta sunt, unde voluptatum.
-                    </p>
-                    <span class="grid-item-footer">Effective: July 29th 2017</span>
-                </div>
-                <div class="grid-item b">
-                    <div class="post-title mb-10">
-                        <h3>This is another headline</h3>
-                        <p class="author-info">
-                            <a href="https://google.ca" class="link-sm">Yonglin Wang</a>
-                        </p>
-                    </div>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aliquam atque eveniet facere
-                        itaque sed ullam voluptate voluptatem. Accusamus alias dolores esse neque nihil omnis quaerat
-                        soluta sunt, unde voluptatum.
-                    </p>
-                    <span class="grid-item-footer">Effective: July 29th 2017</span>
-                </div>
-                <div class="grid-item image text-over-image" style="background: url('/img/test.jpg')">
-                    <div class="overlay-partial">
-                        <div class="post-title mb-10">
-                            <h3>This is another headline</h3>
-                            <p class="author-info">
-                                <a href="https://google.ca" class="link-sm">Yonglin Wang</a>
-                            </p>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aliquam atque eveniet facere
-                            itaque sed ullam voluptate voluptatem. Accusamus alias dolores esse neque nihil omnis quaerat
-                            soluta sunt, unde voluptatum.
-                        </p>
-                        <span class="grid-item-footer">Effective: July 29th 2017</span>
-                    </div>
-                </div>
-                <div class="grid-item image">
-                    <div class="item-container">
-                        <img class="img-responsive" src="https://scontent-yyz1-1.xx.fbcdn.net/v/t1.0-9/18893090_1129639927142253_8618964973264668114_n.jpg?oh=0b39f3bb2b98b6feef6a3ac3f70e8925&oe=59EE81D9" />
-                        <div class="overlay-small">
-                            <div class="text">
-                                <div class="author-img-container">
-                                    <img src="{{picture}}" height="25" class="img-circle"/>
-                                </div>
-                                <p>Yong Lin Wang</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-item image blog-item">
-                    <img class="img-responsive" src="img/test.jpg" />
-                    <div class="grid-blog-body">
-                        <h3>This is a blog title</h3>
-                        <p class="author-info">
-                            <a href="https://google.ca" class="link-sm">Yonglin Wang</a>
-                        </p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae dolore ea id iure neque omnis quaerat sequi, tenetur! Assumenda consectetur cumque dolore error, ex facere illum modi possimus quia similique.</p>
-                        <a href="" class="btn btn-primary btn-wide">Read More</a>
-                    </div>
-                </div>
-                <div class="grid-item image">
-                    <img class="img-responsive" src="https://dummyimage.com/16:9x1080" />
-                </div><div class="grid-item image">
-                    <img class="img-responsive" src="https://dummyimage.com/16:9x1080" />
-                </div>-->
             </div>
         </div>
     </div>
