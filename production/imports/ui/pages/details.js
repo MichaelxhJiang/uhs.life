@@ -1,9 +1,12 @@
 import { Images } from '../../api/images/images.js';
 import './details.html';
 
-Template.details.onRendered(function () {
+Template.details.onCreated(function () {
     let data = Session.get('post_data');
-    setTitle(data.title)
+    Session.set('navTitle', data.title);
+});
+
+Template.details.onRendered(function () {
 });
 
 Template.details.helpers({
