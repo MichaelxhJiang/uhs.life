@@ -265,6 +265,7 @@ Template.editor.events({
             tags: tags,
             categories: categories,
             imgId: imgId,
+            unsplash: Session.get('unsplashData'),
             meta: {
                 imageFirst: imageFirst,
                 hasUnsplash: hasUnsplash,
@@ -303,6 +304,7 @@ Template.editor.events({
                         console.log(data);
                         let num = getRandomInt(0, 9);
                         Session.set('unsplash_img', data.results[num].id);
+                        Session.set('unsplashData',data);
                         hasUnsplash = true;
                         $('#dropzone').replaceWith("<img src='" + data.results[num].urls.regular + "' class='img-responsive unsplash-container'/>");
                         $('#unsplashPrompt').html("Here you go! This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a>");
@@ -397,7 +399,7 @@ Template.announcementOptions.events({
 
             Meteor.call('posts.postImage', json, function (err) {
                 if (err) {
-                    alertError('Post Failed!', err.message);
+                    alertError('Posting Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
 
