@@ -54,7 +54,7 @@ Template.dashboard.events({
     'click .btn-approve': function (evt) {
         let obj = $(evt.target).closest($('.new-post'));
         let id = obj.attr('id');
-        Meteor.call('posts.approvePost', function (err) {
+        Meteor.call('posts.approvePost', id, function (err) {
             if(err){
                 alertError("Error Occurred When Approving Post", err.message)
             }

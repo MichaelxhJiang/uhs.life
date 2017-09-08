@@ -246,7 +246,7 @@ Meteor.methods({
             //TODO
         }
 
-        Posts.update ({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, obj) {
+        Posts.update ({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, response) {
             if (err) {
                 console.log(err);
             } else {
@@ -255,13 +255,13 @@ Meteor.methods({
                      console.log(err);
                   }
                });
-
+               let obj = Posts.findOne({'_id':postId});
                 //Post on twitter
-                Meteor.call('setupTwitterAPI', function(err) {
+                Meteor.call('setupTwitterAPI', function(err, response) {
                     if(err) {
                         console.log(err);
                     } else {
-                       let type = Posts.findOne({'_id':postId}).type, subType = Posts.findOne({'_id':postId}).subType;
+                       let type = obj.type, subType = obj.subType;
                        if (type === 'announcement') {
                           if (subType === 'textOnly') {
                               Meteor.call('postTextAnnouncementTwitter', obj, function(err) {
