@@ -206,7 +206,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'meta.approved':true, 'display': true});
+        return Posts.find({'meta.approved':true, 'display': true}).fetch();
     },
     'posts.getUnapprovedPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
@@ -214,7 +214,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'meta.approved':false, 'meta.screeningStage': {$ne: -1}});
+        return Posts.find({'meta.approved':false, 'meta.screeningStage': {$ne: -1}}).fetch();
     },
     'posts.getApprovedPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
@@ -222,7 +222,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'meta.approved':true, 'meta.screeningStage': 3});
+        return Posts.find({'meta.approved':true, 'meta.screeningStage': 3}).fetch();
     },
     'posts.getRejectedPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
@@ -230,7 +230,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'meta.approved':false, 'meta.screeningStage': -1});
+        return Posts.find({'meta.approved':false, 'meta.screeningStage': -1}).fetch();
     },
     'posts.getPostsByUserId' : function (userId) {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
@@ -238,7 +238,7 @@ Meteor.methods({
             //TODO
         }
 
-        return Posts.find({'authorId': userId});
+        return Posts.find({'authorId': userId}).fetch();
     },
     'posts.approvePost' : function(postId) {
         let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;

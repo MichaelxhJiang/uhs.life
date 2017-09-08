@@ -1,8 +1,9 @@
+import { Meteor } from 'meteor/meteor';
 import schedule from 'node-schedule';
 import { Posts } from '../../api/posts/posts.js';
 
 Meteor.methods({
-   'scheduleAnnouncement' : function(annnouncementId) {
+   'scheduleAnnouncement' : function(announcementId) {
       let announcement = Posts.findOne({'_id': announcementId});
 
       if (announcement.type === 'announcement') {
@@ -22,7 +23,7 @@ Meteor.methods({
             eDate = new Date(eDate.setTime( eDate.getTime() + 86400000 )); //move end day to next day midnight
          }
          if (!flag) {
-            let j = schedule.schedulateJob(sDate, function() {
+            let j = schedule.scheduleJob(sDate, function() {
                //Set display to TRUE
                Posts.findOneAndUpdate({'_id': announcementId}, { $set: {'display':true}});
             });
@@ -34,7 +35,7 @@ Meteor.methods({
       } else {
          console.log('Not an announcement');
          return -1;
-      }
+     }
    },
    'scheduleBlog' : function(blogId) {
       let blog = Posts.findOne({'_id':blogId});
@@ -48,7 +49,7 @@ Meteor.methods({
             rDate.setSeconds(rDate.getSeconds() + 5);  //add a delay
          }
 
-         let j = schedule.schedulateJob(rDate, function() {
+         let j = schedule.scheduleJob(rDate, function() {
             //Set display to TRUE
             Posts.findOneAndUpdate({'_id': blogId}, { $set: {'display':true}});
          });
