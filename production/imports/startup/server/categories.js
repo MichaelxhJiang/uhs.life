@@ -1,3 +1,9 @@
+if (Meteor.isServer) {
+    Meteor.publish('keywords', function postsPublication() {
+        return Posts.find({});
+    });
+}
+
 const categories = new Map();
 //athletics
 categories.set('gym', 'athletics');
@@ -42,7 +48,7 @@ categories.set('battle', 'competition');
 
 Meteor.methods({
    //return all categories found within text
-   'getCategories': function(text) {
+   'keywords.getKeywords': function(text) {
       text = text.toLowerCase();
       var separators = [' , ', ', ', ',', ' ,', ' '];
       //

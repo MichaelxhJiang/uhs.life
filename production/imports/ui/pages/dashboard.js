@@ -49,6 +49,7 @@ Template.dashboard.events({
         Session.set('editingId', id);
         let info = Posts.findOne({_id: id});
         Session.set('dashEditorData', info);
+
         if(!$(evt.target).attr('class').includes('btn-reject') && !$(evt.target).attr('class').includes('btn-approve'))
             Modal.show('dashPostEditor');
     },
@@ -60,6 +61,25 @@ Template.dashboard.events({
                 alertError("Error Occurred When Approving Post", err.message)
             }
         })
+        //Post on Facebook
+        setupFacebook(function(err, response) {
+            if (err) {
+                console.log(err);
+            } else {
+                let post = Session.get('dashEditorData');
+                let type = post.type;
+                if (type === 'announcement') {
+                    let subType = post.subType;
+                    if (subType === 'textOnly') {
+                        postTextFacebook(post);
+                    } else if (subType === 'imageOnly') {
+                        postImageFacebook(post);
+                    } else {
+                        postTextImageFacebook(post);
+                    }
+                }
+            }
+        });
     },
     'click .btn-reject': function (evt) {
         let obj = $(evt.target).closest($('.new-post'));
