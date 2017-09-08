@@ -214,6 +214,7 @@ Template.editor.events({
             tags: tags,
             categories: categories,
             imgId: imgId,
+            unsplash: Session.get('unsplashData'),
             meta: {
                 imageFirst: imageFirst,
                 hasUnsplash: hasUnsplash,
@@ -323,10 +324,15 @@ Template.editor.events({
             } else {
                 console.log(data);
                 Session.set('unsplash_img', data.id);
+                Session.set('unsplashData',data);
                 $('.unsplash-container').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container'/>");
-                $('#unsplashPrompt').html("Here you go! Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to upload a new image");
+                $('#unsplashPrompt').html("Here you go! Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
             }
         })
+    },
+    'click #newUpload': function () {
+        $('.unsplash-container').replaceWith("<form action='/file-upload' class='dropzone' id='dropzone'></form>");
+        $('#unsplashPrompt').html("Want to avoid the hassle? <a href='' id='getFeaturedUnsplash'>Click here</a> and we will find an image for you!");
     },
     'click .btn-preview': function () {
         let imageID = (hasUnsplash) ? Session.get('unsplash_img') : Session.get('newImageId');

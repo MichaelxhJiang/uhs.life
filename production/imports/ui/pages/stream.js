@@ -4,41 +4,23 @@
 import imagesLoaded from 'imagesloaded';
 import './stream.html'
 import { Images } from '../../api/images/images.js';
-
+let isotopeSettings = {
+    itemSelector: '.grid-item',
+    percentPosition: true,
+    masonry: {
+        columnWidth: '.grid-sizer',
+        gutter: '.gutter-sizer'
+    }
+};
 Template.stream.onRendered(function () {
+    console.log('rendered');
     let $grid = $('.grid');
-    let isotopeSettings = {
-        itemSelector: '.grid-item',
-        percentPosition: true,
-        masonry: {
-            columnWidth: '.grid-sizer',
-            gutter: '.gutter-sizer'
-        }
-    };
     Tracker.autorun(function () {
         let postSub = Meteor.subscribe('posts');
         if(postSub.ready()){
-            $('.grid').isotope();
-        }
-    });
-    const cursor = Posts.find({});
-    let cursorHandle = cursor.observeChanges({
-        added: function (newDoc) {
-            $grid.isotope(isotopeSettings);
-            $grid.imagesLoaded().progress( function() {
-                $grid.isotope(isotopeSettings);
-            });
-        },
-        changed: function (newDoc, oldDoc) {
-            $grid.isotope(isotopeSettings);
-            $grid.imagesLoaded().progress( function() {
-                $grid.isotope(isotopeSettings);
-            });
-        },
-        removed: function (oldDoc) {
-            $grid.isotope(isotopeSettings);
-            $grid.imagesLoaded().progress( function() {
-                $grid.isotope(isotopeSettings);
+            $('.grid').isotope(isotopeSettings);
+            $('.grid').imagesLoaded().progress( function() {
+                $('.grid').isotope(isotopeSettings);
             });
         }
     });
@@ -68,10 +50,31 @@ Template.stream.helpers({
         return Session.get('user_img');
     },
     'allPosts': function () {
-        return Posts.find({});
+        let query = Posts.find({});
+        query.observeChanges({
+            added: function(id, fields) {
+                setTimeout(function () {
+                    $('.grid').isotope('reloadItems');
+                    $('.grid').isotope()
+                }, 500);
+            },
+            changed: function(id, fields) {
+                setTimeout(function () {
+                    $('.grid').isotope('reloadItems');
+                    $('.grid').isotope()
+                }, 500);
+            },
+            removed: function() {
+                setTimeout(function () {
+                    $('.grid').isotope('reloadItems');
+                    $('.grid').isotope()
+                }, 500);
+            }
+        });
+        return query;
     },
     'effectiveDate': function () {
-        return (this.startDate === this.endDate) ? this.startDate : this.startDate + " - " + this.endDate
+        return (this.startDate === this.endDate) ? moment(this.startDate).format("MMMM Do YYYY") : moment(this.startDate).format("MMMM Do YYYY") + " - " + moment(this.endDate).format("MMMM Do YYYY");
     },
     'isImageOnly': function () {
         return this.subType === 'imageOnly' && this.type === 'announcement'
@@ -95,9 +98,8 @@ Template.stream.helpers({
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'imageLink': function () {
-        if(this.meta.hasUnsplash){
-            getUnsplashLink(this.imgId);
-            return Session.get('unsplashFeatured');
+        if(this.unsplash){
+            return this.unsplash.urls.full;
         }else if(this.imgId){
             try{
                 return Images.findOne({_id: this.imgId}).url();

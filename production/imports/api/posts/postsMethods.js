@@ -243,13 +243,16 @@ Meteor.methods({
 
         return Posts.find({'authorId': userId}).fetch();
     },
+    'posts.removePost': function (postId) {
+        Posts.remove({_id: postId});
+    },
     'posts.approvePost' : function(postId) {
         let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
             //TODO
         }
 
-        Posts.update ({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, response) {
+        Posts.update({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, response) {
             if (err) {
                 console.log(err);
             } else {
