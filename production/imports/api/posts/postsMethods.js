@@ -200,6 +200,9 @@ Meteor.methods({
             }
         });
     },
+    'posts.getPostById' : function(id) {
+        return Posts.findOne({'_id':id});
+    },
     'posts.getDisplayPosts' : function() {
         let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
         if (accessLevel === 'teacher' || accessLevel === 'admin') {
