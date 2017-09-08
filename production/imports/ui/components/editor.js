@@ -303,12 +303,12 @@ Template.editor.events({
                         $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one.");
                     } else {
                         console.log(data);
-                        let num = getRandomInt(0, 9);
+                        let num = getRandomInt(0, data.results.length-1);
                         Session.set('unsplash_img', data.results[num].id);
                         Session.set('unsplashData',data);
                         hasUnsplash = true;
                         $('#dropzone').replaceWith("<img src='" + data.results[num].urls.regular + "' class='img-responsive unsplash-container'/>");
-                        $('#unsplashPrompt').html("Here you go! This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a>");
+                        $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.results[num].user.links.html +"'>"+ data.results[num].user.name +"</a> from "+ data.results[num].user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
                     }
                 })
             }
@@ -326,12 +326,17 @@ Template.editor.events({
                 Session.set('unsplash_img', data.id);
                 Session.set('unsplashData',data);
                 $('.unsplash-container').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container'/>");
-                $('#unsplashPrompt').html("Here you go! Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
+                $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
             }
         })
     },
     'click #newUpload': function () {
         $('.unsplash-container').replaceWith("<form action='/file-upload' class='dropzone' id='dropzone'></form>");
+        let blogDrop = initDropZone('dropzone', {
+            number: 1,
+            size: 8,
+            message: "Drop an image here to be the featured image, or click to select an image using the browser.",
+        });
         $('#unsplashPrompt').html("Want to avoid the hassle? <a href='' id='getFeaturedUnsplash'>Click here</a> and we will find an image for you!");
     },
     'click .btn-preview': function () {
@@ -341,16 +346,16 @@ Template.editor.events({
             subtitle: $('#blogSubTitle').val(),
             content: $('.editable').froalaEditor('html.get'),
             tags: $(".tags").val(),
+            unsplash: Session.get('unsplashData'),
             imgId: imageID,
             meta: {
                 hasUnsplash: hasUnsplash,
             }
         };
-        console.log(imageID);
         Session.setPersistent('preview_json', previewPost);
         $('html, body').css({
             overflow: 'visible'
-        }); // Disables the Scrolling
+        }); // Enables the Scrolling
         window.open('/blog/preview', '_blank');
     }
 });
