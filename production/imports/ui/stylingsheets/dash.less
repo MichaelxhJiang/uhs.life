@@ -64,6 +64,8 @@
 .dash-item{
   background-color: #FFFFFF;
   padding: 15px;
+  box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+  margin-bottom: 40px;
   h3{
     margin-top: 0;
   }
@@ -73,10 +75,22 @@
   .meta{
     font-size: 12px;
   }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 11px 20px rgba(50,50,93,.1), 0 6px 11px rgba(0,0,0,.08);
+  }
 }
 .flexed{
   display: flex;
   align-items: center;
+}
+.profile-img{
+  width: 80%;
+  display: block;
+  margin: auto;
+}
+.user-expand{
+  cursor: pointer;
 }
 .btn-approve{
   background-color: #4CAF50;

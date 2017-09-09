@@ -1,5 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 
+if(Meteor.isServer){
+    Meteor.publish('allUsers', function usersPublication() {
+        return Meteor.users.find({});
+    });
+    Meteor.publish('allUsersLite', function usersPublication() {
+        return Meteor.users.find({},{
+            'services.google.picture': 1,
+            'services.google.name': 1
+
+        });
+    });
+}
+
 Accounts.validateNewUser(function (user) {
     const email = user.services.google.email;
     if (email.indexOf("gapps.yrdsb.ca") !== -1) {
@@ -45,5 +58,8 @@ Meteor.methods({
         } else {
             Roles.addUsersToRoles(user,['teacher', 'blogEditor', 'announcementEditor'])
         }
+    },
+    'addUserToRole': function (userId, roles) {
+        Roles.setUserRoles(userId, roles);
     }
 });
