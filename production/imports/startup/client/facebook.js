@@ -51,12 +51,12 @@ extendToken = function(accessToken) {
 //function to post a message to facebook
 postTextFacebook = function (obj) {
     //console.log("attempting to log in");
-    FB.api('/1152573311514394/feed', 'post', {access_token: 'EAAGTzYuTCloBAFMDsZBc4ZB8Vle8L7Scrm07kYvDRc0SvaOYLwbOCQBtinhUQ4OSlRQOdNY7qgIGBDrVK60ckPdcNHZC6mZC8rANyjZCtH4XcE5qexIZCSHFDniuMyGBAcm3eZCpRDmhZA3NrNUyKa63ymrX7kQ4UKA4ThYD7CJffivm32CPIJ7i5sPcQ9X7KTGk5PgGXXpwiQZDZD',
+    /*FB.api('/1152573311514394/feed', 'post', {access_token: 'EAAGTzYuTCloBAFMDsZBc4ZB8Vle8L7Scrm07kYvDRc0SvaOYLwbOCQBtinhUQ4OSlRQOdNY7qgIGBDrVK60ckPdcNHZC6mZC8rANyjZCtH4XcE5qexIZCSHFDniuMyGBAcm3eZCpRDmhZA3NrNUyKa63ymrX7kQ4UKA4ThYD7CJffivm32CPIJ7i5sPcQ9X7KTGk5PgGXXpwiQZDZD',
          message: obj.headline + '\n' + obj.content},
          function (response) {
              console.log(response);
-    });
-    /*FB.login(function (response) {
+    });*/
+    FB.login(function (response) {
         //use this to get access token for user
         //var token = response.authResponse.accessToken;
         var pageToken, pageId;
@@ -77,21 +77,21 @@ postTextFacebook = function (obj) {
             });
 
         });
-    }, {scope: 'publish_actions,manage_pages,publish_pages'});  //permissions listed here*/
+    }, {scope: 'publish_actions,manage_pages,publish_pages'});  //permissions listed here
 }
 
 //test function to post with an image
 postImageFacebook = function (obj) {
     console.log("posting to facebook");
-    FB.api('/1152573311514394/feed', 'post', {access_token: 'EAAGTzYuTCloBAFMDsZBc4ZB8Vle8L7Scrm07kYvDRc0SvaOYLwbOCQBtinhUQ4OSlRQOdNY7qgIGBDrVK60ckPdcNHZC6mZC8rANyjZCtH4XcE5qexIZCSHFDniuMyGBAcm3eZCpRDmhZA3NrNUyKa63ymrX7kQ4UKA4ThYD7CJffivm32CPIJ7i5sPcQ9X7KTGk5PgGXXpwiQZDZD',
+    /*FB.api('/1152573311514394/feed', 'post', {access_token: 'EAAGTzYuTCloBAFMDsZBc4ZB8Vle8L7Scrm07kYvDRc0SvaOYLwbOCQBtinhUQ4OSlRQOdNY7qgIGBDrVK60ckPdcNHZC6mZC8rANyjZCtH4XcE5qexIZCSHFDniuMyGBAcm3eZCpRDmhZA3NrNUyKa63ymrX7kQ4UKA4ThYD7CJffivm32CPIJ7i5sPcQ9X7KTGk5PgGXXpwiQZDZD',
         message: obj.headline,
         picture: 'http://www.somebodymarketing.com/wp-content/uploads/2013/05/Stock-Dock-House.jpg',
         link: 'https://www.nytimes.com/2017/09/08/us/hurricane-irma-miami-florida.html?hp&action=click&pgtype=Homepage&clickSource=story-heading&module=span-ab-top-region&region=top-news&WT.nav=top-news'},  //'http://www.somebodymarketing.com/wp-content/uploads/2013/05/Stock-Dock-House.jpg'Images.findOne({'_id':obj.imgId}).url()
         function (response) {
             console.log(response);
 
-    });
-    /*FB.login(function (response) {
+    });*/
+    FB.login(function (response) {
         //use this to get access token for user
         //var token = response.authResponse.accessToken;
         var pageToken, pageId;
@@ -116,18 +116,19 @@ postImageFacebook = function (obj) {
                 console.log(response);
             });
         });
-    }, {scope: 'publish_actions,manage_pages,publish_pages'});  //permissions listed here*/
+    }, {scope: 'publish_actions,manage_pages,publish_pages'});  //permissions listed here
 }
 
 //test function to post with an image
 postTextImageFacebook = function (obj) {
-    FB.api('/1152573311514394/feed', 'post', {access_token: 'EAAGTzYuTCloBAFMDsZBc4ZB8Vle8L7Scrm07kYvDRc0SvaOYLwbOCQBtinhUQ4OSlRQOdNY7qgIGBDrVK60ckPdcNHZC6mZC8rANyjZCtH4XcE5qexIZCSHFDniuMyGBAcm3eZCpRDmhZA3NrNUyKa63ymrX7kQ4UKA4ThYD7CJffivm32CPIJ7i5sPcQ9X7KTGk5PgGXXpwiQZDZD',
+    /*FB.api('/1152573311514394/feed', 'post', {access_token: 'EAAGTzYuTCloBALbOyEn5bDSAOVexEfStqMoHHhgXdZAeaPtUZCDduZAOjEggM89N8CdpfslUkG0OVxVzZBva4gRwla4oiySttyqjpjP92ALvYGean0aG2QdooSmQGhil9fOuarbssvgrnBXy0B8lJL2nZBj9EH83oQEtrnVj7wcIW3LkV8uBS',
         message: obj.headline + '\n' + obj.content,
-        picture: 'http://www.somebodymarketing.com/wp-content/uploads/2013/05/Stock-Dock-House.jpg'},  //'http://www.somebodymarketing.com/wp-content/uploads/2013/05/Stock-Dock-House.jpg'Images.findOne({'_id':obj.imgId}).url()
+        picture: 'http://www.somebodymarketing.com/wp-content/uploads/2013/05/Stock-Dock-House.jpg',
+        link: 'http://www.somebodymarketing.com/wp-content/uploads/2013/05/Stock-Dock-House.jpg'},  //'http://www.somebodymarketing.com/wp-content/uploads/2013/05/Stock-Dock-House.jpg'Images.findOne({'_id':obj.imgId}).url()
         function (response) {
             console.log(response);
-    });
-    /*FB.login(function (response) {
+    });*/
+    FB.login(function (response) {
         //use this to get access token for user
         //var token = response.authResponse.accessToken;
         var pageToken, pageId;
@@ -152,5 +153,5 @@ postTextImageFacebook = function (obj) {
                 console.log(response);
             });
         });
-    }, {scope: 'publish_actions,manage_pages,publish_pages'});  //permissions listed here*/
+    }, {scope: 'publish_actions,manage_pages,publish_pages'});  //permissions listed here
 }
