@@ -17,6 +17,7 @@ Template.stream.onRendered(function () {
     let $grid = $('.grid');
     Tracker.autorun(function () {
         let postSub = Meteor.subscribe('posts');
+        Meteor.subscribe('allUsersLite');
         if(postSub.ready()){
             $('.grid').isotope(isotopeSettings);
             $('.grid').imagesLoaded().progress( function() {
@@ -47,10 +48,12 @@ Template.stream.onCreated(function () {
 
 Template.stream.helpers({
     'picture': function () {
-        return Session.get('user_img');
+        return Meteor.users.findOne({_id: this.author}).services.google.picture;
     },
     'allPosts': function () {
-        let query = Posts.find({});
+        let query = Posts.find({
+            'meta.approved': true
+        });
         query.observeChanges({
             added: function(id, fields) {
                 setTimeout(function () {

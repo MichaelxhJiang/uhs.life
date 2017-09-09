@@ -4,22 +4,21 @@
 import './dashboard.html'
 import { Images } from '../../api/images/images.js';
 
+
 Template.dashHome.onRendered(function () {
    Tracker.autorun(function () {
        Meteor.subscribe('posts');
        Meteor.subscribe('categories');
+       Meteor.subscribe('allUsers');
    });
 });
 
 Template.dashHome.helpers({
     'post': function () {
         return Posts.find({
-            'meta.approved': false
-            //'type': 'announcement'
+            'meta.approved': false,
+            'type': 'announcement'
         });
-    },
-    'testProfile': function () {
-        return Session.get('user_img');
     },
     'writer': function () {
         //console.log(this);
@@ -40,7 +39,26 @@ Template.dashHome.helpers({
     }
 });
 
+Template.dashSideBar.helpers({
+    'username': function () {
+        return Session.get('name');
+    }
+});
 
+Template.dashUsers.helpers({
+    'userList': function () {
+        return Meteor.users.find({});
+    },
+    'img': function () {
+        return this.services.google.picture;
+    },
+    'name': function () {
+        return this.services.google.name;
+    },
+    'id': function () {
+        return this._id;
+    }
+});
 
 Template.dashboard.events({
     'click .new-post': function (evt) {
@@ -90,6 +108,49 @@ Template.dashboard.events({
             }
         })
     }
+});
+
+Template.dashUsers.events({
+    'click .btn-modify-roles': function (evt) {
+        let obj = $(evt.target).closest($('.dash-user-container'));
+        let id = obj.attr('id');
+        Session.set('editingUser', Meteor.users.findOne({_id: id}));
+        Modal.show('dashRoleEditor');
+    }
+});
+
+Template.dashRoleEditor.onRendered(function () {
+    let data = Session.get('editingUser');
+    console.log(data);
+    $(document).ready(function () {
+        $('#newUserRoles').select2({
+            placeholder: "Click to select...",
+            allowClear: false,
+        });
+        $("#newUserRoles").val(data.roles).trigger("change");
+    });
+});
+
+Template.dashRoleEditor.helpers({
+    'name': function () {
+        return Session.get('editingUser').services.google.name;
+    }
+});
+
+Template.dashRoleEditor.events({
+   'submit .dash-role-edit': function (evt) {
+       let data = Session.get('editingUser');
+       evt.preventDefault();
+       console.log($('#newUserRoles').val());
+       Meteor.call('addUserToRole', data._id, $('#newUserRoles').val(), function (err) {
+           if(err){
+               alertError("Role Modification Failed!", err.message);
+           }else{
+               Modal.hide('dashRoleEditor');
+               alertSuccess("Success!", "User Role has been successfully modified!")
+           }
+       })
+   }
 });
 
 Template.dashPostEditor.onRendered(function () {

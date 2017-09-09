@@ -84,10 +84,72 @@
                     <p>Use the tool bellow to filter and search for users</p>
                 </div>
             </div>
-            <div class="col-lg-12">
-                <div class="dash-item">
-                    <img class="img-circle" src="{{testProfile}}"><p>Yonglin Wang</p>
+            <hr>
+            {{#each userList}}
+                <div class="col-lg-12">
+                    <div class="dash-item flexed dash-user-container" id="{{id}}">
+                        <div class="col-lg-2">
+                            <img class="img-circle profile-img" src="{{img}}">
+                        </div>
+
+                        <div class="user-text-info col-lg-8">
+                            <h4>{{name}}</h4>
+                            <p class="text-muted user-expand"><i class="fa fa-angle-down"></i> Expand Info</p>
+                            <div class="detailed-user-info">
+                                <div class="col-lg-6 text-muted">
+                                    <p>Email: {{services.google.email}}</p>
+                                    <p>Student Number: {{profile.studentNum}}</p>
+                                    <p>Roles: {{roles}}</p>
+                                </div>
+                                <div class="col-lg-6 text-muted">
+                                    <p>Gender: Male</p>
+                                    <p>Initialized: Yes</p>
+                                    <p>Mailing List Email: wangyonglin1999@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-operations col-lg-2">
+                            <div class="dropdown">
+                                <button class="dropbtn">Options</button>
+                                <div class="dropdown-content">
+                                    <a href="" class="btn-modify-roles">Modify User Role</a>
+                                    <a href="">BAN USER</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            {{/ each}}
+        </div>
+    </div>
+</template>
+
+<template name="dashRoleEditor">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editing {{name}}'s Roles</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="dash-role-edit">
+                        <div class="form-group">
+                            <select name="category-selector" class="category-select" multiple style="width: 75%" id="newUserRoles">
+                                <option value="student">Student</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="admin">**Admin**</option>
+                                <option value="blogEditor">Allowed to create Blog</option>
+                                <option value="announcementEditor">Allowed to submit announcements</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-wide">Update</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -121,8 +183,8 @@
 
 <template name="dashSideBar">
     <div class="side-nav-header">
-        <h4>Yonglin Wang</h4>
-        <a href="logout" class="logout-btn">LOG OUT</a>
+        <h4>{{username}}</h4>
+        <a href="/logout" class="logout-btn">LOG OUT</a>
     </div>
     <div class="side-nav-body">
         <a href="/dashboard"><i class="fa fa-home"></i> Home</a>
