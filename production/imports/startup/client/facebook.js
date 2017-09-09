@@ -26,6 +26,18 @@ setupFacebook = function (callback) {
     });
 }
 
+extendToken = function(accessToken) {
+    let appSec = Meteor.call('getFBSecret');
+    let appId = Meteor.call('getFBAppId');
+    FB.api('/oauth/access_token?', 'get', {
+        grant_type:fb_exchange_token,
+        client_id:appId,
+        client_secret:appSec,
+        fb_exchange_token:accessToken }, function (response) {
+        console.log(response);
+    });
+}
+
 //function to post a message to facebook
 postTextFacebook = function (obj) {
     console.log("attempting to log in");
