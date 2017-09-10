@@ -17,6 +17,7 @@ Template.stream.onRendered(function () {
     let $grid = $('.grid');
     Tracker.autorun(function () {
         let postSub = Meteor.subscribe('posts');
+        let categorySub = Meteor.subscribe('categories');
         //Meteor.subscribe('allUsersLite');
         if(postSub.ready()){
             $('.grid').isotope(isotopeSettings);
@@ -47,6 +48,9 @@ Template.stream.onCreated(function () {
 });
 
 Template.stream.helpers({
+    'category': function () {
+      return Categories.find({});
+    },
     'picture': function () {
         return Meteor.users.findOne({_id: this.author}).services.google.picture;
     },
@@ -90,6 +94,14 @@ Template.stream.helpers({
     },
     'isBlog': function () {
         return this.type === 'blog'
+    },
+    'categories': function () {
+        let list = this.categories;
+        let text = "";
+        _.forEach(list,function (item) {
+            text += item + " "
+        });
+        return text;
     },
     'textOverImage': function () {
         return this.subType === 'imageText' && this.type === 'announcement' && this.meta.priority === 'text'
