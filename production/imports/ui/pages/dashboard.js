@@ -125,6 +125,15 @@ Template.dashboard.events({
 Template.dashCategories.events({
     'click .btn-create-category': function () {
         Modal.show('dashCategoryEditor');
+    },
+    'click .btn-delete-category': function (evt) {
+        let obj = $(evt.target).closest($('.dash-category-container'));
+        let id = obj.attr('id');
+        Meteor.call('category.remove', id, function (err) {
+            if(err){
+                alertError('Something Terrible Happened...', err.message);
+            }
+        })
     }
 });
 
@@ -172,12 +181,12 @@ Template.dashRoleEditor.events({
 });
 
 Template.dashCategoryEditor.onRendered(function () {
-    let drop = initDropZone('categoryImage',{
+    let drop = initDropZone('newCategoryImage',{
         number: 1,
         size: 10,
         message: "Drop your image here or click to use the file browser"
     });
-})
+});
 
 Template.dashPostEditor.onRendered(function () {
     let data = Session.get('dashEditorData');
@@ -200,6 +209,25 @@ Template.dashPostEditor.onRendered(function () {
         });
         $('.input-daterange').datepicker('update', '2017-09-23', '2017-09-25');*/
     });
+});
+
+Template.dashCategoryEditor.events({
+    'submit .dash-category-edit': function (evt) {
+        evt.preventDefault();
+        let json = {
+            name: $('#newCategoryName').val(),
+            description: $('#newCategoryDescription').val(),
+            imgId: Session.get('categoryImageId'),
+            featured: $('#newCategoryFeatured').is(':checked')
+        };
+        console.log(json);
+        Meteor.call('category.addNew',json,function (err) {
+            Modal.hide('dashCategoryEditor');
+            if(err){
+                alertError('Something Wrong Happened...', err.message);
+            }
+        })
+    }
 });
 
 Template.dashPostEditor.events({
@@ -252,7 +280,7 @@ function initDropZone(id, info) {
                     //retreive file extension
                     hasUnsplash = false;
                     Session.set('newFileType', fileObj.extension());   //update the file type
-                    Session.set('newImageId', fileObj._id); //update the image id to current image
+                    Session.set('categoryImageId', fileObj._id); //update the image id to current image
                     done();
                 }
             });

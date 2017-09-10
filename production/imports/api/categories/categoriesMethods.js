@@ -4,7 +4,7 @@
 import { Categories } from './categories.js'
 
 Meteor.methods({
-    'addNewCategory': function (details) {
+    'category.addNew': function (details) {
         let categoryInfo = {
             name: details.name,
             description: details.description,
@@ -20,10 +20,10 @@ Meteor.methods({
         };
         Categories.insert(categoryInfo);
     },
-    'removeCategory': function (query) {
-        categories.remove({_id: query});
+    'category.remove': function (query) {
+        Categories.remove({_id: query});
     },
-    'updateCategory': function (id, details) {
+    'category.update': function (id, details) {
         let newCategory = {
             name: details.name,
             description: details.description,

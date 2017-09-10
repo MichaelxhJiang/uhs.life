@@ -171,7 +171,7 @@
             </div>
             {{#each category}}
                 <div class="col-lg-12">
-                    <div class="dash-item flexed dash-user-container" id="{{_id}}">
+                    <div class="dash-item flexed dash-category-container" id="{{_id}}">
                         <div class="col-lg-2">
                             <h3>{{name}}</h3>
                         </div>
@@ -185,8 +185,8 @@
                             <div class="dropdown">
                                 <button class="dropbtn">Options</button>
                                 <div class="dropdown-content">
-                                    <a href="" class="btn-modify-roles">Edit Info</a>
-                                    <a href=""><i class="fa fa-trash-o"></i> Delete Category</a>
+                                    <a href="" class="btn-modify-category">Edit Info</a>
+                                    <a href="" class="btn-delete-category"><i class="fa fa-trash-o"></i> Delete Category</a>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +278,7 @@
                     <h4 class="modal-title">Creating New Category</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="dash-announcement-edit">
+                    <form class="dash-category-edit">
                         <div class="form-group">
                             <label for="newPostHeadline">Name of Category</label>
                             <input type="text" aria-describedby="textHeadline" placeholder="Type Here" id="newCategoryName">
@@ -289,12 +289,12 @@
                             <small class="text-left">You have <span class="announcement-counter">140</span> characters left.</small>
                         </div>
                         <div class="form-group">
-                            <form action="/file-upload" class="dropzone category-image" id="categoryImage"></form>
+                            <form action="/file-upload" class="dropzone category-image" id="newCategoryImage"></form>
                         </div>
                         <div class="form-group">
                             <h4>Options</h4>
-                            <input type='checkbox' class='ios8-switch ios8-switch-lg' id='checkboxContribute'>
-                            <label for='checkboxContribute'>Featured Category</label>
+                            <input type='checkbox' class='ios8-switch ios8-switch-lg' id='newCategoryFeatured'>
+                            <label for='newCategoryFeatured'>Featured Category</label>
                         </div>
                         <button type="submit" class="btn btn-primary btn-wide">Create</button>
                     </form>

@@ -8,11 +8,24 @@ import './editor.html';
 let operationStack = ['.editor-open'];
 let hasUnsplash = false;
 Template.editor.onRendered(function () {
+    Tracker.autorun(function () {
+        let categorySub = Meteor.subscribe('categories');
+        if(categorySub.ready()){
+            let categories = Categories.find({});
+            categories.observeChanges({
+                added: function(id, fields) {
+                    let newCat = new Option(fields.name, fields.name);
+                    $('.category-select').append(newCat);
+                }
+            });
+        }
+    });
     $(document).ready(function () {
         $('.category-select').select2({
             placeholder: "Click to select matching categories",
             allowClear: true
         });
+        // Append it to the select
         $('.visibility-select').select2({
             placeholder: "Click to select the scope of this post",
         });
@@ -771,7 +784,7 @@ Template.announcementOptions.events({
                 }
             });
         }
-   }
+    }
 });
 
 Template.suggestionEditor.events({
