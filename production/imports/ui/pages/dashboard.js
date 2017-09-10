@@ -45,6 +45,18 @@ Template.dashSideBar.helpers({
     }
 });
 
+Template.dashCategories.helpers({
+    'category': function () {
+        return Categories.find({});
+    },
+    'featured': function () {
+        return (this.featured) ? 'Yes' : 'No';
+    },
+    'date': function () {
+        return moment(this.createdDate).format("MMMM Do YYYY")
+    }
+});
+
 Template.dashUsers.helpers({
     'userList': function () {
         return Meteor.users.find({});
@@ -110,6 +122,12 @@ Template.dashboard.events({
     }
 });
 
+Template.dashCategories.events({
+    'click .btn-create-category': function () {
+        Modal.show('dashCategoryEditor');
+    }
+});
+
 Template.dashUsers.events({
     'click .btn-modify-roles': function (evt) {
         let obj = $(evt.target).closest($('.dash-user-container'));
@@ -152,6 +170,14 @@ Template.dashRoleEditor.events({
        })
    }
 });
+
+Template.dashCategoryEditor.onRendered(function () {
+    let drop = initDropZone('categoryImage',{
+        number: 1,
+        size: 10,
+        message: "Drop your image here or click to use the file browser"
+    });
+})
 
 Template.dashPostEditor.onRendered(function () {
     let data = Session.get('dashEditorData');
@@ -201,3 +227,35 @@ Template.dashPostEditor.events({
         Modal.hide();
     }
 });
+
+
+function initDropZone(id, info) {
+    return new Dropzone("form#" + id, {
+        maxFiles: info.number || 1,
+        maxFilesize: info.size || 8,
+        thumbnailWidth: 400,
+        dictDefaultMessage: info.message || "Drop your image here, or click to select an image using the browser.",
+        accept: function (file, done) {
+            let FSFile = new FS.File(file);
+
+            Images.insert(FSFile, function (err, fileObj) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    //remove the currently uploaded image
+                    //if there is none, this will not do anything
+                    Images.remove({_id: Session.get('newImageId')}, function (err) {
+                        if (err) {
+                            console.log("error removing image:\n" + err);
+                        }
+                    });
+                    //retreive file extension
+                    hasUnsplash = false;
+                    Session.set('newFileType', fileObj.extension());   //update the file type
+                    Session.set('newImageId', fileObj._id); //update the image id to current image
+                    done();
+                }
+            });
+        }
+    });
+}

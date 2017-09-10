@@ -17,7 +17,7 @@ Template.stream.onRendered(function () {
     let $grid = $('.grid');
     Tracker.autorun(function () {
         let postSub = Meteor.subscribe('posts');
-        Meteor.subscribe('allUsersLite');
+        //Meteor.subscribe('allUsersLite');
         if(postSub.ready()){
             $('.grid').isotope(isotopeSettings);
             $('.grid').imagesLoaded().progress( function() {

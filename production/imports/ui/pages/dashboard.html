@@ -165,18 +165,35 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="dash-item text-center">
-                    <h3>All users</h3>
-                    <p>Use the tool bellow to filter and search for users</p>
+                    <h3>Manage the categories available here</h3>
+                    <a class="btn btn-primary btn-create-category">Add new category</a>
                 </div>
             </div>
-            <div class="col-lg-12">
-                {{#each category}}
-                    <div class="dash-item">
-                        <h3>Yonglin Wang</h3>
-                    </div>
-                {{/each}}
+            {{#each category}}
+                <div class="col-lg-12">
+                    <div class="dash-item flexed dash-user-container" id="{{_id}}">
+                        <div class="col-lg-2">
+                            <h3>{{name}}</h3>
+                        </div>
 
-            </div>
+                        <div class="user-text-info col-lg-8">
+                            <h4>Description:</h4>
+                            <p>{{description}}</p>
+                            <p class="grid-item-footer">Featured: {{featured}} | Created: {{date}}</p>
+                        </div>
+                        <div class="user-operations col-lg-2">
+                            <div class="dropdown">
+                                <button class="dropbtn">Options</button>
+                                <div class="dropdown-content">
+                                    <a href="" class="btn-modify-roles">Edit Info</a>
+                                    <a href=""><i class="fa fa-trash-o"></i> Delete Category</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/ each}}
+
         </div>
     </div>
 </template>
@@ -241,6 +258,45 @@
                             </div>
                         </div>-->
                         <button type="submit" class="btn btn-primary btn-wide">Update</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="dashCategoryEditor">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Creating New Category</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="dash-announcement-edit">
+                        <div class="form-group">
+                            <label for="newPostHeadline">Name of Category</label>
+                            <input type="text" aria-describedby="textHeadline" placeholder="Type Here" id="newCategoryName">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPostBody">Description of Category</label>
+                            <textarea placeholder="Describe this category here" class="announcement-text" maxlength="140" id="newCategoryDescription"></textarea>
+                            <small class="text-left">You have <span class="announcement-counter">140</span> characters left.</small>
+                        </div>
+                        <div class="form-group">
+                            <form action="/file-upload" class="dropzone category-image" id="categoryImage"></form>
+                        </div>
+                        <div class="form-group">
+                            <h4>Options</h4>
+                            <input type='checkbox' class='ios8-switch ios8-switch-lg' id='checkboxContribute'>
+                            <label for='checkboxContribute'>Featured Category</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-wide">Create</button>
                     </form>
                 </div>
 
