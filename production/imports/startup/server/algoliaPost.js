@@ -16,7 +16,7 @@ Meteor.methods({
         let json = Posts.findOne({'_id':postId});
 
         //adds object to the indice announcement
-        index.addObjects(json, Meteor.bindEnvironment(function(err, content) {
+        index.addObject(json, Meteor.bindEnvironment(function(err, content) {
 
             //error catch for algolia issues
             if(err) {
@@ -36,8 +36,18 @@ Meteor.methods({
     },
     'postTextAlgolia' : function(postId) {
         let json = Posts.findOne({'_id':postId});
+
+        let newJson = {
+            type: json.type,
+            subType: json.subType,
+            headline: json.headline,
+            content: json.content,
+            tags: json.tags,
+            categories: json.categories,
+        }
+
         //adds object to the indice announcement
-        index.addObject(json, Meteor.bindEnvironment(function(err, content) {
+        index.addObject(newJson, Meteor.bindEnvironment(function(err, content) {
 
             //error catch for algolia issues
             if(err) {
@@ -58,8 +68,17 @@ Meteor.methods({
     'postImageAlgolia' : function(postId) {
         let json = Posts.findOne({'_id':postId});
 
+        let newJson = {
+            type: json.type,
+            subType: json.subType,
+            headline: json.headline,
+            tags: json.tags,
+            categories: json.categories,
+            imgId: json.imgId
+        }
+
         //adds object to the indice announcement
-        index.addObjects(json, Meteor.bindEnvironment(function(err, content) {
+        index.addObject(newJson, Meteor.bindEnvironment(function(err, content) {
 
             //error catch for algolia issues
             if(err) {
@@ -79,9 +98,17 @@ Meteor.methods({
     },
     'postBlogAlgolia' : function(postId) {
         let json = Posts.findOne({'_id':postId});
-
+        let newJson = {
+            type: json.type,
+            title: json.title,
+            subtitle: json.subtitle,
+            content: json.content,
+            tags: json.tags,
+            categories: json.categories,
+            imgId: json.imgId
+        }
         //adds object to the indice announcement
-        index.addObjects(json, Meteor.bindEnvironment(function(err, content) {
+        index.addObjects(newJson, Meteor.bindEnvironment(function(err, content) {
 
             //error catch for algolia issues
             if(err) {
