@@ -83,7 +83,7 @@ Template.navigation.events({
             prompt.html("CLOSE");
             searchBox.typed({
                 strings: [
-                    "Type something her to Search.",
+                    "Type something here to Search.",
                     "Ask us what you want to know,",
                     "We'll try to find an answer.",
                     "\"Volleyball practice schedule\"",

@@ -43,7 +43,7 @@ Meteor.methods({
         let sDate = new Date(json.startDate),
             eDate = new Date(json.endDate),
             currentDate = new Date();
-        if(sDate < currentDate || currentDate > eDate || sDate > eDate){
+        if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
             err = true;
             errStr = "Your date selection is illegal. "
         }
@@ -90,10 +90,10 @@ Meteor.methods({
         let sDate = new Date(json.startDate),
             eDate = new Date(json.endDate),
             currentDate = new Date();
-        /*if(sDate < currentDate || currentDate > eDate || sDate > eDate){
+        if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
             err = true;
             errStr = "Your date selection is illegal. "
-        }*/
+        }
         if (err) {
             throw new Meteor.Error(400, errStr);
         }
@@ -138,7 +138,7 @@ Meteor.methods({
         let sDate = new Date(json.startDate),
             eDate = new Date(json.endDate),
             currentDate = new Date();
-        if(sDate < currentDate || currentDate > eDate || sDate > eDate){
+        if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
             err = true;
             errStr = "Your date selection is illegal. "
         }
