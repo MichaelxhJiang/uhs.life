@@ -50,16 +50,21 @@ Meteor.methods({
         Meteor.users.update({_id: id}, {$set: {"profile.studentNum": info.studentNum}});
         Meteor.users.update({_id: id}, {$set: {"profile.teachToken": info.token}});
         Meteor.users.update({_id: id}, {$set: {"profile.terms": true}});
-        const email = user.services.google.email;
-        const hasNumbers = email.match(/\d+/g);
-        if (hasNumbers) {
-            console.log('student');
-            Roles.addUsersToRoles(user,['student']);
-        } else {
-            Roles.addUsersToRoles(user,['teacher', 'blogEditor', 'announcementEditor'])
-        }
     },
     'addUserToRole': function (userId, roles) {
         Roles.setUserRoles(userId, roles);
+    },
+    'accounts.setPersonalEmail': function (email) {
+        Meteor.users.update({_id: this.userId}, {$set: {"profile.email": email}});
+    },
+    'accounts.initRoles': function () {
+        const user = Meteor.users.findOne({_id: this.userId});
+        const email = user.services.google.email;
+        const hasNumbers = email.match(/\d+/g);
+        if (hasNumbers) {
+            Roles.addUsersToRoles(this.userId,['student']);
+        } else {
+            Roles.addUsersToRoles(this.userId,['teacher'])
+        }
     }
 });

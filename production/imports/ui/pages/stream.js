@@ -48,6 +48,9 @@ Template.stream.onCreated(function () {
 });
 
 Template.stream.helpers({
+    'canEdit': function () {
+        return Roles.userIsInRole(Meteor.userId(),['teacher','blogEditor','announcementEditor','admin']);
+    },
     'category': function () {
       return Categories.find({});
     },

@@ -32,6 +32,12 @@ Template.navigation.helpers({
     },
     'title': function () {
         return Session.get('navTitle');
+    },
+    'isStudent': function () {
+        return Roles.userIsInRole(Meteor.userId(), 'student');
+    },
+    'isAdmin': function () {
+        return Roles.userIsInRole(Meteor.userId(), 'admin');
     }
 });
 

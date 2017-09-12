@@ -8,6 +8,87 @@ import './editor.html';
 let operationStack = ['.editor-open'];
 let hasUnsplash = false;
 Template.editor.onRendered(function () {
+
+});
+
+Template.blogEditor.onRendered(function () {
+    $(document).ready(function () {
+        $('.category-select').select2({
+            placeholder: "Click to select matching categories",
+            allowClear: true
+        });
+        // Append it to the select
+        $('.visibility-select').select2({
+            placeholder: "Click to select the scope of this post",
+        });
+        $('.input-date').datepicker({
+            startDate: '+0d'
+        });
+        let $editor = $('.editable');
+        $editor.froalaEditor({
+            scaytAutoload: false,
+            //This setting can be completely ignored.
+            scaytOptions: {
+                enableOnTouchDevices: false,
+                localization: 'en',
+                extraModules: 'ui',
+                DefaultSelection: 'American English',
+                spellcheckLang: 'en_US',
+                contextMenuSections: 'suggest|moresuggest',
+                serviceProtocol: 'https',
+                servicePort: '80',
+                serviceHost: 'svc.webspellchecker.net',
+                servicePath: 'spellcheck/script/ssrv.cgi',
+                contextMenuForMisspelledOnly: true,
+                scriptPath: 'https://demo.webspellchecker.net/froala/customscayt.js'
+            },
+            //ignore end
+            toolbarButtons: ['fullscreen', '|', 'paragraphFormat', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', '|', 'print', 'help', '|', 'undo', 'redo'],
+            toolbarButtonsSM: ['fullscreen', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
+            placeholderText: 'Tell your story here...',
+            tableStyles: {
+                class1: 'table',
+            },
+            paragraphFormat: {
+                N: 'Normal',
+                H2: 'Title',
+                PRE: 'Code'
+            },
+            fileAllowedTypes: ['application/pdf', 'application/msword']
+        });
+        $editor.on('froalaEditor.image.beforeUpload', function (e, editor, images) {
+            let self = $(this);
+
+            Images.insert(images[0], function (err, fileObj) {
+                //console.log("editor ",  editor);
+                //console.log("after insert:", fileObj._id);
+                Tracker.autorun(function (c) {
+                    fileObj = Images.findOne(fileObj._id);
+                    let url = fileObj.url();
+                    if (url) {
+                        let imgList = $('img.fr-fic');
+                        self.froalaEditor('image.insert', url, true);
+                        imgList[imgList.length - 1].remove();
+                        return {
+                            link: url
+                        };
+                    }
+                });
+            });
+        });
+        if (Meteor.isClient) {
+            Dropzone.autoDiscover = false;
+            $(".tags").tagsinput('items');
+            let blogDrop = initDropZone('dropzone', {
+                number: 1,
+                size: 8,
+                message: "Drop an image here to be the featured image, or click to select an image using the browser.",
+            });
+        }
+    });
+});
+
+Template.announcementEditor.onRendered(function () {
     Tracker.autorun(function () {
         let categorySub = Meteor.subscribe('categories');
         if(categorySub.ready()){
@@ -25,96 +106,49 @@ Template.editor.onRendered(function () {
             placeholder: "Click to select matching categories",
             allowClear: true
         });
-        // Append it to the select
-        $('.visibility-select').select2({
-            placeholder: "Click to select the scope of this post",
-        });
         $('.input-daterange').datepicker({
             startDate: '+0d'
         });
-        $('.input-date').datepicker({
-            startDate: '+0d'
-        });
-    });
-    let $editor = $('.editable');
-    $editor.froalaEditor({
-        scaytAutoload: false,
-        //This setting can be completely ignored.
-        scaytOptions: {
-            enableOnTouchDevices: false,
-            localization: 'en',
-            extraModules: 'ui',
-            DefaultSelection: 'American English',
-            spellcheckLang: 'en_US',
-            contextMenuSections: 'suggest|moresuggest',
-            serviceProtocol: 'https',
-            servicePort: '80',
-            serviceHost: 'svc.webspellchecker.net',
-            servicePath: 'spellcheck/script/ssrv.cgi',
-            contextMenuForMisspelledOnly: true,
-            scriptPath: 'https://demo.webspellchecker.net/froala/customscayt.js'
-        },
-        //ignore end
-        toolbarButtons: ['fullscreen', '|', 'paragraphFormat', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', '|', 'print', 'help', '|', 'undo', 'redo'],
-        toolbarButtonsSM: ['fullscreen', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertFile', 'insertVideo', 'insertTable', '|', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', '|', 'undo', 'redo'],
-        placeholderText: 'Tell your story here...',
-        tableStyles: {
-            class1: 'table',
-        },
-        paragraphFormat: {
-            N: 'Normal',
-            H2: 'Title',
-            PRE: 'Code'
-        },
-        fileAllowedTypes: ['application/pdf', 'application/msword']
-    });
-    $editor.on('froalaEditor.image.beforeUpload', function (e, editor, images) {
-        let self = $(this);
-
-        Images.insert(images[0], function (err, fileObj) {
-            //console.log("editor ",  editor);
-            //console.log("after insert:", fileObj._id);
-            Tracker.autorun(function (c) {
-                fileObj = Images.findOne(fileObj._id);
-                let url = fileObj.url();
-                if (url) {
-                    let imgList = $('img.fr-fic');
-                    self.froalaEditor('image.insert', url, true);
-                    imgList[imgList.length - 1].remove();
-                    return {
-                        link: url
-                    };
-                }
+        if (Meteor.isClient) {
+            let arrayOfImageIds = [];
+            Dropzone.autoDiscover = false;
+            $(".tags").tagsinput('items');
+            let announcementDrop = initDropZone("announcementImage", {
+                number: 1,
+                size: 8,
+                message: "Drop your poster here, or click to select an image using the browser.",
             });
-        });
+            let announcementImageTwo = initDropZone("announcementImageTwo", {
+                number: 1,
+                size: 8,
+                message: "Drop your poster here, or click to select an image using the browser."
+            });
+        }
+
     });
-    if (Meteor.isClient) {
-        let arrayOfImageIds = [];
-        Dropzone.autoDiscover = false;
-        $(".tags").tagsinput('items');
-        let blogDrop = initDropZone('dropzone', {
-            number: 1,
-            size: 8,
-            message: "Drop an image here to be the featured image, or click to select an image using the browser.",
-        });
-        let suggestionDrop = initDropZone('suggestionImage', {
-            number: 1,
-            size: 8
-        });
-        let announcementDrop = initDropZone("announcementImage", {
-            number: 1,
-            size: 8,
-            message: "Drop your poster here, or click to select an image using the browser.",
-        });
-        let announcementImageTwo = initDropZone("announcementImageTwo", {
-            number: 1,
-            size: 8,
-            message: "Drop your poster here, or click to select an image using the browser."
-        });
-    }
 });
+
+Template.suggestionEditor.onRendered(function () {
+    let suggestionDrop = initDropZone('suggestionImage', {
+        number: 1,
+        size: 8
+    });
+});
+
 Template.announcementOptions.onRendered(function () {
     this.$(".announce-tags").tagsinput('items');
+});
+
+Template.editor.helpers({
+    'canEdit': function () {
+        return Roles.userIsInRole(Meteor.userId(),['teacher','blogEditor','announcementEditor','admin']);
+    },
+    'canWriteAnnounce': function () {
+        return Roles.userIsInRole(Meteor.userId(),['teacher','admin','announcementEditor'])
+    },
+    'canWriteBlog': function () {
+        return Roles.userIsInRole(Meteor.userId(),['teacher','admin','blogEditor'])
+    }
 });
 
 
