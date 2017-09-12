@@ -30,10 +30,10 @@ Template.editor.onRendered(function () {
             placeholder: "Click to select the scope of this post",
         });
         $('.input-daterange').datepicker({
-            startDate: '+0d'
+            //startDate: '+0d'
         });
         $('.input-date').datepicker({
-            startDate: '+0d'
+            //startDate: '+0d'
         });
     });
     let $editor = $('.editable');
