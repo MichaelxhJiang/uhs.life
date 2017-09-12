@@ -26,7 +26,7 @@ Meteor.startup(() => {
     HTTP.call("GET", "https://ta.yrdsb.ca/v4/students/json.php", {
         data: {
             "student_number": "073212482",
-            "password": "845qvftj"
+            "password": "XXXXXX"
         }
     }, function(err, response) {
         if (err) {
