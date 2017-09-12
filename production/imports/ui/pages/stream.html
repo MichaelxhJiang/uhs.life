@@ -8,15 +8,13 @@
                 {{#each category}}
                     <button class="filter-btn" data-filter=".{{name}}">{{name}}</button>
                 {{/each}}
-                <button class="filter-btn" data-filter=".b">Test B</button>
-                <button class="filter-btn" data-filter=".image">Images</button>
             </div>
             <div class="grid">
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
                 {{#each allPosts}}
                     {{#if isImageOnly}}
-                        <div class="grid-item {{categories}}">
+                        <div class="grid-item image {{categories}}">
                             <div class="item-container">
                                 <img class="img-responsive" src="{{imageLink}}" />
                                 <div class="overlay-small">
@@ -46,7 +44,7 @@
                     {{/ if}}
                     {{#if isImageText}}
                         {{#if imageOverText}}
-                            <div class="grid-item {{categories}}">
+                            <div class="grid-item image {{categories}}">
                                 <div class="item-container">
                                     <img src="{{imageLink}}" alt="Test Image" class="item-image">
                                     <div class="overlay">
@@ -60,7 +58,7 @@
                             </div>
                         {{/ if}}
                         {{#if textOverImage}}
-                            <div class="grid-item {{categories}} text-over-image" style="background: url({{imageLink}})">
+                            <div class="grid-item image {{categories}} text-over-image" style="background: url({{imageLink}})">
                                 <div class="overlay-partial">
                                     <div class="post-title mb-10">
                                         <h3>{{headline}}</h3>
@@ -72,7 +70,7 @@
                         {{/ if}}
                     {{/ if}}
                     {{#if isBlog}}
-                        <div class="grid-item {{categories}} blog-item" id="{{_id}}">
+                        <div class="grid-item image {{categories}} blog-item" id="{{_id}}">
                             <img class="img-responsive" src="{{imageLink}}" />
                             <div class="grid-blog-body">
                                 <h3>{{title}}</h3>

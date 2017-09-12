@@ -31,7 +31,7 @@
                                 <div>
                                     <div class="content-preview">
                                         <h4 class="draft-title">{{headline}}</h4>
-                                        <p class="meta">{{writer}} | {{startDate}} - {{endDate}} | Tags: {{tags}} | Category: ... | </p>
+                                        <p class="meta">{{writer}} | {{startDate}} - {{endDate}} | Tags: {{tags}} | Category: {{categories}} | </p>
                                         <p class="draft-body">{{content}}</p>
                                     </div>
                                     <div class="operations">
@@ -49,7 +49,7 @@
                                         </div>
                                         <div class="content-preview">
                                             <h3 class="draft-title">{{headline}}</h3>
-                                            <p class="meta">{{writer}} | {{startDate}} - {{endDate}} | Tags: {{tags}} | Category: ... | </p>
+                                            <p class="meta">{{writer}} | {{startDate}} - {{endDate}} | Tags: {{tags}} | Category: {{categories}} | </p>
                                             {{#if hasContent}}
                                                 <p class="draft-body">{{content}}</p>
                                             {{/ if}}
@@ -62,6 +62,34 @@
                                 </div>
                             </div>
                         {{/ if}}
+                        <hr />
+                    {{/ each}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="dash-item">
+                    <div class="dash-item-header text-center">
+                        <h3>New Blog posts</h3>
+                        <p>Click on one to view it</p>
+                    </div>
+                    <hr />
+                    {{#each blogPost}}
+                        <div class="editor-options new-post draft-inline" id="{{_id}}">
+                            <div>
+                                <div class="content-preview">
+                                    <h4 class="draft-title">{{title}}</h4>
+                                    <h5>{{subtitle}}</h5>
+                                    <p class="meta">{{writer}} | Released: {{releaseDate}} | Drafted: {{draftedDate}} | Tags: {{tags}} | Category: {{categories}} | </p>
+                                    <p class="draft-body">{{content}}</p>
+                                </div>
+                                <div class="operations">
+                                    <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                                    <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                                </div>
+                            </div>
+                        </div>
                         <hr />
                     {{/ each}}
                 </div>
@@ -124,32 +152,89 @@
     </div>
 </template>
 
-<template name="dashRoleEditor">
-    <div class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Editing {{name}}'s Roles</h4>
+<template name="dashAnnouncements">
+    <div class="container">
+        <div class="row text-center mb-60">
+            <div class="col-lg-12">
+                <h2>Posts</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="dash-item">
+                    <div class="dash-item-header text-center">
+                        <h3>Currently showing announcements</h3>
+                        <p>Click on one to edit its details</p>
+                    </div>
+                    <hr />
+                    {{#each post}}
+                        {{#if noImage}}
+                            <div class="editor-options new-post draft-inline" id="{{_id}}">
+                                <div>
+                                    <div class="content-preview">
+                                        <h4 class="draft-title">{{headline}}</h4>
+                                        <p class="meta">{{writer}} | {{startDate}} - {{endDate}} | Tags: {{tags}} | Category: {{categories}} | </p>
+                                        <p class="draft-body">{{content}}</p>
+                                    </div>
+                                    <div class="operations">
+                                        <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                                        <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {{else}}
+                            <div class="editor-options new-post with-image draft-inline" id="{{_id}}">
+                                <div>
+                                    <div class="flexed mb-15">
+                                        <div class="image-preview">
+                                            <img src="{{imageLink}}" class="img-responsive">
+                                        </div>
+                                        <div class="content-preview">
+                                            <h3 class="draft-title">{{headline}}</h3>
+                                            <p class="meta">{{writer}} | {{startDate}} - {{endDate}} | Tags: {{tags}} | Category: {{categories}} | </p>
+                                            {{#if hasContent}}
+                                                <p class="draft-body">{{content}}</p>
+                                            {{/ if}}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                                        <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/ if}}
+                        <hr />
+                    {{/ each}}
                 </div>
-                <div class="modal-body">
-                    <form class="dash-role-edit">
-                        <div class="form-group">
-                            <select name="category-selector" class="category-select" multiple style="width: 75%" id="newUserRoles">
-                                <option value="student">Student</option>
-                                <option value="teacher">Teacher</option>
-                                <option value="admin">**Admin**</option>
-                                <option value="blogEditor">Allowed to create Blog</option>
-                                <option value="announcementEditor">Allowed to submit announcements</option>
-                            </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="dash-item">
+                    <div class="dash-item-header text-center">
+                        <h3>All blog posts available</h3>
+                        <p>Click on one to view it</p>
+                    </div>
+                    <hr />
+                    {{#each blogPost}}
+                        <div class="editor-options new-post draft-inline" id="{{_id}}">
+                            <div>
+                                <div class="content-preview">
+                                    <h4 class="draft-title">{{title}}</h4>
+                                    <h5>{{subtitle}}</h5>
+                                    <p class="meta">{{writer}} | Released: {{releaseDate}} | Drafted: {{draftedDate}} | Tags: {{tags}} | Category: {{categories}} | </p>
+                                    <p class="draft-body">{{content}}</p>
+                                </div>
+                                <div class="operations">
+                                    <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
+                                    <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-wide">Update</button>
-                    </form>
+                        <hr />
+                    {{/ each}}
                 </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-
             </div>
         </div>
     </div>
@@ -205,8 +290,7 @@
     </div>
     <div class="side-nav-body">
         <a href="/dashboard"><i class="fa fa-home"></i> Home</a>
-<!--        <a href=""><i class="fa fa-bullhorn"></i> Announcements</a>
-        <a href=""><i class="fa fa-file-text-o"></i> Posts</a>-->
+        <a href="/dashboard/announcements"><i class="fa fa-bullhorn"></i> Posts</a>
         <a href="/dashboard/suggestions"><i class="fa fa-pencil-square-o"></i> Suggestions</a>
         <a href="/dashboard/categories"><i class="fa fa-list"></i> Manage Categories</a>
         <a href="/dashboard/users"><i class="fa fa-group"></i> Manage Users</a>
@@ -241,22 +325,8 @@
                         <div class="form-group">
                             <label for="newPostCategories">Categories</label>
                             <select name="category-selector" class="category-select" multiple style="width: 75%" id="newPostCategories">
-                                <option value="1">Mustard</option>
-                                <option value="2">Ketchup</option>
-                                <option value="3">Relish</option>
-                                <option value="angular">Angular</option>
-                                <option value="css">CSS</option>
-                                <option value="design">Graphic Design</option>
                             </select>
                         </div>
-<!--                        <div class="form-group">
-                            <label for="">Date Range</label>
-                            <div class="input-group input-daterange">
-                                <input type="text" class="form-control startDate" >
-                                <div class="input-group-addon">to</div>
-                                <input type="text" class="form-control endDate">
-                            </div>
-                        </div>-->
                         <button type="submit" class="btn btn-primary btn-wide">Update</button>
                     </form>
                 </div>
@@ -297,6 +367,37 @@
                             <label for='newCategoryFeatured'>Featured Category</label>
                         </div>
                         <button type="submit" class="btn btn-primary btn-wide">Create</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="dashRoleEditor">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editing {{name}}'s Roles</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="dash-role-edit">
+                        <div class="form-group">
+                            <select name="category-selector" class="category-select" multiple style="width: 75%" id="newUserRoles">
+                                <option value="student">Student</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="admin">**Admin**</option>
+                                <option value="blogEditor">Allowed to create Blog</option>
+                                <option value="announcementEditor">Allowed to submit announcements</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-wide">Update</button>
                     </form>
                 </div>
 

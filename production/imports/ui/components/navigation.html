@@ -48,13 +48,19 @@
         <div class="side-nav-body">
             <a href="/">Stream</a>
             <a href="">Blogs</a>
-            <a href="" id="academics"><div class="expand-text">Academics</div><i class="fa fa-times academics-icon"></i></a>
-            <ul class="course-list">
-                <li><a href="">ICS4U1</a></li>
-                <li><a href="">TEJ3M1</a></li>
-                <li><a href="">ENG4U1</a></li>
-                <li><a href="">MDM4U1</a></li>
-            </ul>
+            {{#if isStudent}}
+                <a href="" id="academics"><div class="expand-text">Academics</div><i class="fa fa-times academics-icon"></i></a>
+                <ul class="course-list">
+                    <li><a href="">ICS4U1</a></li>
+                    <li><a href="">TEJ3M1</a></li>
+                    <li><a href="">ENG4U1</a></li>
+                    <li><a href="">MDM4U1</a></li>
+                </ul>
+                <a href="">Suggestions to Admin</a>
+            {{/ if}}
+            {{#if isAdmin}}
+                <a href="/dashboard">Dashboard</a>
+            {{/ if}}
         </div>
     </div>
     <div class="nav-overlay"></div>

@@ -20,6 +20,7 @@ let loggedIn = FlowRouter.group({
                         Session.set('id', user._id);
                         Session.set('user_img', user.services.google.picture);
                         if(!user.profile.init){
+                            Meteor.call('accounts.initRoles');
                             FlowRouter.go('/first')
                         }
                     }
@@ -32,18 +33,46 @@ let loggedIn = FlowRouter.group({
 let admin = FlowRouter.group({
     triggersEnter: [
         function () {
+            let route;
+            if (!(Meteor.loggingIn() || Meteor.userId())){
+                route = FlowRouter.current();
+                Session.set('redirectAfterLogin', route.path);
+                console.log(Session.get('redirectAfterLogin'));
+                FlowRouter.go('/login');
+            }else{
+                Tracker.autorun(function () {
+                    let user = Meteor.user();
+                    if(user){
+                        Session.set('name', user.services.google.name);
+                        Session.set('id', user._id);
+                        Session.set('user_img', user.services.google.picture);
+                        if(!user.profile.init){
+                            FlowRouter.go('/first')
+                        }/*else if(!Roles.userIsInRole(user._id, 'admin')){
+                            alertError('Sorry', "You do not have access to this area.");
+                            FlowRouter.go('/')
+                        }*/
+                    }
+                });
+            }
             console.log('welcome to admin');
         }
     ]
 });
 
-loggedIn.route('/dashboard/users', {
+admin.route('/dashboard/users', {
     action: function () {
         BlazeLayout.render('dashboard',{dash: 'dashUsers'})
     }
 });
 
-loggedIn.route('/dashboard/categories', {
+admin.route('/dashboard/announcements', {
+    action: function () {
+        BlazeLayout.render('dashboard',{dash: 'dashAnnouncements'})
+    }
+});
+
+admin.route('/dashboard/categories', {
     action: function () {
         BlazeLayout.render('dashboard',{dash: 'dashCategories'})
     }
@@ -79,7 +108,7 @@ loggedIn.route('/blog/:postId',{
     }
 });
 
-loggedIn.route('/dashboard',{
+admin.route('/dashboard',{
     action: function () {
         BlazeLayout.render('dashboard',{dash: 'dashHome'})
     }
@@ -116,7 +145,8 @@ loggedIn.route('/logout',{
 
 loggedIn.route('/first', {
     action: function () {
-        Tracker.autorun(function () {
+        BlazeLayout.render('applicationLayout',{main: 'firstTime'});
+        /*Tracker.autorun(function () {
             let user = Meteor.user();
             if(user){
                 if(user.profile.init){
@@ -125,7 +155,7 @@ loggedIn.route('/first', {
                     BlazeLayout.render('applicationLayout',{main: 'firstTime'});
                 }
             }
-        });
+        });*/
     },
     name: 'first'
 });

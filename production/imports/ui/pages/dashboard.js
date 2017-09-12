@@ -20,6 +20,44 @@ Template.dashHome.helpers({
             'type': 'announcement'
         });
     },
+    'blogPost': function () {
+        return Posts.find({
+            'meta.approved': false,
+            'type': 'blog'
+        });
+    },
+    'writer': function () {
+        //console.log(this);
+        return Meteor.users.findOne({_id: this.author}).services.google.name;
+    },
+    'noImage': function () {
+        return (this.subType === 'textOnly')
+    },
+    'imageLink': function () {
+        try{
+            return Images.findOne({_id: this.imgId}).url();
+        }catch (e){
+
+        }
+    },
+    'hasContent': function () {
+        return this.subType !== 'imageOnly'
+    }
+});
+
+Template.dashAnnouncements.helpers({
+    'post': function () {
+        return Posts.find({
+            'meta.approved': true,
+            'type': 'announcement'
+        });
+    },
+    'blogPost': function () {
+        return Posts.find({
+            'meta.approved': true,
+            'type': 'blog'
+        });
+    },
     'writer': function () {
         //console.log(this);
         return Meteor.users.findOne({_id: this.author}).services.google.name;
@@ -190,24 +228,35 @@ Template.dashCategoryEditor.onRendered(function () {
 
 Template.dashPostEditor.onRendered(function () {
     let data = Session.get('dashEditorData');
-    console.log(data);
+    if(data.subType === 'imageOnly'){
+        $('#newPostBody').hide()
+    }else{
+        $('#newPostBody').val(data.content);
+    }
     $('#newPostHeadline').val(data.headline);
-    $('#newPostBody').val(data.content);
     $("#newPostTags").tagsinput('items');
-    console.log(data.tags);
     _.forEach(data.tags,function (item) {
         $('#newPostTags').tagsinput('add', item);
+    });
+
+    Tracker.autorun(function () {
+        let categorySub = Meteor.subscribe('categories');
+        if(categorySub.ready()){
+            let categories = Categories.find({});
+            categories.observeChanges({
+                added: function(id, fields) {
+                    let newCat = new Option(fields.name, fields.name);
+                    $('#newPostCategories').append(newCat);
+                }
+            });
+            $("#newPostCategories").val(data.categories).trigger("change");
+        }
     });
     $(document).ready(function () {
         $('#newPostCategories').select2({
             placeholder: "Click to select matching categories",
             allowClear: true,
         });
-        $("#newPostCategories").val(data.categories).trigger("change");
-/*        $('.input-daterange').datepicker({
-            startDate: '+0d'
-        });
-        $('.input-daterange').datepicker('update', '2017-09-23', '2017-09-25');*/
     });
 });
 
