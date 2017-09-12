@@ -8,10 +8,15 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
+    'posts.removeAll' : function() {
+        throw new Meteor.Error(400, "Nice try...");
+        Posts.remove({});
+    },
     'posts.postTextImage' : function(json) {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
         let errStr = "", err = false;
         if (json.type !== "announcement") {
@@ -38,7 +43,7 @@ Meteor.methods({
         let sDate = new Date(json.startDate),
             eDate = new Date(json.endDate),
             currentDate = new Date();
-        if(sDate < currentDate || currentDate > eDate || sDate > eDate){
+        if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
             err = true;
             errStr = "Your date selection is illegal. "
         }
@@ -59,9 +64,10 @@ Meteor.methods({
 
     },
     'posts.postText' : function(json) {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         let errStr = "", err = false;
@@ -84,7 +90,7 @@ Meteor.methods({
         let sDate = new Date(json.startDate),
             eDate = new Date(json.endDate),
             currentDate = new Date();
-        if(sDate < currentDate || currentDate > eDate || sDate > eDate){
+        if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
             err = true;
             errStr = "Your date selection is illegal. "
         }
@@ -105,9 +111,10 @@ Meteor.methods({
         });
     },
     'posts.postImage' : function(json) {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         let errStr = "", err = false;
@@ -131,7 +138,7 @@ Meteor.methods({
         let sDate = new Date(json.startDate),
             eDate = new Date(json.endDate),
             currentDate = new Date();
-        if(sDate < currentDate || currentDate > eDate || sDate > eDate){
+        if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
             err = true;
             errStr = "Your date selection is illegal. "
         }
@@ -152,9 +159,10 @@ Meteor.methods({
         });
     },
     'posts.postBlog' : function(json) {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         let errStr = "", err = false;
@@ -201,73 +209,104 @@ Meteor.methods({
         });
     },
     'posts.getPostById' : function(id) {
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
+        }
         return Posts.findOne({'_id':id});
     },
     'posts.getDisplayPosts' : function() {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         return Posts.find({'meta.approved':true, 'display': true}).fetch();
     },
     'posts.getUnapprovedPosts' : function() {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         return Posts.find({'meta.approved':false, 'meta.screeningStage': {$ne: -1}}).fetch();
     },
     'posts.getApprovedPosts' : function() {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         return Posts.find({'meta.approved':true, 'meta.screeningStage': 3}).fetch();
     },
     'posts.getRejectedPosts' : function() {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         return Posts.find({'meta.approved':false, 'meta.screeningStage': -1}).fetch();
     },
     'posts.getPostsByUserId' : function (userId) {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         return Posts.find({'authorId': userId}).fetch();
     },
     'posts.removePost': function (postId) {
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
+        }
+
         Posts.remove({_id: postId});
     },
     'posts.approvePost' : function(postId) {
-        let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         Posts.update({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, response) {
             if (err) {
                 console.log(err);
             } else {
-               Meteor.call('scheduleAnnouncement', postId, function(err) {
-                  if (err) {
-                     console.log(err);
-                  }
-               });
-               let obj = Posts.findOne({'_id':postId});
+                let obj = Posts.findOne({'_id':postId});
+                let type = obj.type, subType = obj.subType;
+
+                Meteor.call('scheduleAnnouncement', postId, function(err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+                if (type === 'announcement') {
+                    if (subType === 'textOnly') {
+                        Meteor.call('postTextAlgolia', postId);
+                    } else if (subType === 'imageOnly') {
+                        Meteor.call('postImageAlgolia', postId);
+                    } else {
+                        Meteor.call('postTextImageAlgolia', postId);
+                    }
+                } else {
+                    Meteor.call('postBlogAlgolia', postId);
+                }
+
                 //Post on twitter
                 Meteor.call('setupTwitterAPI', function(err, response) {
                     if(err) {
                         console.log(err);
                     } else {
-                       let type = obj.type, subType = obj.subType;
+
                        if (type === 'announcement') {
                           if (subType === 'textOnly') {
                               Meteor.call('postTextAnnouncementTwitter', obj, function(err) {
@@ -298,25 +337,28 @@ Meteor.methods({
         });
     },
     'posts.unApprovePost' : function (postId) {
-        let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.approved':false, 'meta.screeningStage':0, 'display': false}});
     },
     'posts.rejectPost' : function (postId) {
-        let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.screeningStage':-1}});
     },
     'posts.unRejectPost' : function (postId) {
-        let accessLevel = Meteor.users.find({'_id':Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.screeningStage': 0}});

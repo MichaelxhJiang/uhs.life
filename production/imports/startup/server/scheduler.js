@@ -12,25 +12,30 @@ Meteor.methods({
          let cDate = new Date();
          let flag = false;
 
+         if (eDate.getTime() === sDate.getTime()) {   //scheduled for one day
+            eDate = new Date(eDate.setTime( eDate.getTime() + 86400000 )); //move end day to next day midnight
+         }
          if (sDate.getTime() < cDate.getTime()) { //already past start date
+             console.log("updated start date");
             sDate = new Date();  //update the start date
             sDate.setSeconds(sDate.getSeconds() + 5);  //add a delay
          }
          if (eDate.getTime() < cDate.getTime()) { //already past end date
+             console.log("updated end date");
             flag = true;
          }
-         if (eDate.getTime() === sDate.getTime()) {   //scheduled for one day
-            eDate = new Date(eDate.setTime( eDate.getTime() + 86400000 )); //move end day to next day midnight
-         }
+
          if (!flag) {
-            let j = schedule.scheduleJob(sDate, function() {
+            let j = schedule.scheduleJob(sDate, Meteor.bindEnvironment(function() {
                //Set display to TRUE
-               Posts.findOneAndUpdate({'_id': announcementId}, { $set: {'display':true}});
-            });
-            let k = schedule.scheduleJob(eDate, function() {
+               console.log("DISPLAY TRUE");
+               Posts.update({'_id': announcementId}, { $set: {'meta.display':true}});
+           }));
+            let k = schedule.scheduleJob(eDate, Meteor.bindEnvironment(function() {
                //Set display to FALSE
-               Posts.findOneAndUpdate({'_id': announcementId}, { $set: {'display':false}});
-            });
+               console.log("DISPLAY FALSE");
+               Posts.update({'_id': announcementId}, { $set: {'meta.display':false}});
+            }));
          }
       } else {
          console.log('Not an announcement');
@@ -49,10 +54,10 @@ Meteor.methods({
             rDate.setSeconds(rDate.getSeconds() + 5);  //add a delay
          }
 
-         let j = schedule.scheduleJob(rDate, function() {
+         let j = schedule.scheduleJob(rDate, Meteor.bindEnvironment(function() {
             //Set display to TRUE
-            Posts.findOneAndUpdate({'_id': blogId}, { $set: {'display':true}});
-         });
+            Posts.update({'_id': blogId}, { $set: {'meta.display':true}});
+        }));
       } else {
          console.log('not a blog');
          return -1;

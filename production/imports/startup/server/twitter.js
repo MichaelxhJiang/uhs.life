@@ -35,7 +35,12 @@ Meteor.methods({
     'postTextAnnouncementTwitter' : function(obj) {
         let headline = obj.headline,
         content = obj.content;
-        T.post('statuses/update', { status: headline + '\n' + content}, function(err, data, response) {
+        let status = obj.headline + '\n' + content;
+        if (status.length > 140) {
+            status = status.substring(0, 137);
+        }
+        status += "...";
+        T.post('statuses/update', { status: status}, function(err, data, response) {
             console.log(data)
         });
     },
@@ -94,6 +99,12 @@ Meteor.methods({
         };
         let getBase64DataSync = Meteor.wrapAsync(getBase64Data);
 
+        let status = obj.headline + '\n' + content;
+        if (status.length > 140) {
+            status = status.substring(0, 137);
+        }
+        status += "...";
+
         let file = Images.findOne({'_id': obj.imgId});
         getBase64DataSync(file, function(err, b64content) {
             // first we must post the media to Twitter
@@ -101,7 +112,7 @@ Meteor.methods({
 
                 // now we can reference the media and post a tweet (media will attach to the tweet)
                 let mediaIdStr = data.media_id_string
-                let params = { status: obj.content, media_ids: [mediaIdStr] }
+                let params = { status: status, media_ids: [mediaIdStr] }
 
                 T.post('statuses/update', params, function (err, data, response) {
                     console.log(data);

@@ -9,9 +9,10 @@ if (Meteor.isServer) {
 
 Meteor.methods({
     'drafts.postDraftTextImage' : function(json) {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         //adds draft to the Drafts collection
@@ -23,9 +24,10 @@ Meteor.methods({
         });
     },
     'drafts.postDraftText' : function(json) {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         //adds draft to the Drafts collection
@@ -37,9 +39,10 @@ Meteor.methods({
         });
     },
     'drafts.postDraftImage' : function(json) {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         //adds draft to the Drafts collection
@@ -51,9 +54,10 @@ Meteor.methods({
         });
     },
     'drafts.postDraftBlog' : function(json) {
-        let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-        if (accessLevel === 'teacher' || accessLevel === 'admin') {
-            //TODO
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
         //adds draft to the Drafts collection
@@ -65,10 +69,11 @@ Meteor.methods({
         });
     },
     'drafts.getDraftsByUserId' : function(userId) {
-      let accessLevel = Meteor.users.find({_id:Meteor.userId()}).accessLevel;
-      if (accessLevel === 'teacher' || accessLevel === 'admin') {
-          //TODO
-      }
-      return Drafts.find({"authorId": userId});
+        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
+            Roles.userIsInRole( this.userId, 'admin') ||
+            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+            throw new Meteor.Error(400, "You do not have permission...Reported");
+        }
+        return Drafts.find({"authorId": userId});
    }
 });

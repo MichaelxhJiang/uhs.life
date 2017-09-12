@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 
 import '/imports/startup/server'
 
+import {Posts} from '../imports/api/posts/posts.js';
+
 Meteor.startup(() => {
     /*     Accounts.loginServiceConfiguration.remove({
     service: "google"
@@ -14,7 +16,14 @@ secret: "nL2ZzKMfrfwja7VHa9jmlhvU"
 
 //on server restart, always re-run scheduler to reschedule all announcements
 //TODO
-
+Posts.find({'meta.approved':true, 'meta.screeningStage': 3}).forEach(function(obj) {
+    Meteor.call('scheduleAnnouncement', obj._id, function(err, res) {
+        if (err) {
+            console.log(err);
+        }
+    });
+})
+/*
 Meteor.call('posts.getApprovedPosts', function(err, data) {
     console.log("getting approved posts");
     if (err) {
@@ -29,6 +38,6 @@ Meteor.call('posts.getApprovedPosts', function(err, data) {
             });
         });
     }
-})
+})*/
 
 });
