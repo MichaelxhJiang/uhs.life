@@ -62,18 +62,21 @@ let admin = FlowRouter.group({
 
 admin.route('/dashboard/users', {
     action: function () {
+        Session.set("DocumentTitle","Users - Administrative Dashboard | uhs.life");
         BlazeLayout.render('dashboard',{dash: 'dashUsers'})
     }
 });
 
 admin.route('/dashboard/announcements', {
     action: function () {
+        Session.set("DocumentTitle","All Announcements - Administrative Dashboard | uhs.life");
         BlazeLayout.render('dashboard',{dash: 'dashAnnouncements'})
     }
 });
 
 admin.route('/dashboard/categories', {
     action: function () {
+        Session.set("DocumentTitle","Categories - Administrative Dashboard | uhs.life");
         BlazeLayout.render('dashboard',{dash: 'dashCategories'})
     }
 });
@@ -82,6 +85,7 @@ FlowRouter.route('/login',{
     action: function(){
         if(!Meteor.userId()){
             Session.set('redirectAfterLogin', '/');
+            Session.set("DocumentTitle","Please Login | uhs.life");
             BlazeLayout.render('applicationLayout', {main: 'login'});
         }else{
             FlowRouter.go('/');
@@ -99,6 +103,7 @@ loggedIn.route('/blog/:postId',{
             Tracker.autorun(function () {
                let post = Posts.findOne({_id: params.postId});
                if(post){
+                   Session.set("DocumentTitle", post.title + " | uhs.life");
                    Session.setPersistent('post_data', post);
                }
             });
@@ -110,6 +115,7 @@ loggedIn.route('/blog/:postId',{
 
 admin.route('/dashboard',{
     action: function () {
+        Session.set("DocumentTitle","Administrative Dashboard | uhs.life");
         BlazeLayout.render('dashboard',{dash: 'dashHome'})
     }
 });
@@ -122,6 +128,7 @@ loggedIn.route('/course',{
 
 loggedIn.route( '/', {
     action: function() {
+        Session.set("DocumentTitle", "Stream | uhs.life");
         BlazeLayout.render('applicationLayout', {main: 'stream'});
     },
     name: 'root' // Optional route name.
@@ -136,6 +143,7 @@ loggedIn.route( '/stream', {
 
 loggedIn.route('/logout',{
     action: () => {
+        Session.set("DocumentTitle","Logging out...");
         Meteor.logout(function() {
             FlowRouter.go('login');
         });
@@ -145,6 +153,7 @@ loggedIn.route('/logout',{
 
 loggedIn.route('/first', {
     action: function () {
+        Session.set("DocumentTitle","Welcome to uhs.life!");
         BlazeLayout.render('applicationLayout',{main: 'firstTime'});
         /*Tracker.autorun(function () {
             let user = Meteor.user();
