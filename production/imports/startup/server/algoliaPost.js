@@ -6,6 +6,17 @@ var client = AlgoliaSearch("GJDCY9DKEW", "31f60dc3cc7926270934909c81f867ee");
 // select indice (collection) of data to be accesed. In this case it would be the announcements
 var index = client.initIndex('announcement');
 
+index.setSettings({
+    searchableAttributes: [
+        'headline',
+        'content',
+        'type',
+        'tags',
+        'categories',
+        'subType'
+    ]
+});
+
 import {Posts} from '../../api/posts/posts.js';
 
 Meteor.methods({
@@ -15,8 +26,17 @@ Meteor.methods({
     'postTextImageAlgolia' : function(postId) {
         let json = Posts.findOne({'_id':postId});
 
+        let newJson = {
+            type: json.type,
+            subType: json.subType,
+            headline: json.headline,
+            content: json.content,
+            tags: json.tags,
+            categories: json.categories,
+            imgId: json.imgId
+        }
         //adds object to the indice announcement
-        index.addObject(json, Meteor.bindEnvironment(function(err, content) {
+        index.addObject(newJson, Meteor.bindEnvironment(function(err, content) {
 
             //error catch for algolia issues
             if(err) {
@@ -24,7 +44,7 @@ Meteor.methods({
             } else {
                 //prints the announcement posted
                 console.log(content);
-                Posts.update({'_id':postId}, { $set: {'meta.algoliaId':content.objectID}}, function(err, response) {
+                Posts.update({'_id': postId}, { $set: {'meta.algoliaId':content.objectID}}, function(err, response) {
                     if (err) {
                         console.log(err);
                     } else {
@@ -100,8 +120,8 @@ Meteor.methods({
         let json = Posts.findOne({'_id':postId});
         let newJson = {
             type: json.type,
-            title: json.title,
-            subtitle: json.subtitle,
+            headline: json.title,
+            subType: json.subtitle,
             content: json.content,
             tags: json.tags,
             categories: json.categories,

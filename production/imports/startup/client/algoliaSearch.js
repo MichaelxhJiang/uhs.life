@@ -21,7 +21,7 @@ searchPost = function(keyword) {
             console.log('Received ' + content.nbHits + ' results.');
 
             //Spits out list of announcements with the keyword
-            Session.set('content', content);
+            Session.set('searchContent', content);
         }
     });
 }

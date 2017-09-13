@@ -21,6 +21,7 @@ Template.navigation.onRendered(function () {
     $('.search-content').hide();
     $('.nav-overlay').hide();
     $(".text-morph").Morphext(morphSettings);
+    //Session.set('searchContent', "");
 });
 
 Template.navigation.helpers({
@@ -38,6 +39,10 @@ Template.navigation.helpers({
     },
     'isAdmin': function () {
         return Roles.userIsInRole(Meteor.userId(), 'admin');
+    },
+    'searchContent': function () {
+        console.log(Session.get('searchContent').hits);
+        return Session.get('searchContent').hits
     }
 });
 
@@ -140,7 +145,10 @@ Template.navigation.events({
             searchPrompt.css('display','none');
         }else{
             searchPrompt.css('display','block');
+            //$('.search-result').remove();
         }
+        console.log(searchBox.val());
+        searchPost(searchBox.val());
     }
 });
 
