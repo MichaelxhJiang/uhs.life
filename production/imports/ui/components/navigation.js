@@ -2,6 +2,7 @@
  * Created by Yonglin Wang on 8/1/2017.
  */
 import Typed from 'typedjs-placeholder'
+import { Images } from '../../api/images/images.js';
 import './navigation.html'
 import '../lib/morphext.js'
 let morphSettings = {
@@ -21,7 +22,7 @@ Template.navigation.onRendered(function () {
     $('.search-content').hide();
     $('.nav-overlay').hide();
     $(".text-morph").Morphext(morphSettings);
-    //Session.set('searchContent', "");
+    //
 });
 
 Template.navigation.helpers({
@@ -43,6 +44,18 @@ Template.navigation.helpers({
     'searchContent': function () {
         console.log(Session.get('searchContent').hits);
         return Session.get('searchContent').hits
+    },
+    'img': function () {
+        if(this.unsplash){
+            return this.unsplash.urls.full;
+        }else if(this.imgId){
+            try{
+                return Images.findOne({_id: this.imgId}).url();
+            }catch(e){
+                //console.log('error getting photo')
+            }
+
+        }
     }
 });
 
@@ -87,6 +100,7 @@ Template.navigation.events({
         let searchBox = $('.main-search');
         let searchContent = $('.search-content');
         let prompt = $('.top-operation-prompt');
+        Session.set('searchContent', "");
         if(!searchBox.is(':visible')){
             searchBox.slideDown(500);
             $('.search-result').show();
@@ -112,7 +126,6 @@ Template.navigation.events({
             });
             $('html, body').css({
                 overflow: 'hidden',
-                height: '100%'
             });
         }else{
             searchBox.slideUp(500);
@@ -121,7 +134,6 @@ Template.navigation.events({
             prompt.html("SEARCH");
             $('html, body').css({
                 overflow: 'auto',
-                height: 'auto'
             });
         }
     },
@@ -145,7 +157,6 @@ Template.navigation.events({
             searchPrompt.css('display','none');
         }else{
             searchPrompt.css('display','block');
-            //$('.search-result').remove();
         }
         console.log(searchBox.val());
         searchPost(searchBox.val());

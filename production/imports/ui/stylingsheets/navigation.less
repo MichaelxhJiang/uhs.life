@@ -32,13 +32,17 @@
   .search-content{
     background-color: @search-content-color;
     height: 100vh;
+    overflow: auto;
     h1,h2,h3,h4,h5{
       margin-top: 0;
+    }
+    .img-responsive{
+      max-width: 50%;
     }
   }
   .search-prompt{
     text-align: center;
-    color: rgb(206, 205, 204);
+    color: #333;
     i{
       font-size: 100px;
     }
