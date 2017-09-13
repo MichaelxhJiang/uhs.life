@@ -35,7 +35,7 @@ Meteor.methods({
     'postTextAnnouncementTwitter' : function(obj) {
         let headline = obj.headline,
         content = obj.content;
-        let status = obj.headline + '\n' + content;
+        let status = obj.headline + '\n' + obj.content;
         if (status.length > 140) {
             status = status.substring(0, 137);
         }
