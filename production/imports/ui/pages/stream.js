@@ -59,7 +59,8 @@ Template.stream.helpers({
     },
     'allPosts': function () {
         let query = Posts.find({
-            'meta.approved': true
+            'meta.approved': true,
+            'type': 'announcement'
         });
         query.observeChanges({
             added: function(id, fields) {

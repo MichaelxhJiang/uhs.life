@@ -10,6 +10,7 @@ Template.dashHome.onRendered(function () {
        Meteor.subscribe('posts');
        Meteor.subscribe('categories');
        Meteor.subscribe('allUsers');
+       Meteor.subscribe('blogCategories')
    });
 });
 
@@ -92,6 +93,9 @@ Template.dashCategories.helpers({
     },
     'date': function () {
         return moment(this.createdDate).format("MMMM Do YYYY")
+    },
+    'blogCategory': function () {
+        return BlogCategories.find({});
     }
 });
 
@@ -161,7 +165,10 @@ Template.dashboard.events({
 });
 
 Template.dashCategories.events({
-    'click .btn-create-category': function () {
+    'click .btn-create-category': function (evt) {
+        if($(evt.target).attr('data-category') === 'blog'){
+            Session.set('editingBlogCategory', true);
+        }
         Modal.show('dashCategoryEditor');
     },
     'click .btn-delete-category': function (evt) {
@@ -270,12 +277,22 @@ Template.dashCategoryEditor.events({
             featured: $('#newCategoryFeatured').is(':checked')
         };
         console.log(json);
-        Meteor.call('category.addNew',json,function (err) {
-            Modal.hide('dashCategoryEditor');
-            if(err){
-                alertError('Something Wrong Happened...', err.message);
-            }
-        })
+        if(!Session.get('editingBlogCategory')){
+            Meteor.call('category.addNew',json,function (err) {
+                Modal.hide('dashCategoryEditor');
+                if(err){
+                    alertError('Something Wrong Happened...', err.message);
+                }
+            })
+        }else{
+            Meteor.call('blogCategory.addNew',json,function (err) {
+                Modal.hide('dashCategoryEditor');
+                if(err){
+                    alertError('Something Wrong Happened...', err.message);
+                }
+            })
+        }
+
     }
 });
 

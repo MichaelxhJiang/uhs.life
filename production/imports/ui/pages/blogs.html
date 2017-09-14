@@ -1,1 +1,55 @@
-<template name="blogs"></template>
+<template name="blogs">
+    {{> navigation}}
+    {{> editor}}
+    <div class="container main">
+        <div class="content">
+            {{#each blogCategories}}
+                {{> blogCategory}}
+            {{/ each}}
+        </div>
+    </div>
+</template>
+
+<template name="blogItem">
+    <div class="grid-item image {{categories}} blog-item story-item" id="{{_id}}">
+        <img class="img-responsive" src="/img/test.jpg" />
+        <div class="grid-blog-body">
+            <h3>Here is a title</h3>
+            <span class="grid-item-footer">Yonglin Wang</span>
+            <p>To be or not to be</p>
+            <a href="" class="btn btn-primary btn-wide">Read More</a>
+        </div>
+    </div>
+</template>
+
+<template name="blogItemExtend">
+    <div class="grid-item image blog-item story-item">
+        <img class="img-responsive" src="/img/test.jpg" />
+        <div class="grid-blog-body">
+            <a href="" class="btn btn-primary btn-wide">More From This Category</a>
+        </div>
+    </div>
+</template>
+
+<template name="blogCategory">
+    <div class="row mb-15">
+        <div class="col-lg-12">
+            <h3>{{categoryName}}</h3>
+            <a href="">View All</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            {{> blogItem}}
+        </div>
+        <div class="col-lg-3">
+            {{> blogItem}}
+        </div>
+        <div class="col-lg-3">
+            {{> blogItem}}
+        </div>
+        <div class="col-lg-3">
+            {{> blogItem}}
+        </div>
+    </div>
+</template>

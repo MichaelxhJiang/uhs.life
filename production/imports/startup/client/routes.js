@@ -7,6 +7,7 @@ let loggedIn = FlowRouter.group({
     triggersEnter: [
         function () {
             let route;
+            Session.set("DocumentTitle","UHS Life - Crafted By Students, For Everyone");
             if (!(Meteor.loggingIn() || Meteor.userId())){
                 route = FlowRouter.current();
                 Session.set('redirectAfterLogin', route.path);
@@ -92,6 +93,12 @@ FlowRouter.route('/login',{
         }
     },
     name: 'login'
+});
+
+loggedIn.route('/stories',{
+    action: function () {
+        BlazeLayout.render('applicationLayout',{main: 'blogs'})
+    }
 });
 
 loggedIn.route('/blog/:postId',{

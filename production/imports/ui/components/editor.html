@@ -179,7 +179,7 @@
                         <hr />
                         <h3>Select Categories</h3>
                         <p>By selecting the categories this post belongs to, we can improve the user feed experience. To select click on the box below and pick an option from the drop up box, you can choose multiple if needed.</p>
-                        <select name="category-selector" class="category-select" multiple style="width: 75%">
+                        <select name="category-selector" class="category-select" id="blogCategorySelect" multiple style="width: 75%">
                         </select>
                         <hr />
 <!--                        <input type='checkbox' class='ios8-switch ios8-switch-lg' id='checkboxContribute'>
@@ -322,7 +322,7 @@
             <input data-role="tagsinput" class="announce-tags" placeholder="Write your tags here">
             <h3>Select Categories</h3>
             <p>By selecting the categories this post belongs to, we can improve the user feed experience. To select click on the box below and pick an option from the drop up box, you can choose multiple if needed.</p>
-            <select name="category-selector" class="category-select" multiple style="width: 75%">
+            <select name="category-selector announcement-category" class="category-select" multiple style="width: 75%">
             </select>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -349,6 +349,13 @@
                 <div class="input-group-addon">to</div>
                 <input type="text" class="form-control endDate">
             </div>
+            <h3>Set the visibility</h3>
+            <p>Choose who this blog post is written for, public means people outside the board will receive access.</p>
+            <select name="category-selector" class="visibility-select" style="width: 75%">
+                <option value="1">Everyone</option>
+                <option value="2">Students Only</option>
+                <option value="3">Teachers and Staff Only</option>
+            </select>
         </div>
     </div>
     {{else}}
@@ -361,7 +368,7 @@
             <div class="col-lg-4 col-md-3">
                 <h3>Select Categories</h3>
                 <p>By selecting the categories this post belongs to, we can improve the user feed experience. To select click on the box below and pick an option from the drop up box, you can choose multiple if needed.</p>
-                <select name="category-selector" class="category-select" multiple style="width: 75%">
+                <select name="category-selector announcement-category" class="category-select" multiple style="width: 75%">
                 </select>
             </div>
             <div class="col-lg-4 col-md-3">
@@ -372,6 +379,13 @@
                     <div class="input-group-addon">to</div>
                     <input type="text" class="form-control endDate">
                 </div>
+                <h3>Set the visibility</h3>
+                <p>Choose who this blog post is written for, public means people outside the board will receive access.</p>
+                <select name="category-selector" class="visibility-select" style="width: 75%">
+                    <option value="1">Everyone</option>
+                    <option value="2">Students Only</option>
+                    <option value="3">Teachers and Staff Only</option>
+                </select>
             </div>
         </div>
     {{/ if}}

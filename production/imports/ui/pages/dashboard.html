@@ -280,6 +280,39 @@
             {{/ each}}
 
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="dash-item text-center">
+                    <h3>Story Categories</h3>
+                    <a class="btn btn-primary btn-create-category" data-category="blog">Add new category</a>
+                </div>
+            </div>
+            {{#each blogCategory}}
+                <div class="col-lg-12">
+                    <div class="dash-item flexed dash-category-container" id="{{_id}}">
+                        <div class="col-lg-2">
+                            <h3>{{name}}</h3>
+                        </div>
+
+                        <div class="user-text-info col-lg-8">
+                            <h4>Description:</h4>
+                            <p>{{description}}</p>
+                            <p class="grid-item-footer">Featured: {{featured}} | Created: {{date}}</p>
+                        </div>
+                        <div class="user-operations col-lg-2">
+                            <div class="dropdown">
+                                <button class="dropbtn">Options</button>
+                                <div class="dropdown-content">
+                                    <a href="" class="btn-modify-category">Edit Info</a>
+                                    <a href="" class="btn-delete-category"><i class="fa fa-trash-o"></i> Delete Category</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/ each}}
+
+        </div>
     </div>
 </template>
 

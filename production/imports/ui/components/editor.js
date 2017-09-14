@@ -7,13 +7,26 @@ import {Images} from '../../api/images/images.js';
 import './editor.html';
 let operationStack = ['.editor-open'];
 let hasUnsplash = false;
+let originalTitle = ""
 Template.editor.onRendered(function () {
 
 });
 
 Template.blogEditor.onRendered(function () {
+    Tracker.autorun(function () {
+        let categorySub = Meteor.subscribe('blogCategories');
+        if(categorySub.ready()){
+            let categories = BlogCategories.find({});
+            categories.observeChanges({
+                added: function(id, fields) {
+                    let newCat = new Option(fields.name, fields.name);
+                    $('#blogCategorySelect').append(newCat);
+                }
+            });
+        }
+    });
     $(document).ready(function () {
-        $('.category-select').select2({
+        $('#blogCategorySelect').select2({
             placeholder: "Click to select matching categories",
             allowClear: true
         });
@@ -96,7 +109,7 @@ Template.announcementEditor.onRendered(function () {
             categories.observeChanges({
                 added: function(id, fields) {
                     let newCat = new Option(fields.name, fields.name);
-                    $('.category-select').append(newCat);
+                    $('.announcement-category').append(newCat);
                 }
             });
         }
@@ -155,6 +168,9 @@ Template.editor.helpers({
 /* Events */
 Template.editor.events({
     'click #openEditor': function () {
+        originalTitle = Session.get('DocumentTitle');
+        Session.set('DocumentTitle', 'Composer | uhs.life');
+
         swapElements('.editor-open', '.editor-main');
         if (operationStack.length === 1) {
             operationStack.push('.blog-intro');
@@ -186,6 +202,7 @@ Template.editor.events({
         Session.set('announcementType', 'suggestion');
     },
     'click .editor-close': function () {
+        Session.set('DocumentTitle', originalTitle);
         swapElements('.editor-main', '.editor-open');
         $('html, body').css({
             overflow: 'visible'
@@ -193,6 +210,7 @@ Template.editor.events({
     },
     'click .editor-back': function () {
         if (operationStack.length - 2 === 0) {
+            Session.set('DocumentTitle', originalTitle);
             swapElements('.editor-main', '.editor-open');
             $('html, body').css({
                 overflow: 'visible'
