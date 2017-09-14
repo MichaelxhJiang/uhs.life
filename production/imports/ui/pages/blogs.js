@@ -21,7 +21,20 @@ Template.blogs.helpers({
 });
 
 Template.blogCategory.helpers({
-   'categoryName': function () {
-       return this.name;
-   }
+    'categoryName': function () {
+        return this.name;
+    },
+    'blogPreviews': function () {
+        console.log(this.name);
+        return Posts.find({
+            'type': 'blog',
+            categories: this.name
+        });
+    }
+});
+
+Template.blogItem.helpers({
+    'img':function () {
+        console.log(this);
+    }
 });

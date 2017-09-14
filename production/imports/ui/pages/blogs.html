@@ -12,7 +12,7 @@
 
 <template name="blogItem">
     <div class="grid-item image {{categories}} blog-item story-item" id="{{_id}}">
-        <img class="img-responsive" src="/img/test.jpg" />
+        <img class="img-responsive" src="{{img}}" />
         <div class="grid-blog-body">
             <h3>Here is a title</h3>
             <span class="grid-item-footer">Yonglin Wang</span>
@@ -24,7 +24,7 @@
 
 <template name="blogItemExtend">
     <div class="grid-item image blog-item story-item">
-        <img class="img-responsive" src="/img/test.jpg" />
+        <img class="img-responsive" src="{{img}}" />
         <div class="grid-blog-body">
             <a href="" class="btn btn-primary btn-wide">More From This Category</a>
         </div>
@@ -39,17 +39,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-3">
-            {{> blogItem}}
-        </div>
-        <div class="col-lg-3">
-            {{> blogItem}}
-        </div>
-        <div class="col-lg-3">
-            {{> blogItem}}
-        </div>
-        <div class="col-lg-3">
-            {{> blogItem}}
-        </div>
+        {{#each blogPreviews}}
+            <div class="col-lg-3">
+                {{> blogItem}}
+            </div>
+        {{/each}}
     </div>
 </template>
