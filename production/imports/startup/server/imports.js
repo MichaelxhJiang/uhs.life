@@ -31,3 +31,4 @@ import '../../api/blogCategories/categoriesMethods.js';
 //import the collections into server
 import '../../api/suggestions/suggestions.js';
 import '../../api/images/images.js'
+import '../../api/images/imagesMethods.js'

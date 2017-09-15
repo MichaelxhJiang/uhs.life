@@ -2,7 +2,7 @@ import { Images } from './images.js';
 
 if (Meteor.isServer) {
    Meteor.publish('images', function imagesPublication() {
-    return Images.find();  //TODO only show drafts of current user
+    return Images.find({});  //TODO only show drafts of current user
   });
 }
 

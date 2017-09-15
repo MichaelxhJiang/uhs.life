@@ -18,8 +18,10 @@ Template.stream.onRendered(function () {
     Tracker.autorun(function () {
         let postSub = Meteor.subscribe('posts');
         let categorySub = Meteor.subscribe('categories');
+        let imageSub = Meteor.subscribe('images');
         //Meteor.subscribe('allUsersLite');
         if(postSub.ready()){
+            console.log('post subs ready');
             $('.grid').isotope(isotopeSettings);
             $('.grid').imagesLoaded().progress( function() {
                 $('.grid').isotope(isotopeSettings);
@@ -48,23 +50,19 @@ Template.stream.onCreated(function () {
 });
 
 Template.stream.helpers({
-    'canEdit': function () {
-        return Roles.userIsInRole(Meteor.userId(),['teacher','blogEditor','announcementEditor','admin']);
-    },
     'category': function () {
       return Categories.find({});
     },
-    'picture': function () {
-        return Meteor.users.findOne({_id: this.author}).services.google.picture;
-    },
     'allPosts': function () {
         let query = Posts.find({
-            'meta.approved': true,
+            /*'meta.approved': true,*/
             'type': 'announcement'
         });
         query.observeChanges({
             added: function(id, fields) {
+
                 setTimeout(function () {
+                    console.log(fields);
                     $('.grid').isotope('reloadItems');
                     $('.grid').isotope()
                 }, 500);
@@ -88,6 +86,7 @@ Template.stream.helpers({
         return (this.startDate === this.endDate) ? moment(this.startDate).format("MMMM Do YYYY") : moment(this.startDate).format("MMMM Do YYYY") + " - " + moment(this.endDate).format("MMMM Do YYYY");
     },
     'isImageOnly': function () {
+        console.log(this.subType === 'imageOnly' && this.type === 'announcement');
         return this.subType === 'imageOnly' && this.type === 'announcement'
     },
     'isTextOnly': function () {

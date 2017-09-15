@@ -42,7 +42,6 @@ Template.navigation.helpers({
         return Roles.userIsInRole(Meteor.userId(), 'admin');
     },
     'searchContent': function () {
-        console.log(Session.get('searchContent').hits);
         return Session.get('searchContent').hits
     },
     'img': function () {

@@ -9,7 +9,8 @@ Template.dashboard.onRendered(function () {
         Meteor.subscribe('posts');
         Meteor.subscribe('categories');
         Meteor.subscribe('allUsers');
-        Meteor.subscribe('blogCategories')
+        Meteor.subscribe('blogCategories');
+        Meteor.subscribe('images')
     });
 });
 
@@ -39,9 +40,10 @@ Template.dashHome.helpers({
     'imageLink': function () {
         try{
             return Images.findOne({_id: this.imgId}).url();
-        }catch (e){
-
+        }catch(e){
+            //console.log('error getting photo')
         }
+
     },
     'hasContent': function () {
         return this.subType !== 'imageOnly'
@@ -57,7 +59,6 @@ Template.dashAnnouncements.helpers({
     },
     'blogPost': function () {
         return Posts.find({
-            'meta.approved': true,
             'type': 'blog'
         });
     },
@@ -69,11 +70,13 @@ Template.dashAnnouncements.helpers({
         return (this.subType === 'textOnly')
     },
     'imageLink': function () {
+        console.log(this);
         try{
             return Images.findOne({_id: this.imgId}).url();
-        }catch (e){
-
+        }catch(e){
+            //console.log('error getting photo')
         }
+
     },
     'hasContent': function () {
         return this.subType !== 'imageOnly'
