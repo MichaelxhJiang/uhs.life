@@ -4,11 +4,10 @@ if(Meteor.isServer){
     Meteor.publish('allUsers', function usersPublication() {
         return Meteor.users.find({});
     });
-    Meteor.publish('allUsersLite', function usersPublication() {
+    Meteor.publish('allUsersLite', function usersLitePublication() {
         return Meteor.users.find({},{
             'services.google.picture': 1,
             'services.google.name': 1
-
         });
     });
 }

@@ -12,21 +12,13 @@
 
 <template name="blogItem">
     <div class="grid-item image {{categories}} blog-item story-item" id="{{_id}}">
-        <img class="img-responsive" src="{{img}}" />
+        <img class="img-responsive" src="{{imageLink}}" />
         <div class="grid-blog-body">
-            <h3>Here is a title</h3>
-            <span class="grid-item-footer">Yonglin Wang</span>
-            <p>To be or not to be</p>
-            <a href="" class="btn btn-primary btn-wide">Read More</a>
-        </div>
-    </div>
-</template>
-
-<template name="blogItemExtend">
-    <div class="grid-item image blog-item story-item">
-        <img class="img-responsive" src="{{img}}" />
-        <div class="grid-blog-body">
-            <a href="" class="btn btn-primary btn-wide">More From This Category</a>
+            <h3>{{title}}</h3>
+            <span class="grid-item-footer">{{writer}}</span>
+            <p>{{subtitle}}</p>
+            <span class="grid-item-footer">{{date}}</span>
+            <!--<a href="" class="btn btn-primary btn-wide">Read More</a>-->
         </div>
     </div>
 </template>

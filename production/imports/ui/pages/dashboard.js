@@ -4,14 +4,16 @@
 import './dashboard.html'
 import { Images } from '../../api/images/images.js';
 
+Template.dashboard.onRendered(function () {
+    Tracker.autorun(function () {
+        Meteor.subscribe('posts');
+        Meteor.subscribe('categories');
+        Meteor.subscribe('allUsers');
+        Meteor.subscribe('blogCategories')
+    });
+});
 
 Template.dashHome.onRendered(function () {
-   Tracker.autorun(function () {
-       Meteor.subscribe('posts');
-       Meteor.subscribe('categories');
-       Meteor.subscribe('allUsers');
-       Meteor.subscribe('blogCategories')
-   });
 });
 
 Template.dashHome.helpers({
@@ -168,17 +170,27 @@ Template.dashCategories.events({
     'click .btn-create-category': function (evt) {
         if($(evt.target).attr('data-category') === 'blog'){
             Session.set('editingBlogCategory', true);
-        }
+        }else Session.set('editingBlogCategory', false);
         Modal.show('dashCategoryEditor');
     },
     'click .btn-delete-category': function (evt) {
         let obj = $(evt.target).closest($('.dash-category-container'));
+        let type = obj.attr('data-category');
         let id = obj.attr('id');
-        Meteor.call('category.remove', id, function (err) {
-            if(err){
-                alertError('Something Terrible Happened...', err.message);
-            }
-        })
+        if(type === 'blog'){
+            Meteor.call('blogCategory.remove', id, function (err) {
+                if(err){
+                    alertError('Something Terrible Happened...', err.message);
+                }
+            })
+        }else{
+            Meteor.call('category.remove', id, function (err) {
+                if(err){
+                    alertError('Something Terrible Happened...', err.message);
+                }
+            })
+        }
+
     }
 });
 
@@ -276,8 +288,10 @@ Template.dashCategoryEditor.events({
             imgId: Session.get('categoryImageId'),
             featured: $('#newCategoryFeatured').is(':checked')
         };
-        console.log(json);
+        //console.log(json);
+        console.log(Session.get('editingBlogCategory'));
         if(!Session.get('editingBlogCategory')){
+            console.log(Session.get('editingBlogCategory'));
             Meteor.call('category.addNew',json,function (err) {
                 Modal.hide('dashCategoryEditor');
                 if(err){
@@ -285,6 +299,7 @@ Template.dashCategoryEditor.events({
                 }
             })
         }else{
+            console.log(Session.get('editingBlogCategory'));
             Meteor.call('blogCategory.addNew',json,function (err) {
                 Modal.hide('dashCategoryEditor');
                 if(err){

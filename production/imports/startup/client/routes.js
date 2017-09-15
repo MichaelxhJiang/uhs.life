@@ -15,8 +15,9 @@ let loggedIn = FlowRouter.group({
                 FlowRouter.go('/login');
             }else{
                 Tracker.autorun(function () {
+                    let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
-                    if(user){
+                    if(userSub.ready()){
                         Session.set('name', user.services.google.name);
                         Session.set('id', user._id);
                         Session.set('user_img', user.services.google.picture);
@@ -42,8 +43,9 @@ let admin = FlowRouter.group({
                 FlowRouter.go('/login');
             }else{
                 Tracker.autorun(function () {
+                    let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
-                    if(user){
+                    if(userSub.ready()){
                         Session.set('name', user.services.google.name);
                         Session.set('id', user._id);
                         Session.set('user_img', user.services.google.picture);

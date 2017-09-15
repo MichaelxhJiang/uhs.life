@@ -9,14 +9,12 @@ if (Meteor.isServer) {
 
 Meteor.methods({
     'posts.removeAll' : function() {
-        throw new Meteor.Error(400, "Nice try...");
+        throw new Meteor.Error(403, "You do not have the power ro do so");
         Posts.remove({});
     },
     'posts.postTextImage' : function(json) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
-            throw new Meteor.Error(400, "You do not have permission...Reported");
+        if (!Roles.userIsInRole( this.userId, ['teacher','admin','announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
         }
         let errStr = "", err = false;
         if (json.type !== "announcement") {
@@ -64,10 +62,8 @@ Meteor.methods({
 
     },
     'posts.postText' : function(json) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
-            throw new Meteor.Error(400, "You do not have permission...Reported");
+        if (!Roles.userIsInRole( this.userId, ['teacher','admin','announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
         }
 
         let errStr = "", err = false;
@@ -111,10 +107,8 @@ Meteor.methods({
         });
     },
     'posts.postImage' : function(json) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
-            throw new Meteor.Error(400, "You do not have permission...Reported");
+        if (!Roles.userIsInRole( this.userId, ['teacher','admin','announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
         }
 
         let errStr = "", err = false;
@@ -159,9 +153,7 @@ Meteor.methods({
         });
     },
     'posts.postBlog' : function(json) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+        if (!Roles.userIsInRole( this.userId, ['teacher','admin','blogEditor'])) {
             throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 
