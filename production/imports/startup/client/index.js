@@ -6,5 +6,6 @@ import './imports.js';
 import './routes.js';
 
 Deps.autorun(function(){
+    Session.setDefault('searchContent', {hits:[]});
     document.title = Session.get("DocumentTitle");
 });

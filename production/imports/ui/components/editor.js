@@ -7,7 +7,7 @@ import {Images} from '../../api/images/images.js';
 import './editor.html';
 let operationStack = ['.editor-open'];
 let hasUnsplash = false;
-let originalTitle = ""
+let originalTitle = "";
 Template.editor.onRendered(function () {
 
 });
@@ -370,7 +370,7 @@ Template.editor.events({
                         console.log(data);
                         let num = getRandomInt(0, data.results.length-1);
                         Session.set('unsplash_img', data.results[num].id);
-                        Session.set('unsplashData',data);
+                        Session.set('unsplashData',data.results[num]);
                         hasUnsplash = true;
                         $('#dropzone').replaceWith("<img src='" + data.results[num].urls.regular + "' class='img-responsive unsplash-container'/>");
                         $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.results[num].user.links.html +"'>"+ data.results[num].user.name +"</a> from "+ data.results[num].user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");

@@ -38,6 +38,7 @@ Template.blogCategory.helpers({
 Template.blogItem.helpers({
     'imageLink': function () {
         if(this.unsplash){
+            console.log(this);
             return this.unsplash.urls.full;
         }else if(this.imgId){
             try{
