@@ -2,15 +2,31 @@ import { Meteor } from 'meteor/meteor';
 import { Posts } from './posts.js';
 
 if (Meteor.isServer) {
-   Meteor.publish('posts', function postsPublication() {
-    return Posts.find({});
-  });
+    Meteor.publish('posts', function postsPublication() {
+        return Posts.find({});
+    });
+    Meteor.publish('announcements', function announcementsPublication(limit) {
+        return Posts.find({
+            'type': 'announcements',
+            'meta.approved': true,
+            'meta.display': true
+        },{
+            limit: limit
+        });
+    });
+    Meteor.publish('blogs', function blogsPublication(limit) {
+        return Posts.find({
+            'type': 'blog'
+        },{
+            limit: limit
+        });
+    });
 }
 
 Meteor.methods({
     'posts.removeAll' : function() {
-        throw new Meteor.Error(403, "You do not have the power ro do so");
-        Posts.remove({});
+        throw new Meteor.Error(403, "No, just no.");
+        //Posts.remove({});
     },
     'posts.postTextImage' : function(json) {
         if (!Roles.userIsInRole( this.userId, ['teacher','admin','announcementEditor'])) {
@@ -299,29 +315,29 @@ Meteor.methods({
                         console.log(err);
                     } else {
 
-                       if (type === 'announcement') {
-                          if (subType === 'textOnly') {
-                              Meteor.call('postTextAnnouncementTwitter', obj, function(err) {
-                                  if (err) {
-                                      console.log(err);
-                                  }
-                              });
-                           } else if (subType === 'imageOnly') {
-                              Meteor.call('postImageAnnouncementTwitter', obj, function(err) {
-                                  if (err) {
-                                      console.log(err);
-                                  }
-                              });
-                           } else {
-                              Meteor.call('postTextImageAnnouncementTwitter', obj, function(err) {
-                                  if (err) {
-                                      console.log(err);
-                                  }
-                              });
-                           }
+                        if (type === 'announcement') {
+                            if (subType === 'textOnly') {
+                                Meteor.call('postTextAnnouncementTwitter', obj, function(err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                            } else if (subType === 'imageOnly') {
+                                Meteor.call('postImageAnnouncementTwitter', obj, function(err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                            } else {
+                                Meteor.call('postTextImageAnnouncementTwitter', obj, function(err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                            }
                         }  else {
-                           console.log('This post is not announcement');
-                           return -1;
+                            console.log('This post is not announcement');
+                            return -1;
                         }
                     }
                 });
