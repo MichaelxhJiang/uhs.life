@@ -26,13 +26,13 @@ Meteor.startup(() => {
     HTTP.call("GET", "https://ta.yrdsb.ca/v4/students/json.php", {
         data: {
             "student_number": "073212482",
-            "password": "XXXXXX"
+            "password": "XXXXX"
         }
     }, function(err, response) {
         if (err) {
             console.log(err)
         } else {
-            console.log(response);
+            //console.log(response);
             let json = JSON.parse(response.content);
             let id = json[0].student_id;
             let token = json[0].token;
@@ -46,7 +46,23 @@ Meteor.startup(() => {
             if (err) {
                 console.log(err);
             } else {
-                console.log(JSON.stringify(JSON.parse(response.content), null, 2));
+                console.log(response);
+                //console.log(JSON.stringify(JSON.parse(response.content.data), null, 2));
+                let subject_id = JSON.parse(response.content)[0].data[0].subjects[0].subject_id;
+                HTTP.call("GET", "https://ta.yrdsb.ca/v4/students/json.php", {
+                    data: {
+                        "student_id": id,
+                        "token": token,
+                        "subject_id": subject_id
+                    }
+                }, function(err, response) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(response);
+                        return response.content;
+                    }
+                })
             }
         })
         }
