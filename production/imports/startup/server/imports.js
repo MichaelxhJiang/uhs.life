@@ -28,6 +28,8 @@ import '../../api/suggestions/suggestionMethods.js';
 import '../../api/categories/categoriesMethods.js';
 //This file contains methods for suggestion collection
 import '../../api/blogCategories/categoriesMethods.js';
+//This file contains teach assist api functions
+import './teachAssist.js';
 //import the collections into server
 import '../../api/suggestions/suggestions.js';
 import '../../api/posts/posts.js'
