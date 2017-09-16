@@ -139,7 +139,7 @@ Template.dashboard.events({
             }
         })
         //Post on Facebook
-        setupFacebook(function(err, response) {
+        /*setupFacebook(function(err, response) {
             if (err) {
                 console.log(err);
             } else {
@@ -156,7 +156,7 @@ Template.dashboard.events({
                     }
                 }
             }
-        });
+        });*/
     },
     'click .btn-reject': function (evt) {
         let obj = $(evt.target).closest($('.new-post'));
