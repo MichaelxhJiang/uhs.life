@@ -3,8 +3,25 @@
   width: 100%;
 }
 .image-wrap {
-  height: 200px;
+  max-height: 200px;
   overflow: hidden;
-  background-position: center;
-  background-size: cover;
+  max-width: 100%;
+  -webkit-transition: max-width .5s ease-out;  /* Saf3.2+, Chrome */
+  -moz-transition: max-width .5s ease-out;  /* FF4+ */
+  -ms-transition: max-width .5s ease-out;  /* IE10? */
+  -o-transition: max-width .5s ease-out;  /* Opera 10.5+ */
+  transition: max-width .5s ease-out;
+}
+
+.image-wrap img {
+  width: 100%;
+  -webkit-transition: margin-top .5s ease-out;  /* Saf3.2+, Chrome */
+  -moz-transition: margin-top .5s ease-out;  /* FF4+ */
+  -ms-transition: margin-top .5s ease-out;  /* IE10? */
+  -o-transition: margin-top .5s ease-out;  /* Opera 10.5+ */
+  transition: margin-top .5s ease-out;
+}
+
+@media only screen and (min-width: 1160px) {
+  .image-wrap { max-width: 100%; }
 }

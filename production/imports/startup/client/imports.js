@@ -24,5 +24,6 @@ import './algoliaSearch.js';
 //This file contains the search all function used for Algolia
 import './algoliaAll.js';
 
+Posts = new Mongo.Collection('posts');
 Categories = new Mongo.Collection('categories');
 BlogCategories = new Mongo.Collection('blogcategories');

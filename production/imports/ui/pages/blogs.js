@@ -3,8 +3,6 @@
  */
 import './blogs.html'
 
-let blogSub;
-
 Template.blogs.onCreated(function () {
     Session.set('navTitle', 'Home of Stories ;; Here, you can browse and read content created by other users.');
 });
@@ -12,7 +10,7 @@ Template.blogs.onCreated(function () {
 Template.blogs.onRendered(function () {
     Tracker.autorun(function () {
         Meteor.subscribe('blogCategories');
-        blogSub = Meteor.subscribe('blogs')
+        Meteor.subscribe('posts')
     })
 });
 
@@ -27,40 +25,44 @@ Template.blogCategory.helpers({
         return this.name;
     },
     'blogPreviews': function () {
+        console.log(this.name);
         return Posts.find({
+            'type': 'blog',
             'categories': this.name
         },{
             limit: 4
         });
-    },
-    'blogRow': function (cursor) {
-        let result = [];
-        let currentResultIndex = 0;
-        let count = 0;
-        cursor.forEach(function (item) {
-            if(count % 4 === 0 ){
-                if( count !== 0 ) currentResultIndex++;
-                result.push({ items: [ item ] });
-            }else {
-                result[ currentResultIndex ].items.push( item );
-            }
-            count++;
-        });
-        return result;
-    },
-    'rowItems': function () {
-        return this.items;
     }
 });
 
-
-
 Template.blogItem.onRendered(function () {
+    $(document).ready(function() {
+
+        let imageHeight, wrapperHeight, overlap, container = $('.image-wrap');
+
+        function centerImage() {
+            imageHeight = container.find('img').height();
+            wrapperHeight = container.height();
+            overlap = (wrapperHeight - imageHeight) / 2;
+            container.find('img').css('margin-top', overlap);
+        }
+
+        $(window).on("load resize", centerImage);
+
+        let el = document.getElementById('wrapper');
+        if (el.addEventListener) {
+            el.addEventListener("webkitTransitionEnd", centerImage, false); // Webkit event
+            el.addEventListener("transitionend", centerImage, false); // FF event
+            el.addEventListener("oTransitionEnd", centerImage, false); // Opera event
+        }
+
+    });
 });
 
 Template.blogItem.helpers({
     'imageLink': function () {
         if(this.unsplash){
+            console.log(this);
             return this.unsplash.urls.full;
         }else if(this.imgId){
             try{
@@ -78,16 +80,10 @@ Template.blogItem.helpers({
     },
     'subtitle': function () {
         let string = this.subtitle;
-        let length = 32;
+        let length = 40;
         return string.length > length ?
             string.substring(0, length - 3) + "..." :
             string;
-    }
-});
-
-Template.blogCategory.events({
-    'click .view-all': function () {
-        //blogSub.loadNextPage()
     }
 });
 

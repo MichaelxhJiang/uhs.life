@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import '/imports/startup/server'
 
-import '../imports/api/posts/posts.js';
+import {Posts} from '../imports/api/posts/posts.js';
 
 Meteor.startup(() => {
 /*         Accounts.loginServiceConfiguration.remove({

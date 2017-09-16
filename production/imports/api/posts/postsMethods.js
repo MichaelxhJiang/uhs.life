@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import './posts.js';
+import { Posts } from './posts.js';
 
 if (Meteor.isServer) {
     Meteor.publish('posts', function postsPublication() {
@@ -7,8 +7,9 @@ if (Meteor.isServer) {
     });
     Meteor.publish('announcements', function announcementsPublication(limit) {
         return Posts.find({
-            'type': "announcement",
-            'meta.approved': true
+            'type': 'announcements',
+            'meta.approved': true,
+            'meta.display': true
         },{
             limit: limit
         });

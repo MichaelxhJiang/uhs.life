@@ -2,7 +2,6 @@
  * Created by Yonglin Wang on 7/31/2017.
  */
 import imagesLoaded from 'imagesloaded';
-import '../../api/posts/posts.js'
 import './stream.html'
 import { Images } from '../../api/images/images.js';
 let isotopeSettings = {
@@ -13,12 +12,11 @@ let isotopeSettings = {
         gutter: '.gutter-sizer'
     }
 };
-let postSub;
 Template.stream.onRendered(function () {
     console.log('rendered');
     let $grid = $('.grid');
     Tracker.autorun(function () {
-        postSub = Meteor.subscribeWithPagination('announcements',10);
+        let postSub = Meteor.subscribe('posts');
         let categorySub = Meteor.subscribe('categories');
         let imageSub = Meteor.subscribe('images');
         //Meteor.subscribe('allUsersLite');
@@ -56,7 +54,10 @@ Template.stream.helpers({
       return Categories.find({});
     },
     'allPosts': function () {
-        let query = Posts.find({});
+        let query = Posts.find({
+            /*'meta.approved': true,*/
+            'type': 'announcement'
+        });
         query.observeChanges({
             added: function(id, fields) {
 
