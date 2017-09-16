@@ -12,8 +12,7 @@
 
 <template name="blogItem">
     <div class="grid-item image {{categories}} blog-item story-item" id="{{_id}}">
-        <div class="image-wrap" id="wrapper">
-            <img class="img-responsive" src="{{imageLink}}" />
+        <div class="image-wrap" style="background-image: url({{imageLink}})">
         </div>
         <div class="grid-blog-body">
             <h3>{{title}}</h3>
@@ -26,16 +25,20 @@
 </template>
 
 <template name="blogCategory">
-    <div class="row mb-15">
-        <div class="col-lg-12">
-            <h3>{{categoryName}}</h3>
-            <a href="">View All</a>
+    <div data-category-name="{{categoryName}}">
+        <div class="row mb-15">
+            <div class="col-lg-12">
+                <h3>{{categoryName}}</h3>
+                <a href="" class="view-all">View All</a>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        {{#each blogPreviews}}
-            <div class="col-lg-3">
-                {{> blogItem}}
+        {{#each blogRow blogPreviews}}
+            <div class="row">
+                {{#each rowItems}}
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        {{> blogItem}}
+                    </div>
+                {{/ each}}
             </div>
         {{/each}}
     </div>
