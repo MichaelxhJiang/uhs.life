@@ -12,7 +12,9 @@
 
 <template name="blogItem">
     <div class="grid-item image {{categories}} blog-item story-item" id="{{_id}}">
-        <img class="img-responsive" src="{{imageLink}}" />
+        <div class="image-wrap" id="wrapper">
+            <img class="img-responsive" src="{{imageLink}}" />
+        </div>
         <div class="grid-blog-body">
             <h3>{{title}}</h3>
             <span class="grid-item-footer">{{writer}}</span>
