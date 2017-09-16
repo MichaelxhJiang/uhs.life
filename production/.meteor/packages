@@ -25,7 +25,6 @@ twbs:bootstrap
 less
 schiller:twit
 biasport:facebook-sdk
-raix:ui-dropped-event
 cfs:standard-packages
 cfs:gridfs
 acemtp:algolia
@@ -37,7 +36,6 @@ service-configuration
 u2622:persistent-session
 froala:editor
 dbarrett:dropzonejs
-timmyg:wow
 mizzao:bootboxjs
 ajduke:bootstrap-tagsinput
 juliancwirko:postcss
@@ -48,4 +46,3 @@ alanning:roles
 momentjs:moment
 peppelg:bootstrap-3-modal
 http
-percolate:paginated-subscription
