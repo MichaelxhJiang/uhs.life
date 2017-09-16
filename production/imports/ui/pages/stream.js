@@ -16,7 +16,7 @@ Template.stream.onRendered(function () {
     console.log('rendered');
     let $grid = $('.grid');
     Tracker.autorun(function () {
-        let postSub = Meteor.subscribe('posts');
+        let postSub = Meteor.subscribe('announcements', 10, Meteor.userId());
         let categorySub = Meteor.subscribe('categories');
         let imageSub = Meteor.subscribe('images');
         //Meteor.subscribe('allUsersLite');
@@ -62,7 +62,6 @@ Template.stream.helpers({
             added: function(id, fields) {
 
                 setTimeout(function () {
-                    console.log(fields);
                     $('.grid').isotope('reloadItems');
                     $('.grid').isotope()
                 }, 500);

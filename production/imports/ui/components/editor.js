@@ -35,7 +35,7 @@ Template.blogEditor.onRendered(function () {
             placeholder: "Click to select the scope of this post",
         });
         $('.input-date').datepicker({
-            startDate: '+0d'
+            startDate: '+1d'
         });
         let $editor = $('.editable');
         $editor.froalaEditor({
@@ -120,7 +120,7 @@ Template.announcementEditor.onRendered(function () {
             allowClear: true
         });
         $('.input-daterange').datepicker({
-            startDate: '+0d'
+            startDate: '+1d'
         });
         if (Meteor.isClient) {
             let arrayOfImageIds = [];
@@ -266,7 +266,7 @@ Template.editor.events({
         let authorId = Meteor.userId();
         let imageFirst = null;
         //meta
-        let visibility = $('visibility-select').val();
+        let visibility = $('.visibility-select')[0].value;
 
         let json = {
             author: authorId,
@@ -318,7 +318,7 @@ Template.editor.events({
         let authorId = Meteor.userId();
         let imageFirst = null;
         //meta
-        let visibility = $('visibility-select').val();
+        let visibility = $('.visibility-select').val();
 
         let json = {
             author: authorId,
@@ -337,7 +337,7 @@ Template.editor.events({
                 hasUnsplash: hasUnsplash,
                 visibility: visibility
             }
-        }
+        };
         Meteor.call('drafts.postDraftBlog', json, function (err) {
             if (err) {
                 alertError('Saving Draft Failed!', err.message);
@@ -427,8 +427,6 @@ Template.editor.events({
 Template.announcementOptions.events({
     'click .btn-post': function (event, template) {
         let type = Session.get('announcementType');
-        console.log('submitting ' + type);
-
         if (type === "imageOnly") {
             let headline = $('#imageOnlyHeadline').val();
             let imgId = Session.get('newImageId');
@@ -446,9 +444,8 @@ Template.announcementOptions.events({
             let startDate = new Date($('.startDate')[0].value);
             let endDate = new Date($('.endDate')[0].value);
             let draftedDate = new Date();
-
-            //meta
-
+            let visibility = $('.visibility-select')[1].value;
+            console.log(visibility);
             if (!imgId) {
                 alertError('Post Incomplete!', "You haven't uploaded an image yet!")
             }
@@ -456,7 +453,9 @@ Template.announcementOptions.events({
                 //TODO
                 alertError('Post Incomplete!', "You haven't added a headline!")
             }
-
+            if(!startDate || !endDate){
+                alertError('Post Incomplete!', "You haven't added a date!")
+            }
             let json = {
                 author: authorId,
                 type: 'announcement',
@@ -465,11 +464,12 @@ Template.announcementOptions.events({
                 endDate: endDate,
                 draftedDate: draftedDate,
                 headline: headline,
-                tags: tags,
-                categories: categories,
+                tags: tags || [],
+                categories: categories || [],
                 imgId: imgId,
                 meta: {
                     hasUnsplash: hasUnsplash,
+                    visibility: visibility
                 }
             };
 
@@ -507,7 +507,7 @@ Template.announcementOptions.events({
                     categories.push(opt.value);
                 }
             }
-
+            let visibility = $('.visibility-select')[2].value;
             let authorId = Meteor.userId();
             let startDate = new Date($('.startDate')[1].value);
             let endDate = new Date($('.endDate')[1].value);
@@ -515,13 +515,15 @@ Template.announcementOptions.events({
 
             //meta
 
+            if (!content) {
+                alertError('Post Incomplete!', "You haven't added any content yet!")
+            }
             if (!headline) {
                 //TODO
-                console.log('No headline entered');
+                alertError('Post Incomplete!', "You haven't added a headline!")
             }
-            if (!content) {
-                //TODO
-                console.log('No content entered')
+            if(!startDate || !endDate){
+                alertError('Post Incomplete!', "You haven't added a date!")
             }
 
             let json = {
@@ -533,10 +535,11 @@ Template.announcementOptions.events({
                 draftedDate: draftedDate,
                 headline: headline,
                 content: content,
-                tags: tags,
-                categories: categories,
+                tags: tags || [],
+                categories: categories || [],
                 meta: {
                     hasUnsplash: hasUnsplash,
+                    visibility: visibility
                 }
             };
 
@@ -573,7 +576,7 @@ Template.announcementOptions.events({
                     categories.push(opt.value);
                 }
             }
-
+            let visibility = $('.visibility-select')[3].value;
             let authorId = Meteor.userId();
             let startDate = new Date($('.startDate')[2].value);
             let endDate = new Date($('.endDate')[2].value);
@@ -581,18 +584,19 @@ Template.announcementOptions.events({
 
             //meta
             let priority = Session.get('priority');
-
             if (!imgId) {
-                //TODO
-                console.log('No image uploaded');
+                alertError('Post Incomplete!', "You haven't uploaded an image yet!")
             }
             if (!headline) {
                 //TODO
-                console.log('No headline entered');
+                alertError('Post Incomplete!', "You haven't added a headline!")
+            }
+            if(!startDate || !endDate){
+                alertError('Post Incomplete!', "You haven't added a date!")
             }
             if (!content) {
                 //TODO
-                console.log('No content entered')
+                alertError('Post Incomplete!', "You haven't added any information!")
             }
 
             let json = {
@@ -604,15 +608,15 @@ Template.announcementOptions.events({
                 startDate: startDate,
                 endDate: endDate,
                 draftedDate: draftedDate,
-                tags: tags,
-                categories: categories,
+                tags: tags || [],
+                categories: categories || [],
                 imgId: imgId,
                 meta: {
                     priority: priority || 'image',
                     hasUnsplash: hasUnsplash,
+                    visibility: visibility
                 }
             };
-            console.log(json);
             Meteor.call('posts.postTextImage', json, function (err) {
                 if (err) {
                     alertError('Post Failed!', err.message);
@@ -671,8 +675,8 @@ Template.announcementOptions.events({
                 endDate: endDate,
                 draftedDate: draftedDate,
                 headline: headline,
-                tags: tags,
-                categories: categories,
+                tags: tags || [],
+                categories: categories || [],
                 imgId: imgId,
                 meta: {
                     hasUnsplash: hasUnsplash,
@@ -739,8 +743,8 @@ Template.announcementOptions.events({
                 draftedDate: draftedDate,
                 headline: headline,
                 content: content,
-                tags: tags,
-                categories: categories,
+                tags: tags || [],
+                categories: categories || [],
                 meta: {
                     hasUnsplash: hasUnsplash,
                 }
@@ -810,8 +814,8 @@ Template.announcementOptions.events({
                 startDate: startDate,
                 endDate: endDate,
                 draftedDate: draftedDate,
-                tags: tags,
-                categories: categories,
+                tags: tags || [],
+                categories: categories || [],
                 imgId: imgId,
                 meta: {
                     priority: priority || 'image',
@@ -899,21 +903,17 @@ function initDropZone(id, info) {
         dictDefaultMessage: info.message || "Drop your image here, or click to select an image using the browser.",
         accept: function (file, done) {
             let FSFile = new FS.File(file);
-
             Images.insert(FSFile, function (err, fileObj) {
                 if (err) {
                     console.log(err);
                 } else {
-                    //remove the currently uploaded image
-                    //if there is none, this will not do anything
                     Images.remove({_id: Session.get('newImageId')}, function (err) {
                         if (err) {
                             console.log("error removing image:\n" + err);
                         }
                     });
-                    //retreive file extension
                     hasUnsplash = false;
-                    Session.set('newFileType', fileObj.extension());   //update the file type
+                    Session.set('newFileLink', fileObj.extension());   //update the file type
                     Session.set('newImageId', fileObj._id); //update the image id to current image
                     done();
                 }

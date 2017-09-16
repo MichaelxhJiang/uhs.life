@@ -5,11 +5,21 @@ if (Meteor.isServer) {
     Meteor.publish('posts', function postsPublication() {
         return Posts.find({});
     });
-    Meteor.publish('announcements', function announcementsPublication(limit) {
+    Meteor.publish('announcements', function announcementsPublication(limit, userId) {
+        let userLevel = '1';
+        if(Roles.userIsInRole(userId, 'student')){
+            userLevel = '2';
+        }else if(Roles.userIsInRole(userId, ['teacher', 'admin'])){
+            userLevel = '3';
+        }
         return Posts.find({
-            'type': 'announcements',
+            'type': 'announcement',
             'meta.approved': true,
-            'meta.display': true
+            $or: [{
+                'meta.visibility': '1'
+            },{
+                'meta.visibility': userLevel
+            }]
         },{
             limit: limit
         });
@@ -30,7 +40,7 @@ Meteor.methods({
     },
     'posts.postTextImage' : function(json) {
         if (!Roles.userIsInRole( this.userId, ['teacher','admin','announcementEditor'])) {
-            throw new Meteor.Error(403, "You do not have permission...Reported");
+            throw new Meteor.Error(403, "You do not have permission to execute the following action.");
         }
         let errStr = "", err = false;
         if (json.type !== "announcement") {

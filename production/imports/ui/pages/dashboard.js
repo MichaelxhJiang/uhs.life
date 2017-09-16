@@ -47,6 +47,12 @@ Template.dashHome.helpers({
     },
     'hasContent': function () {
         return this.subType !== 'imageOnly'
+    },
+    'draftedDate': function () {
+        return moment(this.draftedDate).format("MMMM Do YYYY")
+    },
+    'releaseDate': function () {
+        return moment(this.releaseDate).format("MMMM Do YYYY")
     }
 });
 
