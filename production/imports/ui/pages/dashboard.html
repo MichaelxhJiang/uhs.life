@@ -148,6 +148,7 @@
                     </div>
                 </div>
             {{/ each}}
+            <a href="" class="btn btn-wide btn-primary">Load More</a>
         </div>
     </div>
 </template>
@@ -177,8 +178,7 @@
                                         <p class="draft-body">{{content}}</p>
                                     </div>
                                     <div class="operations">
-                                        <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
-                                        <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                                        <button class="btn btn-reject"><i class="fa fa-times"></i> Remove</button>
                                     </div>
                                 </div>
                             </div>
@@ -198,14 +198,14 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
-                                        <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                                        <button class="btn btn-reject"><i class="fa fa-times"></i> Remove</button>
                                     </div>
                                 </div>
                             </div>
                         {{/ if}}
                         <hr />
                     {{/ each}}
+                    <a href="" class="btn btn-wide btn-primary">Load More</a>
                 </div>
             </div>
         </div>
@@ -218,17 +218,15 @@
                     </div>
                     <hr />
                     {{#each blogPost}}
-                        <div class="editor-options new-post draft-inline" id="{{_id}}">
+                        <div class="editor-options new-post draft-inline dash-blog-item" id="{{_id}}">
                             <div>
                                 <div class="content-preview">
                                     <h4 class="draft-title">{{title}}</h4>
-                                    <h5>{{subtitle}}</h5>
                                     <p class="meta">{{writer}} | Released: {{releaseDate}} | Drafted: {{draftedDate}} | Tags: {{tags}} | Category: {{categories}} | </p>
-                                    <p class="draft-body">{{content}}</p>
+                                    <p>{{subtitle}}</p>
                                 </div>
                                 <div class="operations">
-                                    <button class="btn btn-approve"><i class="fa fa-check"></i> Approve</button>
-                                    <button class="btn btn-reject"><i class="fa fa-times"></i> Reject</button>
+                                    <button class="btn btn-reject"><i class="fa fa-times"></i> Remove</button>
                                 </div>
                             </div>
                         </div>
