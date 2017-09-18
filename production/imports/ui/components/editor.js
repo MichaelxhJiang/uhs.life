@@ -446,51 +446,8 @@ Template.announcementOptions.events({
     },
     'click .btn-save': function() {
         let type = Session.get('announcementType');
-        console.log('submitting ' + type);
-
+        let json = constructAnnouncementJson(type);
         if (type === "imageOnly") {
-            let headline = $('#imageOnlyHeadline').val();
-            let imgId = Session.get('newImageId');
-            let separators = [' , ', ', ', ',', ' ,'];
-            let tags = $(".announce-tags")[0].value.split(new RegExp(separators.join('|'), 'g'));
-            let options = $('.category-select')[1].options;
-            let categories = [];
-            for (let i = 0; i < options.length; i++) {
-                let opt = options[i];
-                if (opt.selected) {
-                    categories.push(opt.value);
-                }
-            }
-            let authorId = Meteor.userId();
-            let startDate = new Date($('.startDate')[0].value);
-            let endDate = new Date($('.endDate')[0].value);
-            let draftedDate = new Date();
-
-            //meta
-
-            if (!imgId) {
-                alertError('Post Incomplete!', "You haven't uploaded an image yet!")
-            }
-            if (!headline) {
-                //TODO
-                alertError('Post Incomplete!', "You haven't added a headline!")
-            }
-
-            let json = {
-                author: authorId,
-                type: 'announcement',
-                subType: 'imageOnly',
-                startDate: startDate,
-                endDate: endDate,
-                draftedDate: draftedDate,
-                headline: headline,
-                tags: tags || [],
-                categories: categories || [],
-                imgId: imgId,
-                meta: {
-                    hasUnsplash: hasUnsplash,
-                }
-            };
 
             Meteor.call('drafts.postDraftImage', json, function (err) {
                 if (err) {
@@ -511,53 +468,6 @@ Template.announcementOptions.events({
             });
 
         } else if (type === "textOnly") {
-            let headline = $('#textOnlyHeadline').val();
-            let content = $('.announcement-text')[0].value;
-            let str = $(".announce-tags")[1].value;
-            let separators = [' , ', ', ', ',', ' ,'];
-            let tags = str.split(new RegExp(separators.join('|'), 'g'));
-
-            let options = $('.category-select')[2].options;
-            let categories = [];
-
-            for (let i = 0; i < options.length; i++) {
-                let opt = options[i];
-                if (opt.selected) {
-                    categories.push(opt.value);
-                }
-            }
-
-            let authorId = Meteor.userId();
-            let startDate = new Date($('.startDate')[1].value);
-            let endDate = new Date($('.endDate')[1].value);
-            let draftedDate = new Date();
-
-            //meta
-
-            if (!headline) {
-                //TODO
-                console.log('No headline entered');
-            }
-            if (!content) {
-                //TODO
-                console.log('No content entered')
-            }
-
-            let json = {
-                author: authorId,
-                type: 'announcement',
-                subType: 'textOnly',
-                startDate: startDate,
-                endDate: endDate,
-                draftedDate: draftedDate,
-                headline: headline,
-                content: content,
-                tags: tags || [],
-                categories: categories || [],
-                meta: {
-                    hasUnsplash: hasUnsplash,
-                }
-            };
 
             Meteor.call('drafts.postDraftText', json, function (err) {
                 if (err) {
@@ -576,62 +486,6 @@ Template.announcementOptions.events({
                 }
             });
         } else if (type === 'textAndImage') {
-            let headline = $('#textImageHeadline').val();
-            let content = $('.announcement-text')[1].value;
-            let imgId = Session.get('newImageId');
-            let str = $(".announce-tags")[2].value;
-            let separators = [' , ', ', ', ',', ' ,'];
-            let tags = str.split(new RegExp(separators.join('|'), 'g'));
-
-            let options = $('.category-select')[3].options;
-            let categories = [];
-
-            for (let i = 0; i < options.length; i++) {
-                let opt = options[i];
-                if (opt.selected) {
-                    categories.push(opt.value);
-                }
-            }
-
-            let authorId = Meteor.userId();
-            let startDate = new Date($('.startDate')[2].value);
-            let endDate = new Date($('.endDate')[2].value);
-            let draftedDate = new Date();
-
-            //meta
-            let priority = Session.get('priority');
-
-            if (!imgId) {
-                //TODO
-                console.log('No image uploaded');
-            }
-            if (!headline) {
-                //TODO
-                console.log('No headline entered');
-            }
-            if (!content) {
-                //TODO
-                console.log('No content entered')
-            }
-
-            let json = {
-                author: authorId,
-                type: 'announcement',
-                subType: 'imageText',
-                headline: headline,
-                content: content,
-                startDate: startDate,
-                endDate: endDate,
-                draftedDate: draftedDate,
-                tags: tags || [],
-                categories: categories || [],
-                imgId: imgId,
-                meta: {
-                    priority: priority || 'image',
-                    hasUnsplash: hasUnsplash,
-                }
-            };
-            console.log(json);
             Meteor.call('drafts.postDraftTextImage', json, function (err) {
                 if (err) {
                     alertError('Saving Draft Failed!', err.message);
