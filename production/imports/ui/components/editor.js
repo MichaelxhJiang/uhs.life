@@ -12,6 +12,12 @@ Template.editor.onRendered(function () {
 
 });
 
+Template.blogDraft.onRendered(function () {
+    Tracker.autorun(function () {
+        Meteor.subscribeWithPagination('drafts', 10, Meteor.userId())
+    })
+});
+
 Template.blogEditor.onRendered(function () {
     Tracker.autorun(function () {
         let categorySub = Meteor.subscribe('blogCategories');
@@ -196,6 +202,11 @@ Template.editor.helpers({
     }
 });
 
+Template.blogDraft.helpers({
+    'drafts': function () {
+        return Drafts.find({})
+    }
+});
 
 /* Events */
 Template.editor.events({

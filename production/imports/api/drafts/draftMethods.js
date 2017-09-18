@@ -2,8 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { Drafts } from './drafts.js';
 
 if (Meteor.isServer) {
-   Meteor.publish('drafts', function draftsPublication() {
-    return Drafts.find();  //TODO only show drafts of current user
+   Meteor.publish('drafts', function draftsPublication(limit, author) {
+    return Drafts.find({
+        'author': author
+    },{
+        limit: limit
+    });
   });
 }
 

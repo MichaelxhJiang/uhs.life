@@ -12,57 +12,7 @@
             {{> blogEditor}}
             {{> announcementEditor}}
             {{> suggestionEditor}}
-            <div class="container blog-drafts" hidden>
-                <div class="center-wrapper">
-                    <div class="mb-45">
-                        <div class="row mb-30">
-                            <div class="col-lg-12 col-md-12 col-sm-12 mb-30 text-center mt-30">
-                                <h2>Here are all your drafts,</h2>
-                                <h4>Click on one to continue to create</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 draft-item">
-                                <!-- Blog post example, with featured image -->
-                                <div class="editor-options draft-inline">
-                                    <div class="image-preview">
-                                        <img src="https://dummyimage.com/800x600" class="img-responsive">
-                                    </div>
-                                    <div class="content-preview">
-                                        <h3 class="draft-title">This is an example of draft item with image</h3>
-                                        <span>Originally Created: Dec 24th, 2017. Format: Announcement</span>
-                                        <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
-                                        <div class="dropdown">
-                                            <button class="dropbtn">Quick Actions</button>
-                                            <div class="dropdown-content">
-                                                <a href="#">Publish</a>
-                                                <a href="#"><i class="fa fa-trash-o"></i> Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- No featured image -->
-                            <div class="col-lg-12 draft-item">
-                                <div class="editor-options draft-inline">
-                                    <div class="content-preview">
-                                        <h3 class="draft-title">This is an example of draft item with no images</h3>
-                                        <span>Originally Created: Dec 24th, 2017. Tags: Test, Nice Tag, Wow</span>
-                                        <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
-                                        <div class="dropdown">
-                                            <button class="dropbtn">Quick Actions</button>
-                                            <div class="dropdown-content">
-                                                <a href="#">Publish</a>
-                                                <a href="#"><i class="fa fa-trash-o"></i> Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{> blogDraft}}
             <div class="container blog-intro text-center">
                 <div class="center-wrapper">
                     <div class="post-source mb-45">
@@ -148,6 +98,82 @@
             </div>
         </div>
     {{/if}}
+</template>
+
+<template name="blogDraft">
+    <div class="container blog-drafts" hidden>
+        <div class="center-wrapper">
+            <div class="mb-45">
+                <div class="row mb-30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30 text-center mt-30">
+                        <h2>Here are all your drafts,</h2>
+                        <h4>Click on one to continue editing</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    {{#each drafts}}
+                        <div class="col-lg-12 draft-item">
+                            <!-- Blog post example, with featured image -->
+                            <div class="editor-options draft-inline">
+                                <div class="image-preview">
+                                    <img src="https://dummyimage.com/800x600" class="img-responsive">
+                                </div>
+                                <div class="content-preview">
+                                    <h3 class="draft-title">This is an example of draft item with image</h3>
+                                    <span>Originally Created: Dec 24th, 2017. Format: Announcement</span>
+                                    <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                                    <div class="dropdown">
+                                        <button class="dropbtn">Quick Actions</button>
+                                        <div class="dropdown-content">
+                                            <a href="#">Publish</a>
+                                            <a href="#"><i class="fa fa-trash-o"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                    <div class="col-lg-12 draft-item">
+                        <!-- Blog post example, with featured image -->
+                        <div class="editor-options draft-inline">
+                            <div class="image-preview">
+                                <img src="https://dummyimage.com/800x600" class="img-responsive">
+                            </div>
+                            <div class="content-preview">
+                                <h3 class="draft-title">This is an example of draft item with image</h3>
+                                <span>Originally Created: Dec 24th, 2017. Format: Announcement</span>
+                                <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                                <div class="dropdown">
+                                    <button class="dropbtn">Quick Actions</button>
+                                    <div class="dropdown-content">
+                                        <a href="#">Publish</a>
+                                        <a href="#"><i class="fa fa-trash-o"></i> Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- No featured image -->
+                    <div class="col-lg-12 draft-item">
+                        <div class="editor-options draft-inline">
+                            <div class="content-preview">
+                                <h3 class="draft-title">This is an example of draft item with no images</h3>
+                                <span>Originally Created: Dec 24th, 2017. Tags: Test, Nice Tag, Wow</span>
+                                <p class="draft-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores aut beatae ea eaque earum enim excepturi fuga in, ipsa laborum nobis obcaecati optio quam repellat sed tempora veniam!</p>
+                                <div class="dropdown">
+                                    <button class="dropbtn">Quick Actions</button>
+                                    <div class="dropdown-content">
+                                        <a href="#">Publish</a>
+                                        <a href="#"><i class="fa fa-trash-o"></i> Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <template name="blogEditor">

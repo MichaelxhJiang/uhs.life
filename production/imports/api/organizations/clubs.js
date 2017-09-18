@@ -8,7 +8,7 @@ if(Meteor.isServer){
         return Clubs.find({},{
             limit: limit
         })
-    })
+    });
 }
 
 Clubs.allow({
