@@ -13,7 +13,6 @@ let isotopeSettings = {
     }
 };
 Template.stream.onRendered(function () {
-    console.log('rendered');
     let $grid = $('.grid');
     Tracker.autorun(function () {
         let postSub = Meteor.subscribe('announcements', 10, Meteor.userId());
@@ -21,7 +20,6 @@ Template.stream.onRendered(function () {
         let imageSub = Meteor.subscribe('images');
         //Meteor.subscribe('allUsersLite');
         if(postSub.ready()){
-            console.log('post subs ready');
             $('.grid').isotope(isotopeSettings);
             $('.grid').imagesLoaded().progress( function() {
                 $('.grid').isotope(isotopeSettings);
@@ -85,7 +83,6 @@ Template.stream.helpers({
         return (this.startDate === this.endDate) ? moment(this.startDate).format("MMMM Do YYYY") : moment(this.startDate).format("MMMM Do YYYY") + " - " + moment(this.endDate).format("MMMM Do YYYY");
     },
     'isImageOnly': function () {
-        console.log(this.subType === 'imageOnly' && this.type === 'announcement');
         return this.subType === 'imageOnly' && this.type === 'announcement'
     },
     'isTextOnly': function () {

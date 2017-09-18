@@ -58,7 +58,6 @@ let admin = FlowRouter.group({
                     }
                 });
             }
-            console.log('welcome to admin');
         }
     ]
 });
@@ -81,6 +80,13 @@ admin.route('/dashboard/categories', {
     action: function () {
         Session.set("DocumentTitle","Categories - Administrative Dashboard | uhs.life");
         BlazeLayout.render('dashboard',{dash: 'dashCategories'})
+    }
+});
+
+admin.route('/dashboard/organizations', {
+    action: function () {
+        Session.set("DocumentTitle","Organizations - Administrative Dashboard | uhs.life");
+        BlazeLayout.render('dashboard',{dash: 'dashOrganizations'})
     }
 });
 

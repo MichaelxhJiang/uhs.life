@@ -15,6 +15,8 @@ Template.editor.onRendered(function () {
 Template.blogEditor.onRendered(function () {
     Tracker.autorun(function () {
         let categorySub = Meteor.subscribe('blogCategories');
+        let courseSub = Meteor.subscribe('allCourses',1000);
+        let clubSub = Meteor.subscribe('allClubs',1000);
         if(categorySub.ready()){
             let categories = BlogCategories.find({});
             categories.observeChanges({
@@ -24,9 +26,29 @@ Template.blogEditor.onRendered(function () {
                 }
             });
         }
+        if(courseSub.ready() && clubSub.ready()){
+            let courses = Courses.find({});
+            let clubs = Clubs.find({});
+            courses.observeChanges({
+                added: function (id, fields) {
+                    let newCat = new Option(fields.name + " - " + fields.code, fields.code);
+                    $('#blogOrganizationSelect').append(newCat)
+                }
+            });
+            clubs.observeChanges({
+                added: function (id, fields) {
+                    let newCat = new Option(fields.name, fields.code);
+                    $('#blogOrganizationSelect').append(newCat)
+                }
+            })
+        }
     });
     $(document).ready(function () {
         $('#blogCategorySelect').select2({
+            placeholder: "Click to select matching categories",
+            allowClear: true
+        });
+        $('#blogOrganizationSelect').select2({
             placeholder: "Click to select matching categories",
             allowClear: true
         });
@@ -104,12 +126,22 @@ Template.blogEditor.onRendered(function () {
 Template.announcementEditor.onRendered(function () {
     Tracker.autorun(function () {
         let categorySub = Meteor.subscribe('categories');
+        let clubSub = Meteor.subscribe('allClubs',100);
         if(categorySub.ready()){
             let categories = Categories.find({});
             categories.observeChanges({
                 added: function(id, fields) {
                     let newCat = new Option(fields.name, fields.name);
                     $('.announcement-category').append(newCat);
+                }
+            });
+        }
+        if(clubSub.ready()){
+            let clubs = Clubs.find({});
+            clubs.observeChanges({
+                added: function(id, fields) {
+                    let newCat = new Option(fields.name, fields.name);
+                    $('.clubs-category').append(newCat);
                 }
             });
         }
@@ -253,45 +285,15 @@ Template.editor.events({
         Session.set('priority', priority);
     },
     'click .publish': function (event, template) {
-        let title = $('#blogTitle').val();
-        let subtitle = $('#blogSubTitle').val();
-        let content = $('.editable').froalaEditor('html.get');
-        let str = $(".tags").val();
-        let separators = [' , ', ', ', ',', ' ,'];
-        let tags = str.split(new RegExp(separators.join('|'), 'g'));
-        let imgId = (hasUnsplash) ? Session.get('unsplash_img') : Session.get('newImageId');
-        let releaseDate = new Date($('.input-date').val());
-        let draftedDate = new Date();
-        let categories = $('.category-select').val();
-        let authorId = Meteor.userId();
-        let imageFirst = null;
-        //meta
-        let visibility = $('.visibility-select')[0].value;
+        let json = constructBlogJson();
 
-        let json = {
-            author: authorId,
-            type: 'blog',
-            releaseDate: releaseDate,
-            draftedDate: draftedDate,
-            title: title,
-            subtitle: subtitle,
-            content: content,
-            tags: tags,
-            categories: categories,
-            imgId: imgId,
-            unsplash: Session.get('unsplashData'),
-            meta: {
-                imageFirst: imageFirst,
-                hasUnsplash: hasUnsplash,
-                visibility: visibility
-            }
-        }
         Meteor.call('posts.postBlog', json, function (err) {
             if (err) {
                 alertError('Post Failed!', err.message);
             } else {
                 alertSuccess('Success!', 'The post has been submitted.');
 
+                // Go back
                 if (operationStack.length - 2 === 0) {
                     swapElements('.editor-main', '.editor-open');
                     $('html, body').css({
@@ -305,54 +307,13 @@ Template.editor.events({
         });
     },
     'click .save-draft' : function() {
-        let title = $('#blogTitle').val();
-        let subtitle = $('#blogSubTitle').val();
-        let content = $('.editable').froalaEditor('html.get');
-        let str = $(".tags").val();
-        let separators = [' , ', ', ', ',', ' ,'];
-        let tags = str.split(new RegExp(separators.join('|'), 'g'));
-        let imgId = (hasUnsplash) ? Session.get('unsplash_img') : Session.get('newImageId');
-        let releaseDate = new Date($('.input-date').val());
-        let draftedDate = new Date();
-        let categories = $('.category-select').val();
-        let authorId = Meteor.userId();
-        let imageFirst = null;
-        //meta
-        let visibility = $('.visibility-select').val();
+        let json = constructBlogJson();
 
-        let json = {
-            author: authorId,
-            type: 'blog',
-            releaseDate: releaseDate,
-            draftedDate: draftedDate,
-            title: title,
-            subtitle: subtitle,
-            content: content,
-            tags: tags,
-            categories: categories,
-            imgId: imgId,
-            unsplash: Session.get('unsplashData'),
-            meta: {
-                imageFirst: imageFirst,
-                hasUnsplash: hasUnsplash,
-                visibility: visibility
-            }
-        };
         Meteor.call('drafts.postDraftBlog', json, function (err) {
             if (err) {
                 alertError('Saving Draft Failed!', err.message);
             } else {
                 alertSuccess('Success!', 'The draft has been saved.');
-
-                if (operationStack.length - 2 === 0) {
-                    swapElements('.editor-main', '.editor-open');
-                    $('html, body').css({
-                        overflow: 'visible'
-                    }); // Enables the Scrolling
-                } else {
-                    swapElements(operationStack[operationStack.length - 1], operationStack[operationStack.length - 2]);
-                }
-                operationStack.pop();
             }
         });
     },
@@ -427,52 +388,8 @@ Template.editor.events({
 Template.announcementOptions.events({
     'click .btn-post': function (event, template) {
         let type = Session.get('announcementType');
+        let json = constructAnnouncementJson(type);
         if (type === "imageOnly") {
-            let headline = $('#imageOnlyHeadline').val();
-            let imgId = Session.get('newImageId');
-            let separators = [' , ', ', ', ',', ' ,'];
-            let tags = $(".announce-tags")[0].value.split(new RegExp(separators.join('|'), 'g'));
-            let options = $('.category-select')[1].options;
-            let categories = [];
-            for (let i = 0; i < options.length; i++) {
-                let opt = options[i];
-                if (opt.selected) {
-                    categories.push(opt.value);
-                }
-            }
-            let authorId = Meteor.userId();
-            let startDate = new Date($('.startDate')[0].value);
-            let endDate = new Date($('.endDate')[0].value);
-            let draftedDate = new Date();
-            let visibility = $('.visibility-select')[1].value;
-            console.log(visibility);
-            if (!imgId) {
-                alertError('Post Incomplete!', "You haven't uploaded an image yet!")
-            }
-            if (!headline) {
-                //TODO
-                alertError('Post Incomplete!', "You haven't added a headline!")
-            }
-            if(!startDate || !endDate){
-                alertError('Post Incomplete!', "You haven't added a date!")
-            }
-            let json = {
-                author: authorId,
-                type: 'announcement',
-                subType: 'imageOnly',
-                startDate: startDate,
-                endDate: endDate,
-                draftedDate: draftedDate,
-                headline: headline,
-                tags: tags || [],
-                categories: categories || [],
-                imgId: imgId,
-                meta: {
-                    hasUnsplash: hasUnsplash,
-                    visibility: visibility
-                }
-            };
-
             Meteor.call('posts.postImage', json, function (err) {
                 if (err) {
                     alertError('Posting Failed!', err.message);
@@ -492,57 +409,6 @@ Template.announcementOptions.events({
             });
 
         } else if (type === "textOnly") {
-            let headline = $('#textOnlyHeadline').val();
-            let content = $('.announcement-text')[0].value;
-            let str = $(".announce-tags")[1].value;
-            let separators = [' , ', ', ', ',', ' ,'];
-            let tags = str.split(new RegExp(separators.join('|'), 'g'));
-
-            let options = $('.category-select')[2].options;
-            let categories = [];
-
-            for (let i = 0; i < options.length; i++) {
-                let opt = options[i];
-                if (opt.selected) {
-                    categories.push(opt.value);
-                }
-            }
-            let visibility = $('.visibility-select')[2].value;
-            let authorId = Meteor.userId();
-            let startDate = new Date($('.startDate')[1].value);
-            let endDate = new Date($('.endDate')[1].value);
-            let draftedDate = new Date();
-
-            //meta
-
-            if (!content) {
-                alertError('Post Incomplete!', "You haven't added any content yet!")
-            }
-            if (!headline) {
-                //TODO
-                alertError('Post Incomplete!', "You haven't added a headline!")
-            }
-            if(!startDate || !endDate){
-                alertError('Post Incomplete!', "You haven't added a date!")
-            }
-
-            let json = {
-                author: authorId,
-                type: 'announcement',
-                subType: 'textOnly',
-                startDate: startDate,
-                endDate: endDate,
-                draftedDate: draftedDate,
-                headline: headline,
-                content: content,
-                tags: tags || [],
-                categories: categories || [],
-                meta: {
-                    hasUnsplash: hasUnsplash,
-                    visibility: visibility
-                }
-            };
-
             Meteor.call('posts.postText', json, function (err) {
                 if (err) {
                     alertError('Post Failed!', err.message);
@@ -560,63 +426,6 @@ Template.announcementOptions.events({
                 }
             });
         } else if (type === 'textAndImage') {
-            let headline = $('#textImageHeadline').val();
-            let content = $('.announcement-text')[1].value;
-            let imgId = Session.get('newImageId');
-            let str = $(".announce-tags")[2].value;
-            let separators = [' , ', ', ', ',', ' ,'];
-            let tags = str.split(new RegExp(separators.join('|'), 'g'));
-
-            let options = $('.category-select')[3].options;
-            let categories = [];
-
-            for (let i = 0; i < options.length; i++) {
-                let opt = options[i];
-                if (opt.selected) {
-                    categories.push(opt.value);
-                }
-            }
-            let visibility = $('.visibility-select')[3].value;
-            let authorId = Meteor.userId();
-            let startDate = new Date($('.startDate')[2].value);
-            let endDate = new Date($('.endDate')[2].value);
-            let draftedDate = new Date();
-
-            //meta
-            let priority = Session.get('priority');
-            if (!imgId) {
-                alertError('Post Incomplete!', "You haven't uploaded an image yet!")
-            }
-            if (!headline) {
-                //TODO
-                alertError('Post Incomplete!', "You haven't added a headline!")
-            }
-            if(!startDate || !endDate){
-                alertError('Post Incomplete!', "You haven't added a date!")
-            }
-            if (!content) {
-                //TODO
-                alertError('Post Incomplete!', "You haven't added any information!")
-            }
-
-            let json = {
-                author: authorId,
-                type: 'announcement',
-                subType: 'imageText',
-                headline: headline,
-                content: content,
-                startDate: startDate,
-                endDate: endDate,
-                draftedDate: draftedDate,
-                tags: tags || [],
-                categories: categories || [],
-                imgId: imgId,
-                meta: {
-                    priority: priority || 'image',
-                    hasUnsplash: hasUnsplash,
-                    visibility: visibility
-                }
-            };
             Meteor.call('posts.postTextImage', json, function (err) {
                 if (err) {
                     alertError('Post Failed!', err.message);
@@ -928,4 +737,239 @@ function swapElements(a, b) {
 }
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function constructBlogJson(){
+    let title = $('#blogTitle').val();
+    let subtitle = $('#blogSubTitle').val();
+    let content = $('.editable').froalaEditor('html.get');
+    let str = $(".tags").val();
+    let separators = [' , ', ', ', ',', ' ,'];
+    let tags = str.split(new RegExp(separators.join('|'), 'g'));
+    let imgId = (hasUnsplash) ? Session.get('unsplash_img') : Session.get('newImageId');
+    let releaseDate = new Date($('.input-date').val());
+    let draftedDate = new Date();
+    let options = $('.category-select')[0].options;
+    let categories = [];
+    for (let i = 0; i < options.length; i++) {
+        let opt = options[i];
+        if (opt.selected) {
+            categories.push(opt.value);
+        }
+    }
+    let orgOptions = document.getElementById('blogOrganizationSelect').options;
+    let orgNames = [], orgVal = [];
+    for (let i = 0; i < orgOptions.length; i++) {
+        let opt = orgOptions[i];
+        if (opt.selected) {
+            orgNames.push(opt.text);
+            orgVal.push(opt.value);
+        }
+    }
+    let authorId = Meteor.userId();
+    let imageFirst = null;
+    //meta
+    let visibility = $('.visibility-select')[0].value;
+
+    return {
+        author: authorId,
+        type: 'blog',
+        releaseDate: releaseDate,
+        draftedDate: draftedDate,
+        title: title,
+        subtitle: subtitle,
+        content: content,
+        tags: tags,
+        categories: categories,
+        imgId: imgId,
+        unsplash: Session.get('unsplashData'),
+        organizationsNames: orgNames,
+        organizationsValues: orgVal,
+        meta: {
+            imageFirst: imageFirst,
+            hasUnsplash: hasUnsplash,
+            visibility: visibility
+        }
+    };
+}
+function constructAnnouncementJson(type){
+    if (type === "imageOnly") {
+        let headline = $('#imageOnlyHeadline').val();
+        let imgId = Session.get('newImageId');
+        let separators = [' , ', ', ', ',', ' ,'];
+        let tags = $(".announce-tags")[0].value.split(new RegExp(separators.join('|'), 'g'));
+        let options = $('.category-select')[1].options;
+        let categories = [];
+        for (let i = 0; i < options.length; i++) {
+            let opt = options[i];
+            if (opt.selected) {
+                categories.push(opt.value);
+            }
+        }
+        let clubs = $('.clubs-category')[0].options;
+        let clubList = [];
+        for (let i = 0; i < clubs.length; i++) {
+            let opt = clubs[i];
+            if (opt.selected) {
+                clubList.push(opt.value);
+            }
+        }
+        let authorId = Meteor.userId();
+        let startDate = new Date($('.startDate')[0].value);
+        let endDate = new Date($('.endDate')[0].value);
+        let draftedDate = new Date();
+        let visibility = $('.visibility-select')[1].value;
+        if (!imgId) {
+            alertError('Post Incomplete!', "You haven't uploaded an image yet!")
+        }
+        if (!headline) {
+            //TODO
+            alertError('Post Incomplete!', "You haven't added a headline!")
+        }
+        if(!startDate || !endDate){
+            alertError('Post Incomplete!', "You haven't added a date!")
+        }
+        return {
+            author: authorId,
+            type: 'announcement',
+            subType: 'imageOnly',
+            startDate: startDate,
+            endDate: endDate,
+            draftedDate: draftedDate,
+            headline: headline,
+            tags: tags || [],
+            categories: categories || [],
+            imgId: imgId,
+            clubs: clubList,
+            meta: {
+                hasUnsplash: hasUnsplash,
+                visibility: visibility
+            }
+        };
+    } else if (type === "textOnly") {
+        let headline = $('#textOnlyHeadline').val();
+        let content = $('.announcement-text')[0].value;
+        let str = $(".announce-tags")[1].value;
+        let separators = [' , ', ', ', ',', ' ,'];
+        let tags = str.split(new RegExp(separators.join('|'), 'g'));
+
+        let options = $('.category-select')[2].options;
+        let categories = [];
+
+        for (let i = 0; i < options.length; i++) {
+            let opt = options[i];
+            if (opt.selected) {
+                categories.push(opt.value);
+            }
+        }
+        let visibility = $('.visibility-select')[2].value;
+        let authorId = Meteor.userId();
+        let startDate = new Date($('.startDate')[1].value);
+        let endDate = new Date($('.endDate')[1].value);
+        let draftedDate = new Date();
+        let clubs = $('.clubs-category')[1].options;
+        let clubList = [];
+        for (let i = 0; i < clubs.length; i++) {
+            let opt = clubs[i];
+            if (opt.selected) {
+                clubList.push(opt.value);
+            }
+        }
+        //meta
+
+        if (!content) {
+            alertError('Post Incomplete!', "You haven't added any content yet!")
+        }
+        if (!headline) {
+            //TODO
+            alertError('Post Incomplete!', "You haven't added a headline!")
+        }
+        if(!startDate || !endDate){
+            alertError('Post Incomplete!', "You haven't added a date!")
+        }
+
+        return {
+            author: authorId,
+            type: 'announcement',
+            subType: 'textOnly',
+            startDate: startDate,
+            endDate: endDate,
+            draftedDate: draftedDate,
+            headline: headline,
+            content: content,
+            tags: tags || [],
+            categories: categories || [],
+            club: clubList,
+            meta: {
+                hasUnsplash: hasUnsplash,
+                visibility: visibility
+            }
+        };
+    } else if (type === 'textAndImage') {
+        let headline = $('#textImageHeadline').val();
+        let content = $('.announcement-text')[1].value;
+        let imgId = Session.get('newImageId');
+        let str = $(".announce-tags")[2].value;
+        let separators = [' , ', ', ', ',', ' ,'];
+        let tags = str.split(new RegExp(separators.join('|'), 'g'));
+
+        let options = $('.category-select')[3].options;
+        let categories = [];
+
+        for (let i = 0; i < options.length; i++) {
+            let opt = options[i];
+            if (opt.selected) {
+                categories.push(opt.value);
+            }
+        }
+        let visibility = $('.visibility-select')[3].value;
+        let authorId = Meteor.userId();
+        let startDate = new Date($('.startDate')[2].value);
+        let endDate = new Date($('.endDate')[2].value);
+        let draftedDate = new Date();
+        let clubs = $('.clubs-category')[2].options;
+        let clubList = [];
+        for (let i = 0; i < clubs.length; i++) {
+            let opt = clubs[i];
+            if (opt.selected) {
+                clubList.push(opt.value);
+            }
+        }
+        //meta
+        let priority = Session.get('priority');
+        if (!imgId) {
+            alertError('Post Incomplete!', "You haven't uploaded an image yet!")
+        }
+        if (!headline) {
+            //TODO
+            alertError('Post Incomplete!', "You haven't added a headline!")
+        }
+        if(!startDate || !endDate){
+            alertError('Post Incomplete!', "You haven't added a date!")
+        }
+        if (!content) {
+            //TODO
+            alertError('Post Incomplete!', "You haven't added any information!")
+        }
+
+        return {
+            author: authorId,
+            type: 'announcement',
+            subType: 'imageText',
+            headline: headline,
+            content: content,
+            startDate: startDate,
+            endDate: endDate,
+            draftedDate: draftedDate,
+            tags: tags || [],
+            categories: categories || [],
+            imgId: imgId,
+            clubs: clubList,
+            meta: {
+                priority: priority || 'image',
+                hasUnsplash: hasUnsplash,
+                visibility: visibility
+            }
+        };
+    }
 }

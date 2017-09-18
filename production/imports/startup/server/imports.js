@@ -34,3 +34,7 @@ import './teachAssist.js';
 import '../../api/suggestions/suggestions.js';
 import '../../api/images/images.js'
 import '../../api/images/imagesMethods.js'
+import '../../api/organizations/clubs.js'
+import '../../api/organizations/clubsMethods.js'
+import '../../api/organizations/courses.js'
+import '../../api/organizations/coursesMethods.js'

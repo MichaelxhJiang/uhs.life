@@ -313,6 +313,88 @@
     </div>
 </template>
 
+<template name="dashOrganizations">
+    <div class="container">
+        <div class="row text-center mb-60">
+            <div class="col-lg-12">
+                <h2>Organizations</h2>
+            </div>
+            <div hidden>
+                <div class="col-lg-6">
+                    <h5>Names</h5>
+                    <textarea id="courseNames"></textarea>
+                </div>
+                <div class="col-lg-6">
+                    <h5>Code</h5>
+                    <textarea id="courseCodes"></textarea>
+                </div>
+                <div class="col-lg-12">
+                    <button class="btn btn-wide btn-primary" id="uploadCourses">Create Courses</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="dash-item">
+                    <div class="dash-item-header text-center">
+                        <h3>Courses</h3>
+                        <p>These courses allow users to search and to categorize their posts as.</p>
+                    </div>
+                    <hr />
+                    {{#each courses}}
+                        <div class="editor-options new-post draft-inline col-lg-6" data-category="course" id="{{_id}}">
+                            <div>
+                                <div class="content-preview">
+                                    <h4 class="draft-title">{{code}}</h4>
+                                    <h5>{{name}}</h5>
+                                </div>
+                                <div class="dropdown" style="max-width: 160px">
+                                    <button class="dropbtn">Options</button>
+                                    <div class="dropdown-content">
+                                        <a href="" class="btn-delete">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                    <hr>
+                    <button class="btn btn-wide btn-primary" id="coursesLoadMore">Load More</button>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="dash-item">
+                    <div class="dash-item-header text-center">
+                        <h3>Clubs</h3>
+                        <p>These clubs allow users to search and to categorize their posts as.</p>
+                        <a href="" class="btn btn-primary" id="createNewClub">Create a new club</a>
+                    </div>
+                    <hr />
+                    {{#each clubs}}
+                        <div class="editor-options draft-inline col-lg-12" data-category="club" id="{{_id}}">
+                            <div>
+                                <div class="content-preview user-text-info">
+                                    <h4 class="draft-title">{{name}}</h4>
+                                    <h5>{{description}}</h5>
+                                    <span class="grid-item-footer">Room: {{room}} | Schedule: {{schedule}}</span>
+                                </div>
+                                <div class="dropdown" style="max-width: 160px">
+                                    <button class="dropbtn">Options</button>
+                                    <div class="dropdown-content">
+                                        <a href="" class="btn-delete">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                    <hr>
+                    <button class="btn btn-wide btn-primary" id="coursesLoadMore">Load More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template name="dashSideBar">
     <div class="side-nav-header">
         <h4>{{username}}</h4>
@@ -323,6 +405,7 @@
         <a href="/dashboard/announcements"><i class="fa fa-bullhorn"></i> Posts</a>
         <a href="/dashboard/suggestions"><i class="fa fa-pencil-square-o"></i> Suggestions</a>
         <a href="/dashboard/categories"><i class="fa fa-list"></i> Manage Categories</a>
+        <a href="/dashboard/organizations"><i class="fa fa-list"></i> Manage Organizations</a>
         <a href="/dashboard/users"><i class="fa fa-group"></i> Manage Users</a>
         <a href=""><i class="fa fa-newspaper-o"></i> Newsletters</a>
         <a href=""><i class="fa fa-gear"></i> Settings</a>
@@ -346,7 +429,6 @@
                         <div class="form-group">
                             <label for="newPostBody">Text Content</label>
                             <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="140" id="newPostBody"></textarea>
-                            <small class="text-left">You have <span class="announcement-counter">140</span> characters left.</small>
                         </div>
                         <div class="form-group">
                             <label for="newPostTags">Tags</label>
@@ -386,7 +468,6 @@
                         <div class="form-group">
                             <label for="newPostBody">Description of Category</label>
                             <textarea placeholder="Describe this category here" class="announcement-text" maxlength="140" id="newCategoryDescription"></textarea>
-                            <small class="text-left">You have <span class="announcement-counter">140</span> characters left.</small>
                         </div>
                         <div class="form-group">
                             <form action="/file-upload" class="dropzone category-image" id="newCategoryImage"></form>
@@ -408,7 +489,47 @@
         </div>
     </div>
 </template>
+<template name="dashClubEditor">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Creating New Club</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="dash-club-edit">
+                        <div class="form-group">
+                            <label for="newPostHeadline">Name of Club</label>
+                            <input type="text" aria-describedby="textHeadline" placeholder="Type Here" id="newClubName">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPostBody">Description</label>
+                            <textarea placeholder="Describe this category here" class="announcement-text" maxlength="400" id="newClubDescription"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPostHeadline">Meeting Room</label>
+                            <input type="text" aria-describedby="textHeadline" placeholder="Type Here" id="newClubRoom">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPostHeadline">General Meeting schedule</label>
+                            <input type="text" aria-describedby="textHeadline" placeholder="Type Here" id="newClubSchedule">
+                        </div>
+                        <div class="form-group">
+                            <label for="newClubImage">Club Image</label>
+                            <form action="/file-upload" class="dropzone category-image" id="newClubImage"></form>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-wide">Submit</button>
+                    </form>
+                </div>
 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
 <template name="dashRoleEditor">
     <div class="modal fade">
         <div class="modal-dialog">

@@ -3,18 +3,21 @@
  */
 import './dashboard.html'
 import { Images } from '../../api/images/images.js';
-
+let courseSub;
+let clubSub;
 Template.dashboard.onRendered(function () {
+    //TODO separate the subscriptions to load on separate template renders
     Tracker.autorun(function () {
         Meteor.subscribe('posts');
         Meteor.subscribe('categories');
         Meteor.subscribe('allUsers');
         Meteor.subscribe('blogCategories');
-        Meteor.subscribe('images')
+        Meteor.subscribe('images');
     });
 });
-
-Template.dashHome.onRendered(function () {
+Template.dashOrganizations.onRendered(function () {
+    courseSub = Meteor.subscribeWithPagination('allCourses', 10);
+    clubSub = Meteor.subscribeWithPagination('allClubs', 10);
 });
 
 Template.dashHome.helpers({
@@ -125,6 +128,15 @@ Template.dashUsers.helpers({
     }
 });
 
+Template.dashOrganizations.helpers({
+    'courses': function () {
+        return Courses.find({});
+    },
+    'clubs': function () {
+        return Clubs.find({});
+    }
+});
+
 Template.dashboard.events({
     'click .new-post': function (evt) {
         let obj = $(evt.target).closest($('.new-post'));
@@ -146,23 +158,23 @@ Template.dashboard.events({
         })
         //Post on Facebook
         /*setupFacebook(function(err, response) {
-            if (err) {
-                console.log(err);
-            } else {
-                let post = Session.get('dashEditorData');
-                let type = post.type;
-                if (type === 'announcement') {
-                    let subType = post.subType;
-                    if (subType === 'textOnly') {
-                        postTextFacebook(post);
-                    } else if (subType === 'imageOnly') {
-                        postImageFacebook(post);
-                    } else {
-                        postTextImageFacebook(post);
-                    }
-                }
-            }
-        });*/
+         if (err) {
+         console.log(err);
+         } else {
+         let post = Session.get('dashEditorData');
+         let type = post.type;
+         if (type === 'announcement') {
+         let subType = post.subType;
+         if (subType === 'textOnly') {
+         postTextFacebook(post);
+         } else if (subType === 'imageOnly') {
+         postImageFacebook(post);
+         } else {
+         postTextImageFacebook(post);
+         }
+         }
+         }
+         });*/
     },
     'click .btn-reject': function (evt) {
         let obj = $(evt.target).closest($('.new-post'));
@@ -199,7 +211,6 @@ Template.dashCategories.events({
                 }
             })
         }
-
     }
 });
 
@@ -209,6 +220,45 @@ Template.dashUsers.events({
         let id = obj.attr('id');
         Session.set('editingUser', Meteor.users.findOne({_id: id}));
         Modal.show('dashRoleEditor');
+    }
+});
+
+Template.dashOrganizations.events({
+    'click #uploadCourses': function () {
+        let names = $('#courseNames').val();
+        let codes = $('#courseCodes').val();
+        Meteor.call('courses.addSeveral',names,codes,function (err) {
+            if(err){
+                alertError("Failed", err.message)
+            }else{
+                alertSuccess('yeah','it didnt fail.')
+            }
+        })
+    },
+    'click #coursesLoadMore': function () {
+        courseSub.loadNextPage();
+        clubSub.loadNextPage();
+    },
+    'click #createNewClub': function () {
+        Modal.show('dashClubEditor');
+    },
+    'click .btn-delete': function (evt) {
+        let obj = $(evt.target).closest($('.editor-options'));
+        let type = obj.attr('data-category');
+        let id = obj.attr('id');
+        if(type === 'club'){
+            Meteor.call('clubs.remove', id, function (err) {
+                if(err){
+                    alertError('Something Terrible Happened...', err.message);
+                }
+            })
+        }else{
+            Meteor.call('course.remove', id, function (err) {
+                if(err){
+                    alertError('Something Terrible Happened...', err.message);
+                }
+            })
+        }
     }
 });
 
@@ -231,19 +281,27 @@ Template.dashRoleEditor.helpers({
 });
 
 Template.dashRoleEditor.events({
-   'submit .dash-role-edit': function (evt) {
-       let data = Session.get('editingUser');
-       evt.preventDefault();
-       console.log($('#newUserRoles').val());
-       Meteor.call('addUserToRole', data._id, $('#newUserRoles').val(), function (err) {
-           if(err){
-               alertError("Role Modification Failed!", err.message);
-           }else{
-               Modal.hide('dashRoleEditor');
-               alertSuccess("Success!", "User Role has been successfully modified!")
-           }
-       })
-   }
+    'submit .dash-role-edit': function (evt) {
+        let data = Session.get('editingUser');
+        evt.preventDefault();
+        console.log($('#newUserRoles').val());
+        Meteor.call('addUserToRole', data._id, $('#newUserRoles').val(), function (err) {
+            if(err){
+                alertError("Role Modification Failed!", err.message);
+            }else{
+                Modal.hide('dashRoleEditor');
+                alertSuccess("Success!", "User Role has been successfully modified!")
+            }
+        })
+    }
+});
+
+Template.dashClubEditor.onRendered(function () {
+    let drop = initDropZone('newClubImage',{
+        number: 1,
+        size: 10,
+        message: "Drop your image here or click to use the file browser"
+    });
 });
 
 Template.dashCategoryEditor.onRendered(function () {
@@ -298,9 +356,7 @@ Template.dashCategoryEditor.events({
             featured: $('#newCategoryFeatured').is(':checked')
         };
         //console.log(json);
-        console.log(Session.get('editingBlogCategory'));
         if(!Session.get('editingBlogCategory')){
-            console.log(Session.get('editingBlogCategory'));
             Meteor.call('category.addNew',json,function (err) {
                 Modal.hide('dashCategoryEditor');
                 if(err){
@@ -308,7 +364,6 @@ Template.dashCategoryEditor.events({
                 }
             })
         }else{
-            console.log(Session.get('editingBlogCategory'));
             Meteor.call('blogCategory.addNew',json,function (err) {
                 Modal.hide('dashCategoryEditor');
                 if(err){
@@ -320,18 +375,28 @@ Template.dashCategoryEditor.events({
     }
 });
 
-Template.dashPostEditor.events({
-    'input .announcement-text': function (evt) {
-        let maxlength = $(evt.target).attr("maxlength");
-        let length = $(evt.target).val().length;
+Template.dashClubEditor.events({
+    'submit .dash-club-edit': function (evt) {
+        evt.preventDefault();
+        let json = {
+            name: $('#newClubName').val(),
+            description: $('#newClubDescription').val(),
+            room: $('#newClubRoom').val(),
+            schedule: $('#newClubSchedule').val(),
+            imgId: Session.get('categoryImageId'),
+        };
+        Meteor.call('clubs.add', json, function (err) {
+            if (err) {
+                alertError("Error Creating Club", err.message)
+            } else {
+                Modal.hide('dashClubEditor');
+                alertSuccess("Yah!", "Club successfully created!")
+            }
+        })
+    }
+});
 
-        if( length >= maxlength ){
-            console.log("You have reached the maximum number of characters.");
-            $('.announcement-counter').text(0);
-        }else{
-            $('.announcement-counter').text(maxlength - length);
-        }
-    },
+Template.dashPostEditor.events({
     'submit .dash-announcement-edit': function (evt) {
         evt.preventDefault();
         let separators = [' , ', ', ', ',', ' ,'];
