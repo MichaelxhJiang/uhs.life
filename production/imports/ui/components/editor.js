@@ -663,7 +663,7 @@ function constructAnnouncementJson(type){
         let imgId = Session.get('newImageId');
         let separators = [' , ', ', ', ',', ' ,'];
         let tags = $(".announce-tags")[0].value.split(new RegExp(separators.join('|'), 'g'));
-        let options = $('.category-select')[1].options;
+        let options = $('.announcement-category')[0].options;
         let categories = [];
         for (let i = 0; i < options.length; i++) {
             let opt = options[i];
@@ -718,7 +718,7 @@ function constructAnnouncementJson(type){
         let separators = [' , ', ', ', ',', ' ,'];
         let tags = str.split(new RegExp(separators.join('|'), 'g'));
 
-        let options = $('.category-select')[2].options;
+        let options = $('.announcement-category')[1].options;
         let categories = [];
 
         for (let i = 0; i < options.length; i++) {
@@ -778,7 +778,7 @@ function constructAnnouncementJson(type){
         let separators = [' , ', ', ', ',', ' ,'];
         let tags = str.split(new RegExp(separators.join('|'), 'g'));
 
-        let options = $('.category-select')[3].options;
+        let options = $('.announcement-category')[2].options;
         let categories = [];
 
         for (let i = 0; i < options.length; i++) {
