@@ -13,10 +13,8 @@ if (Meteor.isServer) {
 
 Meteor.methods({
     'drafts.postDraftTextImage' : function(json) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
-            throw new Meteor.Error(400, "You do not have permission...Reported");
+        if (!Roles.userIsInRole( this.userId, ['teacher', 'admin', 'announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
         }
 
         //adds draft to the Drafts collection
@@ -28,10 +26,8 @@ Meteor.methods({
         });
     },
     'drafts.postDraftText' : function(json) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
-            throw new Meteor.Error(400, "You do not have permission...Reported");
+        if (!Roles.userIsInRole( this.userId, ['teacher', 'admin', 'announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
         }
 
         //adds draft to the Drafts collection
@@ -43,10 +39,8 @@ Meteor.methods({
         });
     },
     'drafts.postDraftImage' : function(json) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
-            throw new Meteor.Error(400, "You do not have permission...Reported");
+        if (!Roles.userIsInRole( this.userId, ['teacher', 'admin', 'announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
         }
 
         //adds draft to the Drafts collection
@@ -58,10 +52,8 @@ Meteor.methods({
         });
     },
     'drafts.postDraftBlog' : function(json) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
-            throw new Meteor.Error(400, "You do not have permission...Reported");
+        if (!Roles.userIsInRole( this.userId, ['teacher', 'admin', 'announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
         }
 
         //adds draft to the Drafts collection
@@ -72,12 +64,14 @@ Meteor.methods({
             }
         });
     },
-    'drafts.getDraftsByUserId' : function(userId) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
-            throw new Meteor.Error(400, "You do not have permission...Reported");
+    'drafts.remove' : function(id) {
+        if (!Roles.userIsInRole( this.userId, ['teacher', 'admin', 'announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
         }
-        return Drafts.find({"authorId": userId});
+        let draft = Drafts.findOne({_id: id});
+        if(draft.author !== this.userId){
+            throw new Meteor.Error(403, "You do not have permission...Reported");
+        }
+        return Drafts.remove({_id: id});
    }
 });

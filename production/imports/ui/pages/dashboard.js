@@ -417,6 +417,7 @@ function initDropZone(id, info) {
         maxFiles: info.number || 1,
         maxFilesize: info.size || 8,
         thumbnailWidth: 400,
+        addRemoveLinks: true,
         dictDefaultMessage: info.message || "Drop your image here, or click to select an image using the browser.",
         accept: function (file, done) {
             let FSFile = new FS.File(file);

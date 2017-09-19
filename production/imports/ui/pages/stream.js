@@ -120,7 +120,6 @@ Template.stream.helpers({
             }catch(e){
                 //console.log('error getting photo')
             }
-
         }
     }
 
