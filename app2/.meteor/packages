@@ -28,3 +28,4 @@ cfs:standard-packages
 cfs:gridfs
 raix:ui-dropped-event
 http
+ostrio:files

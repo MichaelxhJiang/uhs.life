@@ -133,9 +133,39 @@ Template.addAnnouncementText.events({
 * ADD NEW IMAGE
 */
 Template.addImage.events({
-   'dropped #dropzone': function(event) {
-      console.log("dropped file in")
-      FS.Utility.eachFile(event, function(file) {
+    'change #fileInput'(e, template) {
+       console.log("dropped file in")
+       console.log(e);
+       console.log("\n\n\n");
+       console.log(e.currentTarget.files);
+       if (e.currentTarget.files && e.currentTarget.files[0]) {
+          console.log("HI");
+           // We upload only one file, in case
+           // multiple files were selected
+           const upload = Images.insert({
+               file: e.currentTarget.files[0],
+               streams: 'dynamic',
+               chunkSize: 'dynamic'
+           }, false);
+
+           upload.on('start', function () {
+               console.log("starting upload");
+           });
+
+           upload.on('end', function (error, fileObj) {
+               if (error) {
+                   console.log("upload failed");
+                   alert('Error during upload: ' + error);
+               } else {
+                   console.log("upload successful");
+                   alert('File "' + fileObj.name + '" successfully uploaded');
+               }
+           });
+
+           upload.start();
+       }
+
+      /*FS.Utility.eachFile(event, function(file) {
          //add the new image
          Images.insert(file, function (err, fileObj) {
             if (err){
@@ -160,7 +190,7 @@ Template.addImage.events({
                //console.log("new file type: " + ext);
             }
          });
-      });
+      });*/
    }
 })
 
