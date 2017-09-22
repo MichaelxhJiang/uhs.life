@@ -12,6 +12,8 @@ import './algoliaUpdate.js';
 import './algoliaRemove.js';
 //This file includes mailchimp API functions
 import './mailchimp.js'
+//This file contains teach assist HTTP requests
+import './teachAssist';
 //import the collections into server
 import '../../api/announcements/suggestions.js';
 import '../../api/announcements/images.js'

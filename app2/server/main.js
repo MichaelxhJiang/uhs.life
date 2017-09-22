@@ -22,7 +22,7 @@ Meteor.startup(() => {
             console.log(TestCollection.find());
             k.cancel();
         }
-    });*/
+    });
     HTTP.call("GET", "https://ta.yrdsb.ca/v4/students/json.php", {
         data: {
             "student_number": "073212482",
@@ -65,6 +65,34 @@ Meteor.startup(() => {
                 })
             }
         })
+        }
+    })*/
+    Meteor.call('getTeachAssistTokens', {
+        'student_number':'073212482',
+        'password': 'XXXXXXX'
+    }, function(err, tokens) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("sending in " + tokens);
+            Meteor.call('getTeachAssistCourses', tokens, function(err, courses) {
+                if (err) {
+                    console.log(err);
+                } else  {
+                    console.log(JSON.stringify(courses, null, 2));
+                    Meteor.call('getTeachAssistCourseDetails', {
+                        'student_id':tokens.student_id,
+                        'token':tokens.token,
+                        'subject_id':courses[0].subject_id
+                    }, function(err, details) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(JSON.stringify(details, null, 2));
+                        }
+                    })
+                }
+            })
         }
     })
 })
