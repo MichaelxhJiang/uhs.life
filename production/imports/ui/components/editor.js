@@ -313,7 +313,10 @@ Template.editor.events({
         $('.is-checked').removeClass('is-checked');
         $(evt.target).addClass('is-checked');
         Session.set('priority', priority);
-    },
+    }
+});
+
+Template.blogEditor.events({
     'click .publish': function (event, template) {
         let json = constructBlogJson();
 
@@ -363,11 +366,13 @@ Template.editor.events({
         Meteor.call('setupUnsplash', function (err) {
             if (err) {
                 console.log(err);
+                hasUnsplash = false;
             } else {
-                Meteor.call('searchKeyword', "nature", function (err, data) {
+                Meteor.call('getRandomPhoto', "nature", function (err, data) {
                     if (err) {
                         console.log(err);
                         $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one.");
+                        hasUnsplash = false;
                     } else {
                         console.log(data);
                         let num = getRandomInt(0, data.results.length-1);
@@ -388,6 +393,7 @@ Template.editor.events({
                 console.log(err);
                 $('.unsplash-container').replaceWith("<form action='/file-upload' class='dropzone' id='dropzone'></form>");
                 $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one instead.");
+                hasUnsplash = false;
             } else {
                 console.log(data);
                 Session.set('unsplash_img', data.id);
@@ -426,6 +432,7 @@ Template.editor.events({
         window.open('/blog/preview', '_blank');
     }
 });
+
 Template.announcementOptions.events({
     'click .btn-post': function (event, template) {
         let type = Session.get('announcementType');
@@ -738,9 +745,35 @@ function setEditorContent(json) {
             operationStack.push('.image-only');
             Session.set('announcementType', 'imageOnly');
         }else if(json.subType === 'textOnly'){
-
-        }else if(json.subType === 'textAndImage'){
-
+            $('#textOnlyHeadline').val(json.headline);
+            $('.announcement-text:eq(0)').val(json.content);
+            _.forEach(json.tags,function (item) {
+                $('.announce-tags:eq(1)').tagsinput('add', item);
+            });
+            $(".announcement-category:eq(1)").val(json.categories).trigger("change");
+            $(".clubs-category:eq(1)").val(json.clubs).trigger("change");
+            $('.startDate:eq(1)').datepicker('update',json.startDate);
+            $('.endDate:eq(1)').datepicker('update',json.endDate);
+            swapElements('.blog-drafts', '.text-only');
+            operationStack.push('.text-only');
+            Session.set('announcementType', 'textOnly');
+        }else if(json.subType === 'imageText'){
+            $('#textImageHeadline').val(json.headline);
+            if(json.imgId){
+                Session.set('newImageId', json.imgId);
+                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.')
+            }
+            $('.announcement-text:eq(1)').val(json.content);
+            $(".announcement-category:eq(2)").val(json.categories).trigger("change");
+            $(".clubs-category:eq(2)").val(json.clubs).trigger("change");
+            $('.startDate:eq(2)').datepicker('update',json.startDate);
+            $('.endDate:eq(2)').datepicker('update',json.endDate);
+            Session.set('priority', json.meta.priority);
+            $('.is-checked').removeClass('is-checked');
+            $(".priority-toggle[data-priority="+ Session.get('priority') +"]").addClass('is-checked');
+            swapElements('.blog-drafts', '.text-and-image');
+            operationStack.push('.text-and-image');
+            Session.set('announcementType', 'textAndImage');
         }
     }else{
 
@@ -857,9 +890,8 @@ function constructAnnouncementJson(type){
     } else if (type === "textOnly") {
         let headline = $('#textOnlyHeadline').val();
         let content = $('.announcement-text')[0].value;
-        let str = $(".announce-tags")[1].value;
         let separators = [' , ', ', ', ',', ' ,'];
-        let tags = str.split(new RegExp(separators.join('|'), 'g'));
+        let tags = $(".announce-tags")[1].value.split(new RegExp(separators.join('|'), 'g'));
 
         let options = $('.announcement-category')[1].options;
         let categories = [];
@@ -907,7 +939,7 @@ function constructAnnouncementJson(type){
             content: content,
             tags: tags || [],
             categories: categories || [],
-            club: clubList,
+            clubs: clubList,
             meta: {
                 hasUnsplash: hasUnsplash,
                 visibility: visibility
