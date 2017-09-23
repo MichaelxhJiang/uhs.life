@@ -38,9 +38,9 @@
                                     </a>
                                 </div>
                                 <div class="info-form" id="teachAssistInfo" hidden>
-                                    <form class="teach-assist-login">
-                                        <input type="text" name="teachUser" placeholder="Student Number">
-                                        <input type="password" name="teachPass" placeholder="Teach Assist Password">
+                                    <form class="teach-assist-login" id="teachAssistForm">
+                                        <input type="text" id="teachUser" placeholder="Student Number">
+                                        <input type="password" id="teachPass" placeholder="Teach Assist Password">
                                         <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="AUTHORIZE">
                                         <span>No, I do not want to connect my Teach Assist, please <a href="" id="skipNext">skip</a></span>
                                     </form>
@@ -56,11 +56,11 @@
                                 <div class="info-form" id="confirmDetails" hidden>
                                     <form class="form" id="finalForm">
                                         <label for="introName">Your Name</label>
-                                        <input type="text" value="Yonglin Wang" id="introName" disabled>
+                                        <input type="text" id="introName" disabled>
                                         <label for="introStudentNum">Your Student Number</label>
-                                        <input type="text" value="123456789" id="introStudentNum" disabled>
+                                        <input type="text" id="introStudentNum" disabled>
                                         <label for="introSubEmail">The email that we will be sending news letters to</label>
-                                        <input type="email" value="123456789@gapps.yrdsb.ca" id="introSubEmail">
+                                        <input type="email" id="introSubEmail" disabled>
                                         <div class="form-group">
                                             <input type='checkbox' class='ios8-switch' id='checkboxTerms'>
                                             <label for='checkboxTerms'>I have read and agreed with the Terms of Service</label>

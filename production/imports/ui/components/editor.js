@@ -592,6 +592,52 @@ Template.blogDraft.events({
             }
         })
     },
+    'click .btn-publish-draft': function (evt) {
+        let obj = $(evt.target).closest($('.draft-item'));
+        let id = obj.attr('id');
+        let json = Drafts.findOne({_id: id});
+        let type = json.subType;
+        if(json.type === 'blog'){
+            Meteor.call('posts.postBlog', json, function (err) {
+                if (err) {
+                    alertError('Post Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    Drafts.remove({_id: id});
+                }
+            })
+        }else{
+            if (type === "imageOnly") {
+                Meteor.call('posts.postImage', json, function (err) {
+                    if (err) {
+                        alertError('Posting Failed!', err.message);
+                    } else {
+                        alertSuccess('Success!', 'The post has been submitted.');
+                        Drafts.remove({_id: id});
+                    }
+                });
+
+            } else if (type === "textOnly") {
+                Meteor.call('posts.postText', json, function (err) {
+                    if (err) {
+                        alertError('Post Failed!', err.message);
+                    } else {
+                        alertSuccess('Success!', 'The post has been submitted.');
+                        Drafts.remove({_id: id});
+                    }
+                });
+            } else if (type === 'textAndImage') {
+                Meteor.call('posts.postTextImage', json, function (err) {
+                    if (err) {
+                        alertError('Post Failed!', err.message);
+                    } else {
+                        alertSuccess('Success!', 'The post has been submitted.');
+                        Drafts.remove({_id: id});
+                    }
+                });
+            }
+        }
+    },
     'click .draft-item': function (evt) {
         if(!$(evt.target).hasClass('btn-delete-draft') && !$(evt.target).hasClass('btn-publish-draft')){
             let obj = $(evt.target).closest($('.draft-item'));
@@ -775,8 +821,6 @@ function setEditorContent(json) {
             operationStack.push('.text-and-image');
             Session.set('announcementType', 'textAndImage');
         }
-    }else{
-
     }
 }
 function constructBlogJson(){
