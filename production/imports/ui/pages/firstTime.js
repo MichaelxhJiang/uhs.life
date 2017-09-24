@@ -20,8 +20,44 @@ Template.firstTime.events({
     },
     'click #skipEmail': function (evt,template) {
         evt.preventDefault();
+        const user = Meteor.user();
+        $('#introName').val(user.services.google.name);
+        $('#introStudentNum').val(user.profile.student_number);
+        $('#introSubEmail').val(user.profile.email);
         swapElements('#emailIntro', '#confirmIntro');
         swapElements('#subscriptionEmail', '#confirmDetails');
+    },
+    'submit #teachAssistForm': function (evt) {
+        evt.preventDefault();
+        const user = $('#teachUser').val();
+        const pass = $('#teachPass').val();
+        Meteor.call('getTeachAssistTokens', {student_number: user, password: pass}, function (err, data) {
+            if(err){
+                alertError("Failed to connect with teach assist", err.message)
+            }else{
+                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.token": data, "profile.private.tokenDate": new Date()}}, function (err) {
+                    if(err){
+                        alertError("Something went wrong", "You can connect your account anytime later");
+                        swapElements('#teachIntro', '#emailIntro');
+                        swapElements('#teachAssistInfo', '#subscriptionEmail');
+                    }else{
+                        Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.student_number": user}});
+                        Meteor.call('getTeachAssistCourses', data, function (err,data) {
+                            if(err){
+                                alertError("Something went wrong", "You can connect your account anytime later");
+                                swapElements('#teachIntro', '#emailIntro');
+                                swapElements('#teachAssistInfo', '#subscriptionEmail');
+                            }else{
+                                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.courses": data}});
+                                alertSuccess("Yeah!", 'We have successfully connected you and teach assist, however further login will be required since token may expire.');
+                                swapElements('#teachIntro', '#emailIntro');
+                                swapElements('#teachAssistInfo', '#subscriptionEmail');
+                            }
+                        })
+                    }
+                });
+            }
+        })
     },
     'submit #newsletterEmailForm': function (evt) {
         evt.preventDefault();
@@ -40,24 +76,25 @@ Template.firstTime.events({
                 }
             })
         }
-
     },
     'submit #finalForm': function (evt,template) {
         evt.preventDefault();
-        let id = Session.get('id');
-        Meteor.call('initUserProfile', id,{
-            studentNum: '123456',
-            token: 'asdhiouaSasdio231321'
-        }, function (err) {
-            if(err){
-                alert('error');
-            }else{
-                swapElements('.wizard-container', '.final-message');
-                setTimeout(function () {
-                    FlowRouter.go('/')
-                }, 3000);
-            }
-        });
+        if(document.getElementById('checkboxTerms').checked){
+            let id = Meteor.userId();
+            Meteor.call('initUserProfile', id, function (err) {
+                if(err){
+                    alertError('Error Initiating Your Account', err.message);
+                }else{
+                    swapElements('.wizard-container', '.final-message');
+                    setTimeout(function () {
+                        FlowRouter.go('/')
+                    }, 3000);
+                }
+            });
+        }else{
+            alertError("Oops.", "Please agree to the terms of service.")
+        }
+
     }
 });
 

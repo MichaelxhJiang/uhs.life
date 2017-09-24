@@ -1,7 +1,7 @@
 Meteor.methods({
     'getTeachAssistTokens' : function(json) {
         if (!(json.student_number && json.password)) {
-            throw new Meteor.error(500, "Need a student number and password");
+            throw new Meteor.Error(400, "Need a student number and password");
         }
         try {
             let response = HTTP.call("GET", "https://ta.yrdsb.ca/v4/students/json.php", {
@@ -19,12 +19,12 @@ Meteor.methods({
             return tokens;
         } catch (e) {
             console.log(e);
-            return -1;
+            Meteor.Error(403, "The username or password is incorrect")
         }
     },
     'getTeachAssistCourses' : function(json) {
         if (!(json.student_id && json.token)) {
-            throw new Meteor.error(500, "Need a student id and token");
+            throw new Meteor.Error(400, "Need a student id and token");
         }
         console.log("hello courses");
         try {

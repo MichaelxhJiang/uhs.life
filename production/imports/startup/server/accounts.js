@@ -1,5 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 
+Meteor.users.allow({
+   update: function () {
+       return true;
+   }
+});
+
 if(Meteor.isServer){
     Meteor.publish('allUsers', function usersPublication() {
         return Meteor.users.find({});
@@ -46,8 +52,6 @@ Meteor.methods({
     },
     'initUserProfile': function (id,info) {
         Meteor.users.update({_id: id}, {$set: {"profile.init": true}});
-        Meteor.users.update({_id: id}, {$set: {"profile.studentNum": info.studentNum}});
-        Meteor.users.update({_id: id}, {$set: {"profile.teachToken": info.token}});
         Meteor.users.update({_id: id}, {$set: {"profile.terms": true}});
     },
     'addUserToRole': function (userId, roles) {
