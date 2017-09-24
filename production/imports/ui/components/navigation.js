@@ -179,6 +179,31 @@ Template.navigation.events({
     }
 });
 
+Template.teachAssistPass.helpers({
+    'student_id': function () {
+        return Meteor.user().profile.student_number;
+    }
+});
+
+Template.teachAssistPass.events({
+   'submit #reLoginForm': function (evt) {
+       evt.preventDefault();
+       const pass = $('#reLoginPass').val();
+       Meteor.call('getTeachAssistTokens', {student_number: Meteor.user().profile.student_number, password: pass}, function (err, data) {
+           if(err){
+               alertError("Failed to connect with teach assist", err.message);
+           }else{
+               console.log(data);
+               Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.token": data, "profile.private.tokenDate": new Date()}}, function (err) {
+                   if(err){
+                       alertError("Something went wrong", err.message);
+                   }
+               });
+           }
+       })
+   }
+});
+
 setTitle = function (title) {
     $('.nav-title-text').html('<span>'+title+'</span>');
     $(".text-morph").Morphext(morphSettings);

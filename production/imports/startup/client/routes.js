@@ -146,13 +146,16 @@ loggedIn.route('/course/:courseId',{
         tokenJson.subject_id = params.courseId;
         console.log(tokenJson);
         Meteor.call('getTeachAssistCourseDetails', tokenJson, function (err, data) {
-            if(err){
+            if(err || data[0].ERROR){
                 console.log(err);
+                Modal.show('teachAssistPass');
             }else{
                 console.log(data);
+                window.scrollTo(0, 0);
+                BlazeLayout.render('applicationLayout',{main: 'course'})
             }
         });
-        BlazeLayout.render('applicationLayout',{main: 'course'})
+
     }
 });
 
