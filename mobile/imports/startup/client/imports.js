@@ -13,3 +13,4 @@ import '../../ui/components/topnav.js';
 import '../../ui/components/searchBar.js';
 import '../../api/algoliaAll.js';
 import '../../api/algoliaSearch.js';
+import './connectServer.js';

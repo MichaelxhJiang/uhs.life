@@ -13,7 +13,6 @@ service: "google",
 clientId: "152156454960-h8olc9vhu7juk77p71et1aekkr6qslm1.apps.googleusercontent.com",
 secret: "nL2ZzKMfrfwja7VHa9jmlhvU"
 });*/
-
 //on server restart, always re-run scheduler to reschedule all announcements
 //TODO
 Posts.find({'meta.approved':true, 'meta.screeningStage': 3}).forEach(function(obj) {

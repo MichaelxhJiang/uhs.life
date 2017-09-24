@@ -3,7 +3,10 @@ import { Posts } from './posts.js';
 
 if (Meteor.isServer) {
     Meteor.publish('posts', function postsPublication() {
-        return Posts.find({});
+        if (this.userId()) {
+            console.log(this.userId());
+            return Posts.find({});
+        }
     });
     Meteor.publish('announcements', function announcementsPublication(limit, userId) {
         let userLevel = '1';

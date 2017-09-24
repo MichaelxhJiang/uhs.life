@@ -4,7 +4,18 @@ import './login.html';
 
 Template.login.events({
     'click .loginButton': function (evt, template) {
-        FlowRouter.go("/home");
+
+        /*
+        Meteor.loginWithGoogle({
+            requestPermissions: ['profile','email'],
+        },(err)=>{
+            if(err){
+                console.log("Sorry...", err.message);
+            } else {
+                console.log("success");
+                FlowRouter.go("/home");
+            }
+        });*/
     },
     'click .back-button': function (evt, template) {
         FlowRouter.go("/");
