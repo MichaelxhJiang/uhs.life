@@ -3,13 +3,26 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Images } from '../imports/api/announcements/images.js';
 import '/imports/startup/client'
 import schedule from 'node-schedule';
+import { DDP } from 'meteor/ddp-client'
+
+//let remote = DDP.connect('http://localhost:3000/');
+let remote = DDP.connect('https://uhslifedemo2.herokuapp.com/');
+let Posts = new Meteor.Collection('posts', remote);
+
+remote.subscribe('posts', function() {
+   console.log("hello");
+    var posts = Posts.find();
+    console.log(JSON.stringify(Posts.find({}), null, 2));  // get 1
+});
 
 import './main.html';
 
 if(Meteor.isClient) {
+
    window.fbAsyncInit = function() {
+       /*
       //Setup Facebook API
-      setupFacebook();
+      //setupFacebook();
 
       //Setup Twitter API
       Meteor.call('setupTwitterAPI', function(response) {
@@ -28,7 +41,8 @@ if(Meteor.isClient) {
             var imgUrl = json.results[0].urls.regular;
             console.log("extracted url: " + imgUrl);
          });
-      });
+      });*/
+      //console.log(JSON.stringify(Posts.find({}), null, 2));
       //test mail chimp
       //Meteor.call('createCampaign', 'test email', 'bulletin');
 
