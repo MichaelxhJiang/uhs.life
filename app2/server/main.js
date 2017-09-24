@@ -69,7 +69,7 @@ Meteor.startup(() => {
     })*/
     Meteor.call('getTeachAssistTokens', {
         'student_number':'073212482',
-        'password': 'XXXXXXX'
+        'password': 'XXXXX'
     }, function(err, tokens) {
         if (err) {
             console.log(err);
