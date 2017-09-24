@@ -11,6 +11,11 @@ Meteor.methods({
                 }
             });
             let res = JSON.parse(response.content);
+
+            if (res[0].ERROR) {
+                Meteor.Error(400, res[0].ERROR);
+            }
+
             let id = res[0].student_id;
             let token = res[0].token;
 
@@ -35,6 +40,10 @@ Meteor.methods({
                 }
             });
 
+            if (JSON.parse(response.content)[0].ERROR) {
+                Meteor.Error(400, JSON.parse(response.content)[0].ERROR);
+            }
+
             return JSON.parse(response.content)[0].data[0].subjects;
 
         } catch (e) {
@@ -55,6 +64,11 @@ Meteor.methods({
                     "subject_id": json.subject_id
                 }
             });
+
+            if (JSON.parse(response.content)[0].ERROR) {
+                Meteor.Error(400, JSON.parse(response.content)[0].ERROR);
+            }
+
             return JSON.parse(response.content);
         } catch(e) {
             console.log(e);
