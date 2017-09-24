@@ -31,9 +31,15 @@ Template.firstTime.events({
         evt.preventDefault();
         const user = $('#teachUser').val();
         const pass = $('#teachPass').val();
+        $('.teach-assist-login').fadeOut('fast', function () {
+           $('.teachLoader').fadeIn('slow')
+        });
         Meteor.call('getTeachAssistTokens', {student_number: user, password: pass}, function (err, data) {
             if(err){
-                alertError("Failed to connect with teach assist", err.message)
+                alertError("Failed to connect with teach assist", err.message);
+                $('.teachLoader').fadeOut('fast', function () {
+                    $('.teach-assist-login').fadeIn('slow')
+                });
             }else{
                 Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.token": data, "profile.private.tokenDate": new Date()}}, function (err) {
                     if(err){

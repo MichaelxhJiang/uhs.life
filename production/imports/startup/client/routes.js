@@ -20,6 +20,9 @@ let loggedIn = FlowRouter.group({
                     if(userSub.ready()){
                         Session.set('name', user.services.google.name);
                         Session.set('id', user._id);
+                        Session.set('courses',user.profile.private.courses);
+                        Session.set('token',user.profile.private.token);
+                        Session.set('tokenExpiry',user.profile.private.tokenDate);
                         Session.set('user_img', user.services.google.picture);
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
@@ -48,6 +51,9 @@ let admin = FlowRouter.group({
                     if(userSub.ready()){
                         Session.set('name', user.services.google.name);
                         Session.set('id', user._id);
+                        Session.set('courses',user.profile.private.courses);
+                        Session.set('tokenExpiry',user.profile.private.tokenDate);
+                        Session.set('token',user.profile.private.token);
                         Session.set('user_img', user.services.google.picture);
                         if(!user.profile.init){
                             FlowRouter.go('/first')
@@ -114,7 +120,6 @@ loggedIn.route('/blog/:postId',{
         if(params.postId === 'preview'){
             Session.setPersistent('post_data', Session.get('preview_json'))
         }else{
-            console.log(params.postId);
             Tracker.autorun(function () {
                let post = Posts.findOne({_id: params.postId});
                if(post){
@@ -135,8 +140,18 @@ admin.route('/dashboard',{
     }
 });
 
-loggedIn.route('/course',{
-    action: function () {
+loggedIn.route('/course/:courseId',{
+    action: function (params) {
+        let tokenJson = Session.get('token');
+        tokenJson.subject_id = params.courseId;
+        console.log(tokenJson);
+        Meteor.call('getTeachAssistCourseDetails', tokenJson, function (err, data) {
+            if(err){
+                console.log(err);
+            }else{
+                console.log(data);
+            }
+        });
         BlazeLayout.render('applicationLayout',{main: 'course'})
     }
 });
@@ -183,3 +198,10 @@ loggedIn.route('/first', {
     },
     name: 'first'
 });
+
+checkTokenExpiry = function () {
+    const now = new Date();
+    let diff = Math.abs(now - Session.get('tokenExpiry'));
+    let minutes = Math.floor((diff/1000)/60);
+    return minutes < 15;
+}

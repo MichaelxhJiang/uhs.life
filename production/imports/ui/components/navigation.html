@@ -49,10 +49,9 @@
             {{#if isStudent}}
                 <a href="" id="academics"><div class="expand-text">Academics</div><i class="fa fa-times academics-icon"></i></a>
                 <ul class="course-list">
-                    <li><a href="">ICS4U1</a></li>
-                    <li><a href="">TEJ3M1</a></li>
-                    <li><a href="">ENG4U1</a></li>
-                    <li><a href="">MDM4U1</a></li>
+                    {{#each courses}}
+                        <li><a href="/course/{{subject_id}}">{{course}}<i class="{{state}}">{{mark}}</i></a></li>
+                    {{/ each}}
                 </ul>
                 <a href="">Suggestions to Admin</a>
             {{/ if}}

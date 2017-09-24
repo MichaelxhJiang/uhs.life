@@ -44,7 +44,7 @@ Meteor.methods({
     },
     'getTeachAssistCourseDetails' : function(json) {
         if (!(json.student_id && json.token && json.subject_id)) {
-            throw new Meteor.error(500, "Need a student id and token and subject id");
+            throw new Meteor.error(400, "Need a student id and token and subject id");
         }
         console.log("hello courses details");
         try {

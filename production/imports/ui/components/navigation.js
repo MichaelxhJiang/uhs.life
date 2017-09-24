@@ -55,6 +55,22 @@ Template.navigation.helpers({
             }
 
         }
+    },
+    'courses': function () {
+        return Session.get('courses');
+    },
+    'state': function () {
+        const now = new Date();
+        let diff = Math.abs(now - Session.get('tokenExpiry'));
+        let minutes = Math.floor((diff/1000)/60);
+        return (minutes > 15) ? 'expired' : 'fine'
+    },
+    'mark': function () {
+        let mark = this.mark;
+        if(mark.length > 6){
+            mark = "N/A"
+        }
+        return mark;
     }
 });
 
