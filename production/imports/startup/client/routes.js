@@ -163,6 +163,13 @@ loggedIn.route('/course/:courseId',{
     }
 });
 
+loggedIn.route( '/big-picture', {
+    action: function() {
+        BlazeLayout.render('applicationLayout', {main: 'bigPicture'});
+    },
+    name: 'bigPicture' // Optional route name.
+});
+
 loggedIn.route( '/', {
     action: function() {
         Session.set("DocumentTitle", "Stream | uhs.life");

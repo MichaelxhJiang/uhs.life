@@ -16,6 +16,7 @@ import '../../ui/components/editor.js';
 import '../../ui/pages/course.js';
 import '../../ui/pages/dashboard.js'
 import '../../ui/pages/blogs.js'
+import '../../ui/pages/bigPicture.js'
 
 //This file defines functions to post and setup the facebook API
 import './facebook.js';

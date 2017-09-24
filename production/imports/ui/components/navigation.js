@@ -197,8 +197,15 @@ Template.teachAssistPass.events({
                    if(err){
                        alertError("Something went wrong", err.message);
                    }else{
-                       Modal.hide('teachAssistPass');
-                       FlowRouter.reload();
+                       Meteor.call('getTeachAssistCourses', data, function (err,data) {
+                           if(err){
+                               alertError("Something went wrong", "");
+                           }else{
+                               Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.courses": data}});
+                               Modal.hide('teachAssistPass');
+                               FlowRouter.reload();
+                           }
+                       });
                    }
                });
            }

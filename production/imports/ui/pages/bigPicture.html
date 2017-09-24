@@ -1,0 +1,26 @@
+<template name="bigPicture">
+    <div class="flickity flickity-fullscreen">
+        {{#each announcement}}
+            <div class="gallery-cell">
+                {{> bigPictureItem}}
+            </div>
+        {{/ each}}
+    </div>
+    {{> bottomBar}}
+</template>
+
+<template name="bigPictureItem">
+    <h1>{{headline}}</h1>
+    <img src="{{imageLink}}" />
+    <br>
+    <h3 class="mt-30">{{content}}</h3>
+</template>
+
+<template name="bottomBar">
+    <nav class="navbar-fixed-bottom bottom-bar">
+        <div class="bottom-inner">
+            <h2><i id="clock"></i> - <i id="rotatingMessage">All visitors please report to main office!</i></h2>
+        </div>
+
+    </nav>
+</template>
