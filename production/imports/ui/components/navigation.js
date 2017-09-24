@@ -193,10 +193,12 @@ Template.teachAssistPass.events({
            if(err){
                alertError("Failed to connect with teach assist", err.message);
            }else{
-               console.log(data);
                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.token": data, "profile.private.tokenDate": new Date()}}, function (err) {
                    if(err){
                        alertError("Something went wrong", err.message);
+                   }else{
+                       Modal.hide('teachAssistPass');
+                       FlowRouter.reload();
                    }
                });
            }

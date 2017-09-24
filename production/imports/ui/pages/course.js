@@ -31,6 +31,12 @@ Template.course.onRendered(function () {
     $('.insights').hide();
 });
 
+Template.course.helpers({
+   'assesment': function () {
+       return Session.get('courseData').data.assesment
+   }
+});
+
 Template.course.events({
    'click .performance': function (evt, template) {
        let choice = $(evt.target).closest($('.performance'));

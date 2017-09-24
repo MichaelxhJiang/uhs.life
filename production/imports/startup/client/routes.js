@@ -19,7 +19,7 @@ let loggedIn = FlowRouter.group({
                     let user = Meteor.user();
                     if(userSub.ready()){
                         Session.set('name', user.services.google.name);
-                        Session.set('id', user._id);
+                        Session.set('id', user.profile.id);
                         Session.set('courses',user.profile.private.courses);
                         Session.set('token',user.profile.private.token);
                         Session.set('tokenExpiry',user.profile.private.tokenDate);
@@ -50,7 +50,7 @@ let admin = FlowRouter.group({
                     let user = Meteor.user();
                     if(userSub.ready()){
                         Session.set('name', user.services.google.name);
-                        Session.set('id', user._id);
+                        Session.set('id', user.profile.id);
                         Session.set('courses',user.profile.private.courses);
                         Session.set('tokenExpiry',user.profile.private.tokenDate);
                         Session.set('token',user.profile.private.token);
@@ -146,11 +146,15 @@ loggedIn.route('/course/:courseId',{
         tokenJson.subject_id = params.courseId;
         console.log(tokenJson);
         Meteor.call('getTeachAssistCourseDetails', tokenJson, function (err, data) {
-            if(err || data[0].ERROR){
-                console.log(err);
-                Modal.show('teachAssistPass');
+            if(err || data.ERROR){
+                if(err.error === 400){
+                    Modal.show('teachAssistPass');
+                }else{
+                    alertError('Something went wrong', 'We are having problems talking to teach assist. You can visit ta.yrdsb.ca for more details on your mark.')
+                }
             }else{
                 console.log(data);
+                Session.set('courseData', data)
                 window.scrollTo(0, 0);
                 BlazeLayout.render('applicationLayout',{main: 'course'})
             }
