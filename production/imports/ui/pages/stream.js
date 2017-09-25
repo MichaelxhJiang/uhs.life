@@ -44,7 +44,7 @@ Template.stream.onCreated(function () {
     } else if (thehours >= 17 && thehours < 24) {
         greeting = evening;
     }
-    Session.set('navTitle', greeting + ' ;; This is Your Stream ;; ' + moment().format("MMMM Do YYYY"));
+    setTitle(greeting + ' ;; This is Your Stream ;; ' + moment().format("MMMM Do YYYY"));
 });
 
 Template.stream.helpers({

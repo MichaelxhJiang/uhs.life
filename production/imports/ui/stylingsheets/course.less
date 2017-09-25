@@ -14,6 +14,28 @@
   background-attachment: fixed;
   display: flex;
   align-items: center;
+  background: linear-gradient(231deg, #4dd0e1, #ba68c8);
+  background-size: 400% 400%;
+
+  -webkit-animation: AnimationName 31s ease infinite;
+  -moz-animation: AnimationName 31s ease infinite;
+  animation: AnimationName 31s ease infinite;
+
+  @-webkit-keyframes AnimationName {
+    0%{background-position:0% 94%}
+    50%{background-position:100% 7%}
+    100%{background-position:0% 94%}
+  }
+  @-moz-keyframes AnimationName {
+    0%{background-position:0% 94%}
+    50%{background-position:100% 7%}
+    100%{background-position:0% 94%}
+  }
+  @keyframes AnimationName {
+    0%{background-position:0% 94%}
+    50%{background-position:100% 7%}
+    100%{background-position:0% 94%}
+  }
 }
 .sections-container{
   width: 70%;

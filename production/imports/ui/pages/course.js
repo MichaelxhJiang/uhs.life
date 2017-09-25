@@ -3,28 +3,28 @@ import '../lib/alert.js'
 
 import './course.html';
 
-Template.course.onCreated(function () {
-    Session.set('navTitle', 'TEJ4M1 | Grade 12 Computer Engineering ;; You Received: ' + '90%')
-});
-
 Template.course.onRendered(function () {
-    /*alertConfirm("YES!", "This is a success",function (result) {
-        console.log(result);
-    });*/
+    Tracker.autorun(function () {
+        let sub = Meteor.subscribe('allCourses',1000);
+        if(sub.ready()){
+            let code = Session.get('courseData').data.course.substring(0,Session.get('courseData').data.course.indexOf("-"));
+            let item = Courses.findOne({
+                code: code
+            });
+            setTitle(code + ' | ' + item.name +' | You Received: ' + Session.get('displayMark'));
+        }
+    });
     $( document ).ready(function() {
-        setProgressBar('90%');
+        setProgressBar(Session.get('displayMark').substring(1));
+
         drawChart('knowledgeChart', 80);
         drawChart('thinkingChart', 75);
         drawChart('communicationChart', 90);
         drawChart('applicationChart', 60);
         $(document).scroll(function () {
-            $('#test1').animate({ width: '80%' }, 1500);
-            $('#test2').animate({ width: '90%' }, 1500);
-            $('#test3').animate({ width: '95%' }, 1500);
-            $('#test4').animate({ width: '60%' }, 1500);
-            $('#test5').animate({ width: '50%' }, 1500);
-            $('#test6').animate({ width: '100%' }, 1500);
-            $('#test7').animate({ width: '78%' }, 1500);
+            $('.performance-progress').each(function () {
+                $(this).animate({ width: $(this).attr('data-progress') }, 1500);
+            })
         });
         $('.performance-presenter').hide();
     });
@@ -32,43 +32,48 @@ Template.course.onRendered(function () {
 });
 
 Template.course.helpers({
-   'assesment': function () {
-       return Session.get('courseData').data.assesment
-   }
+    'assessment': function () {
+        let arr = Session.get('courseData').data.assessment;
+        let newArr = [];
+        while(arr.length) newArr.push(arr.splice(0,2));
+        return newArr
+    },
+    'percentage': function () {
+        return (Math.round(((this.mark / this.outOf) * 100) * 10) / 10) + "%"
+    }
 });
 
 Template.course.events({
-   'click .performance': function (evt, template) {
-       let choice = $(evt.target).closest($('.performance'));
-       if(!choice.hasClass('not-available')){
-           let data = $(evt.target).closest($('.assessment-performance')).find($('.performance-presenter'));
-           let section = data.find('.presenter-section');
+    'click .performance': function (evt, template) {
+        let choice = $(evt.target).closest($('.performance'));
+        if(!choice.hasClass('not-available')){
+            let data = $(evt.target).closest($('.assessment-performance')).find($('.performance-presenter'));
+            let section = data.find('.presenter-section');
+            if(choice.hasClass('knowledge')){
+                data.css({
+                    background: '#FFC107'
+                });
+                section.text('Knowledge');
+            }else if(choice.hasClass('thinking')){
+                data.css({
+                    background: '#4CAF50'
+                });
+                section.text('Thinking');
+            }else if(choice.hasClass('communication')){
+                data.css({
+                    background: '#9C27B0'
+                });
+                section.text('Communication');
+            }else if(choice.hasClass('application')){
+                data.css({
+                    background: '#FF9800'
+                });
+                section.text('Application');
+            }
+            data.slideDown('fast');
+        }
 
-           if(choice.hasClass('knowledge')){
-               data.css({
-                   background: '#FFC107'
-               });
-               section.text('Knowledge');
-           }else if(choice.hasClass('thinking')){
-               data.css({
-                   background: '#4CAF50'
-               });
-               section.text('Thinking');
-           }else if(choice.hasClass('communication')){
-               data.css({
-                   background: '#9C27B0'
-               });
-               section.text('Communication');
-           }else if(choice.hasClass('application')){
-               data.css({
-                   background: '#FF9800'
-               });
-               section.text('Application');
-           }
-           data.slideDown('fast');
-       }
-
-   },
+    },
     'click .close-presenter': function (evt, template) {
         let data = $(evt.target).closest($('.performance-presenter'));
         data.slideUp('fast');

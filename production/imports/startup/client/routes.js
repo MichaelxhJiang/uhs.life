@@ -154,7 +154,19 @@ loggedIn.route('/course/:courseId',{
                 }
             }else{
                 console.log(data);
-                Session.set('courseData', data)
+                var a = Meteor.user().profile.private.courses;
+                var index = 0;
+                var found;
+                var entry;
+                for (index = 0; index < a.length; ++index) {
+                    entry = a[index];
+                    if (entry.subject_id === params.courseId) {
+                        found = entry;
+                        break;
+                    }
+                }
+                Session.set('displayMark', found.mark);
+                Session.set('courseData', data);
                 window.scrollTo(0, 0);
                 BlazeLayout.render('applicationLayout',{main: 'course'})
             }
