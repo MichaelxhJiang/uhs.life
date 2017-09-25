@@ -6,7 +6,7 @@ FlowRouter.route( '/', {
     action: function() {
         var authentication = 0;
         //parseInt(Cookie.get('auth'));
-        if(authentication != 1){
+        if(true){
             Session.set("DocumentTitle","Welcome to uhs.life");
             BlazeLayout.render( 'applicationLayout', { main: 'base' } );
         }else{

@@ -17,7 +17,7 @@ connectToExistingBackend = function(url) {
     // we need re-declare the users collection so Meteor knows to use the remote one
     //
     Meteor.users = new Meteor.Collection('users');
-    console.log("connected");
+    console.log("connected");/*
     remote.call('setupUnsplash', function(err, response) {
         if (err) {
             console.log(err);
@@ -30,7 +30,7 @@ connectToExistingBackend = function(url) {
                 }
             })
         }
-    })
+    })*/
     //
     // now that we have our act together, try to re-login
     // unfortunately Accounts seems to have already run before

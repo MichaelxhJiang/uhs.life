@@ -52,7 +52,22 @@ Meteor.methods({
         if (JSON.parse(response.content)[0].ERROR) {
             throw new Meteor.Error(400, JSON.parse(response.content)[0].ERROR);
         }
-        console.log(JSON.parse(response.content)[0]);
-        return JSON.parse(response.content)[0];
+        //console.log(JSON.parse(response.content)[0]);
+
+        let preParse = JSON.parse(response.content)[0];
+        let postParse = JSON.parse(response.content)[0];
+
+        postParse.data.assessment = [];
+
+        let cnt = 0;
+        _.each(preParse.data.assessment.data, function(k, v) {
+            if (v === 'categories') {
+                postParse.categories = k;
+            } else {
+                postParse.data.assessment[cnt++] = k;
+            }
+        })
+
+        return postParse;
     }
 });

@@ -16,6 +16,7 @@ Template.login.events({
                 FlowRouter.go("/home");
             }
         });*/
+        FlowRouter.go("/home");
     },
     'click .back-button': function (evt, template) {
         FlowRouter.go("/");
