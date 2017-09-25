@@ -5,6 +5,18 @@ import './bigPicture.html'
 import { Images } from '../../api/images/images.js';
 import flickity from 'flickity';
 import imagesLoaded from 'imagesloaded';
+
+let morphSettings = {
+    // The [in] animation type. Refer to Animate.css for a list of available animations.
+    animation: "flipInX",
+    // An array of phrases to rotate are created based on this separator. Change it if you wish to separate the phrases differently (e.g. So Simple | Very Doge | Much Wow | Such Cool).
+    separator: ";;",
+    // The delay between the changing of each phrase in milliseconds.
+    speed: 8000,
+    complete: function () {
+        // Called after the entrance animation is executed.
+    }
+};
 Template.bigPicture.onRendered(function () {
     Tracker.autorun(function () {
         let newsSub = Meteor.subscribe('announcements', 10, Meteor.userId());
@@ -15,7 +27,7 @@ Template.bigPicture.onRendered(function () {
                 contain: true,
                 imagesLoaded: true,
                 lazyLoad: true,
-                autoPlay: 1000,
+                autoPlay: 5000,
                 pageDots: false,
                 prevNextButtons: false,
                 pauseAutoPlayOnHover: false,
@@ -45,20 +57,12 @@ Template.bigPictureItem.helpers({
 Template.bottomBar.onRendered(function () {
     $(document).ready(function() {
         displayTime();
+        $("#rotatingMessage").Morphext(morphSettings);
     });
 });
 
 function displayTime() {
-    var time = moment().format('hh:mm:ss');
+    var time = moment().format('h:mm');
     $('#clock').html(time);
     setTimeout(displayTime, 1000);
 }
-var terms = ["term 1", "term 2", "term 3"]; //array of terms to rotate
-
-function rotateTerm() {
-    var ct = $("#rotate").data("term") || 0;
-    $("#rotate").data("term", ct == terms.length -1 ? 0 : ct + 1).text(terms[ct])
-        .fadeIn().delay(2000).fadeOut(200, rotateTerm);
-}
-​​​​​​​​​​​​​​​​​​​$(rotateTerm); //start it on document.ready
-​
