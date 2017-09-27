@@ -3,8 +3,8 @@ import { Posts } from './posts.js';
 
 if (Meteor.isServer) {
     Meteor.publish('posts', function postsPublication() {
-        if (this.userId()) {
-            console.log(this.userId());
+        if (this.userId) {
+            console.log(this.userId);
             return Posts.find({});
         }
     });
