@@ -8,11 +8,11 @@ if (Meteor.isServer) {
             return Posts.find({});
         }
     });
-    Meteor.publish('announcements', function announcementsPublication(limit, userId) {
+    Meteor.publish('announcements', function announcementsPublication(limit) {
         let userLevel = '1';
-        if(Roles.userIsInRole(userId, 'student')){
+        if(Roles.userIsInRole(this.userId, 'student')){
             userLevel = '2';
-        }else if(Roles.userIsInRole(userId, ['teacher', 'admin'])){
+        }else if(Roles.userIsInRole(this.userId, ['teacher', 'admin'])){
             userLevel = '3';
         }
         return Posts.find({
@@ -34,6 +34,14 @@ if (Meteor.isServer) {
             limit: limit
         });
     });
+    Meteor.publish('postsByCourse', function (code, limit) {
+        return Posts.find({
+            'type': 'blog',
+            'organizationsValues': code
+        },{
+            limit: limit
+        });
+    })
 }
 
 Meteor.methods({

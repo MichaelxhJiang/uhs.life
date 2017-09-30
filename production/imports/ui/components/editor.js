@@ -15,6 +15,7 @@ Template.editor.onRendered(function () {
 Template.blogDraft.onRendered(function () {
     Tracker.autorun(function () {
         Meteor.subscribeWithPagination('drafts', 10, Meteor.userId())
+        Meteor.subscribe('images')
     })
 });
 
@@ -212,7 +213,7 @@ Template.blogDraft.helpers({
     'imageLink': function () {
         if(this.unsplash){
             return this.unsplash.urls.full;
-        }else if(this.imgId){
+        }else{
             try{
                 return Images.findOne({_id: this.imgId}).url();
             }catch(e){

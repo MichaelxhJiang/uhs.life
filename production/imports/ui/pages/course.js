@@ -1,29 +1,31 @@
 import '../lib/charting.js'
 import '../lib/alert.js'
-
+import {Images} from '../../api/images/images.js';
 import './course.html';
 
 Template.course.onRendered(function () {
     Tracker.autorun(function () {
         let sub = Meteor.subscribe('allCourses',1000);
+        Meteor.subscribe('images')
         if(sub.ready()){
             let code = Session.get('courseData').data.course.substring(0,Session.get('courseData').data.course.indexOf("-"));
             let item = Courses.findOne({
                 code: code
             });
             setTitle(code + ' | ' + item.name +' | You Received: ' + Session.get('displayMark'));
+            Session.set('courseCode',code);
+            Meteor.subscribe('postsByCourse',code,10);
         }
     });
     $( document ).ready(function() {
         setProgressBar(Session.get('displayMark').substring(1));
-
         drawChart('knowledgeChart', 80);
         drawChart('thinkingChart', 75);
         drawChart('communicationChart', 90);
         drawChart('applicationChart', 60);
         $(document).scroll(function () {
             $('.performance-progress').each(function () {
-                $(this).animate({ width: $(this).attr('data-progress') }, 1500);
+                $(this).css({ width: $(this).attr('data-progress') });
             })
         });
         $('.performance-presenter').hide();
@@ -40,6 +42,20 @@ Template.course.helpers({
     },
     'percentage': function () {
         return (Math.round(((this.mark / this.outOf) * 100) * 10) / 10) + "%"
+    },
+    'readings': function () {
+        return Posts.find({
+            'type': 'blog',
+            organizationsValues: Session.get('courseCode')
+        });
+    },
+    'imageLink': function () {
+        if(this.unsplash){
+            return this.unsplash.urls.full;
+        }else if(this.imgId){
+            let id = this.imgId;
+            return Images.findOne({_id: id}).url();
+        }
     }
 });
 
@@ -79,15 +95,18 @@ Template.course.events({
         data.slideUp('fast');
     },
     'click .filter-btn': function (evt) {
-        let filterValue = $(evt.target).attr('data-tab');
+        let filterValue = '.' + $(evt.target).attr('data-tab');
+        let currentValue = '.' + $('.is-checked').attr('data-tab');
         $('.is-checked').removeClass('is-checked');
         $(evt.target).addClass('is-checked');
-        if(filterValue === 'insights'){
-            $('.assessments').fadeOut('fast');
+        if(filterValue === '.insights'){
+            $(currentValue).fadeOut('fast');
             $('.insights').fadeIn('slow');
+            drawPolyChart('markByAssignment',['a','b','c','d'], [90, 88, 85, 99]);
+            drawPerformChart('sectionMarkByAssignment',['a','b','c','d'],[90, 88, 85, 99],[88, 90, 99, 78],[100,89,67,88],[99,99,89,86])
         }else{
-            $('.insights').fadeOut('fast');
-            $('.assessments').fadeIn('slow');
+            $(currentValue).fadeOut('fast');
+            $(filterValue).fadeIn('slow');
         }
     }
 });

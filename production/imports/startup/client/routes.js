@@ -18,10 +18,9 @@ let loggedIn = FlowRouter.group({
                     let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
                     if(userSub.ready()){
-                        Session.set('name', user.services.google.name);
-                        Session.set('id', user.profile.id);
+                        Session.setPersistent('name', user.services.google.name);
                         Session.set('courses',user.profile.private.courses);
-                        Session.set('token',user.profile.private.token);
+                        Session.setPersistent('token',user.profile.private.token);
                         Session.set('tokenExpiry',user.profile.private.tokenDate);
                         Session.set('user_img', user.services.google.picture);
                         if(!user.profile.init){
@@ -144,7 +143,6 @@ loggedIn.route('/course/:courseId',{
     action: function (params) {
         let tokenJson = Session.get('token');
         tokenJson.subject_id = params.courseId;
-        console.log(tokenJson);
         Meteor.call('getTeachAssistCourseDetails', tokenJson, function (err, data) {
             if(err || data.ERROR){
                 if(err.error === 400){
@@ -165,8 +163,8 @@ loggedIn.route('/course/:courseId',{
                         break;
                     }
                 }
-                Session.set('displayMark', found.mark);
-                Session.set('courseData', data);
+                Session.setPersistent('displayMark', found.mark);
+                Session.setPersistent('courseData', data);
                 window.scrollTo(0, 0);
                 BlazeLayout.render('applicationLayout',{main: 'course'})
             }

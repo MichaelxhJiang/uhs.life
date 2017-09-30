@@ -18,7 +18,6 @@ Template.stream.onRendered(function () {
         let postSub = Meteor.subscribe('announcements', 10, Meteor.userId());
         let categorySub = Meteor.subscribe('categories');
         let imageSub = Meteor.subscribe('images');
-        //Meteor.subscribe('allUsersLite');
         if(postSub.ready()){
             $('.grid').isotope(isotopeSettings);
             $('.grid').imagesLoaded().progress( function() {
@@ -26,25 +25,7 @@ Template.stream.onRendered(function () {
             });
         }
     });
-});
-
-Template.stream.onCreated(function () {
-    let greeting = "";
-    let thehours = new Date().getHours();
-    let morning = ('Good morning');
-    let afternoon = ('Good afternoon');
-    let evening = ('Good Evening');
-
-    if (thehours >= 0 && thehours < 12) {
-        greeting = morning;
-
-    } else if (thehours >= 12 && thehours < 17) {
-        greeting = afternoon;
-
-    } else if (thehours >= 17 && thehours < 24) {
-        greeting = evening;
-    }
-    setTitle(greeting + ' ;; This is Your Stream ;; ' + moment().format("MMMM Do YYYY"));
+    setTitle('This is your stream');
 });
 
 Template.stream.helpers({
@@ -58,7 +39,6 @@ Template.stream.helpers({
         });
         query.observeChanges({
             added: function(id, fields) {
-
                 setTimeout(function () {
                     $('.grid').isotope('reloadItems');
                     $('.grid').isotope()
