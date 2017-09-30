@@ -69,7 +69,7 @@ Template.navigation.events({
         let width = parseInt(sideNav.css('margin-left'));
         if(width !== 0) {
             sideNav.css('margin-left', '0');
-            sideNavPrompt.html("<i class='fa fa-times'></i> CLOSE");
+            sideNavPrompt.html("<i class='fa fa-times'></i> <span class='hidden-xs hidden-sm'>CLOSE</span>");
             $('.top-nav').css('margin-left', '+=320px');
             $('.main').css('margin-left', '+=320px');
             $('.nav-overlay').fadeIn('fast');
@@ -77,7 +77,7 @@ Template.navigation.events({
             sideNav.css('margin-left','-320px');
             $('.top-nav').css('margin-left','-=320px');
             $('.main').css('margin-left','-=320px');
-            sideNavPrompt.html("<i class='fa fa-bars'></i> MENU");
+            sideNavPrompt.html("<i class='fa fa-bars'></i> <span class='hidden-xs hidden-sm'>MENU</span>");
             $('.nav-overlay').fadeOut('fast');
         }
     },
@@ -87,7 +87,7 @@ Template.navigation.events({
         let width = parseInt(sideNav.css('margin-left'));
         if(width !== 0) {
             sideNav.css('margin-left', '0');
-            sideNavPrompt.html("<i class='fa fa-times'></i> CLOSE");
+            sideNavPrompt.html("<i class='fa fa-times'></i> <span class='hidden-xs hidden-sm'>CLOSE</span>");
             $('.top-nav').css('margin-left', '+=320px');
             $('.main').css('margin-left', '+=320px');
             $('.nav-overlay').fadeIn('fast');
@@ -95,7 +95,7 @@ Template.navigation.events({
             sideNav.css('margin-left','-320px');
             $('.top-nav').css('margin-left','-=320px');
             $('.main').css('margin-left','-=320px');
-            sideNavPrompt.html("<i class='fa fa-bars'></i> MENU");
+            sideNavPrompt.html("<i class='fa fa-bars'></i> <span class='hidden-xs hidden-sm'>MENU</span>");
             $('.nav-overlay').fadeOut('fast');
         }
     },
@@ -107,18 +107,15 @@ Template.navigation.events({
         if(!searchBox.is(':visible')){
             searchBox.fadeIn('fast');
             $('.search-result').show();
-            searchContent.fadeIn('fast');
+            searchContent.fadeIn("<i class='fa fa-times'></i> <span class='hidden-sm hidden-xs'>SEARCH</span>");
             prompt.html("CLOSE");
             searchBox.typed({
                 strings: [
-                    "Type something here to Search.",
-                    "Ask us what you want to know,",
-                    "We'll try to find an answer.",
-                    "\"Volleyball practice schedule\"",
+                    "\"Volleyball\"",
                     "\"Octoberfest\"",
                     "\"Guidance\"",
-                    "\"Quote of the day\"",
-                    "\"usac\"",
+                    "\"DECA\"",
+                    "\"USAC\"",
                     "\"Who made this app?\""
                 ],
                 typeSpeed: 40,
@@ -134,7 +131,7 @@ Template.navigation.events({
             searchBox.fadeOut('fast');
             $('.search-result').hide();
             searchContent.fadeOut('fast');
-            prompt.html("SEARCH");
+            prompt.html("<i class='fa fa-search'></i> <span class='hidden-sm hidden-xs'>SEARCH</span>");
             $('html, body').css({
                 overflow: 'auto',
             });

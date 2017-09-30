@@ -26,9 +26,7 @@
   bottom: 0;
   z-index: 100;
   padding-bottom: 55px;
-  padding-left: 15px;
-  padding-right: 15px;
-  width: 60%;
+  width: 100%;
   ul{
     padding-left: 5%;
     font-family: "Roboto", sans-serif;
@@ -48,6 +46,8 @@
     -moz-transition: all 0.3s ease 0s;
     -webkit-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
+    border:none;
+    box-shadow: none;
     &:hover,&:focus,&:active{
       color: #555555;
       text-decoration: none;
@@ -166,5 +166,30 @@ input {
 @media screen and (max-width: 1366px){
   .jumbotron-title{
     font-size: 25px;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .login-with-google{
+    width: 90%;
+  }
+  .btn-login{
+    font-size: 15px !important;
+  }
+  .branding{
+    width: 100%;
+    .life-brand{
+      padding-left: 0;
+    }
+  }
+  .login-menu{
+    width: 100%;
+    ul{
+      font-size: 14px;
+    }
+    li{
+      float: left;
+      padding-right: 30px;
+    }
   }
 }

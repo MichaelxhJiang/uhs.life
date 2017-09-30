@@ -12,7 +12,7 @@ Template.course.onRendered(function () {
             let item = Courses.findOne({
                 code: code
             });
-            setTitle(code + ' | ' + item.name +' | You Received: ' + Session.get('displayMark'));
+            setTitle(item.name +' | ' + Session.get('displayMark'));
             Session.set('courseCode',code);
             Meteor.subscribe('postsByCourse',code,10);
         }
@@ -56,6 +56,9 @@ Template.course.helpers({
             let id = this.imgId;
             return Images.findOne({_id: id}).url();
         }
+    },
+    'isMobile': function () {
+        return $( window ).width() <= 768;
     }
 });
 

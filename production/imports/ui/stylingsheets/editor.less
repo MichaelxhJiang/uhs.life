@@ -12,6 +12,7 @@
   margin-bottom: 0;
   position: fixed;
   right: 0;
+  z-index: 5;
 }
 .editor-title{
   text-align: center;
@@ -30,7 +31,9 @@
   font-family: "Roboto", sans-serif;
   font-weight: 300;
   font-size: 68px;
-
+  top: 0;
+  position: fixed;
+  z-index: 7;
   cursor: pointer;
   color: #777777;
   -webkit-transition: all 0.3s;
@@ -52,10 +55,12 @@
 .editor-close{
   float: right;
   margin-right: 3%;
+  right: 0;
 }
 .editor-back{
   float: left;
   margin-left: 3%;
+  left: 0;
 }
 .publish{
   background-color: @primary;
@@ -399,6 +404,14 @@ i.material-icons:hover {
     left:-1px;
   }
 }
+@media screen and (max-width: 768px) {
+  i.material-icons {
+    padding: 15px;
+    margin: 25px;
+    font-size: 4rem;
+  }
+}
+
 
 .fr-box.fr-basic.fr-top .fr-wrapper{
   box-shadow: none;
