@@ -7,15 +7,15 @@ export const Images = new FS.Collection("images", {
 //Set the permissions for Images collection
 Images.allow({
     insert: function(){
-       return true;
+       return Roles.userIsInRole(this.userId, ['teacher', 'admin']);
     },
     update: function(){
-       return true;
+       return Roles.userIsInRole(this.userId, ['teacher', 'admin']);
     },
     remove: function(){
-       return true;
+       return Roles.userIsInRole(this.userId, ['teacher', 'admin']);
     },
     download: function(){
-       return true;
+       return Roles.userIsInRole(this.userId, ['teacher', 'admin']);
     }
 });
