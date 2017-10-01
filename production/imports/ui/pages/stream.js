@@ -25,7 +25,7 @@ Template.stream.onRendered(function () {
             });
         }
     });
-    setTitle('This is your stream');
+    setTitle('Stream');
 });
 
 Template.stream.helpers({

@@ -134,11 +134,10 @@
 .side-nav{
   height: 100%;
   width: 320px;
-  margin-left: -320px;
   position: fixed;
   z-index: 4;
   top: 0;
-  left: 0;
+  left: -320px;
   border-right: 1px solid #b3b3b3;
   background-color: @nav-color;
   overflow-x: hidden;
@@ -226,6 +225,15 @@
 }
 
 @media screen and (max-width: 768px) {
+  .top-nav form input{
+    font-size: 20px;
+  }
+  .top-nav .search-prompt{
+    font-size: 20px;
+  }
+  .top-nav .search-prompt p{
+    font-size: 20px;
+  }
   .nav-title-text{
     font-size: 22px;
   }
@@ -238,4 +246,15 @@
   .top-nav nav .nav-extend{
     width: 15%;
   }
+}
+
+.right-push {
+  //position: fixed;
+  -moz-transform: translate(320px, 0);
+  -ms-transform: translate(320px, 0);
+  -webkit-transform: translate(320px, 0);
+  transform: translate(320px, 0);
+  -moz-perspective: 1000;
+  -webkit-perspective: 1000;
+  perspective: 1000;
 }

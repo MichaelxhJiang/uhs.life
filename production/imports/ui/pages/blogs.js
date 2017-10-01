@@ -4,7 +4,7 @@
 import './blogs.html'
 
 Template.blogs.onCreated(function () {
-    Session.set('navTitle', 'Home of Stories ;; Here, you can browse and read content created by other users.');
+    Session.set('navTitle', 'Stories');
 });
 
 Template.blogs.onRendered(function () {

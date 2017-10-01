@@ -67,16 +67,13 @@ Template.navigation.events({
         let sideNav = $('.side-nav');
         let sideNavPrompt = $('.side-nav-prompt');
         let width = parseInt(sideNav.css('margin-left'));
+        $('.top-nav').toggleClass('right-push');
+        $('.main').toggleClass('right-push');
+        sideNav.toggleClass('right-push');
         if(width !== 0) {
-            sideNav.css('margin-left', '0');
             sideNavPrompt.html("<i class='fa fa-times'></i> <span class='hidden-xs hidden-sm'>CLOSE</span>");
-            $('.top-nav').css('margin-left', '+=320px');
-            $('.main').css('margin-left', '+=320px');
             $('.nav-overlay').fadeIn('fast');
         }else{
-            sideNav.css('margin-left','-320px');
-            $('.top-nav').css('margin-left','-=320px');
-            $('.main').css('margin-left','-=320px');
             sideNavPrompt.html("<i class='fa fa-bars'></i> <span class='hidden-xs hidden-sm'>MENU</span>");
             $('.nav-overlay').fadeOut('fast');
         }
@@ -85,16 +82,14 @@ Template.navigation.events({
         let sideNav = $('.side-nav');
         let sideNavPrompt = $('.side-nav-prompt');
         let width = parseInt(sideNav.css('margin-left'));
+        $('.top-nav').removeClass('right-push');
+        $('.main').removeClass('right-push');
         if(width !== 0) {
             sideNav.css('margin-left', '0');
             sideNavPrompt.html("<i class='fa fa-times'></i> <span class='hidden-xs hidden-sm'>CLOSE</span>");
-            $('.top-nav').css('margin-left', '+=320px');
-            $('.main').css('margin-left', '+=320px');
             $('.nav-overlay').fadeIn('fast');
         }else{
             sideNav.css('margin-left','-320px');
-            $('.top-nav').css('margin-left','-=320px');
-            $('.main').css('margin-left','-=320px');
             sideNavPrompt.html("<i class='fa fa-bars'></i> <span class='hidden-xs hidden-sm'>MENU</span>");
             $('.nav-overlay').fadeOut('fast');
         }
