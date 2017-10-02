@@ -681,7 +681,7 @@ Template.suggestionEditor.events({
         };
         console.log(json);
 
-        Meteor.call('posts.postSuggestion', json, function (err) {
+        Meteor.call('suggestions.postSuggestion', json, function (err) {
             console.log('posted');
             if (err) {
                 alertError('Post Failed!', err.message);

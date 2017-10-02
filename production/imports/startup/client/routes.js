@@ -98,6 +98,13 @@ admin.route('/dashboard/organizations', {
     }
 });
 
+admin.route('/dashboard/suggestions', {
+    action: function () {
+        Session.set("DocumentTitle","Suggestions - Administrative Dashboard | uhs.life");
+        BlazeLayout.render('dashboard',{dash: 'dashSuggestions'})
+    }
+});
+
 FlowRouter.route('/login',{
     action: function(){
         if(!Meteor.userId()){

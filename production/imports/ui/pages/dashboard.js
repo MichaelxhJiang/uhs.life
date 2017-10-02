@@ -1,8 +1,6 @@
-/**
- * Created by Yonglin Wang on 8/22/2017.
- */
 import './dashboard.html'
 import { Images } from '../../api/images/images.js';
+//import {Suggestions} from '../../api/suggestions/suggestions.js';
 let courseSub;
 let clubSub;
 Template.dashboard.onRendered(function () {
@@ -13,6 +11,7 @@ Template.dashboard.onRendered(function () {
         Meteor.subscribe('allUsers');
         Meteor.subscribe('blogCategories');
         Meteor.subscribe('images');
+        Meteor.subscribe('suggestions');
     });
 });
 Template.dashOrganizations.onRendered(function () {
@@ -46,7 +45,6 @@ Template.dashHome.helpers({
         }catch(e){
             //console.log('error getting photo')
         }
-
     },
     'hasContent': function () {
         return this.subType !== 'imageOnly'
@@ -89,6 +87,41 @@ Template.dashAnnouncements.helpers({
     },
     'hasContent': function () {
         return this.subType !== 'imageOnly'
+    }
+});
+
+Template.dashSuggestions.helpers({
+    'suggestion': function () {
+        return Suggestions.find({});
+    },
+    'writer': function () {
+        //console.log(this);
+        return Meteor.users.findOne({_id: this.author}).services.google.name;
+    },
+    'noImage': function () {
+        return (this.imgId === null)
+    },
+    'imageLink': function () {
+        try{
+            return Images.findOne({_id: this.imgId}).url();
+        }catch(e){
+            //console.log('error getting photo from Images - dashboard')
+        }
+    },
+    'draftedDate': function () {
+        return moment(this.draftedDate).format("MMMM Do YYYY")
+    }
+});
+
+Template.dashSuggestions.events({
+    'click .btn-reject-suggestion': function (evt) {
+        let obj = $(evt.target).closest($('.new-post'));
+        let id = obj.attr('id');
+        Meteor.call('suggestions.removeSuggestions', id, function (err) {
+            if(err){
+                alertError("Error Occurred When Removing Suggestion", err.message)
+            }
+        })
     }
 });
 
