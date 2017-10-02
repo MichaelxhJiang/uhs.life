@@ -3,7 +3,10 @@ import { Meteor } from 'meteor/meteor';
 Meteor.users.allow({
    update: function () {
        return true;
-   }
+   },
+    remove: function () {
+        return true;
+    }
 });
 
 if(Meteor.isServer){
