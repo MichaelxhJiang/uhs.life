@@ -3,9 +3,8 @@ import chart from 'chart.js';
 // Chart options
 Chart.defaults.global.legend.display = false;
 Chart.defaults.global.tooltips.enabled = true;
-
 drawChart = function(chartId, mark){
-    $( "canvas#"+chartId ).replaceWith( "<canvas id="+chartId+"></canvas>" );
+    //$( "canvas#"+chartId ).replaceWith( "<canvas id='" + chartId + "'></canvas>" );
     let color;
     if(mark >= 95){
         color = "#009688";
@@ -28,7 +27,7 @@ drawChart = function(chartId, mark){
     }
     let ctx = document.getElementById(chartId).getContext("2d");
     //This will get the first returned node in the jQuery collection.
-    let myNewChart = new Chart(ctx, {
+    return new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: [

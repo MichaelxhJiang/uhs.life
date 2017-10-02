@@ -72,7 +72,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Please input password for {{student_id}}</h4>
+                    <h4 class="modal-title">Please Login to {{student_id}}</h4>
                 </div>
                 <div class="modal-body">
                     <form id="reLoginForm">
@@ -80,6 +80,34 @@
                             <input type="password" aria-describedby="TeachAssistPassword" placeholder="Password" id="reLoginPass">
                         </div>
                         <button type="submit" class="btn btn-primary btn-wide">Login</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="teachAssistConnect">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Connect your teach assist account</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="connectLoginForm">
+                        <div class="form-group">
+                            <input type="text" aria-describedby="TeachAssistStudentNumber" placeholder="Student Number" id="connectNum">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" aria-describedby="TeachAssistPassword" placeholder="Password" id="connectPass">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-wide">Connect</button>
                     </form>
                 </div>
 

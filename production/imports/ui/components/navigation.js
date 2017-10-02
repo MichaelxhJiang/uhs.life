@@ -130,6 +130,9 @@ Template.navigation.events({
         }
     },
     'click #academics': function () {
+        if(!Session.get('token')){
+            Modal.show('teachAssistConnect')
+        }
         let list = $('.course-list');
         let icon = $('.academics-icon');
         if(!list.is(':visible')){
@@ -159,6 +162,34 @@ Template.navigation.events({
 Template.teachAssistPass.helpers({
     'student_id': function () {
         return Meteor.user().profile.student_number;
+    }
+});
+
+Template.teachAssistConnect.events({
+    'submit #connectLoginForm': function (evt) {
+        evt.preventDefault();
+        const pass = $('#reLoginPass').val();
+        Meteor.call('getTeachAssistTokens', {student_number: Meteor.user().profile.student_number, password: pass}, function (err, data) {
+            if(err){
+                alertError("Failed to connect with teach assist", err.message);
+            }else{
+                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.token": data, "profile.private.tokenDate": new Date()}}, function (err) {
+                    if(err){
+                        alertError("Something went wrong", err.message);
+                    }else{
+                        Meteor.call('getTeachAssistCourses', data, function (err,data) {
+                            if(err){
+                                alertError("Something went wrong", "");
+                            }else{
+                                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.courses": data}});
+                                Modal.hide('teachAssistPass');
+                                FlowRouter.reload();
+                            }
+                        });
+                    }
+                });
+            }
+        })
     }
 });
 
