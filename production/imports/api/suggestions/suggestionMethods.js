@@ -19,10 +19,6 @@ Meteor.methods({
             err = true;
             errStr += "Missing content. ";
         }
-        if (!json.imgId) {
-            err = true;
-            errStr += "Missing image. ";
-        }
         if (err) {
             throw new Meteor.Error(400, errStr);
         }
@@ -39,4 +35,7 @@ Meteor.methods({
     'suggestions.getSuggestions' : function() {
         return Suggestions.find();
     },
+    'suggestions.removeSuggestions' : function(id) {
+        return Suggestions.remove({'_id': id});
+    }
 })

@@ -560,3 +560,58 @@
         </div>
     </div>
 </template>
+
+<template name="dashSuggestions">
+    <div class="container">
+        <div class="row text-center mb-60">
+            <div class="col-lg-12">
+                <h2>Suggestions</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="dash-item">
+                    {{#each suggestion}}
+                        {{#if noImage}}
+                            <div class="editor-options new-post with-image draft-inline" id="{{_id}}">
+                                <div>
+                                    <div class="flexed mb-15">
+                                        <div class="content-preview">
+                                            <h3 class="draft-title">{{headline}}</h3>
+                                            <p class="meta">{{writer}} | {{draftedDate}} </p>
+                                            <p class="draft-body">{{content}}</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-reject-suggestion"><i class="fa fa-times"></i> Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {{else}}
+                            <div class="editor-options new-post with-image draft-inline" id="{{_id}}">
+                                <div>
+                                    <div class="flexed mb-15">
+                                        <div class="image-preview">
+                                            <img src="{{imageLink}}" class="img-responsive">
+                                        </div>
+                                        <div class="content-preview">
+                                            <h3 class="draft-title">{{headline}}</h3>
+                                            <p class="meta">{{writer}} | {{draftedDate}} </p>
+                                            <p class="draft-body">{{content}}</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-reject"><i class="fa fa-times"></i> Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/ if}}
+
+                        <hr />
+                    {{/ each}}
+                    <a href="" class="btn btn-wide btn-primary">Load More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

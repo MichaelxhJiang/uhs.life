@@ -31,3 +31,4 @@ Posts = new Mongo.Collection('posts');
 Courses = new Mongo.Collection('courses');
 Categories = new Mongo.Collection('categories');
 BlogCategories = new Mongo.Collection('blogcategories');
+Suggestions = new Mongo.Collection('suggestions');

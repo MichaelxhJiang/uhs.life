@@ -4,6 +4,8 @@ export const Suggestions = new Mongo.Collection('suggestions');
 
 if (Meteor.isServer) {
     Meteor.publish('suggestions', function suggestionsPublication() {
-        return Suggestions.find({});
+        if (this.userId) {
+            return Suggestions.find({});
+        }
     });
 }
