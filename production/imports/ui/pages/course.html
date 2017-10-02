@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col-md-3 col-sm-6 col-xs-6 mb-30">
                             <div class="section-card">
-                                <canvas id="knowledgeChart" width="400" height="400"></canvas>
+                                <canvas id="knowledgeChart"></canvas>
                                 <h3>Knowledge</h3>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="section-card">
-                                <h2 class="performance-mark">30%</h2>
+                                <h2 class="performance-mark">{{culminating}}</h2>
                                 <h3 class="mt-0">Culminating</h3>
                             </div>
                         </div>
@@ -159,6 +159,12 @@
                                         <div class="application performance not-available">
                                             <div class="performance-progress" data-progress="0"></div>
                                             <div class="general-info"><p>Application - <span class="important">No Marks Available</span></p></div>
+                                        </div>
+                                    {{/ with}}
+                                    {{# with O}}
+                                        <div class="other performance">
+                                            <div class="performance-progress" data-progress="{{percentage}}"></div>
+                                            <div class="general-info"><p>Other - <span class="important">{{percentage}}</span></p></div>
                                         </div>
                                     {{/ with}}
                                 </div>

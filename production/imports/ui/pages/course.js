@@ -6,7 +6,7 @@ import './course.html';
 Template.course.onRendered(function () {
     Tracker.autorun(function () {
         let sub = Meteor.subscribe('allCourses',1000);
-        Meteor.subscribe('images')
+        Meteor.subscribe('images');
         if(sub.ready()){
             let code = Session.get('courseData').data.course.substring(0,Session.get('courseData').data.course.indexOf("-"));
             let item = Courses.findOne({
@@ -18,11 +18,12 @@ Template.course.onRendered(function () {
         }
     });
     $( document ).ready(function() {
+        let marks = Session.get('courseData').categoryMarks;
         setProgressBar(Session.get('displayMark').substring(1));
-        drawChart('knowledgeChart', 80);
-        drawChart('thinkingChart', 75);
-        drawChart('communicationChart', 90);
-        drawChart('applicationChart', 60);
+        drawChart('knowledgeChart', marks[0]);
+        drawChart('thinkingChart', marks[1]);
+        drawChart('communicationChart', marks[2]);
+        drawChart('applicationChart', marks[3]);
         $(document).scroll(function () {
             $('.performance-progress').each(function () {
                 $(this).css({ width: $(this).attr('data-progress') });
@@ -59,6 +60,9 @@ Template.course.helpers({
     },
     'isMobile': function () {
         return $( window ).width() <= 768;
+    },
+    'culminating': function () {
+        
     }
 });
 

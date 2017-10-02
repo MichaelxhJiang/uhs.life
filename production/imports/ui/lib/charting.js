@@ -5,6 +5,7 @@ Chart.defaults.global.legend.display = false;
 Chart.defaults.global.tooltips.enabled = true;
 
 drawChart = function(chartId, mark){
+    $( "canvas#"+chartId ).replaceWith( "<canvas id="+chartId+"></canvas>" );
     let color;
     if(mark >= 95){
         color = "#009688";
@@ -82,7 +83,7 @@ drawSmallChartSide = function(chartId, mark, color){
 }
 
 drawSmallChart = function(chartId, mark, color){
-
+    $( "canvas#"+chartId ).replaceWith( "<canvas id="+chartId+"></canvas>" );
     //Get context with jQuery - using jQuery's .get() method.
     var ctx = document.getElementById(chartId).getContext("2d");
     //This will get the first returned node in the jQuery collection.

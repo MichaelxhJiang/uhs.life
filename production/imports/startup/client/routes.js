@@ -155,11 +155,10 @@ loggedIn.route('/course/:courseId',{
                 }
             }else{
                 console.log(data);
-                var a = Meteor.user().profile.private.courses;
-                var index = 0;
-                var found;
-                var entry;
-                for (index = 0; index < a.length; ++index) {
+                let a = Meteor.user().profile.private.courses;
+                let found;
+                let entry;
+                for (let index = 0; index < a.length; ++index) {
                     entry = a[index];
                     if (entry.subject_id === params.courseId) {
                         found = entry;
@@ -169,11 +168,19 @@ loggedIn.route('/course/:courseId',{
                 Session.setPersistent('displayMark', found.mark);
                 Session.setPersistent('courseData', data);
                 window.scrollTo(0, 0);
-                BlazeLayout.render('applicationLayout',{main: 'course'})
+                BlazeLayout.render('applicationLayout',{main: 'course'});
+                if(FlowRouter.current().route.name === 'course'){
+                    let marks = Session.get('courseData').categoryMarks;
+                    setProgressBar(Session.get('displayMark').substring(1));
+                    drawChart('knowledgeChart', marks[0]);
+                    drawChart('thinkingChart', marks[1]);
+                    drawChart('communicationChart', marks[2]);
+                    drawChart('applicationChart', marks[3]);
+                }
             }
         });
-
-    }
+    },
+    name: 'course'
 });
 
 loggedIn.route( '/big-picture', {
