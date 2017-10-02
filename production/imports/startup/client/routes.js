@@ -21,7 +21,7 @@ let loggedIn = FlowRouter.group({
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
                             FlowRouter.go('/first')
-                        }{
+                        }else{
                             Session.setPersistent('name', user.services.google.name);
                             Session.set('courses',user.profile.private.courses);
                             Session.setPersistent('token',user.profile.private.token);
@@ -51,10 +51,7 @@ let admin = FlowRouter.group({
                     if(userSub.ready()){
                         if(!user.profile.init){
                             FlowRouter.go('/first')
-                        }/*else if(!Roles.userIsInRole(user._id, 'admin')){
-                         alertError('Sorry', "You do not have access to this area.");
-                         FlowRouter.go('/')
-                         }*/else{
+                        }else{
                             Session.set('name', user.services.google.name);
                             Session.set('id', user.profile.id);
                             Session.set('courses',user.profile.private.courses);
@@ -62,6 +59,10 @@ let admin = FlowRouter.group({
                             Session.set('token',user.profile.private.token);
                             Session.set('user_img', user.services.google.picture);
                         }
+                        /*else if(!Roles.userIsInRole(user._id, 'admin')){
+                         alertError('Sorry', "You do not have access to this area.");
+                         FlowRouter.go('/')
+                         }*/
                     }
                 });
             }
