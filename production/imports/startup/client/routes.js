@@ -18,14 +18,15 @@ let loggedIn = FlowRouter.group({
                     let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
                     if(userSub.ready()){
-                        Session.setPersistent('name', user.services.google.name);
-                        Session.set('courses',user.profile.private.courses);
-                        Session.setPersistent('token',user.profile.private.token);
-                        Session.set('tokenExpiry',user.profile.private.tokenDate);
-                        Session.set('user_img', user.services.google.picture);
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
                             FlowRouter.go('/first')
+                        }{
+                            Session.setPersistent('name', user.services.google.name);
+                            Session.set('courses',user.profile.private.courses);
+                            Session.setPersistent('token',user.profile.private.token);
+                            Session.set('tokenExpiry',user.profile.private.tokenDate);
+                            Session.set('user_img', user.services.google.picture);
                         }
                     }
                 });
@@ -48,18 +49,19 @@ let admin = FlowRouter.group({
                     let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
                     if(userSub.ready()){
-                        Session.set('name', user.services.google.name);
-                        Session.set('id', user.profile.id);
-                        Session.set('courses',user.profile.private.courses);
-                        Session.set('tokenExpiry',user.profile.private.tokenDate);
-                        Session.set('token',user.profile.private.token);
-                        Session.set('user_img', user.services.google.picture);
                         if(!user.profile.init){
                             FlowRouter.go('/first')
                         }/*else if(!Roles.userIsInRole(user._id, 'admin')){
-                            alertError('Sorry', "You do not have access to this area.");
-                            FlowRouter.go('/')
-                        }*/
+                         alertError('Sorry', "You do not have access to this area.");
+                         FlowRouter.go('/')
+                         }*/else{
+                            Session.set('name', user.services.google.name);
+                            Session.set('id', user.profile.id);
+                            Session.set('courses',user.profile.private.courses);
+                            Session.set('tokenExpiry',user.profile.private.tokenDate);
+                            Session.set('token',user.profile.private.token);
+                            Session.set('user_img', user.services.google.picture);
+                        }
                     }
                 });
             }
