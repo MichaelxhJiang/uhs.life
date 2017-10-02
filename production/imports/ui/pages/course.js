@@ -62,7 +62,7 @@ Template.course.helpers({
         return $( window ).width() <= 768;
     },
     'culminating': function () {
-        
+        return Session.get('courseData').categories.O *100 + '%'
     }
 });
 
