@@ -23,9 +23,11 @@ let loggedIn = FlowRouter.group({
                             FlowRouter.go('/first')
                         }else{
                             Session.setPersistent('name', user.services.google.name);
-                            Session.set('courses',user.profile.private.courses);
-                            Session.setPersistent('token',user.profile.private.token);
-                            Session.set('tokenExpiry',user.profile.private.tokenDate);
+                            if(Roles.userIsInRole(Meteor.userId(),'student')){
+                                Session.set('courses',user.profile.private.courses);
+                                Session.setPersistent('token',user.profile.private.token);
+                                Session.set('tokenExpiry',user.profile.private.tokenDate);
+                            }
                             Session.set('user_img', user.services.google.picture);
                         }
                     }
@@ -176,14 +178,6 @@ loggedIn.route('/course/:courseId',{
                 Session.setPersistent('courseData', data);
                 window.scrollTo(0, 0);
                 BlazeLayout.render('applicationLayout',{main: 'course'});
-                if(FlowRouter.current().route.name === 'course'){
-                    let marks = Session.get('courseData').categoryMarks;
-                    setProgressBar(Session.get('displayMark').substring(1));
-                    drawChart('knowledgeChart', marks[0]);
-                    drawChart('thinkingChart', marks[1]);
-                    drawChart('communicationChart', marks[2]);
-                    drawChart('applicationChart', marks[3]);
-                }
             }
         });
     },

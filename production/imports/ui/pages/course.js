@@ -17,13 +17,32 @@ Template.course.onRendered(function () {
             Meteor.subscribe('postsByCourse',code,10);
         }
     });
+    let k,t,a,c;
     $( document ).ready(function() {
-        let marks = Session.get('courseData').categoryMarks;
-        setProgressBar(Session.get('displayMark').substring(1));
-        drawChart('knowledgeChart', marks[0]);
-        drawChart('thinkingChart', marks[1]);
-        drawChart('communicationChart', marks[2]);
-        drawChart('applicationChart', marks[3]);
+        Tracker.autorun(function () {
+            let marks = Session.get('courseData').categoryMarks;
+            if(marks){
+                setProgressBar(Session.get('displayMark').substring(1));
+                try{
+                    console.log();
+                    k.data.datasets[0].data = [marks[0], 100-marks[0]];
+                    t.data.datasets[0].data = [marks[1], 100-marks[1]];
+                    c.data.datasets[0].data = [marks[2], 100-marks[2]];
+                    a.data.datasets[0].data = [marks[3], 100-marks[3]];
+                    k.update();
+                    t.update();
+                    a.update();
+                    c.update();
+                }catch (e){
+                    console.log('first time graphing');
+                    k = drawChart('knowledgeChart', marks[0]);
+                    t = drawChart('thinkingChart', marks[1]);
+                    a = drawChart('communicationChart', marks[2]);
+                    c = drawChart('applicationChart', marks[3]);
+                }
+
+            }
+        });
         $(document).scroll(function () {
             $('.performance-progress').each(function () {
                 $(this).css({ width: $(this).attr('data-progress') });
@@ -62,7 +81,7 @@ Template.course.helpers({
         return $( window ).width() <= 768;
     },
     'culminating': function () {
-        
+        return Session.get('courseData').categories.O *100 + '%'
     }
 });
 
