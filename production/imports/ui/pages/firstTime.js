@@ -4,7 +4,34 @@
 import './firstTime.html'
 
 Template.firstTime.onRendered(function () {
-
+    Tracker.autorun(function () {
+        let courseSub = Meteor.subscribe('allCourses',1000);
+        let clubSub = Meteor.subscribe('allClubs',1000);
+        if(courseSub.ready() && clubSub.ready()){
+            let courses = Courses.find({});
+            let clubs = Clubs.find({});
+            courses.observeChanges({
+                added: function (id, fields) {
+                    let newCat = new Option(fields.name + " - " + fields.code, fields.code);
+                    $('#firstCourseSelect').append(newCat)
+                }
+            });
+            clubs.observeChanges({
+                added: function (id, fields) {
+                    let newCat = new Option(fields.name, fields.code);
+                    $('#firstClubSelect').append(newCat)
+                }
+            })
+        }
+    });
+    $('#firstCourseSelect').select2({
+        placeholder: "Click to select matching categories",
+        allowClear: true
+    });
+    $('#firstClubSelect').select2({
+        placeholder: "Click to select matching categories",
+        allowClear: true
+    });
 });
 
 Template.firstTime.events({
@@ -64,6 +91,18 @@ Template.firstTime.events({
                 });
             }
         })
+    },
+    'submit #organizationsForm': function (evt) {
+        evt.preventDefault();
+        const courses = $('#firstCourseSelect').val();
+        const clubs = $('#firstClubSelect').val();
+        Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.courses": courses, "profile.clubs": clubs}}, function (err) {
+            if(err){
+                alertError("Error Occurred when updating your profile", err.message)
+            }else {
+                alertSuccess("Thank you!", "We have recorded the information you provided")
+            }
+        });
     },
     'submit #newsletterEmailForm': function (evt) {
         evt.preventDefault();
