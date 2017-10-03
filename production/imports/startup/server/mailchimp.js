@@ -2,7 +2,7 @@ import Mailchimp from 'mailchimp-api-v3';
 
 //const Mailchimp = require('mailchimp-api-v3')
 
-const mailchimp = new Mailchimp('5e738f7bcecab0f5d65658ce3d59dbe1-us16');
+const mailchimp = new Mailchimp('c63e149751b5b34657fc48286f336650-us16');
 
 Meteor.methods({
    'getSubscribers' : function() {
@@ -10,8 +10,8 @@ Meteor.methods({
          return results;
       })
    },
-   'addSubscriber' : function(email, status) {
-      mailchimp.post('/lists/f21d5e31f7/members', {email_address : email, status: status, merge_fields : {FNAME : 'Joe', LNAME : 'Smith'}}, function (err, response) {
+   'addSubscriber' : function(email, fname, lname) {
+      mailchimp.post('/lists/b7d23cbf79/members', {email_address : email, status: 'subscribed', merge_fields : {FNAME : fname, LNAME : lname}}, function (err, response) {
          if (err) {
             console.log(err)
          } else {
@@ -29,17 +29,17 @@ Meteor.methods({
          }
       })
    },
-   'createCampaign' : function(subjectLine, title, ) {
+   'createCampaign' : function(subjectLine, title) {
       mailchimp.post('/campaigns',
       {
          type : 'regular',
          recipients : {
-            list_id: 'f21d5e31f7'
+            list_id: 'b7d23cbf79'
          },
          settings : {
             subject_line : subjectLine,
             title: title,
-            from_name : 'uhs.life',
+            from_name : 'UHS Life Bulletin',
             reply_to : 'michaelxhj@outlook.com',
             template_id : 25931
          }
