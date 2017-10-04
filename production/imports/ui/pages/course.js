@@ -128,7 +128,15 @@ Template.course.events({
         if(filterValue === '.insights'){
             $(currentValue).fadeOut('fast');
             $('.insights').fadeIn('slow');
-            drawPolyChart('markByAssignment',['a','b','c','d'], [90, 88, 85, 99]);
+            let names = [], marks = [];
+            _.forEach(Session.get('courseData').data.assessment, function (item) {
+                names.push(item.title);
+            });
+            _.forEach(Session.get('courseData').timeline, function (item) {
+                marks.push(item.mark);
+            });
+            console.log(names,marks);
+            drawPolyChart('markByAssignment',names, marks);
             drawPerformChart('sectionMarkByAssignment',['a','b','c','d'],[90, 88, 85, 99],[88, 90, 99, 78],[100,89,67,88],[99,99,89,86])
         }else{
             $(currentValue).fadeOut('fast');
