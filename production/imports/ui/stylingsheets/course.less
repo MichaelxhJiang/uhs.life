@@ -4,6 +4,8 @@
 @thinking-bar: #4CAF50;
 @communication: #E1BEE7;
 @communication-bar: #9C27B0;
+@other: #BCAAA4;
+@other-bar: #795548;
 @application: #FFE0B2;
 @application-bar:#FF9800;
 @not-available:#E0E0E0;
@@ -107,25 +109,44 @@
 .knowledge{
   background: @knowledge;
   .performance-progress{
-    background: @knowledge-bar;
+    background: #f7971e; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f7971e, #ffd200); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f7971e, #ffd200);
   }
 }
 .thinking{
   background: @thinking;
   .performance-progress{
-    background: @thinking-bar;
+    background: #11998e;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #11998e, #38ef7d);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #11998e, #38ef7d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   }
 }
 .communication{
   background: @communication;
   .performance-progress{
-    background: @communication-bar;
+    background: #7F00FF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #7F00FF, #E100FF);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #7F00FF, #E100FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   }
 }
 .application{
   background: @application;
   .performance-progress{
-    background: @application-bar;
+    background: #fc4a1a; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #fc4a1a, #f7b733); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #fc4a1a, #f7b733);
+  }
+}
+.other{
+  background: @other;
+  .performance-progress{
+    background: #757F9A;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #757F9A, #D7DDE8);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #757F9A, #D7DDE8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   }
 }
 .performance-mark{

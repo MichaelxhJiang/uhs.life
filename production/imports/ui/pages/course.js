@@ -88,30 +88,62 @@ Template.course.helpers({
 Template.course.events({
     'click .performance': function (evt, template) {
         let choice = $(evt.target).closest($('.performance'));
+        let assessment = $(evt.target).closest($('.assessment-body'));
+        let title = assessment.find('.assessment-title').text();
+        let object = null;
+        _.forEach(Session.get('courseData').data.assessment, function (item) {
+            if(item.title === title){
+                object = item;
+            }
+        });
         if(!choice.hasClass('not-available')){
             let data = $(evt.target).closest($('.assessment-performance')).find($('.performance-presenter'));
             let section = data.find('.presenter-section');
+            let achieved = data.find('.achieved');
+            let outOf = data.find('.out-of');
+            let weight = data.find('.weight');
             if(choice.hasClass('knowledge')){
                 data.css({
-                    background: '#FFC107'
+                    background: 'linear-gradient(to right, #f7971e, #ffd200)'
                 });
+                achieved.text(object.K.mark);
+                outOf.text(object.K.outOf);
+                weight.text(object.K.weight);
                 section.text('Knowledge');
             }else if(choice.hasClass('thinking')){
                 data.css({
-                    background: '#4CAF50'
+                    background: 'linear-gradient(to right, #11998e, #38ef7d)'
                 });
+                achieved.text(object.T.mark);
+                outOf.text(object.T.outOf);
+                weight.text(object.T.weight);
                 section.text('Thinking');
             }else if(choice.hasClass('communication')){
                 data.css({
-                    background: '#9C27B0'
+                    background: 'linear-gradient(to right, #7F00FF, #E100FF)'
                 });
+                achieved.text(object.C.mark);
+                outOf.text(object.C.outOf);
+                weight.text(object.C.weight);
                 section.text('Communication');
             }else if(choice.hasClass('application')){
                 data.css({
-                    background: '#FF9800'
+                    background: 'linear-gradient(to right, #fc4a1a, #f7b733)'
                 });
+                achieved.text(object.A.mark);
+                outOf.text(object.A.outOf);
+                weight.text(object.A.weight);
                 section.text('Application');
+            }else if(choice.hasClass('other')){
+                data.css({
+                    background: 'linear-gradient(to right, #757F9A, #D7DDE8)'
+                });
+                achieved.text(object.O.mark);
+                outOf.text(object.O.outOf);
+                weight.text(object.O.weight);
+                section.text('Culminating');
             }
+
             data.slideDown('fast');
         }
 
