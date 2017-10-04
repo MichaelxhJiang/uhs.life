@@ -101,29 +101,42 @@ Meteor.methods({
                 k.O = k[""];    //transfer to Other
                 delete k[""];
                 let mark = 0;
+                let K, T, C, A, O = 0;
                 let catTotalWeight = 0;
                 if (catExist[0]) {
                     mark += cat[0] / catWeight[0] * categories.K;
+                    K = cat[0] / catWeight[0];
                     catTotalWeight += categories.K;
                 }
                 if (catExist[1]) {
                     mark += cat[1] / catWeight[1] * categories.T;
+                    T = cat[1] / catWeight[1];
                     catTotalWeight += categories.T;
                 }
                 if (catExist[2]) {
                     mark += cat[2] / catWeight[2] * categories.C;
+                    C = cat[2] / catWeight[2];
                     catTotalWeight += categories.C;
                 }
                 if (catExist[3]) {
                     mark += cat[3] / catWeight[3] * categories.A;
+                    A = cat[3] / catWeight[3];
                     catTotalWeight += categories.A;
                 }
                 if (catExist[4]) {
                     mark += cat[4] / catWeight[4] * categories.O;
+                    O = cat[4] / catWeight[4];
                     catTotalWeight += categories.O;
                 }
                 mark /= catTotalWeight;
-                timeline[cnt] = mark;
+                timeline[cnt] = {
+                    mark: mark,
+                    K: K,
+                    T: T,
+                    C: C,
+                    A: A,
+                    O: O
+                };
                 postParse.data.assessment[cnt++] = k;
             }
         })
