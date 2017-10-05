@@ -328,6 +328,7 @@ Template.blogEditor.events({
                 alertSuccess('Success!', 'The post has been submitted.');
                 Drafts.remove({_id: Session.get('draftEditItem')});
                 Session.set('draftEditItem', null);
+                wipeEditor('blog');
                 // Go back
                 if (operationStack.length - 2 === 0) {
                     swapElements('.editor-main', '.editor-open');
@@ -343,7 +344,6 @@ Template.blogEditor.events({
     },
     'click .save-draft' : function() {
         let json = constructBlogJson();
-
         if(Session.get('draftEditItem')){
             Drafts.update({_id: Session.get('draftEditItem')}, json, function (err) {
                 if(err){
@@ -369,7 +369,7 @@ Template.blogEditor.events({
                 console.log(err);
                 hasUnsplash = false;
             } else {
-                Meteor.call('getRandomPhoto', "nature", function (err, data) {
+                Meteor.call('searchKeyword', "nature", function (err, data) {
                     if (err) {
                         console.log(err);
                         $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one.");
@@ -393,6 +393,11 @@ Template.blogEditor.events({
             if (err) {
                 console.log(err);
                 $('.unsplash-container').replaceWith("<form action='/file-upload' class='dropzone' id='dropzone'></form>");
+                let blogDrop = initDropZone('dropzone', {
+                    number: 1,
+                    size: 8,
+                    message: "Drop an image here to be the featured image, or click to select an image using the browser.",
+                });
                 $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one instead.");
                 hasUnsplash = false;
             } else {
@@ -433,7 +438,6 @@ Template.blogEditor.events({
         window.open('/blog/preview', '_blank');
     }
 });
-
 Template.announcementOptions.events({
     'click .btn-post': function (event, template) {
         let type = Session.get('announcementType');
@@ -446,6 +450,7 @@ Template.announcementOptions.events({
                     alertSuccess('Success!', 'The post has been submitted.');
                     Drafts.remove({_id: Session.get('draftEditItem')});
                     Session.set('draftEditItem', null);
+                    wipeEditor('announcement','imageOnly');
                     if (operationStack.length - 2 === 0) {
                         swapElements('.editor-main', '.editor-open');
                         $('html, body').css({
@@ -466,6 +471,7 @@ Template.announcementOptions.events({
                     alertSuccess('Success!', 'The post has been submitted.');
                     Drafts.remove({_id: Session.get('draftEditItem')});
                     Session.set('draftEditItem', null);
+                    wipeEditor('announcement','textOnly');
                     if (operationStack.length - 2 === 0) {
                         swapElements('.editor-main', '.editor-open');
                         $('html, body').css({
@@ -485,6 +491,7 @@ Template.announcementOptions.events({
                     alertSuccess('Success!', 'The post has been submitted.');
                     Drafts.remove({_id: Session.get('draftEditItem')});
                     Session.set('draftEditItem', null);
+                    wipeEditor('announcement','imageText');
                     if (operationStack.length - 2 === 0) {
                         swapElements('.editor-main', '.editor-open');
                         $('html, body').css({
@@ -529,7 +536,7 @@ Template.announcementOptions.events({
                         alertError('Saving Draft Failed!', err.message);
                     } else {
                         alertSuccess('Success!', 'The draft has been saved.');
-
+                        wipeEditor('announcement','imageOnly');
                         if (operationStack.length - 2 === 0) {
                             swapElements('.editor-main', '.editor-open');
                             $('html, body').css({
@@ -549,6 +556,7 @@ Template.announcementOptions.events({
                         alertError('Saving Draft Failed!', err.message);
                     } else {
                         alertSuccess('Success!', 'The draft has been saved.');
+                        wipeEditor('announcement','textOnly');
                         if (operationStack.length - 2 === 0) {
                             swapElements('.editor-main', '.editor-open');
                             $('html, body').css({
@@ -566,6 +574,7 @@ Template.announcementOptions.events({
                         alertError('Saving Draft Failed!', err.message);
                     } else {
                         alertSuccess('Success!', 'The draft has been saved.');
+                        wipeEditor('announcement','imageText');
                         if (operationStack.length - 2 === 0) {
                             swapElements('.editor-main', '.editor-open');
                             $('html, body').css({
@@ -821,6 +830,72 @@ function setEditorContent(json) {
             swapElements('.blog-drafts', '.text-and-image');
             operationStack.push('.text-and-image');
             Session.set('announcementType', 'textAndImage');
+        }
+    }
+}
+
+function wipeEditor(type, subType) {
+    if(type === 'blog'){
+        $('#blogTitle').val(null);
+        $('#blogSubTitle').val(null);
+        $('.editable').froalaEditor('html.set', '');
+        $('.tags').tagsinput('removeAll');
+        $('.visibility-select').val(null).trigger("change");
+        $(".category-select").val(null).trigger("change");
+        $("#blogOrganizationSelect").val(null).trigger("change");
+        $('.input-date').datepicker('update', null);
+        Session.set('unsplash_img', null);
+        Session.set('unsplashData', null);
+        Session.set('newImageId', null);
+        let blogDrop = initDropZone('dropzone', {
+            number: 1,
+            size: 8,
+            message: "Drop an image here to be the featured image, or click to select an image using the browser.",
+        });
+        $('#unsplashPrompt').html("Want to avoid the hassle? <a href='' id='getFeaturedUnsplash'>Click here</a> and we will find an image for you!");
+    }else if(type === 'announcement'){
+        if(subType === 'imageOnly'){
+            $('#imageOnlyHeadline').val(null);
+            Session.set('newImageId', null);
+            $('#announcementImage').replaceWith("<form action='/file-upload' class='dropzone' id='announcementImage'></form>");
+            let announcementDrop = initDropZone("announcementImage", {
+                number: 1,
+                size: 8,
+                message: "Drop your poster here, or click to select an image using the browser.",
+            });
+            $('.quick-image-prompt').html("");
+            $('.announce-tags:eq(0)').tagsinput('removeAll');
+            $(".announcement-category:eq(0)").val(null).trigger("change");
+            $(".clubs-category:eq(0)").val(null).trigger("change");
+            $('.startDate:eq(0)').datepicker('update',null);
+            $('.endDate:eq(0)').datepicker('update',null);
+        }else if(subType === 'textOnly'){
+            $('#textOnlyHeadline').val(null);
+            $('.announcement-text:eq(0)').val(null);
+            $('.announce-tags:eq(1)').tagsinput('removeAll');
+            $(".announcement-category:eq(1)").val(null).trigger("change");
+            $(".clubs-category:eq(1)").val(null).trigger("change");
+            $('.startDate:eq(1)').datepicker('update',null);
+            $('.endDate:eq(1)').datepicker('update',null);
+        }else if(subType === 'imageText'){
+            $('#textImageHeadline').val(null);
+            Session.set('newImageId', null);
+            $('#announcementImageTwo').replaceWith("<form action='/file-upload' class='dropzone' id='announcementImageTwo'></form>");
+            let announcementDrop = initDropZone("announcementImageTwo", {
+                number: 1,
+                size: 8,
+                message: "Drop your poster here, or click to select an image using the browser.",
+            });
+            $('.quick-image-prompt').html('');
+            $('.announcement-text:eq(1)').val(null);
+            $('.announce-tags:eq(2)').tagsinput('removeAll');
+            $(".announcement-category:eq(2)").val(null).trigger("change");
+            $(".clubs-category:eq(2)").val(null).trigger("change");
+            $('.startDate:eq(2)').datepicker('update',null);
+            $('.endDate:eq(2)').datepicker('update',null);
+            Session.set('priority', 'image');
+            $('.is-checked').removeClass('is-checked');
+            $(".priority-toggle[data-priority="+ Session.get('priority') +"]").addClass('is-checked');
         }
     }
 }
