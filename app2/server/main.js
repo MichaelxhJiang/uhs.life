@@ -68,8 +68,8 @@ Meteor.startup(() => {
         }
     })*/
     Meteor.call('getTeachAssistTokens', {
-        'student_number':'073212482',
-        'password': 'XXXXXX'
+        'student_number':'349120427',
+        'password': 'XXXXX'
     }, function(err, tokens) {
         if (err) {
             console.log(err);
@@ -83,7 +83,7 @@ Meteor.startup(() => {
                     Meteor.call('getTeachAssistCourseDetails', {
                         'student_id':tokens.student_id,
                         'token':tokens.token,
-                        'subject_id':courses[2].subject_id
+                        'subject_id':courses[0].subject_id
                     }, function(err, details) {
                         if (err) {
                             console.log(err);

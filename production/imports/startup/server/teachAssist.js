@@ -75,28 +75,29 @@ Meteor.methods({
                 let assess = k;
                 if (assess.K) {
                     catExist[0] = true;
-                    cat[0] += parseInt(assess.K.mark) / parseInt(assess.K.outOf) * 100 * parseInt(assess.K.weight);
-                    catWeight[0] += parseInt(assess.K.weight);
+                    cat[0] += parseFloat(assess.K.mark) / parseFloat(assess.K.outOf) * 100 * parseFloat(assess.K.weight);
+                    catWeight[0] += parseFloat(assess.K.weight);
                 }
                 if (assess.T) {
                     catExist[1] = true;
-                    cat[1] += parseInt(assess.T.mark) / parseInt(assess.T.outOf) * 100  * parseInt(assess.T.weight);
-                    catWeight[1] += parseInt(assess.T.weight);
+                    cat[1] += parseFloat(assess.T.mark) / parseFloat(assess.T.outOf) * 100  * parseFloat(assess.T.weight);
+                    catWeight[1] += parseFloat(assess.T.weight);
                 }
                 if (assess.C) {
                     catExist[2] = true;
-                    cat[2] += parseInt(assess.C.mark) / parseInt(assess.C.outOf) * 100  * parseInt(assess.C.weight);
-                    catWeight[2] += parseInt(assess.C.weight);
+                    cat[2] += parseFloat(assess.C.mark) / parseFloat(assess.C.outOf) * 100  * parseFloat(assess.C.weight);
+                    catWeight[2] += parseFloat(assess.C.weight);
                 }
                 if (assess.A) {
                     catExist[3] = true;
-                    cat[3] += parseInt(assess.A.mark) / parseInt(assess.A.outOf) * 100  * parseInt(assess.A.weight);
-                    catWeight[3] += parseInt(assess.A.weight);
+                    cat[3] += parseFloat(assess.A.mark) / parseFloat(assess.A.outOf) * 100  * parseFloat(assess.A.weight);
+                    catWeight[3] += parseFloat(assess.A.weight);
+                    console.log(cat[3] + " " + catWeight[3]);
                 }
                 if (assess[""]) {
                     catExist[4] = true;
-                    cat[4] += parseInt(assess[""].mark) / parseInt(assess[""].outOf) * 100  * parseInt(assess[""].weight);
-                    catWeight[4] += parseInt(assess[""].weight);
+                    cat[4] += parseFloat(assess[""].mark) / parseFloat(assess[""].outOf) * 100  * parseFloat(assess[""].weight);
+                    catWeight[4] += parseFloat(assess[""].weight);
                 }
                 k.O = k[""];    //transfer to Other
                 delete k[""];
@@ -130,19 +131,19 @@ Meteor.methods({
                 }
                 mark /= catTotalWeight;
                 timeline[cnt] = {
-                    mark: mark,
-                    K: K,
-                    T: T,
-                    C: C,
-                    A: A,
-                    O: O
+                    mark: Math.round(mark * 100) / 100,
+                    K: Math.round(K * 100) / 100,
+                    T: Math.round(T * 100) / 100,
+                    C: Math.round(C * 100) / 100,
+                    A: Math.round(A * 100) / 100,
+                    O: Math.round(O * 100) / 100
                 };
                 postParse.data.assessment[cnt++] = k;
             }
         })
         for (var i = 0;i < 5; i++) {
             if (cat[i] !== 0) {
-                postParse.categoryMarks[i] = cat[i]/catWeight[i];
+                postParse.categoryMarks[i] = Math.round(cat[i]/catWeight[i] * 100) / 100;
             } else {
                 postParse.categoryMarks[i] = 0;
             }
