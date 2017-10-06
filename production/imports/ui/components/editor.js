@@ -226,6 +226,30 @@ Template.blogDraft.helpers({
     }
 });
 
+Template.allPosts.helpers({
+    'drafts': function () {
+        return Posts.find({
+            'author': Meteor.userId()
+        });
+    },
+    'draftedDate': function () {
+        return moment(this.draftedDate).format('MMMM Do YYYY')
+    },
+    'imageLink': function () {
+        if(this.unsplash){
+            return this.unsplash.urls.full;
+        }else{
+            try{
+                return Images.findOne({_id: this.imgId}).url();
+            }catch(e){
+                //console.log('error getting photo')
+            }
+        }
+    },
+    'isBlog': function () {
+        return this.type === 'blog'
+    }
+});
 
 
 /* Events */

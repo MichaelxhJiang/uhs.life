@@ -23,13 +23,13 @@
                         <div class="row text-center mb-30">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-30" >
                                 <div class="editor-options" id="startNewDraft">
-                                    <i class="fa fa-pencil fa-5x mb-15"></i>
+                                    <i class="fa fa-pencil fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
                                     <p>Create from scratch</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 col-xs-12">
                                 <div class="editor-options" id="checkDrafts">
-                                    <i class="fa fa-file-text-o fa-5x mb-15"></i>
+                                    <i class="fa fa-file-text-o fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
                                     <p>Resume a Draft</p>
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
                         <div class="row text-center mb-30">
                             <div class="col-lg-12">
                                 <div class="editor-options" id="checkDrafts">
-                                    <i class="fa fa-list fa-5x mb-15" aria-hidden="true"></i>
+                                    <i class="fa fa-list fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
                                     <p>Check all your posts</p>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                             {{# if canWriteAnnounce}}
                                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-30" id="startAnnouncement">
                                     <div class="editor-options">
-                                        <i class="fa fa-bullhorn fa-5x mb-15"></i>
+                                        <i class="fa fa-bullhorn fa-5x mb-15 hidden-xs"></i>
                                         <p>Announcement</p>
                                     </div>
                                 </div>
@@ -66,14 +66,14 @@
                             {{# if canWriteBlog}}
                                 <div class="col-lg-4 col-md-4 hidden-xs mb-30" id="startBlog">
                                     <div class="editor-options">
-                                        <i class="fa fa-newspaper-o fa-5x mb-15"></i>
+                                        <i class="fa fa-newspaper-o fa-5x mb-15 hidden-xs"></i>
                                         <p>Story</p>
                                     </div>
                                 </div>
                             {{/ if}}
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-30" id="startSuggestion">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-30 hidden-xs" id="startSuggestion">
                                 <div class="editor-options">
-                                    <i class="fa fa-commenting-o fa-5x mb-15"></i>
+                                    <i class="fa fa-commenting-o fa-5x mb-15 hidden-xs"></i>
                                     <p>Suggestion</p>
                                 </div>
                             </div>
@@ -114,6 +114,47 @@
                                             <a href="" class="btn-delete-draft"><i class="fa fa-trash-o"></i> Delete</a>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="allPosts">
+    <div class="container blog-drafts" hidden>
+        <div class="center-wrapper">
+            <div class="mb-45">
+                <div class="row mb-30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30 text-center mt-30">
+                        <h2>Here are all your drafts,</h2>
+                        <h4>Click on one to continue editing</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    {{#each post}}
+                        <div class="col-lg-12 draft-item" id="{{_id}}">
+                            <div class="editor-options draft-inline">
+                                <div class="image-preview">
+                                    <img src="{{imageLink}}" class="img-responsive">
+                                </div>
+                                <div class="content-preview">
+                                    <h3 class="draft-title">{{headline}}{{title}}</h3>
+                                    <span>Created: {{draftedDate}}. Format: {{type}}</span>
+                                    <p class="draft-body">{{#if isBlog}}{{subtitle}}{{else}}{{content}}{{/if}}</p>
+                                    <div class="dropdown" style="max-width: 164px">
+                                        <button class="dropbtn">Quick Actions</button>
+                                        <div class="dropdown-content">
+                                            <a href="">re-Publish</a>
+                                            <a href="" class="btn-delete-draft"><i class="fa fa-trash-o"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review Stage">
+                                    <h1>1</h1>
                                 </div>
                             </div>
                         </div>
@@ -218,19 +259,19 @@
             <div class="row">
                 <div class="col-lg-4 col-sm-12 col-xs-12 mb-30">
                     <div class="editor-options" id="imageOnly">
-                        <i class="fa fa-picture-o fa-5x mb-15"></i>
+                        <i class="fa fa-picture-o fa-5x mb-15 hidden-xs"></i>
                         <p>I made a <b>Poster</b>. (Image Only)</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-12 col-xs-12 mb-30" id="textOnly">
                     <div class="editor-options">
-                        <i class="fa fa-font fa-5x mb-15"></i>
+                        <i class="fa fa-font fa-5x mb-15 hidden-xs"></i>
                         <p>I wrote some <b>Text</b>. (Text Only)</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-12 col-xs-12" id="textAndImage">
                     <div class="editor-options">
-                        <i class="fa fa-heart-o fa-5x mb-15"></i>
+                        <i class="fa fa-heart-o fa-5x mb-15 hidden-xs"></i>
                         <p>I have both a poster and some text.</p>
                     </div>
                 </div>
