@@ -12,6 +12,9 @@ Meteor.methods({
          let cDate = new Date();
          let flag = false;
 
+         sDate.setHours(8);
+         eDate.setHours(8);
+
          if (eDate.getTime() === sDate.getTime()) {   //scheduled for one day
             eDate = new Date(eDate.setTime( eDate.getTime() + 86400000 )); //move end day to next day midnight
          }
@@ -24,6 +27,7 @@ Meteor.methods({
              console.log("updated end date");
             flag = true;
          }
+
 
          if (!flag) {
             let j = schedule.scheduleJob(sDate, Meteor.bindEnvironment(function() {
