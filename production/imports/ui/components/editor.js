@@ -11,14 +11,14 @@ let originalTitle = "";
 let allPosts = null;
 Template.allPosts.onRendered(function () {
     Tracker.autorun(function () {
-        Meteor.subscribeWithPagination('postsByUser', 10);
+        allPosts = Meteor.subscribeWithPagination('postsByUser', 10);
         Meteor.subscribe('images')
     })
 });
 
 Template.blogDraft.onRendered(function () {
     Tracker.autorun(function () {
-        allPosts = Meteor.subscribeWithPagination('drafts', 10, Meteor.userId());
+        Meteor.subscribeWithPagination('drafts', 10);
         Meteor.subscribe('images')
     })
 });
@@ -369,9 +369,7 @@ Template.allPosts.events({
         if(!$(evt.target).hasClass('btn-delete-post') && !$(evt.target).hasClass('btn-republish-post')){
             let obj = $(evt.target).closest($('.draft-item'));
             let id = obj.attr('id');
-            Session.set('draftEditItem', id);
             setEditorContent(Posts.findOne({_id: id}));
-            console.log(Session.get('draftEditItem'));
         }
     },
     'click .btn-delete-post': function (evt) {
@@ -585,7 +583,6 @@ Template.announcementOptions.events({
         let json = constructAnnouncementJson(type);
 
         if(Session.get('draftEditItem')){
-            console.log(json);
             Drafts.update({_id: Session.get('draftEditItem')}, json, function (err) {
                 if(err){
                     alertError('Saving Draft Failed!', err.message);
@@ -867,7 +864,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function setEditorContent(json) {
-    console.log(json);
     if(json.type === 'blog'){
         $('#blogTitle').val(json.title);
         $('#blogSubTitle').val(json.subtitle);

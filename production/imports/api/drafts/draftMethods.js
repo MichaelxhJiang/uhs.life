@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Drafts } from './drafts.js';
 
 if (Meteor.isServer) {
-   Meteor.publish('drafts', function draftsPublication(limit, author) {
+   Meteor.publish('drafts', function draftsPublication(limit) {
     return Drafts.find({
-        'author': author
+        'author': this.userId
     },{
         limit: limit
     });
