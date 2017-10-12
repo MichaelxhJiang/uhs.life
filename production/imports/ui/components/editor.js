@@ -8,6 +8,7 @@ import './editor.html';
 let operationStack = ['.editor-open'];
 let hasUnsplash = false;
 let originalTitle = "";
+let allPosts = null;
 Template.allPosts.onRendered(function () {
     Tracker.autorun(function () {
         Meteor.subscribeWithPagination('postsByUser', 10);
@@ -17,7 +18,7 @@ Template.allPosts.onRendered(function () {
 
 Template.blogDraft.onRendered(function () {
     Tracker.autorun(function () {
-        Meteor.subscribeWithPagination('drafts', 10, Meteor.userId());
+        allPosts = Meteor.subscribeWithPagination('drafts', 10, Meteor.userId());
         Meteor.subscribe('images')
     })
 });
@@ -359,7 +360,37 @@ Template.editor.events({
         Session.set('priority', priority);
     }
 });
-
+Template.allPosts.events({
+    'click .load-more-posts': function (evt) {
+        evt.preventDefault();
+        allPosts.loadNextPage();
+    },
+    'click .draft-item': function (evt) {
+        if(!$(evt.target).hasClass('btn-delete-post') && !$(evt.target).hasClass('btn-republish-post')){
+            let obj = $(evt.target).closest($('.draft-item'));
+            let id = obj.attr('id');
+            Session.set('draftEditItem', id);
+            setEditorContent(Posts.findOne({_id: id}));
+            console.log(Session.get('draftEditItem'));
+        }
+    },
+    'click .btn-delete-post': function (evt) {
+        evt.preventDefault();
+        let obj = $(evt.target).closest($('.draft-item'));
+        let id = obj.attr('id');
+        alertConfirm('Are you sure','This action cannot be reverted, if you don\'t want this post to show up in the list, we recommend you archive it.', function (accepted) {
+            if(accepted){
+                Posts.remove({_id: id}, function (err) {
+                    if(err){
+                        alertError("Error Removing Post", "Please try again later.\n"+ err.message)
+                    }else{
+                        alertSuccess("Successfully Removed Post", "")
+                    }
+                })
+            }
+        })
+    }
+});
 Template.blogEditor.events({
     'click .publish': function (event, template) {
         let json = constructBlogJson();
