@@ -41,6 +41,13 @@ if (Meteor.isServer) {
         },{
             limit: limit
         });
+    });
+    Meteor.publish('postsByUser', function (limit) {
+        return Posts.find({
+            'author': this.userId
+        }, {
+            limit: limit
+        });
     })
 }
 
@@ -374,14 +381,11 @@ Meteor.methods({
 
         Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.approved':false, 'meta.screeningStage':0, 'display': false}});
     },
-    'posts.rejectPost' : function (postId) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+    'posts.rejectPost' : function (postId, reason) {
+        if (!Roles.userIsInRole( this.userId, ['admin'])) {
             throw new Meteor.Error(400, "You do not have permission...Reported");
         }
-
-        Posts.findOneAndUpdate ({'_id':postId}, { $set: {'meta.screeningStage':-1}});
+        Posts.update ({'_id':postId}, { $set: {'meta.screeningStage': -1, 'meta.rejectedReason': reason}});
     },
     'posts.unRejectPost' : function (postId) {
         if (!(Roles.userIsInRole( this.userId, 'teacher') ||

@@ -8,13 +8,16 @@ import './editor.html';
 let operationStack = ['.editor-open'];
 let hasUnsplash = false;
 let originalTitle = "";
-Template.editor.onRendered(function () {
-
+Template.allPosts.onRendered(function () {
+    Tracker.autorun(function () {
+        Meteor.subscribeWithPagination('postsByUser', 10);
+        Meteor.subscribe('images')
+    })
 });
 
 Template.blogDraft.onRendered(function () {
     Tracker.autorun(function () {
-        Meteor.subscribeWithPagination('drafts', 10, Meteor.userId())
+        Meteor.subscribeWithPagination('drafts', 10, Meteor.userId());
         Meteor.subscribe('images')
     })
 });
@@ -227,7 +230,7 @@ Template.blogDraft.helpers({
 });
 
 Template.allPosts.helpers({
-    'drafts': function () {
+    'post': function () {
         return Posts.find({
             'author': Meteor.userId()
         });
@@ -248,6 +251,18 @@ Template.allPosts.helpers({
     },
     'isBlog': function () {
         return this.type === 'blog'
+    },
+    'stage': function () {
+        return this.meta.screeningStage;
+    },
+    'stageCaption': function () {
+        let text = 'Post Submitted';
+        if(this.meta.screeningStage === 3){
+            text = "Post Approved"
+        }else if(this.meta.screeningStage === -1){
+            text = "Post Rejected"
+        }
+        return text;
     }
 });
 
@@ -273,6 +288,10 @@ Template.editor.events({
     'click #checkDrafts': function () {
         swapElements('.blog-intro', '.blog-drafts');
         operationStack.push('.blog-drafts');
+    },
+    'click #checkAll': function () {
+        swapElements('.blog-intro', '.all-posts');
+        operationStack.push('.all-posts');
     },
     'click #startBlog': function () {
         swapElements('.post-type', '.blog-editor');
@@ -618,6 +637,7 @@ Template.announcementOptions.events({
 });
 Template.blogDraft.events({
     'click .btn-delete-draft': function (evt) {
+        evt.preventDefault();
         let obj = $(evt.target).closest($('.draft-item'));
         let id = obj.attr('id');
         Meteor.call('drafts.remove', id, function (err) {
@@ -625,6 +645,51 @@ Template.blogDraft.events({
                 alertError("Something went wrong when deleting the draft", err.message);
             }
         })
+    },
+    'click .btn-post-draft': function (evt) {
+        evt.preventDefault();
+        let obj = $(evt.target).closest($('.draft-item'));
+        let id = obj.attr('id');
+        const json = Drafts.findOne({_id: id});
+        let type = json.type;
+        if (type === "imageOnly") {
+            Meteor.call('posts.postImage', json, function (err) {
+                if (err) {
+                    alertError('Posting Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    Drafts.remove({_id: id});
+                }
+            });
+
+        } else if (type === "textOnly") {
+            Meteor.call('posts.postText', json, function (err) {
+                if (err) {
+                    alertError('Post Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    Drafts.remove({_id: id});
+                }
+            });
+        } else if (type === 'textAndImage') {
+            Meteor.call('posts.postTextImage', json, function (err) {
+                if (err) {
+                    alertError('Post Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    Drafts.remove({_id: id});
+                }
+            });
+        } else if (type === 'blog'){
+            Meteor.call('posts.postBlog', json, function (err) {
+                if (err) {
+                    alertError('Post Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    Drafts.remove({_id: id});
+                }
+            });
+        }
     },
     'click .btn-publish-draft': function (evt) {
         let obj = $(evt.target).closest($('.draft-item'));

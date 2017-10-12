@@ -210,6 +210,7 @@ loggedIn.route('/logout',{
     action: () => {
         Session.set("DocumentTitle","Logging out...");
         Meteor.logout(function() {
+            Session.clear();
             FlowRouter.go('/');
         });
     },

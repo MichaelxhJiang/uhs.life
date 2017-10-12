@@ -55,13 +55,15 @@
                             </div>
                         {{/ if}}
                         {{#if textOverImage}}
-                            <div class="grid-item image {{categories}} text-over-image" style="background: url({{imageLink}})">
-                                <div class="overlay-partial">
-                                    <div class="post-title mb-10">
-                                        <h3>{{headline}}</h3>
+                            <div class="grid-item image {{categories}} text-over-image">
+                                <div class="grid-bg-img-container" style="background: url({{imageLink}})">
+                                    <div class="overlay-partial">
+                                        <div class="post-title mb-10">
+                                            <h3>{{headline}}</h3>
+                                        </div>
+                                        <p>{{content}}</p>
+                                        <span class="grid-item-footer">{{writer}} | Effective: {{effectiveDate}}</span>
                                     </div>
-                                    <p>{{content}}</p>
-                                    <span class="grid-item-footer">{{writer}} | Effective: {{effectiveDate}}</span>
                                 </div>
                             </div>
                         {{/ if}}
