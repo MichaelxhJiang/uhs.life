@@ -8,13 +8,17 @@ import './editor.html';
 let operationStack = ['.editor-open'];
 let hasUnsplash = false;
 let originalTitle = "";
-Template.editor.onRendered(function () {
-
+let allPosts = null;
+Template.allPosts.onRendered(function () {
+    Tracker.autorun(function () {
+        allPosts = Meteor.subscribeWithPagination('postsByUser', 10);
+        Meteor.subscribe('images')
+    })
 });
 
 Template.blogDraft.onRendered(function () {
     Tracker.autorun(function () {
-        Meteor.subscribeWithPagination('drafts', 10, Meteor.userId())
+        Meteor.subscribeWithPagination('drafts', 10);
         Meteor.subscribe('images')
     })
 });
@@ -227,7 +231,7 @@ Template.blogDraft.helpers({
 });
 
 Template.allPosts.helpers({
-    'drafts': function () {
+    'post': function () {
         return Posts.find({
             'author': Meteor.userId()
         });
@@ -248,6 +252,18 @@ Template.allPosts.helpers({
     },
     'isBlog': function () {
         return this.type === 'blog'
+    },
+    'stage': function () {
+        return this.meta.screeningStage;
+    },
+    'stageCaption': function () {
+        let text = 'Post Submitted';
+        if(this.meta.screeningStage === 3){
+            text = "Post Approved"
+        }else if(this.meta.screeningStage === -1){
+            text = "Post Rejected"
+        }
+        return text;
     }
 });
 
@@ -273,6 +289,10 @@ Template.editor.events({
     'click #checkDrafts': function () {
         swapElements('.blog-intro', '.blog-drafts');
         operationStack.push('.blog-drafts');
+    },
+    'click #checkAll': function () {
+        swapElements('.blog-intro', '.all-posts');
+        operationStack.push('.all-posts');
     },
     'click #startBlog': function () {
         swapElements('.post-type', '.blog-editor');
@@ -340,7 +360,35 @@ Template.editor.events({
         Session.set('priority', priority);
     }
 });
-
+Template.allPosts.events({
+    'click .load-more-posts': function (evt) {
+        evt.preventDefault();
+        allPosts.loadNextPage();
+    },
+    'click .draft-item': function (evt) {
+        if(!$(evt.target).hasClass('btn-delete-post') && !$(evt.target).hasClass('btn-republish-post')){
+            let obj = $(evt.target).closest($('.draft-item'));
+            let id = obj.attr('id');
+            setEditorContent(Posts.findOne({_id: id}));
+        }
+    },
+    'click .btn-delete-post': function (evt) {
+        evt.preventDefault();
+        let obj = $(evt.target).closest($('.draft-item'));
+        let id = obj.attr('id');
+        alertConfirm('Are you sure','This action cannot be reverted, if you don\'t want this post to show up in the list, we recommend you archive it.', function (accepted) {
+            if(accepted){
+                Posts.remove({_id: id}, function (err) {
+                    if(err){
+                        alertError("Error Removing Post", "Please try again later.\n"+ err.message)
+                    }else{
+                        alertSuccess("Successfully Removed Post", "")
+                    }
+                })
+            }
+        })
+    }
+});
 Template.blogEditor.events({
     'click .publish': function (event, template) {
         let json = constructBlogJson();
@@ -405,7 +453,7 @@ Template.blogEditor.events({
                         Session.set('unsplashData',data.results[num]);
                         hasUnsplash = true;
                         $('#dropzone').replaceWith("<img src='" + data.results[num].urls.regular + "' class='img-responsive unsplash-container'/>");
-                        $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.results[num].user.links.html +"'>"+ data.results[num].user.name +"</a> from "+ data.results[num].user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
+                        $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.results[num].user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.results[num].user.name +"</a> from "+ data.results[num].user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
                     }
                 })
             }
@@ -429,7 +477,7 @@ Template.blogEditor.events({
                 Session.set('unsplash_img', data.id);
                 Session.set('unsplashData',data);
                 $('.unsplash-container').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container'/>");
-                $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
+                $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
             }
         })
     },
@@ -535,7 +583,6 @@ Template.announcementOptions.events({
         let json = constructAnnouncementJson(type);
 
         if(Session.get('draftEditItem')){
-            console.log(json);
             Drafts.update({_id: Session.get('draftEditItem')}, json, function (err) {
                 if(err){
                     alertError('Saving Draft Failed!', err.message);
@@ -618,6 +665,7 @@ Template.announcementOptions.events({
 });
 Template.blogDraft.events({
     'click .btn-delete-draft': function (evt) {
+        evt.preventDefault();
         let obj = $(evt.target).closest($('.draft-item'));
         let id = obj.attr('id');
         Meteor.call('drafts.remove', id, function (err) {
@@ -625,6 +673,51 @@ Template.blogDraft.events({
                 alertError("Something went wrong when deleting the draft", err.message);
             }
         })
+    },
+    'click .btn-post-draft': function (evt) {
+        evt.preventDefault();
+        let obj = $(evt.target).closest($('.draft-item'));
+        let id = obj.attr('id');
+        const json = Drafts.findOne({_id: id});
+        let type = json.type;
+        if (type === "imageOnly") {
+            Meteor.call('posts.postImage', json, function (err) {
+                if (err) {
+                    alertError('Posting Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    Drafts.remove({_id: id});
+                }
+            });
+
+        } else if (type === "textOnly") {
+            Meteor.call('posts.postText', json, function (err) {
+                if (err) {
+                    alertError('Post Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    Drafts.remove({_id: id});
+                }
+            });
+        } else if (type === 'textAndImage') {
+            Meteor.call('posts.postTextImage', json, function (err) {
+                if (err) {
+                    alertError('Post Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    Drafts.remove({_id: id});
+                }
+            });
+        } else if (type === 'blog'){
+            Meteor.call('posts.postBlog', json, function (err) {
+                if (err) {
+                    alertError('Post Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    Drafts.remove({_id: id});
+                }
+            });
+        }
     },
     'click .btn-publish-draft': function (evt) {
         let obj = $(evt.target).closest($('.draft-item'));
@@ -771,7 +864,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function setEditorContent(json) {
-    console.log(json);
     if(json.type === 'blog'){
         $('#blogTitle').val(json.title);
         $('#blogSubTitle').val(json.subtitle);

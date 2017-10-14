@@ -28,18 +28,18 @@ alertSuccess = function (title, body) {
     $(".btn-confirm").css('background','#4caf50');
 }
 
-alertConfirm = function (title,body,callback) {
+alertConfirm = function (title, body, callback) {
     bootbox.confirm({
         title: "<i class='fa fa-5x fa-question-circle-o'></i>",
         message: "<h3>"+title+"</h3><p>"+ body +"</p>",
         buttons: {
             confirm: {
-                label: 'Yes',
+                label: 'Yes I am Sure',
                 className: 'btn-success'
             },
             cancel: {
-                label: 'No',
-                className: 'btn-danger'
+                label: 'No, I am Not',
+                className: 'btn-grey'
             }
         },
         callback: function (result) {

@@ -11,6 +11,7 @@
             {{> announcementEditor}}
             {{> suggestionEditor}}
             {{> blogDraft}}
+            {{> allPosts}}
             <div class="container blog-intro text-center">
                 <div class="center-wrapper">
                     <div class="post-source mb-45">
@@ -36,7 +37,7 @@
                         </div>
                         <div class="row text-center mb-30">
                             <div class="col-lg-12">
-                                <div class="editor-options" id="checkDrafts">
+                                <div class="editor-options" id="checkAll">
                                     <i class="fa fa-list fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
                                     <p>Check all your posts</p>
                                 </div>
@@ -110,7 +111,7 @@
                                     <div class="dropdown" style="max-width: 164px">
                                         <button class="dropbtn">Quick Actions</button>
                                         <div class="dropdown-content">
-                                            <a href="">Publish</a>
+                                            <a href="" class="btn-publish-draft">Publish</a>
                                             <a href="" class="btn-delete-draft"><i class="fa fa-trash-o"></i> Delete</a>
                                         </div>
                                     </div>
@@ -118,6 +119,7 @@
                             </div>
                         </div>
                     {{/each}}
+                    <button class="btn btn-primary btn-wide load-more-posts">Load More</button>
                 </div>
             </div>
         </div>
@@ -125,12 +127,12 @@
 </template>
 
 <template name="allPosts">
-    <div class="container blog-drafts" hidden>
+    <div class="container all-posts" hidden>
         <div class="center-wrapper">
             <div class="mb-45">
                 <div class="row mb-30">
                     <div class="col-lg-12 col-md-12 col-sm-12 mb-30 text-center mt-30">
-                        <h2>Here are all your drafts,</h2>
+                        <h2>Here are all your posts,</h2>
                         <h4>Click on one to continue editing</h4>
                     </div>
                 </div>
@@ -138,23 +140,25 @@
                     {{#each post}}
                         <div class="col-lg-12 draft-item" id="{{_id}}">
                             <div class="editor-options draft-inline">
-                                <div class="image-preview">
+                                <div class="col-md-3">
                                     <img src="{{imageLink}}" class="img-responsive">
                                 </div>
-                                <div class="content-preview">
+                                <div class="content-preview col-md-6">
                                     <h3 class="draft-title">{{headline}}{{title}}</h3>
                                     <span>Created: {{draftedDate}}. Format: {{type}}</span>
                                     <p class="draft-body">{{#if isBlog}}{{subtitle}}{{else}}{{content}}{{/if}}</p>
                                     <div class="dropdown" style="max-width: 164px">
                                         <button class="dropbtn">Quick Actions</button>
                                         <div class="dropdown-content">
-                                            <a href="">re-Publish</a>
-                                            <a href="" class="btn-delete-draft"><i class="fa fa-trash-o"></i> Delete</a>
+                                            <a href="" class="btn-republish-post">re-Publish</a>
+                                            <a href="" class="btn-delete-post"><i class="fa fa-trash-o"></i> Delete</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="review Stage">
-                                    <h1>1</h1>
+                                <div class="review-stage col-md-3">
+                                    <h5>Review Stage</h5>
+                                    <h1>{{stage}}</h1>
+                                    <h5>{{stageCaption}}</h5>
                                 </div>
                             </div>
                         </div>
@@ -306,7 +310,6 @@
             {{> announcementTextInput max="1000"}}
             {{> announcementOptions imgAndText=false}}
         </div>
-
         <div class="text-center text-and-image" hidden>
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">

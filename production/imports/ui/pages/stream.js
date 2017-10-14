@@ -34,7 +34,7 @@ Template.stream.helpers({
     },
     'allPosts': function () {
         let query = Posts.find({
-            /*'meta.approved': true,*/
+            'meta.approved': true,
             'type': 'announcement'
         });
         query.observeChanges({
@@ -57,7 +57,7 @@ Template.stream.helpers({
                 }, 500);
             }
         });
-        return query;
+        return query.fetch().reverse();
     },
     'effectiveDate': function () {
         return (this.startDate === this.endDate) ? moment(this.startDate).format("MMMM Do YYYY") : moment(this.startDate).format("MMMM Do YYYY") + " - " + moment(this.endDate).format("MMMM Do YYYY");
