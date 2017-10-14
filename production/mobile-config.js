@@ -15,3 +15,18 @@ App.configurePlugin('cordova-plugin-googleplus', {
 });
 
 App.configurePlugin('cordova-plugin-googleplayservices');
+
+App.accessRule('http://*.algolianet.com', {
+    'minimum-tls-version': 'TLSv1.0',
+    'requires-forward-secrecy': false,
+});
+App.accessRule('http://*.algolia.com', {
+    'minimum-tls-version': 'TLSv1.0',
+    'requires-forward-secrecy': false,
+});
+App.accessRule('http://*.algolia.net', {
+    'minimum-tls-version': 'TLSv1.0',
+    'requires-forward-secrecy': false,
+});
+
+//App.accessRule('*');
