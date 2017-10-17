@@ -24,19 +24,9 @@ App.accessRule('http://*.algolia.com', {
     'minimum-tls-version': 'TLSv1.0',
     'requires-forward-secrecy': false,
 });
+App.accessRule('http://*.algolia.net', {
+    'minimum-tls-version': 'TLSv1.0',
+    'requires-forward-secrecy': false,
+});
 
-App.accessRule('*');
-
-App.appendToConfig(`<platform name="ios">
-    <config-file platform="ios" target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
-      <string>YOUR DESCRIPTION (PHOTOS PERMISSION) HERE</string>
-    </config-file>
-    <config-file platform="ios" target="*-Info.plist" parent="NSCameraUsageDescription">
-      <string>YOUR DESCRIPTION (CAMERA PERMISSION) HERE</string>
-    </config-file>
-  </platform>`);
-
-/*
-NSAppTransportSecurity: Dictionary
- - NSAllowsArbitraryLoads: Boolean = YES
- */
+//App.accessRule('*');

@@ -49,3 +49,4 @@ http
 percolate:paginated-subscription
 timmyg:wow
 tap:i18n
+force-ssl

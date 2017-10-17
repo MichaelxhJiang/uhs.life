@@ -108,6 +108,11 @@ admin.route('/dashboard/suggestions', {
 });
 
 FlowRouter.route('/login',{
+    waitOn: function(){
+        setTimeout(function() {
+            Accounts.loginServicesConfigured();
+        },500);
+    },
     action: function(){
         if(!Meteor.userId()){
             Session.set('redirectAfterLogin', '/');
