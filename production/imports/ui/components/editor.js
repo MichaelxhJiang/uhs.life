@@ -1,7 +1,6 @@
 /**
  * Created by Yonglin Wang on 8/4/2017.
  */
-
 import {Images} from '../../api/images/images.js';
 
 import './editor.html';
@@ -441,21 +440,56 @@ Template.blogEditor.events({
                 console.log(err);
                 hasUnsplash = false;
             } else {
-                Meteor.call('searchKeyword', "nature", function (err, data) {
-                    if (err) {
-                        console.log(err);
-                        $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one.");
-                        hasUnsplash = false;
-                    } else {
-                        console.log(data);
-                        let num = getRandomInt(0, data.results.length-1);
-                        Session.set('unsplash_img', data.results[num].id);
-                        Session.set('unsplashData',data.results[num]);
-                        hasUnsplash = true;
-                        $('#dropzone').replaceWith("<img src='" + data.results[num].urls.regular + "' class='img-responsive unsplash-container'/>");
-                        $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.results[num].user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.results[num].user.name +"</a> from "+ data.results[num].user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
-                    }
-                })
+                let list = getKeyWord($('.editable').froalaEditor('html.get'));
+                let agent = 0;
+                let getImg = function(){
+                    Meteor.call('searchKeyword', list[agent], function (err, data) {
+                        if (err) {
+                            console.log(err);
+                            $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one.");
+                            hasUnsplash = false;
+                        } else {
+                            console.log(data);
+                            if(data.results.length <= 0){
+                                agent++;
+                                if(agent <= list.length){
+                                    console.log('no image found');
+                                    getImg();
+                                }else{
+                                    $('#unsplashPrompt').html("<i class='fa fa-spinner fa-pulse fa-fw'></i> Please Wait...");
+                                    Meteor.call('getRandomPhoto', function (err, data) {
+                                        if (err) {
+                                            console.log(err);
+                                            $('.unsplash-container').replaceWith("<form action='/file-upload' class='dropzone' id='dropzone'></form>");
+                                            let blogDrop = initDropZone('dropzone', {
+                                                number: 1,
+                                                size: 8,
+                                                message: "Drop an image here to be the featured image, or click to select an image using the browser.",
+                                            });
+                                            $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one instead.");
+                                            hasUnsplash = false;
+                                        } else {
+                                            console.log(data);
+                                            Session.set('unsplash_img', data.id);
+                                            Session.set('unsplashData',data);
+                                            $('#dropzone').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container'/>");
+                                            $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
+                                        }
+                                    })
+                                }
+                            }else{
+                                let num = getRandomInt(0, data.results.length-1);
+                                Session.set('unsplash_img', data.results[num].id);
+                                Session.set('unsplashData',data.results[num]);
+                                hasUnsplash = true;
+                                $('#dropzone').replaceWith("<img src='" + data.results[num].urls.regular + "' class='img-responsive unsplash-container'/>");
+                                $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.results[num].user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.results[num].user.name +"</a> from "+ data.results[num].user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
+                            }
+
+                        }
+                    })
+                };
+                getImg();
             }
         })
     },
@@ -508,6 +542,9 @@ Template.blogEditor.events({
             overflow: 'visible'
         }); // Enables the Scrolling
         window.open('/blog/preview', '_blank');
+    },
+    'click #test': function () {
+        getKeyWord($('.editable').froalaEditor('html.get'));
     }
 });
 Template.announcementOptions.events({
@@ -958,7 +995,6 @@ function wipeEditor(type, subType) {
         $('.tags').tagsinput('removeAll');
         $('.visibility-select').val(null).trigger("change");
         $(".category-select").val(null).trigger("change");
-        $("#blogOrganizationSelect").val(null).trigger("change");
         $('.input-date').datepicker('update', null);
         Session.set('unsplash_img', null);
         Session.set('unsplashData', null);
@@ -1248,4 +1284,19 @@ function constructAnnouncementJson(type){
             }
         };
     }
+}
+
+function getKeyWord(text) {
+    let keyword_extractor = require("keyword-extractor");
+
+    let keywords = ($(text).text());
+//  Extract the keywords
+    let extraction_result = keyword_extractor.extract(keywords,{
+        language:"english",
+        remove_digits: true,
+        return_changed_case:true,
+        remove_duplicates: false,
+        remove_max_ngrams: 10
+    });
+    return extraction_result;
 }
