@@ -8,13 +8,13 @@
                         <div class="col-md-3 col-sm-6 col-xs-6 mb-30">
                             <div class="section-card">
                                 <canvas id="knowledgeChart"></canvas>
-                                <h3>Knowledge</h3>
+                                <h3>{{_ "details.course.knowledge"}}</h3>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="section-card">
                                 <canvas id="thinkingChart"></canvas>
-                                <h3>Thinking</h3>
+                                <h3>{{_ "details.course.thinking"}}</h3>
                             </div>
                         </div>
                     </div>
@@ -22,13 +22,13 @@
                         <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="section-card">
                                 <canvas id="communicationChart"></canvas>
-                                <h3>Communication</h3>
+                                <h3>{{_ "details.course.communication"}}</h3>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="section-card">
                                 <canvas id="applicationChart"></canvas>
-                                <h3>Application</h3>
+                                <h3>{{_ "details.course.application"}}</h3>
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="section-card">
                                 <h2 class="performance-mark">{{culminating}}</h2>
-                                <h3 class="mt-0">Culminating</h3>
+                                <h3 class="mt-0">{{_ "details.course.culminating"}}</h3>
                             </div>
                         </div>
                     </div>
@@ -45,25 +45,25 @@
                         <div class="col-md-3 col-sm-6 col-xs-6 mb-30">
                             <div class="section-card">
                                 <canvas id="knowledgeChart" width="400" height="400"></canvas>
-                                <h3>Knowledge</h3>
+                                <h3>{{_ "details.course.knowledge"}}</h3>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="section-card">
                                 <canvas id="thinkingChart" width="400" height="400"></canvas>
-                                <h3>Thinking</h3>
+                                <h3>{{_ "details.course.thinking"}}</h3>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="section-card">
                                 <canvas id="communicationChart" width="400" height="400"></canvas>
-                                <h3>Communication</h3>
+                                <h3>{{_ "details.course.communication"}}</h3>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="section-card">
                                 <canvas id="applicationChart" width="400" height="400"></canvas>
-                                <h3>Application</h3>
+                                <h3>{{_ "details.course.application"}}</h3>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="section-card">
                                 <h2 class="performance-mark">{{culminating}}</h2>
-                                <h3 class="mt-0">Culminating</h3>
+                                <h3 class="mt-0">{{_ "details.course.culminating"}}</h3>
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
 
             </div>
             <div class="navbar-fixed-bottom text-center text-capitalize scroll-down hidden-xs">
-                <p>Scroll Down</p>
+                <p>{{_ "details.scroll"}}</p>
                 <div class="bounce arrow"></div>
             </div>
         </div>
@@ -87,9 +87,9 @@
             <div class="row mt-30">
                 <div class="col-md-12 text-center assessment-tabs">
                     <div class="button-group filter-button-group mb-30">
-                        <button class="filter-btn is-checked" data-tab="assessments">Assessments</button>
-                        <button class="filter-btn" data-tab="insights">Insights</button>
-                        <button class="filter-btn" data-tab="resources">Resources</button>
+                        <button class="filter-btn is-checked" data-tab="assessments">{{_ "details.course.menu.assess"}}</button>
+                        <button class="filter-btn" data-tab="insights">{{_ "details.course.menu.insights"}}</button>
+                        <button class="filter-btn" data-tab="resources">{{_ "details.course.menu.resources"}}</button>
                     </div>
                 </div>
             </div>
@@ -109,8 +109,8 @@
                                             <i class="fa fa-2x fa-times"></i>
                                         </div>
                                         <h4 class="presenter-section">Section Title</h4>
-                                        <h3>You got <span class="important achieved">10</span> out of <span class="important out-of">10</span></h3>
-                                        <h5 class="mb-30">Weight: <span class="weight">10</span></h5>
+                                        <h3>{{_ "details.course.epand_a"}} <span class="important achieved">10</span> {{_ "details.course.expand_b"}} <span class="important out-of">10</span></h3>
+                                        <h5 class="mb-30">{{_ "details.course.weight"}}: <span class="weight">10</span></h5>
 <!--                                        <h4 class="text-left">Insights:</h4>
                                         <ul class="text-left">
                                             <li>This is insight number 1</li>
@@ -120,51 +120,51 @@
                                     {{# with K}}
                                         <div class="knowledge performance">
                                             <div class="performance-progress" id="test1" data-progress="{{percentage}}"></div>
-                                            <div class="general-info"><p>Knowledge - <span class="important">{{percentage}}</span></p></div>
+                                            <div class="general-info"><p>{{_ "details.course.knowledge"}} - <span class="important">{{percentage}}</span></p></div>
                                         </div>
                                     {{else}}
                                         <div class="knowledge performance not-available">
                                             <div class="performance-progress" data-progress="0"></div>
-                                            <div class="general-info"><p>Knowledge - <span class="important">No Marks Available</span></p></div>
+                                            <div class="general-info"><p>{{_ "details.course.knowledge"}} - <span class="important">{{_ "details.course.no"}}</span></p></div>
                                         </div>
                                     {{/ with}}
                                     {{# with T}}
                                         <div class="thinking performance">
                                             <div class="performance-progress" data-progress="{{percentage}}"></div>
-                                            <div class="general-info"><p>Thinking - <span class="important">{{percentage}}</span></p></div>
+                                            <div class="general-info"><p>{{_ "details.course.thinking"}} - <span class="important">{{percentage}}</span></p></div>
                                         </div>
                                     {{else}}
                                         <div class="thinking performance not-available">
                                             <div class="performance-progress" data-progress="0"></div>
-                                            <div class="general-info"><p>Thinking - <span class="important">No Marks Available</span></p></div>
+                                            <div class="general-info"><p>{{_ "details.course.thinking"}} - <span class="important">{{_ "details.course.no"}}</span></p></div>
                                         </div>
                                     {{/ with}}
                                     {{# with C}}
                                         <div class="communication performance">
                                             <div class="performance-progress" data-progress="{{percentage}}"></div>
-                                            <div class="general-info"><p>Communication - <span class="important">{{percentage}}</span></p></div>
+                                            <div class="general-info"><p>{{_ "details.course.communication"}} - <span class="important">{{percentage}}</span></p></div>
                                         </div>
                                     {{else}}
                                         <div class="communication performance not-available">
                                             <div class="performance-progress" data-progress="0"></div>
-                                            <div class="general-info"><p>Communication - <span class="important">No Marks Available</span></p></div>
+                                            <div class="general-info"><p>{{_ "details.course.communication"}} - <span class="important">{{_ "details.course.no"}}</span></p></div>
                                         </div>
                                     {{/ with}}
                                     {{# with A}}
                                         <div class="application performance">
                                             <div class="performance-progress" data-progress="{{percentage}}"></div>
-                                            <div class="general-info"><p>Application - <span class="important">{{percentage}}</span></p></div>
+                                            <div class="general-info"><p>{{_ "details.course.application"}} - <span class="important">{{percentage}}</span></p></div>
                                         </div>
                                     {{else}}
                                         <div class="application performance not-available">
                                             <div class="performance-progress" data-progress="0"></div>
-                                            <div class="general-info"><p>Application - <span class="important">No Marks Available</span></p></div>
+                                            <div class="general-info"><p>{{_ "details.course.application"}} - <span class="important">{{_ "details.course.no"}}</span></p></div>
                                         </div>
                                     {{/ with}}
                                     {{# with O}}
                                         <div class="other performance">
                                             <div class="performance-progress" data-progress="{{percentage}}"></div>
-                                            <div class="general-info"><p>Other - <span class="important">{{percentage}}</span></p></div>
+                                            <div class="general-info"><p>{{_ "details.course.other"}} - <span class="important">{{percentage}}</span></p></div>
                                         </div>
                                     {{/ with}}
                                 </div>
@@ -179,7 +179,7 @@
                     <div class="col-md-12">
                         <div class="assessment-body text-center">
                             <div class="chart-content">
-                                <h3>Timeline of Your Mark</h3>
+                                <h3>{{_ "details.course.timeline_graph"}}</h3>
                                 <canvas id="markByAssignment"></canvas>
                             </div>
                         </div>
@@ -189,7 +189,7 @@
                     <div class="col-md-12">
                         <div class="assessment-body text-center">
                             <div class="chart-content">
-                                <h3>Section Mark by Assignment</h3>
+                                <h3>S{{_ "details.course.assignments_graph"}}</h3>
                                 <canvas id="sectionMarkByAssignment"></canvas>
                             </div>
                         </div>

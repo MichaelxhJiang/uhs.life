@@ -3,7 +3,7 @@
         <nav>
             <div class="nav-extend hidden-print">
                 <span class="side-nav-prompt">
-                    <i class="fa fa-bars"></i> <span class="hidden-xs hidden-sm">MENU</span>
+                    <i class="fa fa-bars"></i> <span class="hidden-xs hidden-sm">{{_ "nav.left"}}</span>
                 </span>
             </div>
             <div class="nav-hub">
@@ -12,7 +12,7 @@
             </div>
             <div class="nav-oper hidden-print">
                 <span class="top-operation-prompt">
-                    <i class="fa fa-search"></i> <span class="hidden-sm hidden-xs">SEARCH</span>
+                    <i class="fa fa-search"></i> <span class="hidden-sm hidden-xs">{{_ "nav.right"}}</span>
                 </span>
             </div>
         </nav>
@@ -24,7 +24,7 @@
                 <div class="container pt-60">
                     <div class="search-prompt">
                         <p><i class="fa fa-arrow-up" aria-hidden="true"></i> </p>
-                        <p class="unselectable">Type something in the box above to search</p>
+                        <p class="unselectable">{{_ "nav.search_prompt.init"}}</p>
                     </div>
                     {{#each searchContent}}
                         <div class="col-lg-6 ">
@@ -45,22 +45,22 @@
             <h4>
                 {{username}}
             </h4>
-            <a href="/logout" class="logout-btn">LOG OUT</a>
+            <a href="/logout" class="logout-btn">{{_ "nav.logout"}}</a>
         </div>
         <div class="side-nav-body">
-            <a href="/">Stream</a>
-            <a href="/stories">Stories</a>
+            <a href="/">{{_ "nav.side_items.stream"}}</a>
+            <a href="/stories">{{_ "nav.side_items.stories"}}</a>
             {{#if isStudent}}
-                <a href="" id="academics"><div class="expand-text">Academics</div><i class="fa fa-times academics-icon"></i></a>
+                <a href="" id="academics"><div class="expand-text">{{_ "nav.side_items.marks"}}</div><i class="fa fa-times academics-icon"></i></a>
                 <ul class="course-list">
                     {{#each courses}}
                         <li><a href="/course/{{subject_id}}" class="course-link">{{course}}<i class="{{state}}">{{mark}}</i></a></li>
                     {{/ each}}
                 </ul>
-                <a href="">Suggestions to Admin</a>
+                <a href="">{{_ "nav.side_items.suggest"}}</a>
             {{/ if}}
             {{#if isAdmin}}
-                <a href="/dashboard">Dashboard</a>
+                <a href="/dashboard">{{_ "nav.side_items.admin"}}</a>
             {{/ if}}
         </div>
     </div>
@@ -72,19 +72,19 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Please Login to {{student_id}}</h4>
+                    <h4 class="modal-title">{{_ "nav.teach.login"}} {{student_id}}</h4>
                 </div>
                 <div class="modal-body">
                     <form id="reLoginForm">
                         <div class="form-group">
                             <input type="password" aria-describedby="TeachAssistPassword" placeholder="Password" id="reLoginPass">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-wide">Login</button>
+                        <button type="submit" class="btn btn-primary btn-wide">{{_ "nav.teach.submit_login"}}</button>
                     </form>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "nav.close"}}</button>
                 </div>
 
             </div>
@@ -97,7 +97,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Connect your teach assist account</h4>
+                    <h4 class="modal-title">{{_ "nav.teach.connect"}}</h4>
                 </div>
                 <div class="modal-body">
                     <form id="connectLoginForm">
@@ -107,12 +107,12 @@
                         <div class="form-group">
                             <input type="password" aria-describedby="TeachAssistPassword" placeholder="Password" id="connectPass">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-wide">Connect</button>
+                        <button type="submit" class="btn btn-primary btn-wide">{{_ "nav.teach.submit_login"}}</button>
                     </form>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "nav.close"}}</button>
                 </div>
 
             </div>

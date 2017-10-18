@@ -4,7 +4,7 @@
     <div class="container main">
         <div class="col-lg-12 content">
             <div class="button-group filter-button-group mb-30">
-                <button class="filter-btn is-checked" data-filter="*">ALL</button>
+                <button class="filter-btn is-checked" data-filter="*">{{_ "stream.all"}}</button>
                 {{#each category}}
                     <button class="filter-btn" data-filter=".{{name}}">{{name}}</button>
                 {{/each}}
@@ -36,7 +36,7 @@
                             <p>
                                 {{content}}
                             </p>
-                            <span class="grid-item-footer">{{writer}} | Effective: {{effectiveDate}}</span>
+                            <span class="grid-item-footer">{{writer}} | {{_ "stream.time_range"}}: {{effectiveDate}}</span>
                         </div>
                     {{/ if}}
                     {{#if isImageText}}
@@ -62,7 +62,7 @@
                                             <h3>{{headline}}</h3>
                                         </div>
                                         <p>{{content}}</p>
-                                        <span class="grid-item-footer">{{writer}} | Effective: {{effectiveDate}}</span>
+                                        <span class="grid-item-footer">{{writer}} | {{_ "stream.time_range"}}: {{effectiveDate}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -75,12 +75,12 @@
                                 <h3>{{title}}</h3>
                                 <span class="grid-item-footer">{{writer}}</span>
                                 <p>{{subtitle}}</p>
-                                <a href="" class="btn btn-primary btn-wide">Read More</a>
+                                <a href="" class="btn btn-primary btn-wide">{{_ "stream.read_more"}}</a>
                             </div>
                         </div>
                     {{/ if}}
                 {{else}}
-                    <h2 class="text-center">There are no announcements today! :^)</h2>
+                    <h2 class="text-center">{{_ "stream.no"}}</h2>
                 {{/ each}}
             </div>
         </div>

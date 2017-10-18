@@ -1,32 +1,32 @@
 <template name="login">
     <div class="container-fluid full-screen">
         <div class="branding">
-            <span class="life-brand">uhs.life</span>
+            <span class="life-brand">{{_ "login.branding"}}</span>
         </div>
         <div class="login-menu ">
             <ul class="login-menu-items">
-                <li class="hidden-xs hidden-sm"><a href="http://google.ca" >About</a></li>
-                <li class="hidden-xs hidden-sm"><a href="http://google.ca">Help Center</a></li>
-                <li class="hidden-xs hidden-sm"><a href="http://google.ca">Terms & Policies</a></li>
+                <li class="hidden-xs hidden-sm"><a href="http://google.ca" >{{_ "login.about"}}</a></li>
+                <li class="hidden-xs hidden-sm"><a href="http://google.ca">{{_ "login.help"}}</a></li>
+                <li class="hidden-xs hidden-sm"><a href="http://google.ca">{{_ "login.legal"}}</a></li>
             </ul>
         </div>
         <div class="col-lg-8 col-md-8 jumbotron-area hidden-sm hidden-xs">
             <div class="information">
-                <h1 class="jumbotron-greeting">Welcome</h1>
+                <h1 class="jumbotron-greeting">{{_ "login.welcome"}}</h1>
                 <span class="jumbotron-title">Here are some important information</span>
                 <p class="jumbotron-details">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi delectus dolore ea est excepturi id, qui quo ratione sapiente suscipit? At cupiditate deserunt dolorum expedita facere illum nisi non quod.
                     ommodi consectetur doloremque eius enim neque nostrum, reprehenderit repudiandae. Ab aspernatur cumque dolore doloribus eaque fugit illo ipsam ipsum minima nam nisi odio officia omnis, quasi quisquam sunt totam vitae.
                     Adipisci alias aspernatur deleniti dolores exercitationem facilis illo ipsa laboriosam minima necessitatibus nemo nesciunt, non optio porro praesentium quae quia quos reiciendis sequi, soluta suscipit tempore tenetur ullam vero voluptas!
                 </p>
-                <a class="btn btn-lg btn-white">Read More</a>
+                <a class="btn btn-lg btn-white">{{_ "login.read_more"}}</a>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 login-area">
             <div class="login-with-google">
-                <h1 class="mb-30">Login</h1>
+                <h1 class="mb-30">{{_ "login.title"}}</h1>
                 <a class="btn btn-primary btn-lg btn-login ptb-30" id="googleLogin" href="">
-                    <i class="fa fa-fw fa-2x fa-google" aria-hidden="true"></i> Login Now
+                    <i class="fa fa-fw fa-2x fa-google" aria-hidden="true"></i> {{_ "login.main_btn"}}
                 </a>
             </div>
 

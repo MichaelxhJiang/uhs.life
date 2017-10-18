@@ -1,4 +1,64 @@
 {
-  "login_title": "Login",
-  "login_btn": "Login Now"
+  "branding": "uhs.life",
+  "tagline": "Built by students, for everyone.",
+  "login": {
+    "title": "Login",
+    "main_btn": "Login With Gapps",
+    "about": "About",
+    "branding": "uhs.life",
+    "help": "Help Center",
+    "legal": "Legal Stuff",
+    "read_more": "Read More",
+    "welcome": "Welcome"
+  },
+  "nav": {
+    "left": "MENU",
+    "right": "SEARCH",
+    "close": "CLOSE",
+    "search_prompt": {
+      "init": "Type something in the box above to search"
+    },
+    "logout": "LOGOUT",
+    "side_items": {
+      "stream": "Stream",
+      "stories": "Stories",
+      "marks": "Academics",
+      "suggest": "Suggestions to Admin",
+      "admin": "Dashboard"
+    },
+    "teach": {
+      "login": "Please Login to",
+      "submit_login": "Login",
+      "connect": "Connect your Teach Assist Account"
+    }
+  },
+  "stream": {
+    "all": "All",
+    "time_range": "Effective",
+    "read_more": "Read More",
+    "no": "There are no announcements today! 😅"
+  },
+  "details": {
+    "scroll": "Scroll Down",
+    "posted_date": "Posted",
+    "course": {
+      "knowledge": "Knowledge",
+      "thinking": "Thinking",
+      "communication": "Communication",
+      "application": "Application",
+      "culminating": "Culminating",
+      "other": "Other",
+      "menu":{
+        "assess": "Assessments",
+        "insights": "Insights",
+        "resources": "Resources"
+      },
+      "expand_a": "You got",
+      "expand_b": "out of",
+      "no": "No Marks Available",
+      "weight": "Weight",
+      "timeline_graph": "Timeline of Your Mark",
+      "assignments_graph": "Section Marks by Assignment"
+    }
+  }
 }

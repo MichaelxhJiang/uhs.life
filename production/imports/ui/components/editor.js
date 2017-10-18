@@ -542,9 +542,6 @@ Template.blogEditor.events({
             overflow: 'visible'
         }); // Enables the Scrolling
         window.open('/blog/preview', '_blank');
-    },
-    'click #test': function () {
-        getKeyWord($('.editable').froalaEditor('html.get'));
     }
 });
 Template.announcementOptions.events({
