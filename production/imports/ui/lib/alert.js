@@ -11,7 +11,7 @@ alertError = function (title, body) {
             }
         }
     });
-}
+};
 
 alertSuccess = function (title, body) {
     bootbox.alert({
@@ -26,7 +26,7 @@ alertSuccess = function (title, body) {
     });
     $(".modal-header").css('background','#4caf50');
     $(".btn-confirm").css('background','#4caf50');
-}
+};
 
 alertConfirm = function (title, body, callback) {
     bootbox.confirm({
@@ -47,4 +47,14 @@ alertConfirm = function (title, body, callback) {
         }
     });
     $(".modal-header").css('background','#2196F3');
-}
+};
+
+alertPrompt = function (title, callback) {
+    bootbox.prompt({
+        title: title,
+        inputType: 'textarea',
+        callback: function (result) {
+            callback(result)
+        }
+    });
+};

@@ -17,16 +17,16 @@ let loggedIn = FlowRouter.group({
                 Tracker.autorun(function () {
                     let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
-                    if(userSub.ready()){
+                    if(user){
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
                             FlowRouter.go('/first')
                         }else{
                             Session.setPersistent('name', user.services.google.name);
                             if(Roles.userIsInRole(Meteor.userId(),'student')){
-                                Session.set('courses',user.profile.private.courses);
-                                Session.setPersistent('token',user.profile.private.token);
-                                Session.set('tokenExpiry',user.profile.private.tokenDate);
+                                Session.setPersistent('courses',user.private.courses);
+                                Session.setPersistent('token',user.private.token);
+                                Session.setPersistent('tokenExpiry',user.private.tokenDate);
                             }
                             Session.set('user_img', user.services.google.picture);
                         }
@@ -50,8 +50,9 @@ let admin = FlowRouter.group({
                 Tracker.autorun(function () {
                     let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
-                    if(userSub.ready()){
+                    if(user){
                         if(!user.profile.init){
+                            Meteor.call('accounts.initRoles');
                             FlowRouter.go('/first')
                         }else{
                             Session.set('name', user.services.google.name);

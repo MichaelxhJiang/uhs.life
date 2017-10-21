@@ -23,7 +23,8 @@ Template.dashHome.helpers({
     'post': function () {
         return Posts.find({
             'meta.approved': false,
-            'type': 'announcement'
+            'type': 'announcement',
+            'meta.screeningStage': 0
         });
     },
     'blogPost': function () {
@@ -212,11 +213,17 @@ Template.dashboard.events({
     'click .btn-reject': function (evt) {
         let obj = $(evt.target).closest($('.new-post'));
         let id = obj.attr('id');
-        Meteor.call('posts.removePost', id, function (err) {
-            if(err){
-                alertError("Error Occurred When Removing Post", err.message)
+        let reason = null;
+        alertPrompt("Please give the reason of rejection", function (result) {
+            if(result){
+                Meteor.call('posts.rejectPost', id, result, function (err) {
+                    if(err){
+                        alertError("Error Occurred When Removing Post", err.message)
+                    }
+                })
             }
-        })
+        });
+
     }
 });
 

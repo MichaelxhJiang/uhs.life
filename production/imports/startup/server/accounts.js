@@ -13,6 +13,9 @@ if(Meteor.isServer){
     Meteor.publish('allUsers', function usersPublication() {
         return Meteor.users.find({});
     });
+    Meteor.publish('theUser', function theUserPublication() {
+        return Meteor.users.find({_id: this.userId})
+    });
     Meteor.publish('allUsersLite', function usersLitePublication() {
         return Meteor.users.find({},{
             'services.google.picture': 1,
@@ -34,12 +37,15 @@ Accounts.validateNewUser(function (user) {
 });
 
 Accounts.onCreateUser(function (options,user){
-   console.log('account created');
-    if (user.profile == undefined) {
+    if (!user.profile) {
         user.profile = {
             init: false,
             teacher: false
         };
+        user.private = {
+            courses: null,
+            token: null
+        }
     }
     const email = user.services.google.email;
     const hasNumbers = email.match(/\d+/g);
@@ -50,9 +56,6 @@ Accounts.onCreateUser(function (options,user){
 });
 
 Meteor.methods({
-    'extendUserProfile': function (id,profile) {
-        
-    },
     'initUserProfile': function (id,info) {
         Meteor.users.update({_id: id}, {$set: {"profile.init": true}});
         Meteor.users.update({_id: id}, {$set: {"profile.terms": true}});

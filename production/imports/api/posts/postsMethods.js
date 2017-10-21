@@ -307,9 +307,7 @@ Meteor.methods({
         Posts.remove({_id: postId});
     },
     'posts.approvePost' : function(postId) {
-        if (!(Roles.userIsInRole( this.userId, 'teacher') ||
-            Roles.userIsInRole( this.userId, 'admin') ||
-            Roles.userIsInRole( this.userId, 'announcementEditor'))) {
+        if (!Roles.userIsInRole( this.userId, ['admin'])) {
             throw new Meteor.Error(400, "You do not have permission...Reported");
         }
 

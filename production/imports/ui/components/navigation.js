@@ -51,7 +51,7 @@ Template.navigation.helpers({
         const now = new Date();
         let diff = Math.abs(now - Session.get('tokenExpiry'));
         let minutes = Math.floor((diff/1000)/60);
-        return (minutes > 15) ? 'expired' : 'fine'
+        return (minutes > 30) ? 'expired' : 'fine'
     },
     'mark': function () {
         let mark = this.mark;

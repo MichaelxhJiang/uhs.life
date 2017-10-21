@@ -68,7 +68,7 @@ Template.firstTime.events({
                     $('.teach-assist-login').fadeIn('slow')
                 });
             }else{
-                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.token": data, "profile.private.tokenDate": new Date()}}, function (err) {
+                Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.token": data, "private.tokenDate": new Date()}}, function (err) {
                     if(err){
                         alertError("Something went wrong", "You can connect your account anytime later");
                         swapElements('#teachIntro', '#emailIntro');
@@ -81,7 +81,7 @@ Template.firstTime.events({
                                 swapElements('#teachIntro', '#emailIntro');
                                 swapElements('#teachAssistInfo', '#subscriptionEmail');
                             }else{
-                                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.courses": data}});
+                                Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.courses": data}});
                                 alertSuccess("Yeah!", 'We have successfully connected you and teach assist, however further login will be required since token may expire.');
                                 swapElements('#teachIntro', '#emailIntro');
                                 swapElements('#teachAssistInfo', '#subscriptionEmail');
@@ -107,10 +107,11 @@ Template.firstTime.events({
     'submit #newsletterEmailForm': function (evt) {
         evt.preventDefault();
         let email = $('#personalEmail').val();
+        let userInfo = Meteor.user().services.google;
         if(!validateEmail(email)){
             alertError("Sorry...", "The email you entered is unacceptable.")
         }else{
-            Meteor.call('accounts.setPersonalEmail', email, function (err) {
+            Meteor.call('news.addSubscriber', email, userInfo.given_name, userInfo.family_name, function (err) {
                 if(err){
                     alertError("Something went wrong", err.message + "\nYou can subscribe to the newsletter anytime later.")
                 }else{

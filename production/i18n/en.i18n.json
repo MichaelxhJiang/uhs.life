@@ -1,6 +1,7 @@
 {
   "branding": "uhs.life",
   "tagline": "Built by students, for everyone.",
+  "loading": "Loading...",
   "login": {
     "title": "Login",
     "main_btn": "Login With Gapps",
@@ -59,6 +60,42 @@
       "weight": "Weight",
       "timeline_graph": "Timeline of Your Mark",
       "assignments_graph": "Section Marks by Assignment"
+    }
+  },
+  "first": {
+    "greet": "Hello There!",
+    "greet_more": "Thank you for signing up for uhs.life! Since it's your first time here, we would like to know some things about you, it's really short",
+    "teach": "Connect Your Teach Assist Account",
+    "teach_more": "Connecting your teach assist enables you to view your marks, assignments, academic progress and find resources written by UHS teachers on your subject. You do not have to opt-in for this service, and you can opt-out any time. (You can opt-in later)",
+    "teach_skip": "No, I do not want to connect my Teach Assist, please",
+    "teach_t": "Do you teach any courses or supervise any clubs?",
+    "teach_t_more": "Selecting these will help us build your profile, if you don't have any or prefer not to tell simply click skip.",
+    "teach_t_skip": "This section does not apply to me, I want to",
+    "news": "Sign Up For Newsletter Subscription",
+    "news_more": "We offer weekly briefings on everything that happened in our school and tips and tricks on studying at Unionville Highs School, why not subscribe to learn more about your school? You can opt-out and opt-in at any time. We'll never share your email with anyone else or spam you. Read more in our privacy policy.",
+    "news_inst": "If you would like the news to be on your gapps account, simply click sign up, if you would like to use a personal email, change the email in the box below, then hit sign up. If you do not want to subscribe, click skip.",
+    "news_skip": "No, I do not want weekly briefing, please",
+    "confirm": "We are almost there...",
+    "confirm_more": "We are almost done here, confirm the information bellow and agree to the Terms of Service of uhs.life.",
+    "confirm_t_more": "We are almost done here, why not give yourself a tag line, this will appear under your name in a story post. Then confirm the information bellow, and agree to the Terms of Service of uhs.life.",
+    "done": "Thank You!",
+    "done_more": "Welcome to uhs.life",
+    "btn": {
+      "intro": "Let's go!",
+      "authorize": "AUTHORIZE",
+      "skip": "skip",
+      "signup": "Sign Up",
+      "done": "We are Done!"
+    },
+    "input": {
+      "sNum": "Teach Assist Login",
+      "sPass": "Teach Assist Password",
+      "cName": "Your Name",
+      "cNum": "Your Student Number",
+      "cMail": "The email that we will be sending news letters to",
+      "cTerms": "I have read and agreed with the Terms of Service",
+      "tCourse": "What Courses do you teach? Select all that applies",
+      "tClub": "What Clubs do you supervise? Select all that applies"
     }
   }
 }

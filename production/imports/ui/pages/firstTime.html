@@ -8,26 +8,24 @@
                         <div class="card">
                             <div class="card-head">
                                 <div id="firstIntro">
-                                    <h2>Hello There!</h2>
-                                    <p>Thank you for signing up for uhs.life! Since it's your first time here, we would like to know some things about you, it's really short!</p>
+                                    <h2>{{_ "first.greet"}}</h2>
+                                    <p>{{_ "first.greet_more"}}</p>
                                 </div>
                                 <div id="teachIntro" hidden>
-                                    <h2>Connect Teach Assist</h2>
+                                    <h2>{{_ "first.teach"}}</h2>
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit scelerisque erat in lobortis. Aliquam vehicula vel magna nec mattis.
+                                        {{_ "first.teach_more"}}
                                     </p>
                                 </div>
                                 <div id="emailIntro" hidden>
-                                    <h2>Newsletter subscription</h2>
-                                    <p>
-                                        Uhs.life offers a weekly news summary, on everything UHS related. Why not subscribe to it? <br> If you check your gapps account often, simply click "Join
-                                        The Club", or if you prefer to receive the news letter on your personal email, simply change the address bellow.
-                                    </p>
+                                    <h2>{{_ "first.news"}}</h2>
+                                    <p>{{_ "first.news_more"}}</p>
+                                    <p>{{_ "first.news_inst"}}</p>
                                 </div>
                                 <div id="confirmIntro" hidden>
-                                    <h2>Just one more step...</h2>
+                                    <h2>{{_ "first.confirm"}}</h2>
                                     <p>
-                                        We are almost done here, please confirm the information bellow, and agree to the Terms of Service of uhs.life.
+                                        {{_ "first.confirm_more"}}
                                     </p>
                                 </div>
                             </div>
@@ -35,50 +33,49 @@
                             <div class="card-body">
                                 <div class="info-form" id="beginIntro">
                                     <a href="" class="btn btn-lg btn-login" id="startFirst">
-                                        Let's go!
+                                        {{_ "first.btn.intro"}}
                                     </a>
                                 </div>
                                 <div class="info-form" id="teachAssistInfo" hidden>
                                     <form class="teach-assist-login" id="teachAssistForm">
-                                        <input type="text" id="teachUser" placeholder="Student Number">
-                                        <input type="password" id="teachPass" placeholder="Teach Assist Password">
-                                        <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="AUTHORIZE">
+                                        <input type="text" id="teachUser" placeholder="{{_ "first.input.sNum"}}">
+                                        <input type="password" id="teachPass" placeholder="{{_ "first.input.sPass"}}">
+                                        <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="{{_ "first.btn.authorize"}}">
                                     </form>
                                     <div class="teachLoader" hidden>
                                         <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-                                        <span class="sr-only">Loading...</span>
+                                        <span class="sr-only">{{_ "loading"}}</span>
                                     </div>
-                                    <span>No, I do not want to connect my Teach Assist, please <a href="" id="skipNext">skip</a></span>
+                                    <span>{{_ "first.teach_skip"}} <a href="" id="skipNext">{{_ "first.btn.skip"}}</a></span>
                                 </div>
                                 <div class="info-form" id="subscriptionEmail" hidden>
                                     <form id="newsletterEmailForm">
                                         <input type="email" placeholder="Your Email" id="personalEmail">
-                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else or spam you. Read more about our privacy policy.</small>
-                                        <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="Join the club">
-                                        <span>No, I do not want weekly briefing, please <a href="" id="skipEmail">skip</a></span>
+                                        <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="{{_ "first.btn.signup"}}">
+                                        <span>{{_ "first.news_skip"}} <a href="" id="skipEmail">{{_ "first.btn.skip"}}</a></span>
                                     </form>
                                 </div>
                                 <div class="info-form" id="confirmDetails" hidden>
                                     <form class="form" id="finalForm">
-                                        <label for="introName">Your Name</label>
+                                        <label for="introName">{{_ "first.input.cName"}}</label>
                                         <input type="text" id="introName" disabled>
-                                        <label for="introStudentNum">Your Student Number</label>
+                                        <label for="introStudentNum">{{_ "first.input.cNum"}}</label>
                                         <input type="text" id="introStudentNum" disabled>
-                                        <label for="introSubEmail">The email that we will be sending news letters to</label>
+                                        <label for="introSubEmail">{{_ "first.input.cMail"}}</label>
                                         <input type="email" id="introSubEmail" disabled>
                                         <div class="form-group">
                                             <input type='checkbox' class='ios8-switch' id='checkboxTerms'>
-                                            <label for='checkboxTerms'>I have read and agreed with the Terms of Service</label>
+                                            <label for='checkboxTerms'>{{_ "first.input.cTerms"}}</label>
                                         </div>
-                                        <input type="submit" class="btn btn-lg btn-login" value="Confirm">
+                                        <input type="submit" class="btn btn-lg btn-login" value="{{_ "first.btn.done"}}">
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="final-message" hidden>
-                        <h1>Thank You!</h1>
-                        <h2>We are now redirecting you back to your stream!</h2>
+                        <h1>{{_ "first.done"}}</h1>
+                        <h2>{{_ "first.done_more"}}</h2>
                     </div>
                 </div>
             </div>
@@ -91,26 +88,24 @@
                         <div class="card">
                             <div class="card-head">
                                 <div id="firstIntro">
-                                    <h2>Hello There!</h2>
-                                    <p>Thank you for joining uhs.life! Since it's your first time here, we would like to know some things about you, it's really short!</p>
+                                    <h2>{{_ "first.greet"}}</h2>
+                                    <p>{{_ "first.greet_more"}}</p>
                                 </div>
                                 <div id="teachIntro" hidden>
-                                    <h2>Do you teach any courses and supervise any clubs?</h2>
+                                    <h2>{{_ "first.teach_t"}}</h2>
                                     <p>
-                                        Selecting these will help us build your profile, if you don't have any or prefer not to tell simply click skip.
+                                        {{_ "first.teach_t_more"}}
                                     </p>
                                 </div>
                                 <div id="emailIntro" hidden>
-                                    <h2>Newsletter subscription</h2>
-                                    <p>
-                                        Uhs.life offers a weekly news summary, on everything UHS related. Why not subscribe to it? <br> If you check your gapps account often, simply click "Join
-                                        The Club", or if you prefer to receive the news letter on your personal email, simply tell us the address using the box bellow.
-                                    </p>
+                                    <h2>{{_ "first.news"}}</h2>
+                                    <p>{{_ "first.news_more"}}</p>
+                                    <p>{{_ "first.news_inst"}}</p>
                                 </div>
                                 <div id="confirmIntro" hidden>
-                                    <h2>Just one more step...</h2>
+                                    <h2>{{_ "first.confirm"}}</h2>
                                     <p>
-                                        We are almost done here, why not give yourself a tag line, this will appear under your name in a story post. Then confirm the information bellow, and agree to the Terms of Service of uhs.life.
+                                        {{_ "first.confirm_t_more"}}
                                     </p>
                                 </div>
                             </div>
@@ -118,42 +113,41 @@
                             <div class="card-body">
                                 <div class="info-form" id="beginIntro">
                                     <a href="" class="btn btn-lg btn-login" id="startFirst">
-                                        Let's go!
+                                        {{_ "first.btn.intro"}}
                                     </a>
                                 </div>
                                 <div class="info-form" id="teachAssistInfo" hidden>
                                     <form class="select-organizations" id="organizationsForm">
                                         <div class="form-group mb-15">
-                                            <label for="firstCourseSelect">What Courses do you teach?</label>
+                                            <label for="firstCourseSelect">{{_ "first.input.tCourse"}}</label>
                                             <select name="category-selector" class="category-select " id="firstCourseSelect" multiple style="width: 60%"></select>
                                         </div>
                                         <div class="form-group mb-15">
-                                            <label for="firstClubSelect">What Clubs do you supervise?</label>
+                                            <label for="firstClubSelect">{{_ "first.input.tClub"}}</label>
                                             <select name="category-selector" class="category-select mb-15" id="firstClubSelect" multiple style="width: 60%"></select>
                                         </div>
                                         <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="Confirm">
                                     </form>
-                                    <span>I would like to <a href="" id="skipNext">skip</a></span>
+                                    <span>{{_ "first.teach_t_skip"}} <a href="" id="skipNext">{{_ "first.btn.skip"}}</a></span>
                                 </div>
                                 <div class="info-form" id="subscriptionEmail" hidden>
                                     <form id="newsletterEmailForm">
                                         <input type="email" placeholder="Your Email" id="personalEmail">
-                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else or spam you. Read more about our privacy policy.</small>
                                         <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="Join the club">
-                                        <span>No, I do not want weekly briefing, please <a href="" id="skipEmail">skip</a></span>
+                                        <span>{{_ "first.news_skip"}} <a href="" id="skipEmail">{{_ "first.btn.skip"}}</a></span>
                                     </form>
                                 </div>
                                 <div class="info-form" id="confirmDetails" hidden>
                                     <form class="form" id="finalForm">
-                                        <label for="introName">Your Name</label>
+                                        <label for="introName">{{_ "first.input.cName"}}</label>
                                         <input type="text" id="introName" disabled>
                                         <label for="introTagLine">Tag line: max 25 characters</label>
-                                        <input type="text" id="introTagLine" placeholder="'English Teacher, Thrill lover', 'I love uhs' ...">
-                                        <label for="introSubEmail">The email that we will be sending news letters to</label>
+                                        <input type="text" id="introTagLine" placeholder="'English Teacher, Thrill lover', 'I love uhs' ..." maxlength="25">
+                                        <label for="introSubEmail">{{_ "first.input.cMail"}}</label>
                                         <input type="email" id="introSubEmail" disabled>
                                         <div class="form-group">
                                             <input type='checkbox' class='ios8-switch' id='checkboxTerms'>
-                                            <label for='checkboxTerms'>I have read and agreed with the Terms of Service</label>
+                                            <label for='checkboxTerms'>{{_ "first.input.cTerms"}}</label>
                                         </div>
                                         <input type="submit" class="btn btn-lg btn-login" value="Confirm">
                                     </form>
@@ -162,8 +156,8 @@
                         </div>
                     </div>
                     <div class="final-message" hidden>
-                        <h1>Thank You!</h1>
-                        <h2>We are now redirecting you back to your stream!</h2>
+                        <h1>{{_ "first.done"}}</h1>
+                        <h2>{{_ "first.done_more"}}</h2>
                     </div>
                 </div>
             </div>

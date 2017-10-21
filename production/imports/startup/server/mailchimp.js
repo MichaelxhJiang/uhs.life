@@ -10,7 +10,7 @@ Meteor.methods({
          return results;
       })
    },
-   'addSubscriber' : function(email, fname, lname) {
+   'news.addSubscriber' : function(email, fname, lname) {
       mailchimp.post('/lists/b7d23cbf79/members', {email_address : email, status: 'subscribed', merge_fields : {FNAME : fname, LNAME : lname}}, function (err, response) {
          if (err) {
             console.log(err)
@@ -40,7 +40,7 @@ Meteor.methods({
             subject_line : subjectLine,
             title: title,
             from_name : 'UHS Life Bulletin',
-            reply_to : 'michaelxhj@outlook.com',
+            reply_to : 'hello@uhs.life',
             template_id : 25931
          }
       }, function (err, response) {
