@@ -11,7 +11,7 @@ Meteor.methods({
 
         //removes object to the indice announcement
         //myID is hidden and can be accessed using .objectID on the announcement
-        index.deleteObject('myID', function(err) {
+        index.deleteObject(myID, function(err) {
             if(err) {
                 //error catch (server down, or algolia issue)
                 console.error('Algolia returned an error', err);

@@ -303,7 +303,8 @@ Meteor.methods({
             Roles.userIsInRole( this.userId, 'announcementEditor'))) {
             throw new Meteor.Error(400, "You do not have permission...Reported");
         }
-
+        var algoliaId = Posts.find({_id:postId}).meta.algoliaId;
+        Meteor.call("removeAnnouncement", algoliaId);
         Posts.remove({_id: postId});
     },
     'posts.approvePost' : function(postId) {
@@ -383,7 +384,12 @@ Meteor.methods({
         if (!Roles.userIsInRole( this.userId, ['admin'])) {
             throw new Meteor.Error(400, "You do not have permission...Reported");
         }
-        Posts.update ({'_id':postId}, { $set: {'meta.screeningStage': -1, 'meta.rejectedReason': reason}});
+
+        var algoliaId = Posts.findOne({_id:postId}).meta.algoliaId;
+        if (algoliaId) {
+            Meteor.call("removeAnnouncement", algoliaId);
+        }
+        Posts.update ({'_id':postId}, { $set: {'meta.approved':false, 'meta.screeningStage': -1, 'meta.rejectedReason': reason}});
     },
     'posts.unRejectPost' : function (postId) {
         if (!(Roles.userIsInRole( this.userId, 'teacher') ||
