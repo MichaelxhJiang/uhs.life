@@ -1,9 +1,7 @@
 <template name="dashboard">
+    {{> navigation}}
     <div class="container-fluid">
-        <div class="col-lg-2 dash-component dash-sidebar">
-            {{> dashSideBar}}
-        </div>
-        <div class="col-lg-10 col-lg-offset-2 dash-component dash-body">
+        <div class="col-lg-12 dash-component dash-body">
             {{> Template.dynamic template=dash}}
         </div>
     </div>
@@ -130,8 +128,8 @@
                                 </div>
                                 <div class="col-lg-6 text-muted">
                                     <p>Gender: Male</p>
-                                    <p>Initialized: Yes</p>
-                                    <p>Mailing List Email: wangyonglin1999@gmail.com</p>
+                                    <p>Initialized: {{profile.init}}</p>
+                                    <p>Mailing List Email: {{profile.email}}</p>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +138,7 @@
                                 <button class="dropbtn">Options</button>
                                 <div class="dropdown-content">
                                     <a href="" class="btn-modify-roles">Modify User Role</a>
-                                    <a href="">BAN USER</a>
+                                    <a href="" class="btn-ban-user">BAN USER</a>
                                 </div>
                             </div>
                         </div>
@@ -392,23 +390,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</template>
-
-<template name="dashSideBar">
-    <div class="side-nav-header">
-        <h4>{{username}}</h4>
-        <a href="/logout" class="logout-btn">LOG OUT</a>
-    </div>
-    <div class="side-nav-body">
-        <a href="/dashboard"><i class="fa fa-home"></i> Home</a>
-        <a href="/dashboard/announcements"><i class="fa fa-bullhorn"></i> Posts</a>
-        <a href="/dashboard/suggestions"><i class="fa fa-pencil-square-o"></i> Suggestions</a>
-        <a href="/dashboard/categories"><i class="fa fa-list"></i> Manage Categories</a>
-        <a href="/dashboard/organizations"><i class="fa fa-list"></i> Manage Organizations</a>
-        <a href="/dashboard/users"><i class="fa fa-group"></i> Manage Users</a>
-        <a href=""><i class="fa fa-newspaper-o"></i> Newsletters</a>
-        <a href=""><i class="fa fa-gear"></i> Settings</a>
     </div>
 </template>
 

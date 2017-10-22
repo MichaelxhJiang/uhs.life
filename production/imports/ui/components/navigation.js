@@ -59,6 +59,9 @@ Template.navigation.helpers({
             mark = "N/A"
         }
         return mark;
+    },
+    'dash': function () {
+        return Session.get('inDash');
     }
 });
 
@@ -173,7 +176,7 @@ Template.teachAssistConnect.events({
             if(err){
                 alertError("Failed to connect with teach assist", err.message);
             }else{
-                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.token": data, "profile.private.tokenDate": new Date()}}, function (err) {
+                Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.token": data, "private.tokenDate": new Date()}}, function (err) {
                     if(err){
                         alertError("Something went wrong", err.message);
                     }else{
@@ -181,7 +184,7 @@ Template.teachAssistConnect.events({
                             if(err){
                                 alertError("Something went wrong", "");
                             }else{
-                                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.courses": data}});
+                                Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.courses": data}});
                                 Modal.hide('teachAssistPass');
                                 FlowRouter.reload();
                             }
@@ -201,7 +204,7 @@ Template.teachAssistPass.events({
            if(err){
                alertError("Failed to connect with teach assist", err.message);
            }else{
-               Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.token": data, "profile.private.tokenDate": new Date()}}, function (err) {
+               Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.token": data, "private.tokenDate": new Date()}}, function (err) {
                    if(err){
                        alertError("Something went wrong", err.message);
                    }else{
@@ -209,7 +212,7 @@ Template.teachAssistPass.events({
                            if(err){
                                alertError("Something went wrong", "");
                            }else{
-                               Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.private.courses": data}});
+                               Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.courses": data}});
                                Modal.hide('teachAssistPass');
                                FlowRouter.reload();
                            }

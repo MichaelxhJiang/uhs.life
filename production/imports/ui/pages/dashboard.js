@@ -4,19 +4,37 @@ import { Images } from '../../api/images/images.js';
 let courseSub;
 let clubSub;
 Template.dashboard.onRendered(function () {
-    //TODO separate the subscriptions to load on separate template renders
+});
+Template.dashCategories.onRendered(function () {
+    setTitle('Manage Categories');
+});
+Template.dashHome.onRendered(function () {
+    setTitle('Home');
     Tracker.autorun(function () {
         Meteor.subscribe('posts');
         Meteor.subscribe('categories');
-        Meteor.subscribe('allUsers');
         Meteor.subscribe('blogCategories');
         Meteor.subscribe('images');
+    });
+});
+Template.dashSuggestions.onRendered(function () {
+    setTitle('Suggestion');
+    Tracker.autorun(function () {
         Meteor.subscribe('suggestions');
     });
 });
 Template.dashOrganizations.onRendered(function () {
-    courseSub = Meteor.subscribeWithPagination('allCourses', 10);
-    clubSub = Meteor.subscribeWithPagination('allClubs', 10);
+    setTitle('Manage Organizations');
+    Tracker.autorun(function () {
+        courseSub = Meteor.subscribeWithPagination('allCourses', 10);
+        clubSub = Meteor.subscribeWithPagination('allClubs', 10);
+    });
+});
+Template.dashUsers.onRendered(function () {
+    setTitle('Manage Organizations');
+    Tracker.autorun(function () {
+        Meteor.subscribe('allUsers');
+    });
 });
 
 Template.dashHome.helpers({
@@ -123,12 +141,6 @@ Template.dashSuggestions.events({
                 alertError("Error Occurred When Removing Suggestion", err.message)
             }
         })
-    }
-});
-
-Template.dashSideBar.helpers({
-    'username': function () {
-        return Session.get('name');
     }
 });
 
@@ -260,6 +272,19 @@ Template.dashUsers.events({
         let id = obj.attr('id');
         Session.set('editingUser', Meteor.users.findOne({_id: id}));
         Modal.show('dashRoleEditor');
+    },
+    'click .btn-ban-user': function (evt) {
+        let obj = $(evt.target).closest($('.dash-user-container'));
+        let id = obj.attr('id');
+        alertPrompt("This doesn't have to happen. Please give a reason for the banning.",function (result) {
+            Meteor.call('accounts.ban',id,result,function (err) {
+                if(err){
+                    alertError("Failed to ban user", err.message)
+                }else{
+                    alertSuccess("User has been successfully banned", "")
+                }
+            })
+        })
     }
 });
 

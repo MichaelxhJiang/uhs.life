@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
+const Banned = new Mongo.Collection('blacklist');
+
 Meteor.users.allow({
    update: function () {
        return true;
@@ -54,7 +56,19 @@ Accounts.onCreateUser(function (options,user){
     }
     return user;
 });
-
+Accounts.validateLoginAttempt(function (info) {
+    let status = true;
+    try{
+        status = !Roles.userIsInRole(info.user._id, 'banned')
+    }catch(e){
+        status = true;
+    }
+    console.log(status);
+    if(!status){
+        throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: ")
+    }
+    return true;
+});
 Meteor.methods({
     'initUserProfile': function (id,info) {
         Meteor.users.update({_id: id}, {$set: {"profile.init": true}});
@@ -75,5 +89,12 @@ Meteor.methods({
         } else {
             Roles.addUsersToRoles(this.userId,['teacher'])
         }
+    },
+    'accounts.ban': function (id,reason) {
+        if(!Roles.userIsInRole(this.userId,'admin')){
+            throw new Meteor.Error(403, "You do not have the power to ban a user.")
+        }
+        Meteor.users.update({_id: id},{$set: {'private.bannedReason':reason}});
+        Roles.addUsersToRoles(id, 'banned');
     }
 });

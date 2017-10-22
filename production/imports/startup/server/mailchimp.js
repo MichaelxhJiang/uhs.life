@@ -6,7 +6,7 @@ const mailchimp = new Mailchimp('c63e149751b5b34657fc48286f336650-us16');
 
 Meteor.methods({
    'getSubscribers' : function() {
-      mailchimp.get('/lists/f21d5e31f7', function(results) {
+      mailchimp.get('/lists/b7d23cbf79', function(results) {
          return results;
       })
    },
@@ -41,18 +41,18 @@ Meteor.methods({
             title: title,
             from_name : 'UHS Life Bulletin',
             reply_to : 'hello@uhs.life',
-            template_id : 25931
+            template_id : 60467
          }
       }, function (err, response) {
          if (err) {
             console.log(err);
          } else {
             console.log(JSON.stringify(response, null, 2));
-            var campaignID = response.id;
+            let campaignID = response.id;
             mailchimp.put('/campaigns/'+campaignID+'/content',
             {
                template : {
-                  id : 25931,
+                  id : 60467,
                   sections : {
                      "image" : "<img src='https://www.sitebuilderreport.com/assets/facebook-stock-up-446fff24fb11820517c520c4a5a4c032.jpg'>",
                      "text" : "<p>Changed text 2</p>"

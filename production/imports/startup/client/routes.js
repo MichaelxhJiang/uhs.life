@@ -17,7 +17,8 @@ let loggedIn = FlowRouter.group({
                 Tracker.autorun(function () {
                     let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
-                    if(user){
+                    if(user && userSub.ready()){
+                        Session.setPersistent('inDash', false);
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
                             FlowRouter.go('/first')
@@ -47,19 +48,20 @@ let admin = FlowRouter.group({
                 console.log(Session.get('redirectAfterLogin'));
                 FlowRouter.go('/login');
             }else{
+                Session.setPersistent('inDash', true);
                 Tracker.autorun(function () {
                     let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
-                    if(user){
+                    if(user && userSub.ready()){
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
                             FlowRouter.go('/first')
                         }else{
                             Session.set('name', user.services.google.name);
                             Session.set('id', user.profile.id);
-                            Session.set('courses',user.profile.private.courses);
-                            Session.set('tokenExpiry',user.profile.private.tokenDate);
-                            Session.set('token',user.profile.private.token);
+                            Session.set('courses',user.private.courses);
+                            Session.set('tokenExpiry',user.private.tokenDate);
+                            Session.set('token',user.private.token);
                             Session.set('user_img', user.services.google.picture);
                         }
                         /*else if(!Roles.userIsInRole(user._id, 'admin')){
@@ -160,6 +162,7 @@ admin.route('/dashboard',{
 loggedIn.route('/course/:courseId',{
     action: function (params) {
         let tokenJson = Session.get('token');
+        console.log(tokenJson);
         tokenJson.subject_id = params.courseId;
         Meteor.call('getTeachAssistCourseDetails', tokenJson, function (err, data) {
             if(err || data.ERROR){
@@ -170,7 +173,8 @@ loggedIn.route('/course/:courseId',{
                 }
             }else{
                 console.log(data);
-                let a = Meteor.user().profile.private.courses;
+                let a = Meteor.user().private.courses;
+                console.log(a);
                 let found;
                 let entry;
                 for (let index = 0; index < a.length; ++index) {
