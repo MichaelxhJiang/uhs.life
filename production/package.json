@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
-    "postinstall": "meteor npm remove jquery"
+    "postinstall": "meteor npm remove jquery && meteor add tap:i18n"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
