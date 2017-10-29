@@ -21,9 +21,3 @@ Deps.autorun(function(){
 function getUserLanguage() {
     return "en";
 }
-
-if (Meteor.isClient) {
-    Meteor.startup(function () {
-
-    });
-}
