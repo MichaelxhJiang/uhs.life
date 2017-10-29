@@ -22,10 +22,10 @@
   color: #b3b3b3;
 }
 .editor-card{
-  transition: all .3s;
   background-color: #FFFFFF;
   padding: 15px;
   border-radius: 2px;
+
 }
 .editor-control{
   font-family: "Roboto", sans-serif;
@@ -148,18 +148,18 @@
   }
 }
 .editor-options{
-  transition: all 0.3s ease;
   cursor: pointer;
   font-size: 25px;
   background: white;
   border: 2px solid white;
-
+  box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+  transition: all 0.3s;
+  &:hover {
+    box-shadow: 0 11px 20px rgba(102, 175, 113, 0.1), 0 6px 11px rgba(76,175,80,.08);
+  }
   padding:30px 30px;
   p{
     font-size: 25px;
-  }
-  &:hover{
-    border-color: @primary;
   }
 }
 
@@ -488,7 +488,9 @@ i.material-icons:hover {
 .review-stage{
   text-align: center;
 }
-
+.rejected{
+  border-color: red;
+}
 @media screen and (max-width: 768px){
   .post-info-form{
     margin-bottom: 25px;

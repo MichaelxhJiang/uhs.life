@@ -8,9 +8,10 @@ let operationStack = ['.editor-open'];
 let hasUnsplash = false;
 let originalTitle = "";
 let allPosts = null;
+let blogDrop = null;
 Template.allPosts.onRendered(function () {
     Tracker.autorun(function () {
-        allPosts = Meteor.subscribeWithPagination('postsByUser', 10);
+        allPosts = Meteor.subscribeWithPagination('postsByUser', 20);
         Meteor.subscribe('images')
     })
 });
@@ -124,7 +125,7 @@ Template.blogEditor.onRendered(function () {
         if (Meteor.isClient) {
             Dropzone.autoDiscover = false;
             $(".tags").tagsinput('items');
-            let blogDrop = initDropZone('dropzone', {
+            blogDrop = initDropZone('dropzone', {
                 number: 1,
                 size: 8,
                 message: "Drop an image here to be the featured image, or click to select an image using the browser.",
@@ -180,6 +181,14 @@ Template.announcementEditor.onRendered(function () {
             });
         }
 
+    });
+});
+
+Template.republishTime.onRendered(function () {
+    $(document).ready(function () {
+        $('.input-daterange').datepicker({
+            startDate: '+1d'
+        });
     });
 });
 
@@ -263,6 +272,18 @@ Template.allPosts.helpers({
             text = "Post Rejected"
         }
         return text;
+    },
+    'isRejected': function () {
+        if(this.meta.screeningStage === -1){
+            return "rejected"
+        }
+        return ""
+    },
+    'rejected': function () {
+      return (this.meta.screeningStage === -1);
+    },
+    'rejectedReason': function () {
+        return "Rejected Because: \n" + this.meta.rejectedReason;
     }
 });
 
@@ -365,10 +386,11 @@ Template.allPosts.events({
         allPosts.loadNextPage();
     },
     'click .draft-item': function (evt) {
-        if(!$(evt.target).hasClass('btn-delete-post') && !$(evt.target).hasClass('btn-republish-post')){
+        if(!$(evt.target).hasClass('btn-delete-post') && !$(evt.target).hasClass('btn-republish-post') && !$(evt.target).hasClass('dropbtn')){
             let obj = $(evt.target).closest($('.draft-item'));
             let id = obj.attr('id');
-            setEditorContent(Posts.findOne({_id: id}));
+            Session.set('reEdit',true);
+            setEditorContentAll(Posts.findOne({_id: id}));
         }
     },
     'click .btn-delete-post': function (evt) {
@@ -386,12 +408,30 @@ Template.allPosts.events({
                 })
             }
         })
+    },
+    'click .btn-republish-post': function (evt) {
+        evt.preventDefault();
+        let obj = $(evt.target).closest($('.draft-item'));
+        let id = obj.attr('id');
+        Modal.show('republishTime', {id: id});
     }
+});
+Template.republishTime.events({
+   'submit #republishForm': function (evt) {
+       evt.preventDefault();
+       Posts.update({_id: this.id}, {'$set': {
+           'meta.approved': false,
+           'meta.screeningStage': 0,
+           'startDate': new Date($('#republishStart').val()),
+           'endDate': new Date($('#republishEnd').val()),
+           'meta.rejectedReason': ""
+       }})
+   }
 });
 Template.blogEditor.events({
     'click .publish': function (event, template) {
         let json = constructBlogJson();
-
+        console.log(json);
         Meteor.call('posts.postBlog', json, function (err) {
             if (err) {
                 alertError('Post Failed!', err.message);
@@ -453,26 +493,22 @@ Template.blogEditor.events({
                             if(data.results.length <= 0){
                                 agent++;
                                 if(agent <= list.length){
-                                    console.log('no image found');
                                     getImg();
                                 }else{
                                     $('#unsplashPrompt').html("<i class='fa fa-spinner fa-pulse fa-fw'></i> Please Wait...");
                                     Meteor.call('getRandomPhoto', function (err, data) {
                                         if (err) {
                                             console.log(err);
-                                            $('.unsplash-container').replaceWith("<form action='/file-upload' class='dropzone' id='dropzone'></form>");
-                                            let blogDrop = initDropZone('dropzone', {
-                                                number: 1,
-                                                size: 8,
-                                                message: "Drop an image here to be the featured image, or click to select an image using the browser.",
-                                            });
                                             $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one instead.");
                                             hasUnsplash = false;
                                         } else {
                                             console.log(data);
                                             Session.set('unsplash_img', data.id);
                                             Session.set('unsplashData',data);
-                                            $('#dropzone').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container'/>");
+                                            blogDrop.disable();
+                                            $('#dropzone').fadeOut('fast');
+                                            $('#dropzone').after("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container' id='unsplashPreview'/>");
+                                            $("#unsplashPreview").hide().fadeIn('slow');
                                             $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
                                         }
                                     })
@@ -482,7 +518,9 @@ Template.blogEditor.events({
                                 Session.set('unsplash_img', data.results[num].id);
                                 Session.set('unsplashData',data.results[num]);
                                 hasUnsplash = true;
-                                $('#dropzone').replaceWith("<img src='" + data.results[num].urls.regular + "' class='img-responsive unsplash-container'/>");
+                                $('#dropzone').fadeOut('fast');
+                                $('#dropzone').after("<img src='" + data.results[num].urls.regular + "' class='img-responsive unsplash-container' id='unsplashPreview'/>");
+                                $("#unsplashPreview").hide().fadeIn('slow');
                                 $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.results[num].user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.results[num].user.name +"</a> from "+ data.results[num].user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
                             }
 
@@ -499,29 +537,26 @@ Template.blogEditor.events({
             if (err) {
                 console.log(err);
                 $('.unsplash-container').replaceWith("<form action='/file-upload' class='dropzone' id='dropzone'></form>");
-                let blogDrop = initDropZone('dropzone', {
-                    number: 1,
-                    size: 8,
-                    message: "Drop an image here to be the featured image, or click to select an image using the browser.",
-                });
+                blogDrop.enable();
+                $('#dropzone').fadeIn('fast');
                 $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one instead.");
                 hasUnsplash = false;
             } else {
                 console.log(data);
                 Session.set('unsplash_img', data.id);
                 Session.set('unsplashData',data);
-                $('.unsplash-container').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container'/>");
+                // Adding Preview
+                $('#unsplashPreview').fadeOut('fast');
+                $('#unsplashPreview').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container' id='unsplashPreview'/>");
+                $("#unsplashPreview").fadeIn('slow');
                 $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
             }
         })
     },
     'click #newUpload': function () {
-        $('.unsplash-container').replaceWith("<form action='/file-upload' class='dropzone' id='dropzone'></form>");
-        let blogDrop = initDropZone('dropzone', {
-            number: 1,
-            size: 8,
-            message: "Drop an image here to be the featured image, or click to select an image using the browser.",
-        });
+        $('.unsplash-container').remove();
+        blogDrop.enable();
+        $('#dropzone').fadeIn('fast');
         $('#unsplashPrompt').html("Want to avoid the hassle? <a href='' id='getFeaturedUnsplash'>Click here</a> and we will find an image for you!");
     },
     'click .btn-preview': function () {
@@ -800,7 +835,7 @@ Template.blogDraft.events({
         }
     },
     'click .draft-item': function (evt) {
-        if(!$(evt.target).hasClass('btn-delete-draft') && !$(evt.target).hasClass('btn-publish-draft')){
+        if(!$(evt.target).hasClass('btn-delete-draft') && !$(evt.target).hasClass('btn-publish-draft') && !$(evt.target).hasClass('dropbtn')){
             let obj = $(evt.target).closest($('.draft-item'));
             let id = obj.attr('id');
             Session.set('draftEditItem', id);
@@ -983,7 +1018,85 @@ function setEditorContent(json) {
         }
     }
 }
-
+function setEditorContentAll(json) {
+    if(json.type === 'blog'){
+        $('#blogTitle').val(json.title);
+        $('#blogSubTitle').val(json.subtitle);
+        $('.editable').froalaEditor('html.set', json.content);
+        _.forEach(json.tags,function (item) {
+            $('.tags').tagsinput('add', item);
+        });
+        $('.visibility-select').val(json.meta.visibility).trigger("change");
+        $(".category-select").val(json.categories).trigger("change");
+        $("#blogOrganizationSelect").val(json.organizationsValues).trigger("change");
+        if(json.unsplash){
+            Meteor.call('setupUnsplash', function (err) {
+                if (err) {
+                    console.log(err);
+                    $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one.");
+                } else {
+                    Meteor.call('getPhoto', json.imgId, function (err, data) {
+                        if (err) {
+                            console.log(err);
+                            $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one.");
+                        } else {
+                            Session.set('unsplash_img', data.id);
+                            Session.set('unsplashData',data);
+                            hasUnsplash = true;
+                            $('#dropzone').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container'/>");
+                            $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
+                        }
+                    })
+                }
+            })
+        }
+        swapElements('.all-posts', '.blog-editor');
+        operationStack.push('.blog-editor');
+        Session.set('announcementType', 'blog');
+    }else if(json.type === 'announcement'){
+        if(json.subType === 'imageOnly'){
+            $('#imageOnlyHeadline').val(json.headline);
+            if(json.imgId){
+                Session.set('newImageId', json.imgId);
+                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.')
+            }
+            _.forEach(json.tags,function (item) {
+                $('.announce-tags:eq(0)').tagsinput('add', item);
+            });
+            $(".announcement-category:eq(0)").val(json.categories).trigger("change");
+            $(".clubs-category:eq(0)").val(json.clubs).trigger("change");
+            swapElements('.all-posts', '.image-only');
+            operationStack.push('.image-only');
+            Session.set('announcementType', 'imageOnly');
+        }else if(json.subType === 'textOnly'){
+            $('#textOnlyHeadline').val(json.headline);
+            $('.announcement-text:eq(0)').val(json.content);
+            _.forEach(json.tags,function (item) {
+                $('.announce-tags:eq(1)').tagsinput('add', item);
+            });
+            $(".announcement-category:eq(1)").val(json.categories).trigger("change");
+            $(".clubs-category:eq(1)").val(json.clubs).trigger("change");
+            swapElements('.all-posts', '.text-only');
+            operationStack.push('.text-only');
+            Session.set('announcementType', 'textOnly');
+        }else if(json.subType === 'imageText'){
+            $('#textImageHeadline').val(json.headline);
+            if(json.imgId){
+                Session.set('newImageId', json.imgId);
+                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.')
+            }
+            $('.announcement-text:eq(1)').val(json.content);
+            $(".announcement-category:eq(2)").val(json.categories).trigger("change");
+            $(".clubs-category:eq(2)").val(json.clubs).trigger("change");
+            Session.set('priority', json.meta.priority);
+            $('.is-checked').removeClass('is-checked');
+            $(".priority-toggle[data-priority="+ Session.get('priority') +"]").addClass('is-checked');
+            swapElements('.all-posts', '.text-and-image');
+            operationStack.push('.text-and-image');
+            Session.set('announcementType', 'textAndImage');
+        }
+    }
+}
 function wipeEditor(type, subType) {
     if(type === 'blog'){
         $('#blogTitle').val(null);
@@ -996,11 +1109,10 @@ function wipeEditor(type, subType) {
         Session.set('unsplash_img', null);
         Session.set('unsplashData', null);
         Session.set('newImageId', null);
-        let blogDrop = initDropZone('dropzone', {
-            number: 1,
-            size: 8,
-            message: "Drop an image here to be the featured image, or click to select an image using the browser.",
-        });
+        blogDrop.enable();
+        blogDrop.removeAllFiles();
+        $('#dropzone').show();
+        $('.unsplash-container').remove();
         $('#unsplashPrompt').html("Want to avoid the hassle? <a href='' id='getFeaturedUnsplash'>Click here</a> and we will find an image for you!");
     }else if(type === 'announcement'){
         if(subType === 'imageOnly'){
