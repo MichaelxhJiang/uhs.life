@@ -1,0 +1,46 @@
+/* Imports for global scope */
+
+Mongo = Package.mongo.Mongo;
+ReactiveVar = Package['reactive-var'].ReactiveVar;
+Tracker = Package.tracker.Tracker;
+Deps = Package.tracker.Deps;
+ReactiveDict = Package['reactive-dict'].ReactiveDict;
+FlowRouter = Package['kadira:flow-router'].FlowRouter;
+Session = Package.session.Session;
+BlazeLayout = Package['kadira:blaze-layout'].BlazeLayout;
+AlgoliaSearch = Package['acemtp:algolia'].AlgoliaSearch;
+Isotope = Package['isotope:isotope'].Isotope;
+ServiceConfiguration = Package['service-configuration'].ServiceConfiguration;
+PersistentSession = Package['u2622:persistent-session'].PersistentSession;
+_ = Package.underscore._;
+Roles = Package['alanning:roles'].Roles;
+moment = Package['momentjs:moment'].moment;
+Modal = Package['peppelg:bootstrap-3-modal'].Modal;
+HTTP = Package.http.HTTP;
+TAPi18next = Package['tap:i18n'].TAPi18next;
+TAPi18n = Package['tap:i18n'].TAPi18n;
+Meteor = Package.meteor.Meteor;
+global = Package.meteor.global;
+meteorEnv = Package.meteor.meteorEnv;
+WebApp = Package.webapp.WebApp;
+DDP = Package['ddp-client'].DDP;
+LaunchScreen = Package['launch-screen'].LaunchScreen;
+Blaze = Package.ui.Blaze;
+UI = Package.ui.UI;
+Handlebars = Package.ui.Handlebars;
+Spacebars = Package.spacebars.Spacebars;
+Template = Package['templating-runtime'].Template;
+meteorInstall = Package.modules.meteorInstall;
+meteorBabelHelpers = Package['babel-runtime'].meteorBabelHelpers;
+Promise = Package.promise.Promise;
+FS = Package['cfs:base-package'].FS;
+ActiveRoute = Package['zimme:active-route'].ActiveRoute;
+Accounts = Package['accounts-base'].Accounts;
+Google = Package['google-oauth'].Google;
+Autoupdate = Package.autoupdate.Autoupdate;
+Reload = Package.reload.Reload;
+HTML = Package.htmljs.HTML;
+Symbol = Package['ecmascript-runtime-client'].Symbol;
+Map = Package['ecmascript-runtime-client'].Map;
+Set = Package['ecmascript-runtime-client'].Set;
+
