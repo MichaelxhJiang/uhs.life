@@ -1,1 +1,0 @@
-{"head":"","body":"","js":"\nTemplate.__checkName(\"dropzone\");\nTemplate[\"dropzone\"] = new Template(\"Template.dropzone\", (function() {\n  var view = this;\n  return HTML.DIV({\n    id: function() {\n      return Spacebars.mustache(view.lookup(\"id\"));\n    },\n    class: \"dropzone\"\n  });\n}));\n","bodyAttrs":{}}
