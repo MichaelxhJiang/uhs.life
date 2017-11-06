@@ -28,5 +28,8 @@ App.accessRule('http://*.algolia.net', {
     'minimum-tls-version': 'TLSv1.0',
     'requires-forward-secrecy': false,
 });
+App.configurePlugin('phonegap-plugin-push', {
+    SENDER_ID: 737004764701
+});
 
 //App.accessRule('*');
