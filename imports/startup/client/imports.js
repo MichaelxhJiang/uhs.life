@@ -25,6 +25,8 @@ import './facebook.js';
 import './algoliaSearch.js';
 //This file contains the search all function used for Algolia
 import './algoliaAll.js';
+//This file contains push notification setup
+import './push.js';
 
 
 Drafts = new Mongo.Collection('drafts');

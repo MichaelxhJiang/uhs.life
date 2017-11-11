@@ -30,6 +30,8 @@ import '../../api/categories/categoriesMethods.js';
 import '../../api/blogCategories/categoriesMethods.js';
 //This file contains teach assist api functions
 import './teachAssist.js';
+//This file contains push notification setup
+import './push.js';
 //import the collections into server
 import '../../api/suggestions/suggestions.js';
 import '../../api/images/images.js';
