@@ -1,4 +1,4 @@
-import './dashboard.html'
+import './dashboard.html';
 import { Images } from '../../api/images/images.js';
 //import {Suggestions} from '../../api/suggestions/suggestions.js';
 let courseSub;
@@ -93,7 +93,7 @@ Template.dashAnnouncements.helpers({
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'noImage': function () {
-        return (this.subType === 'textOnly')
+        return (this.subType === 'textOnly');
     },
     'imageLink': function () {
         console.log(this);
@@ -102,10 +102,9 @@ Template.dashAnnouncements.helpers({
         }catch(e){
             //console.log('error getting photo')
         }
-
     },
     'hasContent': function () {
-        return this.subType !== 'imageOnly'
+        return this.subType !== 'imageOnly';
     }
 });
 
@@ -118,7 +117,7 @@ Template.dashSuggestions.helpers({
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'noImage': function () {
-        return (this.imgId === null)
+        return (this.imgId === null);
     },
     'imageLink': function () {
         try{
@@ -128,7 +127,7 @@ Template.dashSuggestions.helpers({
         }
     },
     'draftedDate': function () {
-        return moment(this.draftedDate).format("MMMM Do YYYY")
+        return moment(this.draftedDate).format("MMMM Do YYYY");
     }
 });
 
@@ -138,9 +137,9 @@ Template.dashSuggestions.events({
         let id = obj.attr('id');
         Meteor.call('suggestions.removeSuggestions', id, function (err) {
             if(err){
-                alertError("Error Occurred When Removing Suggestion", err.message)
+                alertError("Error Occurred When Removing Suggestion", err.message);
             }
-        })
+        });
     }
 });
 
@@ -152,7 +151,7 @@ Template.dashCategories.helpers({
         return (this.featured) ? 'Yes' : 'No';
     },
     'date': function () {
-        return moment(this.createdDate).format("MMMM Do YYYY")
+        return moment(this.createdDate).format("MMMM Do YYYY");
     },
     'blogCategory': function () {
         return BlogCategories.find({});
@@ -199,9 +198,9 @@ Template.dashboard.events({
         let id = obj.attr('id');
         Meteor.call('posts.approvePost', id, function (err) {
             if(err){
-                alertError("Error Occurred When Approving Post", err.message)
+                alertError("Error Occurred When Approving Post", err.message);
             }
-        })
+        });
         //Post on Facebook
         /*setupFacebook(function(err, response) {
          if (err) {
@@ -230,9 +229,9 @@ Template.dashboard.events({
             if(result){
                 Meteor.call('posts.rejectPost', id, result, function (err) {
                     if(err){
-                        alertError("Error Occurred When Removing Post", err.message)
+                        alertError("Error Occurred When Removing Post", err.message);
                     }
-                })
+                });
             }
         });
 
@@ -255,13 +254,13 @@ Template.dashCategories.events({
                 if(err){
                     alertError('Something Terrible Happened...', err.message);
                 }
-            })
+            });
         }else{
             Meteor.call('category.remove', id, function (err) {
                 if(err){
                     alertError('Something Terrible Happened...', err.message);
                 }
-            })
+            });
         }
     }
 });
@@ -279,12 +278,12 @@ Template.dashUsers.events({
         alertPrompt("This doesn't have to happen. Please give a reason for the banning.",function (result) {
             Meteor.call('accounts.ban',id,result,function (err) {
                 if(err){
-                    alertError("Failed to ban user", err.message)
+                    alertError("Failed to ban user", err.message);
                 }else{
-                    alertSuccess("User has been successfully banned", "")
+                    alertSuccess("User has been successfully banned", "");
                 }
-            })
-        })
+            });
+        });
     }
 });
 
@@ -294,14 +293,16 @@ Template.dashOrganizations.events({
         let codes = $('#courseCodes').val();
         Meteor.call('courses.addSeveral',names,codes,function (err) {
             if(err){
-                alertError("Failed", err.message)
+                alertError("Failed", err.message);
             }else{
-                alertSuccess('yeah','it didnt fail.')
+                alertSuccess('yeah','it didn\'t fail.');
             }
-        })
+        });
     },
     'click #coursesLoadMore': function () {
         courseSub.loadNextPage();
+    },
+    'click #clubsLoadMore': function () {
         clubSub.loadNextPage();
     },
     'click #createNewClub': function () {
@@ -316,13 +317,13 @@ Template.dashOrganizations.events({
                 if(err){
                     alertError('Something Terrible Happened...', err.message);
                 }
-            })
+            });
         }else{
             Meteor.call('course.remove', id, function (err) {
                 if(err){
                     alertError('Something Terrible Happened...', err.message);
                 }
-            })
+            });
         }
     }
 });
@@ -357,7 +358,7 @@ Template.dashRoleEditor.events({
                 Modal.hide('dashRoleEditor');
                 alertSuccess("Success!", "User Role has been successfully modified!")
             }
-        })
+        });
     }
 });
 
@@ -434,7 +435,7 @@ Template.dashCategoryEditor.events({
                 if(err){
                     alertError('Something Wrong Happened...', err.message);
                 }
-            })
+            });
         }
 
     }
@@ -450,14 +451,14 @@ Template.dashClubEditor.events({
             schedule: $('#newClubSchedule').val(),
             imgId: Session.get('categoryImageId'),
         };
-        Meteor.call('clubs.add', json, function (err) {
+        Clubs.insert(json, function (err) {
             if (err) {
-                alertError("Error Creating Club", err.message)
+                alertError("Error Creating Club", err.message);
             } else {
                 Modal.hide('dashClubEditor');
-                alertSuccess("Yah!", "Club successfully created!")
+                alertSuccess("Yah!", "Club successfully created!");
             }
-        })
+        });
     }
 });
 

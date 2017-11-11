@@ -21,13 +21,17 @@ let loggedIn = FlowRouter.group({
                         Session.setPersistent('inDash', false);
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
-                            FlowRouter.go('/first')
+                            FlowRouter.go('/first');
                         }else{
                             Session.setPersistent('name', user.services.google.name);
                             if(Roles.userIsInRole(Meteor.userId(),'student')){
-                                Session.setPersistent('courses',user.private.courses);
-                                Session.setPersistent('token',user.private.token);
-                                Session.setPersistent('tokenExpiry',user.private.tokenDate);
+                                try{
+                                    Session.setPersistent('courses',user.private.courses);
+                                    Session.setPersistent('token',user.private.token);
+                                    Session.setPersistent('tokenExpiry',user.private.tokenDate);
+                                }catch(e){
+                                    console.log('Teach Assist Credentials Not Yet Added');
+                                }
                             }
                             Session.set('user_img', user.services.google.picture);
                         }
@@ -55,7 +59,7 @@ let admin = FlowRouter.group({
                     if(user && userSub.ready()){
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
-                            FlowRouter.go('/first')
+                            FlowRouter.go('/first');
                         }else{
                             Session.set('name', user.services.google.name);
                             Session.set('id', user.profile.id);
@@ -78,35 +82,35 @@ let admin = FlowRouter.group({
 admin.route('/dashboard/users', {
     action: function () {
         Session.set("DocumentTitle","Users - Administrative Dashboard | uhs.life");
-        BlazeLayout.render('dashboard',{dash: 'dashUsers'})
+        BlazeLayout.render('dashboard',{dash: 'dashUsers'});
     }
 });
 
 admin.route('/dashboard/announcements', {
     action: function () {
         Session.set("DocumentTitle","All Announcements - Administrative Dashboard | uhs.life");
-        BlazeLayout.render('dashboard',{dash: 'dashAnnouncements'})
+        BlazeLayout.render('dashboard',{dash: 'dashAnnouncements'});
     }
 });
 
 admin.route('/dashboard/categories', {
     action: function () {
         Session.set("DocumentTitle","Categories - Administrative Dashboard | uhs.life");
-        BlazeLayout.render('dashboard',{dash: 'dashCategories'})
+        BlazeLayout.render('dashboard',{dash: 'dashCategories'});
     }
 });
 
 admin.route('/dashboard/organizations', {
     action: function () {
         Session.set("DocumentTitle","Organizations - Administrative Dashboard | uhs.life");
-        BlazeLayout.render('dashboard',{dash: 'dashOrganizations'})
+        BlazeLayout.render('dashboard',{dash: 'dashOrganizations'});
     }
 });
 
 admin.route('/dashboard/suggestions', {
     action: function () {
         Session.set("DocumentTitle","Suggestions - Administrative Dashboard | uhs.life");
-        BlazeLayout.render('dashboard',{dash: 'dashSuggestions'})
+        BlazeLayout.render('dashboard',{dash: 'dashSuggestions'});
     }
 });
 
@@ -130,14 +134,21 @@ FlowRouter.route('/login',{
 
 loggedIn.route('/stories',{
     action: function () {
-        BlazeLayout.render('applicationLayout',{main: 'blogs'})
+        BlazeLayout.render('applicationLayout',{main: 'blogs'});
     }
+});
+
+loggedIn.route('/profile',{
+    action: function () {
+        BlazeLayout.render('applicationLayout',{main: 'profile'});
+    },
+    name: 'profile'
 });
 
 loggedIn.route('/blog/:postId',{
     action: function (params) {
         if(params.postId === 'preview'){
-            Session.setPersistent('post_data', Session.get('preview_json'))
+            Session.setPersistent('post_data', Session.get('preview_json'));
         }else{
             Tracker.autorun(function () {
                let post = Posts.findOne({_id: params.postId});
@@ -148,14 +159,14 @@ loggedIn.route('/blog/:postId',{
             });
         }
         window.scrollTo(0, 0);
-        BlazeLayout.render('applicationLayout',{main: 'details'})
+        BlazeLayout.render('applicationLayout',{main: 'details'});
     }
 });
 
 admin.route('/dashboard',{
     action: function () {
         Session.set("DocumentTitle","Administrative Dashboard | uhs.life");
-        BlazeLayout.render('dashboard',{dash: 'dashHome'})
+        BlazeLayout.render('dashboard',{dash: 'dashHome'});
     }
 });
 
@@ -169,7 +180,7 @@ loggedIn.route('/course/:courseId',{
                 if(err.error === 400){
                     Modal.show('teachAssistPass');
                 }else{
-                    alertError('Something went wrong', 'We are having problems talking to teach assist. You can visit ta.yrdsb.ca for more details on your mark.')
+                    alertError('Something went wrong', 'We are having problems talking to teach assist. You can visit ta.yrdsb.ca for more details on your mark.');
                 }
             }else{
                 console.log(data);
@@ -250,4 +261,4 @@ checkTokenExpiry = function () {
     let diff = Math.abs(now - Session.get('tokenExpiry'));
     let minutes = Math.floor((diff/1000)/60);
     return minutes < 15;
-}
+};

@@ -32,9 +32,9 @@ import '../../api/blogCategories/categoriesMethods.js';
 import './teachAssist.js';
 //import the collections into server
 import '../../api/suggestions/suggestions.js';
-import '../../api/images/images.js'
-import '../../api/images/imagesMethods.js'
-import '../../api/organizations/clubs.js'
-import '../../api/organizations/clubsMethods.js'
-import '../../api/organizations/courses.js'
-import '../../api/organizations/coursesMethods.js'
+import '../../api/images/images.js';
+import '../../api/images/imagesMethods.js';
+import '../../api/organizations/clubs.js';
+import '../../api/organizations/clubsMethods.js';
+import '../../api/organizations/courses.js';
+import '../../api/organizations/coursesMethods.js';

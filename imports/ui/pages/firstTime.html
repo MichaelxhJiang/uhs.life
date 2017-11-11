@@ -17,6 +17,12 @@
                                         {{_ "first.teach_more"}}
                                     </p>
                                 </div>
+                                <div id="interestIntro" hidden>
+                                    <h2>{{_ "first.teach_t"}}</h2>
+                                    <p>
+                                        {{_ "first.teach_t_more"}}
+                                    </p>
+                                </div>
                                 <div id="emailIntro" hidden>
                                     <h2>{{_ "first.news"}}</h2>
                                     <p>{{_ "first.news_more"}}</p>
@@ -48,6 +54,20 @@
                                     </div>
                                     <span>{{_ "first.teach_skip"}} <a href="" id="skipNext">{{_ "first.btn.skip"}}</a></span>
                                 </div>
+                                <div class="info-form" id="interestFormIntro" hidden>
+                                    <form class="select-organizations" id="interestForm">
+                                        <div class="form-group mb-15">
+                                            <label for="categoryInterest">Categories</label>
+                                            <select name="category-selector" class="category-select" id="categoryInterest" multiple style="width: 60%"></select>
+                                        </div>
+                                        <div class="form-group mb-15">
+                                            <label for="clubInterest">Clubs</label>
+                                            <select name="category-selector" class="category-select mb-15" id="clubInterest" multiple style="width: 60%"></select>
+                                        </div>
+                                        <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="Confirm">
+                                    </form>
+                                    <span>{{_ "first.teach_t_skip"}} <a href="" id="skipInterest">{{_ "first.btn.skip"}}</a></span>
+                                </div>
                                 <div class="info-form" id="subscriptionEmail" hidden>
                                     <form id="newsletterEmailForm">
                                         <input type="email" placeholder="Your Email" id="personalEmail">
@@ -57,12 +77,6 @@
                                 </div>
                                 <div class="info-form" id="confirmDetails" hidden>
                                     <form class="form" id="finalForm">
-                                        <label for="introName">{{_ "first.input.cName"}}</label>
-                                        <input type="text" id="introName" disabled>
-                                        <label for="introStudentNum">{{_ "first.input.cNum"}}</label>
-                                        <input type="text" id="introStudentNum" disabled>
-                                        <label for="introSubEmail">{{_ "first.input.cMail"}}</label>
-                                        <input type="email" id="introSubEmail" disabled>
                                         <div class="form-group">
                                             <input type='checkbox' class='ios8-switch' id='checkboxTerms'>
                                             <label for='checkboxTerms'>{{_ "first.input.cTerms"}}</label>

@@ -1,0 +1,58 @@
+<template name="profile">
+    {{> navigation}}
+    {{#with user}}
+        <div class="container main">
+            <div class="row content text-center">
+                <div class="col-lg-12">
+                    <img src="{{services.google.picture}}" class="img-responsive img-circle profile-img">
+                    <h2>{{services.google.name}}</h2>
+                    <h4 class="text-muted">Profile Management</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="text-muted">About You</h3>
+                </div>
+            </div>
+            <div class="row mb-30" style="border-bottom: 1px solid #cccccc;">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                    <h4>First Name: {{services.google.given_name}}</h4>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <h4>Last Name: {{services.google.family_name}}</h4>
+                </div>
+            </div>
+            <div class="row mb-30" style="border-bottom: 1px solid #cccccc;">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                    <h4>Gender: {{services.google.gender}}</h4>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <h4>Email: {{services.google.email}}</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="text-muted">Manage Account</h3>
+                </div>
+            </div>
+            <div class="row mb-30" style="border-bottom: 1px solid #cccccc;">
+                <div class="col-lg-12">
+                    <h4>Update your Notification Settings</h4>
+                    <p>If you want to unsubscribe from all notifications, simply remove all items from the selection boxes then click update.</p>
+                    <form class="select-organizations" id="updateNotificationForm">
+                        <div class="form-group mb-15">
+                            <label for="categoryInterest">Categories</label>
+                            <select name="category-selector" class="category-select" id="categoryInterest" multiple style="width: 60%"></select>
+                        </div>
+                        <div class="form-group mb-15">
+                            <label for="clubInterest">Clubs</label>
+                            <select name="category-selector" class="category-select mb-15" id="clubInterest" multiple style="width: 60%"></select>
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-lg btn-login mb-15" value="Update">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    {{/with}}
+</template>

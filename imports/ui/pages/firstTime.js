@@ -1,27 +1,43 @@
 /**
  * Created by Yonglin Wang on 8/3/2017.
  */
-import './firstTime.html'
+import './firstTime.html';
 
 Template.firstTime.onRendered(function () {
     Tracker.autorun(function () {
         let courseSub = Meteor.subscribe('allCourses',1000);
         let clubSub = Meteor.subscribe('allClubs',1000);
-        if(courseSub.ready() && clubSub.ready()){
+        let categorySub = Meteor.subscribe('categories');
+        if(courseSub.ready() && clubSub.ready() && categorySub.ready()){
             let courses = Courses.find({});
             let clubs = Clubs.find({});
+            let categories = Categories.find({});
             courses.observeChanges({
                 added: function (id, fields) {
                     let newCat = new Option(fields.name + " - " + fields.code, fields.code);
-                    $('#firstCourseSelect').append(newCat)
+                    $('#firstCourseSelect').append(newCat);
                 }
             });
             clubs.observeChanges({
                 added: function (id, fields) {
-                    let newCat = new Option(fields.name, fields.code);
-                    $('#firstClubSelect').append(newCat)
+                    let newCat = new Option(fields.name, fields.name);
+                    $('#firstClubSelect').append(newCat);
+                    $('#clubInterest').append(newCat);
                 }
-            })
+            });
+            categories.observeChanges({
+                added: function (id, fields) {
+                    let newCat = new Option(fields.name, fields.name);
+                    $('#categoryInterest').append(newCat);
+                }
+            });
+        }
+    });
+    let categories = Categories.find({});
+    categories.observeChanges({
+        added: function (id, fields) {
+            let newCat = new Option(fields.name, fields.name);
+            $('#categoryInterest').append(newCat);
         }
     });
     $('#firstCourseSelect').select2({
@@ -30,6 +46,14 @@ Template.firstTime.onRendered(function () {
     });
     $('#firstClubSelect').select2({
         placeholder: "Click to select matching categories",
+        allowClear: true
+    });
+    $('#categoryInterest').select2({
+        placeholder: "Click to select the clubs you want to receive notifications about",
+        allowClear: true
+    });
+    $('#clubInterest').select2({
+        placeholder: "Click to select the clubs you want to receive notifications about",
         allowClear: true
     });
 });
@@ -42,8 +66,21 @@ Template.firstTime.events({
     },
     'click #skipNext': function (evt,template) {
         evt.preventDefault();
-        swapElements('#teachIntro', '#emailIntro');
-        swapElements('#teachAssistInfo', '#subscriptionEmail');
+        swapElements('#teachIntro', '#interestIntro');
+        swapElements('#teachAssistInfo', '#interestFormIntro');
+        $('#categoryInterest').select2({
+            placeholder: "Click to select the clubs you want to receive notifications about",
+            allowClear: true
+        });
+        $('#clubInterest').select2({
+            placeholder: "Click to select the clubs you want to receive notifications about",
+            allowClear: true
+        });
+    },
+    'click #skipInterest': function (evt) {
+        evt.preventDefault();
+        swapElements('#interestIntro', '#emailIntro');
+        swapElements('#interestFormIntro', '#subscriptionEmail');
     },
     'click #skipEmail': function (evt,template) {
         evt.preventDefault();
@@ -59,13 +96,13 @@ Template.firstTime.events({
         const user = $('#teachUser').val();
         const pass = $('#teachPass').val();
         $('.teach-assist-login').fadeOut('fast', function () {
-           $('.teachLoader').fadeIn('slow')
+           $('.teachLoader').fadeIn('slow');
         });
         Meteor.call('getTeachAssistTokens', {student_number: user, password: pass}, function (err, data) {
             if(err){
                 alertError("Failed to connect with teach assist", err.message);
                 $('.teachLoader').fadeOut('fast', function () {
-                    $('.teach-assist-login').fadeIn('slow')
+                    $('.teach-assist-login').fadeIn('slow');
                 });
             }else{
                 Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.token": data, "private.tokenDate": new Date()}}, function (err) {
@@ -86,21 +123,37 @@ Template.firstTime.events({
                                 swapElements('#teachIntro', '#emailIntro');
                                 swapElements('#teachAssistInfo', '#subscriptionEmail');
                             }
-                        })
+                        });
                     }
                 });
             }
-        })
+        });
+    },
+    'submit #interestForm': function (evt) {
+        evt.preventDefault();
+        const categories = $('#categoryInterest').val();
+        const clubs = $('#clubInterest').val();
+        Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.categories": categories, "private.clubs": clubs}}, function (err) {
+            if(err){
+                alertError("Error Occurred when updating your profile", err.message);
+            }else {
+                alertSuccess("Thank you!", "We have recorded the information you provided");
+                swapElements('#interestIntro', '#emailIntro');
+                swapElements('#interestFormIntro', '#subscriptionEmail');
+            }
+        });
     },
     'submit #organizationsForm': function (evt) {
         evt.preventDefault();
         const courses = $('#firstCourseSelect').val();
         const clubs = $('#firstClubSelect').val();
-        Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.courses": courses, "profile.clubs": clubs}}, function (err) {
+        Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.courses": courses, "private.clubs": clubs}}, function (err) {
             if(err){
-                alertError("Error Occurred when updating your profile", err.message)
+                alertError("Error Occurred when updating your profile", err.message);
             }else {
-                alertSuccess("Thank you!", "We have recorded the information you provided")
+                alertSuccess("Thank you!", "We have recorded the information you provided");
+                swapElements('#teachIntro', '#emailIntro');
+                swapElements('#teachAssistInfo', '#subscriptionEmail');
             }
         });
     },
@@ -108,19 +161,27 @@ Template.firstTime.events({
         evt.preventDefault();
         let email = $('#personalEmail').val();
         let userInfo = Meteor.user().services.google;
+        if(email.length === 0){
+            email = userInfo.email;
+        }
         if(!validateEmail(email)){
-            alertError("Sorry...", "The email you entered is unacceptable.")
+            alertError("Sorry...", "The email you entered is incorrect.");
         }else{
             Meteor.call('news.addSubscriber', email, userInfo.given_name, userInfo.family_name, function (err) {
                 if(err){
-                    alertError("Something went wrong", err.message + "\nYou can subscribe to the newsletter anytime later.")
+                    alertError("Something went wrong", err.message + "\nYou can subscribe to the newsletter anytime later.");
                 }else{
+                    Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.subEmail": email}}, function (err) {
+                        if(err){
+                            alertError("Error Occurred when updating your profile", err.message);
+                        }
+                    });
                     Session.set('personalEmail', email);
                     alertSuccess("Great!", "We have signed you up for newsletters!");
                     swapElements('#emailIntro', '#confirmIntro');
                     swapElements('#subscriptionEmail', '#confirmDetails');
                 }
-            })
+            });
         }
     },
     'submit #finalForm': function (evt,template) {
@@ -133,12 +194,12 @@ Template.firstTime.events({
                 }else{
                     swapElements('.wizard-container', '.final-message');
                     setTimeout(function () {
-                        FlowRouter.go('/')
+                        FlowRouter.go('/');
                     }, 3000);
                 }
             });
         }else{
-            alertError("Oops.", "Please agree to the terms of service.")
+            alertError("Oops.", "Please agree to the terms of service.");
         }
 
     }
