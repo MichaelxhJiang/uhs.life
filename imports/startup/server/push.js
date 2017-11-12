@@ -48,7 +48,7 @@ Meteor.methods({
         if (!Roles.userIsInRole( this.userId, ['admin'])) {
             throw new Meteor.Error(403, "You do not have permission...Reported");
         }
-        let post = Posts.find();
+        let post = Posts.find({"_id":postId}).fetch()[0];
         let categories = post.categories;
         let userId = new Set();
         for (let i = 0; i < categories.length; i++) {
@@ -63,7 +63,9 @@ Meteor.methods({
             title: "New Post: ",
             text: post.headline,
             from: "uhs.life",
-            query: {$in: array}
+            query: {
+                userId: {$in: array}
+            }
         });
     },
     'testSubscribeQuery'(category) {
