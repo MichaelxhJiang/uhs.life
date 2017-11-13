@@ -48,21 +48,41 @@ Meteor.methods({
         if (!Roles.userIsInRole( this.userId, ['admin'])) {
             throw new Meteor.Error(403, "You do not have permission...Reported");
         }
-        let post = Posts.find();
+        let post = Posts.find({"_id":postId}).fetch()[0];
         let categories = post.categories;
         let userId = new Set();
         for (let i = 0; i < categories.length; i++) {
-            let users = Meteor.users.find({catSubscription : categories[i]}).fetch();
+            let users = Meteor.users.find({'private.categories' : categories[i]}).fetch();
             for (let j = 0; j < users.length; j++) {
-                userId.add(users[i]._id);
+                userId.add(users[j]._id);
             }
         }
-        //let array = Array.from(mySet);
+        console.log("Push: subscriber count: " + userId.size);
+        let array = Array.from(userId);
         Push.send({
             title: "New Post: ",
             text: post.headline,
             from: "uhs.life",
-            query: {$in: userId}
+            query: {
+                userId: {$in: array}
+            }
         });
+    },
+    'testSubscribeQuery'(category) {
+        if (!Roles.userIsInRole( this.userId, ['admin'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
+        }
+        let post = Posts.find();
+        let categories = post.categories;
+        let userId = new Set();
+
+        let users = Meteor.users.find({'private.categories' : category}).fetch();
+        for (let j = 0; j < users.length; j++) {
+            userId.add(users[j]._id);
+        }
+
+        console.log("Push: subscriber count: " + userId.size);
+        let array = Array.from(userId);
+        console.log(array);
     }
 });
