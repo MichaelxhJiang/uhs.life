@@ -1,8 +1,8 @@
 /**
  * Created by Yonglin Wang on 8/4/2017.
  */
-import {Images} from '../../api/images/images.js';
-
+import { FilesCollection } from 'meteor/ostrio:files';
+import { Images } from "../../api/images/images.js";
 import './editor.html';
 let operationStack = ['.editor-open'];
 let hasUnsplash = false;
@@ -12,15 +12,13 @@ let blogDrop = null;
 Template.allPosts.onRendered(function () {
     Tracker.autorun(function () {
         allPosts = Meteor.subscribeWithPagination('postsByUser', 20);
-        Meteor.subscribe('images')
-    })
+    });
 });
 
 Template.blogDraft.onRendered(function () {
     Tracker.autorun(function () {
         Meteor.subscribeWithPagination('drafts', 10);
-        Meteor.subscribe('images')
-    })
+    });
 });
 
 Template.blogEditor.onRendered(function () {
@@ -43,15 +41,15 @@ Template.blogEditor.onRendered(function () {
             courses.observeChanges({
                 added: function (id, fields) {
                     let newCat = new Option(fields.name + " - " + fields.code, fields.code);
-                    $('#blogOrganizationSelect').append(newCat)
+                    $('#blogOrganizationSelect').append(newCat);
                 }
             });
             clubs.observeChanges({
                 added: function (id, fields) {
                     let newCat = new Option(fields.name, fields.code);
-                    $('#blogOrganizationSelect').append(newCat)
+                    $('#blogOrganizationSelect').append(newCat);
                 }
-            })
+            });
         }
     });
     $(document).ready(function () {
@@ -104,23 +102,35 @@ Template.blogEditor.onRendered(function () {
         });
         $editor.on('froalaEditor.image.beforeUpload', function (e, editor, images) {
             let self = $(this);
+            const uploader = Images.insert({
+                file: images[0],
+                streams: 'dynamic',
+                chunkSize: 'dynamic'
+            }, false);
 
-            Images.insert(images[0], function (err, fileObj) {
-                //console.log("editor ",  editor);
-                //console.log("after insert:", fileObj._id);
-                Tracker.autorun(function (c) {
-                    fileObj = Images.findOne(fileObj._id);
-                    let url = fileObj.url();
-                    if (url) {
-                        let imgList = $('img.fr-fic');
-                        self.froalaEditor('image.insert', url, true);
-                        imgList[imgList.length - 1].remove();
-                        return {
-                            link: url
-                        };
-                    }
-                });
+            uploader.on('end', function (error, fileObj) {
+                if (error) {
+                    alert('Error during upload: ' + error);
+                } else {
+                    alert('File "' + fileObj.name + '" successfully uploaded');
+                    Tracker.autorun(function (c) {
+                        const file = Images.findOne(fileObj._id);
+                        let url = file.link();
+                        if (url) {
+                            let imgList = $('img.fr-fic');
+                            self.froalaEditor('image.insert', url, true);
+                            imgList[imgList.length - 1].remove();
+                            return {
+                                link: url
+                            };
+                        }
+                    });
+                }
             });
+            uploader.on('error', function (error, fileObj) {
+                alert('Error during upload: ' + error);
+            });
+            uploader.start();
         });
         if (Meteor.isClient) {
             Dropzone.autoDiscover = false;
@@ -208,33 +218,33 @@ Template.editor.helpers({
         return Roles.userIsInRole(Meteor.userId(),['teacher','blogEditor','announcementEditor','admin']);
     },
     'canWriteAnnounce': function () {
-        return Roles.userIsInRole(Meteor.userId(),['teacher','admin','announcementEditor'])
+        return Roles.userIsInRole(Meteor.userId(),['teacher','admin','announcementEditor']);
     },
     'canWriteBlog': function () {
-        return Roles.userIsInRole(Meteor.userId(),['teacher','admin','blogEditor'])
+        return Roles.userIsInRole(Meteor.userId(),['teacher','admin','blogEditor']);
     }
 });
 
 Template.blogDraft.helpers({
     'drafts': function () {
-        return Drafts.find({})
+        return Drafts.find({});
     },
     'draftedDate': function () {
-        return moment(this.draftedDate).format('MMMM Do YYYY')
+        return moment(this.draftedDate).format('MMMM Do YYYY');
     },
     'imageLink': function () {
         if(this.unsplash){
             return this.unsplash.urls.full;
         }else{
             try{
-                return Images.findOne({_id: this.imgId}).url();
+                return Images.findOne({_id: this.imgId}).link();
             }catch(e){
                 //console.log('error getting photo')
             }
         }
     },
     'isBlog': function () {
-        return this.type === 'blog'
+        return this.type === 'blog';
     }
 });
 
@@ -245,21 +255,21 @@ Template.allPosts.helpers({
         });
     },
     'draftedDate': function () {
-        return moment(this.draftedDate).format('MMMM Do YYYY')
+        return moment(this.draftedDate).format('MMMM Do YYYY');
     },
     'imageLink': function () {
         if(this.unsplash){
             return this.unsplash.urls.full;
         }else{
             try{
-                return Images.findOne({_id: this.imgId}).url();
+                return Images.findOne({_id: this.imgId}).link();
             }catch(e){
                 //console.log('error getting photo')
             }
         }
     },
     'isBlog': function () {
-        return this.type === 'blog'
+        return this.type === 'blog';
     },
     'stage': function () {
         return this.meta.screeningStage;
@@ -267,17 +277,17 @@ Template.allPosts.helpers({
     'stageCaption': function () {
         let text = 'Post Submitted';
         if(this.meta.screeningStage === 3){
-            text = "Post Approved"
+            text = "Post Approved";
         }else if(this.meta.screeningStage === -1){
-            text = "Post Rejected"
+            text = "Post Rejected";
         }
         return text;
     },
     'isRejected': function () {
         if(this.meta.screeningStage === -1){
-            return "rejected"
+            return "rejected";
         }
-        return ""
+        return "";
     },
     'rejected': function () {
       return (this.meta.screeningStage === -1);
@@ -401,13 +411,13 @@ Template.allPosts.events({
             if(accepted){
                 Posts.remove({_id: id}, function (err) {
                     if(err){
-                        alertError("Error Removing Post", "Please try again later.\n"+ err.message)
+                        alertError("Error Removing Post", "Please try again later.\n"+ err.message);
                     }else{
-                        alertSuccess("Successfully Removed Post", "")
+                        alertSuccess("Successfully Removed Post", "");
                     }
-                })
+                });
             }
-        })
+        });
     },
     'click .btn-republish-post': function (evt) {
         evt.preventDefault();
@@ -425,7 +435,7 @@ Template.republishTime.events({
            'startDate': new Date($('#republishStart').val()),
            'endDate': new Date($('#republishEnd').val()),
            'meta.rejectedReason': ""
-       }})
+       }});
    }
 });
 Template.blogEditor.events({
@@ -460,7 +470,7 @@ Template.blogEditor.events({
                 if(err){
                     alertError('Saving Draft Failed!', err.message);
                 }else{
-                    alertSuccess("Saved!","")
+                    alertSuccess("Saved!","");
                 }
             });
         }else{
@@ -511,7 +521,7 @@ Template.blogEditor.events({
                                             $("#unsplashPreview").hide().fadeIn('slow');
                                             $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
                                         }
-                                    })
+                                    });
                                 }
                             }else{
                                 let num = getRandomInt(0, data.results.length-1);
@@ -525,11 +535,11 @@ Template.blogEditor.events({
                             }
 
                         }
-                    })
+                    });
                 };
                 getImg();
             }
-        })
+        });
     },
     'click #newUnsplash': function () {
         $('#unsplashPrompt').html("<i class='fa fa-spinner fa-pulse fa-fw'></i> Please Wait...");
@@ -551,7 +561,7 @@ Template.blogEditor.events({
                 $("#unsplashPreview").fadeIn('slow');
                 $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"?utm_source=uhs.life&utm_medium=referral&utm_campaign=api-credit'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> Want a differnt one? <a href='' id='newUnsplash'>Click Here</a>. Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
             }
-        })
+        });
     },
     'click #newUpload': function () {
         $('.unsplash-container').remove();
@@ -741,7 +751,7 @@ Template.blogDraft.events({
             if(err){
                 alertError("Something went wrong when deleting the draft", err.message);
             }
-        })
+        });
     },
     'click .btn-post-draft': function (evt) {
         evt.preventDefault();
@@ -801,7 +811,7 @@ Template.blogDraft.events({
                     alertSuccess('Success!', 'The post has been submitted.');
                     Drafts.remove({_id: id});
                 }
-            })
+            });
         }else{
             if (type === "imageOnly") {
                 Meteor.call('posts.postImage', json, function (err) {
@@ -863,7 +873,7 @@ Template.suggestionEditor.events({
         }
         if (!content) {
             //TODO
-            console.log('No content entered')
+            console.log('No content entered');
         }
 
         let json = {
@@ -905,22 +915,25 @@ function initDropZone(id, info) {
         dictDefaultMessage: info.message || "Drop your image here, or click to select an image using the browser.",
         accept: function (file, done) {
             $('.quick-image-prompt').html('');
-            let FSFile = new FS.File(file);
-            Images.insert(FSFile, function (err, fileObj) {
-                if (err) {
-                    console.log(err);
+            const uploader = Images.insert({
+                file: file,
+                streams: 'dynamic',
+                chunkSize: 'dynamic'
+            }, false);
+
+            uploader.on('end', function (error, fileObj) {
+                if (error) {
+                    alert('Error during upload: ' + error);
                 } else {
-                    Images.remove({_id: Session.get('newImageId')}, function (err) {
-                        if (err) {
-                            console.log("error removing image:\n" + err);
-                        }
-                    });
                     hasUnsplash = false;
-                    Session.set('newFileLink', fileObj.extension());   //update the file type
                     Session.set('newImageId', fileObj._id); //update the image id to current image
                     done();
                 }
             });
+            uploader.on('error', function (error, fileObj) {
+                alert('Error during upload: ' + error);
+            });
+            uploader.start();
         }
     });
 }
@@ -961,9 +974,9 @@ function setEditorContent(json) {
                             $('#dropzone').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container'/>");
                             $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
                         }
-                    })
+                    });
                 }
-            })
+            });
         }
         swapElements('.blog-drafts', '.blog-editor');
         operationStack.push('.blog-editor');
@@ -1002,7 +1015,7 @@ function setEditorContent(json) {
             $('#textImageHeadline').val(json.headline);
             if(json.imgId){
                 Session.set('newImageId', json.imgId);
-                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.')
+                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.');
             }
             $('.announcement-text:eq(1)').val(json.content);
             $(".announcement-category:eq(2)").val(json.categories).trigger("change");
@@ -1046,9 +1059,9 @@ function setEditorContentAll(json) {
                             $('#dropzone').replaceWith("<img src='" + data.urls.regular + "' class='img-responsive unsplash-container'/>");
                             $('#unsplashPrompt').html("Here you go! This image is by <a href='"+ data.user.links.html +"'>"+ data.user.name +"</a> from "+ data.user.location +" via <b>Unsplash</b>. <br><br> This will be your featured image, if you want another one <a href='' id='newUnsplash'>Click Here</a> Changed your mind? click here to <a href='' id='newUpload'>upload a new image</a>");
                         }
-                    })
+                    });
                 }
-            })
+            });
         }
         swapElements('.all-posts', '.blog-editor');
         operationStack.push('.blog-editor');
@@ -1058,7 +1071,7 @@ function setEditorContentAll(json) {
             $('#imageOnlyHeadline').val(json.headline);
             if(json.imgId){
                 Session.set('newImageId', json.imgId);
-                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.')
+                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.');
             }
             _.forEach(json.tags,function (item) {
                 $('.announce-tags:eq(0)').tagsinput('add', item);
@@ -1359,18 +1372,18 @@ function constructAnnouncementJson(type){
         //meta
         let priority = Session.get('priority');
         if (!imgId) {
-            alertError('Post Incomplete!', "You haven't uploaded an image yet!")
+            alertError('Post Incomplete!', "You haven't uploaded an image yet!");
         }
         if (!headline) {
             //TODO
-            alertError('Post Incomplete!', "You haven't added a headline!")
+            alertError('Post Incomplete!', "You haven't added a headline!");
         }
         if(!startDate || !endDate){
-            alertError('Post Incomplete!', "You haven't added a date!")
+            alertError('Post Incomplete!', "You haven't added a date!");
         }
         if (!content) {
             //TODO
-            alertError('Post Incomplete!', "You haven't added any information!")
+            alertError('Post Incomplete!', "You haven't added any information!");
         }
 
         return {

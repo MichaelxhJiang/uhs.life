@@ -1,5 +1,4 @@
 import './dashboard.html';
-import { Images } from '../../api/images/images.js';
 //import {Suggestions} from '../../api/suggestions/suggestions.js';
 let courseSub;
 let clubSub;
@@ -14,7 +13,6 @@ Template.dashHome.onRendered(function () {
         Meteor.subscribe('posts');
         Meteor.subscribe('categories');
         Meteor.subscribe('blogCategories');
-        Meteor.subscribe('images');
     });
 });
 Template.dashSuggestions.onRendered(function () {
@@ -56,23 +54,23 @@ Template.dashHome.helpers({
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'noImage': function () {
-        return (this.subType === 'textOnly')
+        return (this.subType === 'textOnly');
     },
     'imageLink': function () {
         try{
-            return Images.findOne({_id: this.imgId}).url();
+            return Images.findOne({_id: this.imgId}).link();
         }catch(e){
             //console.log('error getting photo')
         }
     },
     'hasContent': function () {
-        return this.subType !== 'imageOnly'
+        return this.subType !== 'imageOnly';
     },
     'draftedDate': function () {
-        return moment(this.draftedDate).format("MMMM Do YYYY")
+        return moment(this.draftedDate).format("MMMM Do YYYY");
     },
     'releaseDate': function () {
-        return moment(this.releaseDate).format("MMMM Do YYYY")
+        return moment(this.releaseDate).format("MMMM Do YYYY");
     }
 });
 
@@ -98,7 +96,7 @@ Template.dashAnnouncements.helpers({
     'imageLink': function () {
         console.log(this);
         try{
-            return Images.findOne({_id: this.imgId}).url();
+            return Images.findOne({_id: this.imgId}).link();
         }catch(e){
             //console.log('error getting photo')
         }
@@ -121,7 +119,7 @@ Template.dashSuggestions.helpers({
     },
     'imageLink': function () {
         try{
-            return Images.findOne({_id: this.imgId}).url();
+            return Images.findOne({_id: this.imgId}).link();
         }catch(e){
             //console.log('error getting photo from Images - dashboard')
         }
@@ -428,7 +426,7 @@ Template.dashCategoryEditor.events({
                 if(err){
                     alertError('Something Wrong Happened...', err.message);
                 }
-            })
+            });
         }else{
             Meteor.call('blogCategory.addNew',json,function (err) {
                 Modal.hide('dashCategoryEditor');
@@ -486,26 +484,25 @@ function initDropZone(id, info) {
         addRemoveLinks: true,
         dictDefaultMessage: info.message || "Drop your image here, or click to select an image using the browser.",
         accept: function (file, done) {
-            let FSFile = new FS.File(file);
+            const uploader = Images.insert({
+                file: file,
+                streams: 'dynamic',
+                chunkSize: 'dynamic'
+            }, false);
 
-            Images.insert(FSFile, function (err, fileObj) {
-                if (err) {
-                    console.log(err);
+            uploader.on('end', function (error, fileObj) {
+                if (error) {
+                    alert('Error during upload: ' + error);
                 } else {
-                    //remove the currently uploaded image
-                    //if there is none, this will not do anything
-                    Images.remove({_id: Session.get('newImageId')}, function (err) {
-                        if (err) {
-                            console.log("error removing image:\n" + err);
-                        }
-                    });
-                    //retreive file extension
                     hasUnsplash = false;
-                    Session.set('newFileType', fileObj.extension());   //update the file type
-                    Session.set('categoryImageId', fileObj._id); //update the image id to current image
+                    Session.set('newImageId', fileObj._id); //update the image id to current image
                     done();
                 }
             });
+            uploader.on('error', function (error, fileObj) {
+                alert('Error during upload: ' + error);
+            });
+            uploader.start();
         }
     });
 }

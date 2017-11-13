@@ -8,6 +8,7 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "bootstrap-select": "^1.12.4",
+    "bson": "^1.0.4",
     "chart.js": "^2.7.1",
     "es6-promise": "^4.1.1",
     "file-system": "^2.2.2",

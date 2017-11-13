@@ -2,7 +2,7 @@
  * This file defines the entry point of the client application, all initialization
  * behaviors are defined here.*/
 'use strict';
-import { TAPi18n } from 'meteor/tap:i18n'
+import { TAPi18n } from 'meteor/tap:i18n';
 import './imports.js';
 import './routes.js';
 

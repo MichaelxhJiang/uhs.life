@@ -28,6 +28,7 @@ import './algoliaAll.js';
 //This file contains push notification setup
 import './push.js';
 
+import '../../api/images/images.js';
 
 Drafts = new Mongo.Collection('drafts');
 Clubs = new Mongo.Collection('clubs');

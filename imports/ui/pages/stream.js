@@ -2,8 +2,8 @@
  * Created by Yonglin Wang on 7/31/2017.
  */
 import imagesLoaded from 'imagesloaded';
-import './stream.html'
-import { Images } from '../../api/images/images.js';
+
+import './stream.html';
 let isotopeSettings = {
     itemSelector: '.grid-item',
     percentPosition: true,
@@ -17,7 +17,6 @@ Template.stream.onRendered(function () {
     Tracker.autorun(function () {
         let postSub = Meteor.subscribe('announcements', 10, Meteor.userId());
         let categorySub = Meteor.subscribe('categories');
-        let imageSub = Meteor.subscribe('images');
         if(postSub.ready()){
             $('.grid').isotope(isotopeSettings);
             $('.grid').imagesLoaded().progress( function() {
