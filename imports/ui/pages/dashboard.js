@@ -1,8 +1,12 @@
 import './dashboard.html';
+import { Images } from "../../api/images/images.js";
 //import {Suggestions} from '../../api/suggestions/suggestions.js';
 let courseSub;
 let clubSub;
 Template.dashboard.onRendered(function () {
+    Tracker.autorun(function () {
+        Meteor.subscribe('files.images.all');
+    });
 });
 Template.dashCategories.onRendered(function () {
     setTitle('Manage Categories');

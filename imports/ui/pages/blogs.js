@@ -1,7 +1,8 @@
 /**
  * Created by Yonglin Wang on 9/12/2017.
  */
-import './blogs.html'
+import { Images } from '../../api/images/images.js';
+import './blogs.html';
 
 Template.blogs.onCreated(function () {
     Session.set('navTitle', 'Stories');
@@ -10,13 +11,14 @@ Template.blogs.onCreated(function () {
 Template.blogs.onRendered(function () {
     Tracker.autorun(function () {
         Meteor.subscribe('blogCategories');
-        Meteor.subscribe('posts')
-    })
+        Meteor.subscribe('posts');
+        Meteor.subscribe('files.images.all');
+    });
 });
 
 Template.blogs.helpers({
     'blogCategories': function () {
-        return BlogCategories.find({})
+        return BlogCategories.find({});
     }
 });
 
@@ -45,7 +47,7 @@ Template.blogItem.helpers({
             return this.unsplash.urls.full;
         }else if(this.imgId){
             try{
-                return Images.findOne({_id: this.imgId}).url();
+                return Images.findOne({_id: this.imgId}).link();
             }catch(e){
                 //console.log('error getting photo')
             }

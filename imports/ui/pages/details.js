@@ -43,14 +43,14 @@ Template.details.helpers({
                             $('.post-header').css('background-image',"url("+data.urls.full+")");
                             return data.urls.full;
                         }
-                    })
+                    });
                 }
             });
         }else{
             Tracker.autorun(function () {
                 let image = Images.findOne({_id: data.imgId});
                 if(image){
-                    let url = image.url();
+                    let url = image.link();
                     $('.post-header').css('background-image',"url("+url+")");
                     return true;
                 }

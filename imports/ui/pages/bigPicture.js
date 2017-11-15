@@ -1,7 +1,7 @@
 /**
  * Created by Yonglin Wang on 9/24/2017.
  */
-import './bigPicture.html'
+import './bigPicture.html';
 import { Images } from '../../api/images/images.js';
 import flickity from 'flickity';
 import imagesLoaded from 'imagesloaded';
@@ -34,7 +34,7 @@ Template.bigPicture.onRendered(function () {
                 selectedAttraction: 0.01,
                 friction: 0.15
             });
-            $('.dot').css('width',$('.flickity-page-dots').width()/$('.dot').length + 'px')
+            $('.dot').css('width',$('.flickity-page-dots').width()/$('.dot').length + 'px');
         }
     });
 });
@@ -48,7 +48,7 @@ Template.bigPicture.helpers({
 Template.bigPictureItem.helpers({
     'imageLink': function () {
         try{
-            return Images.findOne({_id: this.imgId}).url();
+            return Images.findOne({_id: this.imgId}).link();
         }catch(e){}
 
     }
