@@ -7,16 +7,17 @@
  */
 //import ui files
 import '../../ui/layouts/applicationLayout.js';
-import '../../ui/components/navigation.js'
+import '../../ui/components/navigation.js';
 import '../../ui/pages/login.js';
 import '../../ui/pages/stream.js';
 import '../../ui/pages/firstTime.js';
 import '../../ui/pages/details.js';
 import '../../ui/components/editor.js';
 import '../../ui/pages/course.js';
-import '../../ui/pages/dashboard.js'
-import '../../ui/pages/blogs.js'
-import '../../ui/pages/bigPicture.js'
+import '../../ui/pages/dashboard.js';
+import '../../ui/pages/blogs.js';
+import '../../ui/pages/bigPicture.js';
+import '../../ui/pages/profile.js';
 
 //This file defines functions to post and setup the facebook API
 import './facebook.js';
@@ -24,6 +25,10 @@ import './facebook.js';
 import './algoliaSearch.js';
 //This file contains the search all function used for Algolia
 import './algoliaAll.js';
+//This file contains push notification setup
+import './push.js';
+
+import '../../api/images/images.js';
 
 Drafts = new Mongo.Collection('drafts');
 Clubs = new Mongo.Collection('clubs');

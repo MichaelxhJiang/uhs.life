@@ -14,12 +14,12 @@
                 <div class="gutter-sizer"></div>
                 {{#each allPosts}}
                     {{#if isImageOnly}}
-                        <div class="grid-item image {{categories}}">
+                        <div class="grid-item image {{categories}}" tabindex="0">
                             <div class="item-container">
-                                <img class="img-responsive" src="{{imageLink}}" />
+                                <img class="img-responsive" src="{{imageLink}}" alt="{{headline}}"/>
                                 <div class="overlay-small">
                                     <div class="text">
-                                        <h4>{{headline}}</h4>
+                                        <h4 aria-hidden="true">{{headline}}</h4>
                                         <div class="image-only-author">
                                             <p>{{writer}}</p>
                                         </div>
@@ -41,12 +41,12 @@
                     {{/ if}}
                     {{#if isImageText}}
                         {{#if imageOverText}}
-                            <div class="grid-item image {{categories}}">
+                            <div class="grid-item image {{categories}}" tabindex="0">
                                 <div class="item-container">
-                                    <img src="{{imageLink}}" alt="Test Image" class="item-image">
+                                    <img src="{{imageLink}}" alt="{{headline}}" class="item-image">
                                     <div class="overlay">
                                         <div class="text">
-                                            <h3>{{headline}}</h3>
+                                            <h3 aria-hidden="true">{{headline}}</h3>
                                             <span>{{writer}}</span>
                                             <p>{{content}}</p>
                                         </div>
@@ -55,11 +55,11 @@
                             </div>
                         {{/ if}}
                         {{#if textOverImage}}
-                            <div class="grid-item image {{categories}} text-over-image">
+                            <div class="grid-item image {{categories}} text-over-image" tabindex="0">
                                 <div class="grid-bg-img-container" style="background: url({{imageLink}})">
                                     <div class="overlay-partial">
                                         <div class="post-title mb-10">
-                                            <h3>{{headline}}</h3>
+                                            <h3 aria-hidden="true">{{headline}}</h3>
                                         </div>
                                         <p>{{content}}</p>
                                         <span class="grid-item-footer">{{writer}} | {{_ "stream.time_range"}}: {{effectiveDate}}</span>
@@ -68,19 +68,8 @@
                             </div>
                         {{/ if}}
                     {{/ if}}
-                    {{#if isBlog}}
-                        <div class="grid-item image {{categories}} blog-item" id="{{_id}}">
-                            <img class="img-responsive" src="{{imageLink}}" />
-                            <div class="grid-blog-body">
-                                <h3>{{title}}</h3>
-                                <span class="grid-item-footer">{{writer}}</span>
-                                <p>{{subtitle}}</p>
-                                <a href="" class="btn btn-primary btn-wide">{{_ "stream.read_more"}}</a>
-                            </div>
-                        </div>
-                    {{/ if}}
                 {{else}}
-                    <h2 class="text-center">{{_ "stream.no"}}</h2>
+                    <h2 class="text-center" tabindex="0">{{_ "stream.no"}}</h2>
                 {{/ each}}
             </div>
         </div>

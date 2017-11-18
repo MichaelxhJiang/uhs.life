@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import {Meteor} from 'meteor/meteor';
 
 import '/imports/startup/server'
 
@@ -15,27 +15,27 @@ Meteor.startup(() => {
     });
 //on server restart, always re-run scheduler to reschedule all announcements
 //TODO
-    Posts.find({'meta.approved':true, 'meta.screeningStage': 3}).forEach(function(obj) {
-        Meteor.call('scheduleAnnouncement', obj._id, function(err, res) {
+    Posts.find({'meta.approved': true, 'meta.screeningStage': 3}).forEach(function (obj) {
+        Meteor.call('scheduleAnnouncement', obj._id, function (err, res) {
             if (err) {
                 console.log(err);
             }
         });
     })
     /*
-     Meteor.call('posts.getApprovedPosts', function(err, data) {
-     console.log("getting approved posts");
-     if (err) {
-     console.log (err);
-     } else {
-     //console.log(data);
-     data.forEach(function(obj) {
-     Meteor.call('scheduleAnnouncement', obj._id, function(err, res) {
-     if (err) {
-     console.log(err);
-     }
-     });
-     });
-     }
-     })*/
+    Meteor.call('posts.getApprovedPosts', function(err, data) {
+    console.log("getting approved posts");
+    if (err) {
+    console.log (err);
+    } else {
+    //console.log(data);
+    data.forEach(function(obj) {
+    Meteor.call('scheduleAnnouncement', obj._id, function(err, res) {
+    if (err) {
+    console.log(err);
+    }
+    });
+    });
+    }
+    })*/
 });

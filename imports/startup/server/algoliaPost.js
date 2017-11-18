@@ -64,7 +64,7 @@ Meteor.methods({
             content: json.content,
             tags: json.tags,
             categories: json.categories,
-        }
+        };
 
         //adds object to the indice announcement
         index.addObject(newJson, Meteor.bindEnvironment(function(err, content) {

@@ -1,10 +1,10 @@
 import { Images } from './images.js';
 
-if (Meteor.isServer) {
+/*if (Meteor.isServer) {
    Meteor.publish('images', function imagesPublication() {
     return Images.find({});  //TODO only show drafts of current user
   });
-}
+}*/
 
 Meteor.methods({
    'images.insert' : function(image, callback) {
@@ -16,6 +16,6 @@ Meteor.methods({
             console.log('upload success');
             callback(null, fileObj);
          }
-      })
+      });
    }
 })

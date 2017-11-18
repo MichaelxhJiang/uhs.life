@@ -1,9 +1,12 @@
-import './dashboard.html'
-import { Images } from '../../api/images/images.js';
+import './dashboard.html';
+import { Images } from "../../api/images/images.js";
 //import {Suggestions} from '../../api/suggestions/suggestions.js';
 let courseSub;
 let clubSub;
 Template.dashboard.onRendered(function () {
+    Tracker.autorun(function () {
+        Meteor.subscribe('files.images.all');
+    });
 });
 Template.dashCategories.onRendered(function () {
     setTitle('Manage Categories');
@@ -14,7 +17,6 @@ Template.dashHome.onRendered(function () {
         Meteor.subscribe('posts');
         Meteor.subscribe('categories');
         Meteor.subscribe('blogCategories');
-        Meteor.subscribe('images');
     });
 });
 Template.dashSuggestions.onRendered(function () {
@@ -56,23 +58,23 @@ Template.dashHome.helpers({
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'noImage': function () {
-        return (this.subType === 'textOnly')
+        return (this.subType === 'textOnly');
     },
     'imageLink': function () {
         try{
-            return Images.findOne({_id: this.imgId}).url();
+            return Images.findOne({_id: this.imgId}).link();
         }catch(e){
             //console.log('error getting photo')
         }
     },
     'hasContent': function () {
-        return this.subType !== 'imageOnly'
+        return this.subType !== 'imageOnly';
     },
     'draftedDate': function () {
-        return moment(this.draftedDate).format("MMMM Do YYYY")
+        return moment(this.draftedDate).format("MMMM Do YYYY");
     },
     'releaseDate': function () {
-        return moment(this.releaseDate).format("MMMM Do YYYY")
+        return moment(this.releaseDate).format("MMMM Do YYYY");
     }
 });
 
@@ -93,19 +95,18 @@ Template.dashAnnouncements.helpers({
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'noImage': function () {
-        return (this.subType === 'textOnly')
+        return (this.subType === 'textOnly');
     },
     'imageLink': function () {
         console.log(this);
         try{
-            return Images.findOne({_id: this.imgId}).url();
+            return Images.findOne({_id: this.imgId}).link();
         }catch(e){
             //console.log('error getting photo')
         }
-
     },
     'hasContent': function () {
-        return this.subType !== 'imageOnly'
+        return this.subType !== 'imageOnly';
     }
 });
 
@@ -118,17 +119,17 @@ Template.dashSuggestions.helpers({
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'noImage': function () {
-        return (this.imgId === null)
+        return (this.imgId === null);
     },
     'imageLink': function () {
         try{
-            return Images.findOne({_id: this.imgId}).url();
+            return Images.findOne({_id: this.imgId}).link();
         }catch(e){
             //console.log('error getting photo from Images - dashboard')
         }
     },
     'draftedDate': function () {
-        return moment(this.draftedDate).format("MMMM Do YYYY")
+        return moment(this.draftedDate).format("MMMM Do YYYY");
     }
 });
 
@@ -138,9 +139,9 @@ Template.dashSuggestions.events({
         let id = obj.attr('id');
         Meteor.call('suggestions.removeSuggestions', id, function (err) {
             if(err){
-                alertError("Error Occurred When Removing Suggestion", err.message)
+                alertError("Error Occurred When Removing Suggestion", err.message);
             }
-        })
+        });
     }
 });
 
@@ -152,7 +153,7 @@ Template.dashCategories.helpers({
         return (this.featured) ? 'Yes' : 'No';
     },
     'date': function () {
-        return moment(this.createdDate).format("MMMM Do YYYY")
+        return moment(this.createdDate).format("MMMM Do YYYY");
     },
     'blogCategory': function () {
         return BlogCategories.find({});
@@ -183,7 +184,7 @@ Template.dashOrganizations.helpers({
     }
 });
 
-Template.dashboard.events({
+Template.dashHome.events({
     'click .new-post': function (evt) {
         let obj = $(evt.target).closest($('.new-post'));
         let id = obj.attr('id');
@@ -199,9 +200,9 @@ Template.dashboard.events({
         let id = obj.attr('id');
         Meteor.call('posts.approvePost', id, function (err) {
             if(err){
-                alertError("Error Occurred When Approving Post", err.message)
+                alertError("Error Occurred When Approving Post", err.message);
             }
-        })
+        });
         //Post on Facebook
         /*setupFacebook(function(err, response) {
          if (err) {
@@ -230,12 +231,45 @@ Template.dashboard.events({
             if(result){
                 Meteor.call('posts.rejectPost', id, result, function (err) {
                     if(err){
-                        alertError("Error Occurred When Removing Post", err.message)
+                        alertError("Error Occurred When Removing Post", err.message);
                     }
-                })
+                });
             }
         });
 
+    }
+});
+
+Template.dashAnnouncements.events({
+    'click .new-post': function (evt) {
+        let obj = $(evt.target).closest($('.new-post'));
+        let id = obj.attr('id');
+        Session.set('editingId', id);
+        let info = Posts.findOne({_id: id});
+        Session.set('dashEditorData', info);
+
+        if(!$(evt.target).attr('class').includes('btn-remove')){
+            console.log('test');
+            Modal.show('dashPostEditor');
+        }
+
+    },
+    'click .btn-remove': function (evt) {
+        evt.preventDefault();
+        let obj = $(evt.target).closest($('.new-post'));
+        let id = obj.attr('id');
+        alertConfirm('Are you sure','This action cannot be reverted, if you don\'t want this post to show up in the list, we recommend you archive it.', function (accepted) {
+            if(accepted){
+                console.log(id);
+                Meteor.call('posts.removePost', id, function (err) {
+                    if(err){
+                        alertError("Error Removing Post", "Please try again later.\n"+ err.message);
+                    }else{
+                        alertSuccess("Successfully Removed Post", "");
+                    }
+                });
+            }
+        });
     }
 });
 
@@ -255,13 +289,13 @@ Template.dashCategories.events({
                 if(err){
                     alertError('Something Terrible Happened...', err.message);
                 }
-            })
+            });
         }else{
             Meteor.call('category.remove', id, function (err) {
                 if(err){
                     alertError('Something Terrible Happened...', err.message);
                 }
-            })
+            });
         }
     }
 });
@@ -279,12 +313,12 @@ Template.dashUsers.events({
         alertPrompt("This doesn't have to happen. Please give a reason for the banning.",function (result) {
             Meteor.call('accounts.ban',id,result,function (err) {
                 if(err){
-                    alertError("Failed to ban user", err.message)
+                    alertError("Failed to ban user", err.message);
                 }else{
-                    alertSuccess("User has been successfully banned", "")
+                    alertSuccess("User has been successfully banned", "");
                 }
-            })
-        })
+            });
+        });
     }
 });
 
@@ -294,14 +328,16 @@ Template.dashOrganizations.events({
         let codes = $('#courseCodes').val();
         Meteor.call('courses.addSeveral',names,codes,function (err) {
             if(err){
-                alertError("Failed", err.message)
+                alertError("Failed", err.message);
             }else{
-                alertSuccess('yeah','it didnt fail.')
+                alertSuccess('yeah','it didn\'t fail.');
             }
-        })
+        });
     },
     'click #coursesLoadMore': function () {
         courseSub.loadNextPage();
+    },
+    'click #clubsLoadMore': function () {
         clubSub.loadNextPage();
     },
     'click #createNewClub': function () {
@@ -316,13 +352,13 @@ Template.dashOrganizations.events({
                 if(err){
                     alertError('Something Terrible Happened...', err.message);
                 }
-            })
+            });
         }else{
             Meteor.call('course.remove', id, function (err) {
                 if(err){
                     alertError('Something Terrible Happened...', err.message);
                 }
-            })
+            });
         }
     }
 });
@@ -357,7 +393,7 @@ Template.dashRoleEditor.events({
                 Modal.hide('dashRoleEditor');
                 alertSuccess("Success!", "User Role has been successfully modified!")
             }
-        })
+        });
     }
 });
 
@@ -427,14 +463,14 @@ Template.dashCategoryEditor.events({
                 if(err){
                     alertError('Something Wrong Happened...', err.message);
                 }
-            })
+            });
         }else{
             Meteor.call('blogCategory.addNew',json,function (err) {
                 Modal.hide('dashCategoryEditor');
                 if(err){
                     alertError('Something Wrong Happened...', err.message);
                 }
-            })
+            });
         }
 
     }
@@ -450,14 +486,14 @@ Template.dashClubEditor.events({
             schedule: $('#newClubSchedule').val(),
             imgId: Session.get('categoryImageId'),
         };
-        Meteor.call('clubs.add', json, function (err) {
+        Clubs.insert(json, function (err) {
             if (err) {
-                alertError("Error Creating Club", err.message)
+                alertError("Error Creating Club", err.message);
             } else {
                 Modal.hide('dashClubEditor');
-                alertSuccess("Yah!", "Club successfully created!")
+                alertSuccess("Yah!", "Club successfully created!");
             }
-        })
+        });
     }
 });
 
@@ -485,26 +521,25 @@ function initDropZone(id, info) {
         addRemoveLinks: true,
         dictDefaultMessage: info.message || "Drop your image here, or click to select an image using the browser.",
         accept: function (file, done) {
-            let FSFile = new FS.File(file);
+            const uploader = Images.insert({
+                file: file,
+                streams: 'dynamic',
+                chunkSize: 'dynamic'
+            }, false);
 
-            Images.insert(FSFile, function (err, fileObj) {
-                if (err) {
-                    console.log(err);
+            uploader.on('end', function (error, fileObj) {
+                if (error) {
+                    alert('Error during upload: ' + error);
                 } else {
-                    //remove the currently uploaded image
-                    //if there is none, this will not do anything
-                    Images.remove({_id: Session.get('newImageId')}, function (err) {
-                        if (err) {
-                            console.log("error removing image:\n" + err);
-                        }
-                    });
-                    //retreive file extension
                     hasUnsplash = false;
-                    Session.set('newFileType', fileObj.extension());   //update the file type
-                    Session.set('categoryImageId', fileObj._id); //update the image id to current image
+                    Session.set('newImageId', fileObj._id); //update the image id to current image
                     done();
                 }
             });
+            uploader.on('error', function (error, fileObj) {
+                alert('Error during upload: ' + error);
+            });
+            uploader.start();
         }
     });
 }
