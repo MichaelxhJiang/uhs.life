@@ -12,12 +12,14 @@ let blogDrop = null;
 Template.allPosts.onRendered(function () {
     Tracker.autorun(function () {
         allPosts = Meteor.subscribeWithPagination('postsByUser', 20);
+        Meteor.subscribe('files.images.all');
     });
 });
 
 Template.blogDraft.onRendered(function () {
     Tracker.autorun(function () {
         Meteor.subscribeWithPagination('drafts', 10);
+        Meteor.subscribe('files.images.all');
     });
 });
 
@@ -986,7 +988,7 @@ function setEditorContent(json) {
             $('#imageOnlyHeadline').val(json.headline);
             if(json.imgId){
                 Session.set('newImageId', json.imgId);
-                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.')
+                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.');
             }
             _.forEach(json.tags,function (item) {
                 $('.announce-tags:eq(0)').tagsinput('add', item);
@@ -1096,7 +1098,7 @@ function setEditorContentAll(json) {
             $('#textImageHeadline').val(json.headline);
             if(json.imgId){
                 Session.set('newImageId', json.imgId);
-                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.')
+                $('.quick-image-prompt').html('You have already uploaded an image, if you would like to change it, simply add a different one. Otherwise, simply ignore the box.');
             }
             $('.announcement-text:eq(1)').val(json.content);
             $(".announcement-category:eq(2)").val(json.categories).trigger("change");
@@ -1255,14 +1257,14 @@ function constructAnnouncementJson(type){
         let draftedDate = new Date();
         let visibility = $('.visibility-select')[1].value;
         if (!imgId) {
-            alertError('Post Incomplete!', "You haven't uploaded an image yet!")
+            alertError('Post Incomplete!', "You haven't uploaded an image yet!");
         }
         if (!headline) {
             //TODO
-            alertError('Post Incomplete!', "You haven't added a headline!")
+            alertError('Post Incomplete!', "You haven't added a headline!");
         }
         if(!startDate || !endDate){
-            alertError('Post Incomplete!', "You haven't added a date!")
+            alertError('Post Incomplete!', "You haven't added a date!");
         }
         return {
             author: authorId,
@@ -1312,14 +1314,14 @@ function constructAnnouncementJson(type){
         //meta
 
         if (!content) {
-            alertError('Post Incomplete!', "You haven't added any content yet!")
+            alertError('Post Incomplete!', "You haven't added any content yet!");
         }
         if (!headline) {
             //TODO
-            alertError('Post Incomplete!', "You haven't added a headline!")
+            alertError('Post Incomplete!', "You haven't added a headline!");
         }
         if(!startDate || !endDate){
-            alertError('Post Incomplete!', "You haven't added a date!")
+            alertError('Post Incomplete!', "You haven't added a date!");
         }
 
         return {
@@ -1413,12 +1415,11 @@ function getKeyWord(text) {
 
     let keywords = ($(text).text());
 //  Extract the keywords
-    let extraction_result = keyword_extractor.extract(keywords,{
-        language:"english",
+    return keyword_extractor.extract(keywords, {
+        language: "english",
         remove_digits: true,
-        return_changed_case:true,
+        return_changed_case: true,
         remove_duplicates: false,
         remove_max_ngrams: 10
     });
-    return extraction_result;
 }

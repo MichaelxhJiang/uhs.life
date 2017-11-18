@@ -2,7 +2,7 @@
  * Created by Yonglin Wang on 7/31/2017.
  */
 import imagesLoaded from 'imagesloaded';
-
+import { Images } from "../../api/images/images.js";
 import './stream.html';
 let isotopeSettings = {
     itemSelector: '.grid-item',
@@ -16,6 +16,7 @@ Template.stream.onRendered(function () {
     let $grid = $('.grid');
     Tracker.autorun(function () {
         let postSub = Meteor.subscribe('announcements', 10, Meteor.userId());
+        Meteor.subscribe('files.images.all');
         let categorySub = Meteor.subscribe('categories');
         if(postSub.ready()){
             $('.grid').isotope(isotopeSettings);
@@ -95,7 +96,7 @@ Template.stream.helpers({
             return this.unsplash.urls.full;
         }else if(this.imgId){
             try{
-                return Images.findOne({_id: this.imgId}).url();
+                return Images.findOne({_id: this.imgId}).link();
             }catch(e){
                 //console.log('error getting photo')
             }

@@ -15,7 +15,7 @@ Template.navigation.onRendered(function () {
 
 Template.navigation.helpers({
     'date': function () {
-        return "Friday April 7th"
+        return "Friday April 7th";
     },
     'username': function () {
         return Session.get('name');

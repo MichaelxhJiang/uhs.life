@@ -1,6 +1,8 @@
-import '../lib/charting.js'
-import '../lib/alert.js'
+import '../lib/charting.js';
+import '../lib/alert.js';
+
 import {Images} from '../../api/images/images.js';
+
 import './course.html';
 
 Template.course.onRendered(function () {
@@ -46,7 +48,7 @@ Template.course.onRendered(function () {
         $(document).scroll(function () {
             $('.performance-progress').each(function () {
                 $(this).css({ width: $(this).attr('data-progress') });
-            })
+            });
         });
         $('.performance-presenter').hide();
     });
@@ -58,10 +60,10 @@ Template.course.helpers({
         let arr = Session.get('courseData').data.assessment;
         let newArr = [];
         while(arr.length) newArr.push(arr.splice(0,2));
-        return newArr
+        return newArr;
     },
     'percentage': function () {
-        return (Math.round(((this.mark / this.outOf) * 100) * 10) / 10) + "%"
+        return (Math.round(((this.mark / this.outOf) * 100) * 10) / 10) + "%";
     },
     'readings': function () {
         return Posts.find({
@@ -74,14 +76,14 @@ Template.course.helpers({
             return this.unsplash.urls.full;
         }else if(this.imgId){
             let id = this.imgId;
-            return Images.findOne({_id: id}).url();
+            return Images.findOne({_id: id}).link();
         }
     },
     'isMobile': function () {
         return $( window ).width() <= 768;
     },
     'culminating': function () {
-        return Session.get('courseData').categories.O *100 + '%'
+        return Session.get('courseData').categories.O *100 + '%';
     }
 });
 
@@ -169,7 +171,7 @@ Template.course.events({
             });
             console.log(names,marks);
             drawPolyChart('markByAssignment',names, marks);
-            drawPerformChart('sectionMarkByAssignment',['a','b','c','d'],[90, 88, 85, 99],[88, 90, 99, 78],[100,89,67,88],[99,99,89,86])
+            drawPerformChart('sectionMarkByAssignment',['a','b','c','d'],[90, 88, 85, 99],[88, 90, 99, 78],[100,89,67,88],[99,99,89,86]);
         }else{
             $(currentValue).fadeOut('fast');
             $(filterValue).fadeIn('slow');
