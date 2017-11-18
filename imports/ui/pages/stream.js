@@ -15,7 +15,7 @@ let isotopeSettings = {
 Template.stream.onRendered(function () {
     let $grid = $('.grid');
     Tracker.autorun(function () {
-        let postSub = Meteor.subscribe('announcements', 10, Meteor.userId());
+        let postSub = Meteor.subscribe('announcements', 100);
         Meteor.subscribe('files.images.all');
         let categorySub = Meteor.subscribe('categories');
         if(postSub.ready()){
@@ -35,25 +35,32 @@ Template.stream.helpers({
     'allPosts': function () {
         let query = Posts.find({
             'meta.approved': true,
-            'type': 'announcement'
+            'type': 'announcement',
+            'meta.display': true
         });
         query.observeChanges({
             added: function(id, fields) {
                 setTimeout(function () {
                     $('.grid').isotope('reloadItems');
-                    $('.grid').isotope()
+                    $('.grid').imagesLoaded().progress( function() {
+                        $('.grid').isotope();
+                    });
                 }, 500);
             },
             changed: function(id, fields) {
                 setTimeout(function () {
                     $('.grid').isotope('reloadItems');
-                    $('.grid').isotope()
+                    $('.grid').imagesLoaded().progress( function() {
+                        $('.grid').isotope();
+                    });
                 }, 500);
             },
             removed: function() {
                 setTimeout(function () {
                     $('.grid').isotope('reloadItems');
-                    $('.grid').isotope()
+                    $('.grid').imagesLoaded().progress( function() {
+                        $('.grid').isotope();
+                    });
                 }, 500);
             }
         });

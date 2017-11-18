@@ -9,6 +9,11 @@ let hasUnsplash = false;
 let originalTitle = "";
 let allPosts = null;
 let blogDrop = null;
+let selectConfig = {
+    placeholder: "Click to select",
+    allowClear: true,
+    minimumResultsForSearch: -1
+};
 Template.allPosts.onRendered(function () {
     Tracker.autorun(function () {
         allPosts = Meteor.subscribeWithPagination('postsByUser', 20);
@@ -55,21 +60,16 @@ Template.blogEditor.onRendered(function () {
         }
     });
     $(document).ready(function () {
-        $('#blogCategorySelect').select2({
-            placeholder: "Click to select matching categories",
-            allowClear: true
-        });
-        $('#blogOrganizationSelect').select2({
-            placeholder: "Click to select matching categories",
-            allowClear: true
-        });
+        $('#blogCategorySelect').select2(selectConfig);
+        $('#blogOrganizationSelect').select2(selectConfig);
         // Append it to the select
-        $('.visibility-select').select2({
-            placeholder: "Click to select the scope of this post",
-        });
+        $('.visibility-select').select2(selectConfig);
         $('.input-date').datepicker({
-            startDate: '+1d'
+            startDate: '+0d'
         });
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+            $(".select2-search__field").attr("readonly", true);
+        }
         let $editor = $('.editable');
         $editor.froalaEditor({
             scaytAutoload: false,
@@ -170,13 +170,13 @@ Template.announcementEditor.onRendered(function () {
         }
     });
     $(document).ready(function () {
-        $('.category-select').select2({
-            placeholder: "Click to select matching categories",
-            allowClear: true
-        });
+        $('.category-select').select2(selectConfig);
         $('.input-daterange').datepicker({
-            startDate: '+1d'
+            startDate: '+0d'
         });
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+            $(".select2-search__field").attr("readonly", true);
+        }
         if (Meteor.isClient) {
             let arrayOfImageIds = [];
             Dropzone.autoDiscover = false;
@@ -199,7 +199,7 @@ Template.announcementEditor.onRendered(function () {
 Template.republishTime.onRendered(function () {
     $(document).ready(function () {
         $('.input-daterange').datepicker({
-            startDate: '+1d'
+            startDate: '+0d'
         });
     });
 });
@@ -241,7 +241,6 @@ Template.blogDraft.helpers({
             try{
                 return Images.findOne({_id: this.imgId}).link();
             }catch(e){
-                //console.log('error getting photo')
             }
         }
     },
@@ -266,7 +265,6 @@ Template.allPosts.helpers({
             try{
                 return Images.findOne({_id: this.imgId}).link();
             }catch(e){
-                //console.log('error getting photo')
             }
         }
     },
@@ -379,7 +377,6 @@ Template.editor.events({
         let length = $(evt.target).val().length;
 
         if (length >= maxlength) {
-            console.log("You have reached the maximum number of characters.");
             $('.announcement-counter').text(0);
         } else {
             $('.announcement-counter').text(maxlength - length);
@@ -411,7 +408,7 @@ Template.allPosts.events({
         let id = obj.attr('id');
         alertConfirm('Are you sure','This action cannot be reverted, if you don\'t want this post to show up in the list, we recommend you archive it.', function (accepted) {
             if(accepted){
-                Posts.remove({_id: id}, function (err) {
+                Meteor.call('posts.removePost', id, function (err) {
                     if(err){
                         alertError("Error Removing Post", "Please try again later.\n"+ err.message);
                     }else{
@@ -431,19 +428,22 @@ Template.allPosts.events({
 Template.republishTime.events({
    'submit #republishForm': function (evt) {
        evt.preventDefault();
-       Posts.update({_id: this.id}, {'$set': {
+       Meteor.call('posts.updatePost',this.id, {
            'meta.approved': false,
            'meta.screeningStage': 0,
            'startDate': new Date($('#republishStart').val()),
            'endDate': new Date($('#republishEnd').val()),
            'meta.rejectedReason': ""
-       }});
+       }, function (err) {
+           if(err){
+               alertError("Error occurred When Republishing Post", err.message);
+           }
+       });
    }
 });
 Template.blogEditor.events({
     'click .publish': function (event, template) {
         let json = constructBlogJson();
-        console.log(json);
         Meteor.call('posts.postBlog', json, function (err) {
             if (err) {
                 alertError('Post Failed!', err.message);
@@ -468,7 +468,7 @@ Template.blogEditor.events({
     'click .save-draft' : function() {
         let json = constructBlogJson();
         if(Session.get('draftEditItem')){
-            Drafts.update({_id: Session.get('draftEditItem')}, json, function (err) {
+            Meteor.call('drafts.updateDraft', Session.get('draftEditItem'), json, function (err) {
                 if(err){
                     alertError('Saving Draft Failed!', err.message);
                 }else{
@@ -501,7 +501,6 @@ Template.blogEditor.events({
                             $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one.");
                             hasUnsplash = false;
                         } else {
-                            console.log(data);
                             if(data.results.length <= 0){
                                 agent++;
                                 if(agent <= list.length){
@@ -514,7 +513,6 @@ Template.blogEditor.events({
                                             $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one instead.");
                                             hasUnsplash = false;
                                         } else {
-                                            console.log(data);
                                             Session.set('unsplash_img', data.id);
                                             Session.set('unsplashData',data);
                                             blogDrop.disable();
@@ -554,7 +552,6 @@ Template.blogEditor.events({
                 $('#unsplashPrompt').html("Sorry... We failed to find an image for you. Please upload one instead.");
                 hasUnsplash = false;
             } else {
-                console.log(data);
                 Session.set('unsplash_img', data.id);
                 Session.set('unsplashData',data);
                 // Adding Preview
@@ -601,7 +598,7 @@ Template.announcementOptions.events({
                     alertError('Posting Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Drafts.remove({_id: Session.get('draftEditItem')});
+                    Meteor.call('drafts.remove',Session.get('draftEditItem'));
                     Session.set('draftEditItem', null);
                     wipeEditor('announcement','imageOnly');
                     if (operationStack.length - 2 === 0) {
@@ -622,7 +619,7 @@ Template.announcementOptions.events({
                     alertError('Post Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Drafts.remove({_id: Session.get('draftEditItem')});
+                    Meteor.call('drafts.remove',Session.get('draftEditItem'));
                     Session.set('draftEditItem', null);
                     wipeEditor('announcement','textOnly');
                     if (operationStack.length - 2 === 0) {
@@ -642,7 +639,7 @@ Template.announcementOptions.events({
                     alertError('Post Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Drafts.remove({_id: Session.get('draftEditItem')});
+                    Meteor.call('drafts.remove',Session.get('draftEditItem'));
                     Session.set('draftEditItem', null);
                     wipeEditor('announcement','imageText');
                     if (operationStack.length - 2 === 0) {
@@ -664,9 +661,9 @@ Template.announcementOptions.events({
         let json = constructAnnouncementJson(type);
 
         if(Session.get('draftEditItem')){
-            Drafts.update({_id: Session.get('draftEditItem')}, json, function (err) {
+            Meteor.call('drafts.updateDraft', Session.get('draftEditItem'), json, function (err) {
                 if(err){
-                    alertError('Saving Draft Failed!', err.message);
+                    alertError('Failed to save draft', err.message);
                 }else{
                     alertSuccess("Saved!","");
                     if (operationStack.length - 2 === 0) {
@@ -767,7 +764,7 @@ Template.blogDraft.events({
                     alertError('Posting Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Drafts.remove({_id: id});
+                    Meteor.call('drafts.remove', id);
                 }
             });
 
@@ -777,7 +774,7 @@ Template.blogDraft.events({
                     alertError('Post Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Drafts.remove({_id: id});
+                    Meteor.call('drafts.remove', id);
                 }
             });
         } else if (type === 'textAndImage') {
@@ -786,7 +783,7 @@ Template.blogDraft.events({
                     alertError('Post Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Drafts.remove({_id: id});
+                    Meteor.call('drafts.remove', id);
                 }
             });
         } else if (type === 'blog'){
@@ -795,7 +792,7 @@ Template.blogDraft.events({
                     alertError('Post Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Drafts.remove({_id: id});
+                    Meteor.call('drafts.remove', id);
                 }
             });
         }
@@ -811,7 +808,7 @@ Template.blogDraft.events({
                     alertError('Post Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Drafts.remove({_id: id});
+                    Meteor.call('drafts.remove', id);
                 }
             });
         }else{
@@ -821,7 +818,7 @@ Template.blogDraft.events({
                         alertError('Posting Failed!', err.message);
                     } else {
                         alertSuccess('Success!', 'The post has been submitted.');
-                        Drafts.remove({_id: id});
+                        Meteor.call('drafts.remove', id);
                     }
                 });
 
@@ -831,7 +828,7 @@ Template.blogDraft.events({
                         alertError('Post Failed!', err.message);
                     } else {
                         alertSuccess('Success!', 'The post has been submitted.');
-                        Drafts.remove({_id: id});
+                        Meteor.call('drafts.remove', id);
                     }
                 });
             } else if (type === 'textAndImage') {
@@ -840,7 +837,7 @@ Template.blogDraft.events({
                         alertError('Post Failed!', err.message);
                     } else {
                         alertSuccess('Success!', 'The post has been submitted.');
-                        Drafts.remove({_id: id});
+                        Meteor.call('drafts.remove', id);
                     }
                 });
             }
@@ -852,7 +849,6 @@ Template.blogDraft.events({
             let id = obj.attr('id');
             Session.set('draftEditItem', id);
             setEditorContent(Drafts.findOne({_id: id}));
-            console.log(Session.get('draftEditItem'));
         }
     }
 });
@@ -886,10 +882,8 @@ Template.suggestionEditor.events({
             draftedDate: draftedDate,
             imgId: imgId
         };
-        console.log(json);
 
         Meteor.call('suggestions.postSuggestion', json, function (err) {
-            console.log('posted');
             if (err) {
                 alertError('Post Failed!', err.message);
             } else {
@@ -1230,7 +1224,6 @@ function constructBlogJson(){
 }
 function constructAnnouncementJson(type){
     if (type === "imageOnly") {
-        console.log('constructing image only');
         let headline = $('#imageOnlyHeadline').val();
         let imgId = Session.get('newImageId');
         let separators = [' , ', ', ', ',', ' ,'];
