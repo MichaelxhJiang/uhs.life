@@ -276,11 +276,12 @@ Meteor.methods({
                 let obj = Posts.findOne({'_id':postId});
                 let type = obj.type, subType = obj.subType;
 
-                Meteor.call('scheduleAnnouncement', postId, function(err) {
+                Meteor.call('postAndScheduleAnnouncement', postId, function(err) {
                     if (err) {
                         console.log(err);
                     }
                 });
+                /*
                 if (type === 'announcement') {
                     if (subType === 'textOnly') {
                         Meteor.call('postTextAlgolia', postId);
@@ -324,7 +325,7 @@ Meteor.methods({
                             return -1;
                         }
                     }
-                });
+                });*/
             }
         });
     },
