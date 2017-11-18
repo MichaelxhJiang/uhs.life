@@ -3,6 +3,7 @@ import schedule from 'node-schedule';
 import {Posts} from '../../api/posts/posts.js';
 
 Meteor.methods({
+    //call this for scheduling an announcement or rescheduling after server reset
     'scheduleAnnouncement': function (announcementId) {
         let announcement = Posts.findOne({'_id': announcementId});
 
@@ -47,6 +48,134 @@ Meteor.methods({
             return -1;
         }
     },
+    //only call this method when approving a new post
+    //as it posts to Twitter on start date
+    'postAndScheduleAnnouncement' : function (announcementId) {
+        Meteor.call('scheduleAnnouncement', announcementId);
+
+        let announcement = Posts.findOne({'_id': announcementId});
+
+        if (announcement.type === 'announcement') {
+            let sDate = new Date(announcement.startDate);
+            let cDate = new Date();
+
+            let subType = announcement.subType;
+
+            sDate.setHours(8);
+
+            if (sDate.getTime() < cDate.getTime()) { //already past start date
+                console.log("updated start date");
+                sDate = new Date();  //update the start date
+                sDate.setSeconds(sDate.getSeconds() + 5);  //add a delay
+            }
+            
+            //set the scheduler
+            let j = schedule.scheduleJob(sDate, Meteor.bindEnvironment(function () {
+                //Set display to TRUE
+                console.log("DISPLAY TRUE AND SEND TO TWITTER");
+                Posts.update({'_id': announcementId}, {$set: {'meta.display': true}});
+                
+                if (subType === 'textOnly') {
+                    Meteor.call('postTextAlgolia', announcementId);
+                } else if (subType === 'imageOnly') {
+                    Meteor.call('postImageAlgolia', announcementId);
+                } else {
+                    Meteor.call('postTextImageAlgolia', announcementId);
+                }
+
+                //Post on twitter
+                Meteor.call('setupTwitterAPI', function(err, response) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        if (subType === 'textOnly') {
+                            Meteor.call('postTextAnnouncementTwitter', announcement, function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                        } else if (subType === 'imageOnly') {
+                            Meteor.call('postImageAnnouncementTwitter', announcement, function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                        } else {
+                            Meteor.call('postTextImageAnnouncementTwitter', announcement, function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                        }
+                    
+                    }
+                });
+            }));
+        } else {
+            console.log('Not an announcement');
+            return -1;
+        }
+    },
+    'postAndScheduleAnnouncementTEST' : function (announcementId) {
+        Meteor.call('scheduleAnnouncement', announcementId);
+
+        let announcement = Posts.findOne({'_id': announcementId});
+
+        if (announcement.type === 'announcement') {
+            let sDate = new Date(announcement.startDate);
+
+            let subType = announcement.subType;
+
+            sDate = new Date();  //update the start date
+            sDate.setSeconds(sDate.getSeconds() + 10);  //add a delay
+
+            //set the scheduler
+            let j = schedule.scheduleJob(sDate, Meteor.bindEnvironment(function () {
+                //Set display to TRUE
+                console.log("DISPLAY TRUE AND SEND TO TWITTER");
+                Posts.update({'_id': announcementId}, {$set: {'meta.display': true}});
+
+                if (subType === 'textOnly') {
+                    Meteor.call('postTextAlgolia', announcementId);
+                } else if (subType === 'imageOnly') {
+                    Meteor.call('postImageAlgolia', announcementId);
+                } else {
+                    Meteor.call('postTextImageAlgolia', announcementId);
+                }
+
+                //Post on twitter
+                Meteor.call('setupTwitterAPI', function(err, response) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        if (subType === 'textOnly') {
+                            Meteor.call('postTextAnnouncementTwitter', announcement, function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                        } else if (subType === 'imageOnly') {
+                            Meteor.call('postImageAnnouncementTwitter', announcement, function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                        } else {
+                            Meteor.call('postTextImageAnnouncementTwitter', announcement, function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                        }
+
+                    }
+                });
+            }));
+        } else {
+            console.log('Not an announcement');
+            return -1;
+        }
+    },
     'scheduleBlog': function (blogId) {
         let blog = Posts.findOne({'_id': blogId});
 
@@ -62,6 +191,7 @@ Meteor.methods({
             let j = schedule.scheduleJob(rDate, Meteor.bindEnvironment(function () {
                 //Set display to TRUE
                 Posts.update({'_id': blogId}, {$set: {'meta.display': true}});
+                Meteor.call('postBlogAlgolia', blogId);
             }));
         } else {
             console.log('not a blog');
