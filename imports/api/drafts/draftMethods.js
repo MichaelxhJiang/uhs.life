@@ -64,8 +64,15 @@ Meteor.methods({
             }
         });
     },
+    'drafts.updateDraft': function (postId, newContent) {
+        const post = Drafts.findOne({_id: postId});
+        if(!Roles.userIsInRole( this.userId, ['admin']) || post.author !== this.userId){
+            throw new Meteor.Error(403, "You do not have permission to do so.");
+        }
+        Drafts.update({_id: postId}, {'$set': newContent});
+    },
     'drafts.remove' : function(id) {
-        if (!Roles.userIsInRole( this.userId, ['teacher', 'admin', 'announcementEditor'])) {
+        if (!Roles.userIsInRole( this.userId, ['teacher', 'admin', 'announcementEditor', 'blogEditor'])) {
             throw new Meteor.Error(403, "You do not have permission...Reported");
         }
         let draft = Drafts.findOne({_id: id});

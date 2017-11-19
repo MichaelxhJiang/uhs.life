@@ -184,7 +184,7 @@ Template.dashOrganizations.helpers({
     }
 });
 
-Template.dashboard.events({
+Template.dashHome.events({
     'click .new-post': function (evt) {
         let obj = $(evt.target).closest($('.new-post'));
         let id = obj.attr('id');
@@ -237,6 +237,39 @@ Template.dashboard.events({
             }
         });
 
+    }
+});
+
+Template.dashAnnouncements.events({
+    'click .new-post': function (evt) {
+        let obj = $(evt.target).closest($('.new-post'));
+        let id = obj.attr('id');
+        Session.set('editingId', id);
+        let info = Posts.findOne({_id: id});
+        Session.set('dashEditorData', info);
+
+        if(!$(evt.target).attr('class').includes('btn-remove')){
+            console.log('test');
+            Modal.show('dashPostEditor');
+        }
+
+    },
+    'click .btn-remove': function (evt) {
+        evt.preventDefault();
+        let obj = $(evt.target).closest($('.new-post'));
+        let id = obj.attr('id');
+        alertConfirm('Are you sure','This action cannot be reverted, if you don\'t want this post to show up in the list, we recommend you archive it.', function (accepted) {
+            if(accepted){
+                console.log(id);
+                Meteor.call('posts.removePost', id, function (err) {
+                    if(err){
+                        alertError("Error Removing Post", "Please try again later.\n"+ err.message);
+                    }else{
+                        alertSuccess("Successfully Removed Post", "");
+                    }
+                });
+            }
+        });
     }
 });
 

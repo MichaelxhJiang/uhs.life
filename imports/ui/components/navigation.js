@@ -1,10 +1,10 @@
 /**
  * Created by Yonglin Wang on 8/1/2017.
  */
-import Typed from 'typedjs-placeholder'
+import Typed from 'typedjs-placeholder';
 import { Images } from '../../api/images/images.js';
-import './navigation.html'
-import '../lib/morphext.js'
+import './navigation.html';
+import '../lib/morphext.js';
 Template.navigation.onRendered(function () {
     //$('.course-list').hide();
     $('.main-search').hide();
@@ -30,14 +30,14 @@ Template.navigation.helpers({
         return Roles.userIsInRole(Meteor.userId(), 'admin');
     },
     'searchContent': function () {
-        return Session.get('searchContent').hits
+        return Session.get('searchContent').hits;
     },
     'img': function () {
         if(this.unsplash){
             return this.unsplash.urls.full;
         }else if(this.imgId){
             try{
-                return Images.findOne({_id: this.imgId}).url();
+                return Images.findOne({_id: this.imgId}).link();
             }catch(e){
                 //console.log('error getting photo')
             }
@@ -51,12 +51,12 @@ Template.navigation.helpers({
         const now = new Date();
         let diff = Math.abs(now - Session.get('tokenExpiry'));
         let minutes = Math.floor((diff/1000)/60);
-        return (minutes > 30) ? 'expired' : 'fine'
+        return (minutes > 30) ? 'expired' : 'fine';
     },
     'mark': function () {
         let mark = this.mark;
         if(mark.length > 6){
-            mark = "N/A"
+            mark = "N/A";
         }
         return mark;
     },
@@ -134,7 +134,7 @@ Template.navigation.events({
     },
     'click #academics': function () {
         if(!Session.get('token')){
-            Modal.show('teachAssistConnect')
+            Modal.show('teachAssistConnect');
         }
         let list = $('.course-list');
         let icon = $('.academics-icon');
@@ -145,7 +145,7 @@ Template.navigation.events({
         }else{
             list.hide(500);
             icon.removeClass('fa-times');
-            icon.addClass('fa-bars')
+            icon.addClass('fa-bars');
         }
     },
     'input .main-search': function () {
@@ -161,6 +161,10 @@ Template.navigation.events({
         }
     }
 });
+
+/////////////////////////////////////////////////////////
+/*                    Popup Modals                     */
+/////////////////////////////////////////////////////////
 
 Template.teachAssistPass.helpers({
     'student_id': function () {
@@ -192,7 +196,7 @@ Template.teachAssistConnect.events({
                     }
                 });
             }
-        })
+        });
     }
 });
 
@@ -220,7 +224,7 @@ Template.teachAssistPass.events({
                    }
                });
            }
-       })
+       });
    }
 });
 
