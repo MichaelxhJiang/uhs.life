@@ -45,7 +45,8 @@
 
 .btn-primary{
   color: #FFFFFF;
-  background: #4CAF50;
+  background-color: #4CAF50;
+  background: @primary-gradient;
   &:hover, &:active, &:focus{
     background: #43A047;
   }
@@ -58,7 +59,7 @@
 .btn-login{
    text-transform: uppercase;
    outline: 0;
-   background: #4CAF50;
+   background: @primary-gradient;
    width: 100%;
    border: 0;
    padding: 15px;
@@ -66,7 +67,8 @@
    font-size: 20px;
    cursor: pointer;
    &:hover, &:active, &:focus{
-     background: #43A047;
+     background: @primary-gradient;
+     opacity: 0.6;
    }
    &:disabled{
      cursor: not-allowed;

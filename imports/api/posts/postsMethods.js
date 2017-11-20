@@ -16,22 +16,18 @@ if (Meteor.isServer) {
         }else if(Roles.userIsInRole(this.userId, ['teacher', 'admin'])){
             userLevel = '3';
         }
-        const cursor = Posts.find({
+        return Posts.find({
             'type': 'announcement',
             'meta.approved': true,
             'meta.display': true,
             $or: [{
                 'meta.visibility': '1'
-            },{
+            }, {
                 'meta.visibility': userLevel
             }]
-        },{
+        }, {
             limit: limit
         });
-        cursor.forEach(function (i) {
-            console.log(i);
-        });
-        return cursor;
     });
     Meteor.publish('blogs', function blogsPublication(limit) {
         return Posts.find({

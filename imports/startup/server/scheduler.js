@@ -49,7 +49,7 @@ Meteor.methods({
         }
     },
     //only call this method when approving a new post
-    //as it posts to Twitter on start date
+    //as it posts to Twitter, algolia, and pushes notification on start date
     'postAndScheduleAnnouncement' : function (announcementId) {
         Meteor.call('scheduleAnnouncement', announcementId);
 
@@ -110,6 +110,15 @@ Meteor.methods({
                     
                     }
                 });
+
+                //Push a notification
+                Meteor.call('postNotification', announcementId, function(err, response) {
+                    if (err) {
+                        console.log("Push notification error: " + err);
+                    } else {
+                        console.log(response);
+                    }
+                })
             }));
         } else {
             console.log('Not an announcement');
