@@ -10,34 +10,12 @@ Template.firstTime.onRendered(function () {
         let categorySub = Meteor.subscribe('categories');
         if(courseSub.ready() && clubSub.ready() && categorySub.ready()){
             let courses = Courses.find({});
-            let clubs = Clubs.find({});
-            let categories = Categories.find({});
             courses.observeChanges({
                 added: function (id, fields) {
                     let newCat = new Option(fields.name + " - " + fields.code, fields.code);
                     $('#firstCourseSelect').append(newCat);
                 }
             });
-            clubs.observeChanges({
-                added: function (id, fields) {
-                    let newCat = new Option(fields.name, fields.name);
-                    $('#firstClubSelect').append(newCat);
-                    $('#clubInterest').append(newCat);
-                }
-            });
-            categories.observeChanges({
-                added: function (id, fields) {
-                    let newCat = new Option(fields.name, fields.name);
-                    $('#categoryInterest').append(newCat);
-                }
-            });
-        }
-    });
-    let categories = Categories.find({});
-    categories.observeChanges({
-        added: function (id, fields) {
-            let newCat = new Option(fields.name, fields.name);
-            $('#categoryInterest').append(newCat);
         }
     });
     $('#firstCourseSelect').select2({
@@ -61,8 +39,31 @@ Template.firstTime.onRendered(function () {
 Template.firstTime.events({
     'click #startFirst': function (evt,template) {
         evt.preventDefault();
-        swapElements('#firstIntro','#teachIntro');
-        swapElements('#beginIntro','#teachAssistInfo');
+        swapElements('#firstIntro','#interestIntro');
+        swapElements('#beginIntro','#interestFormIntro');
+        /*swapElements('#firstIntro','#teachIntro');
+        swapElements('#beginIntro','#teachAssistInfo');*/
+        let categories = Categories.find({});
+        categories.observeChanges({
+            added: function (id, fields) {
+                let newCat = new Option(fields.name, fields.name);
+                $('#categoryInterest').append(newCat);
+            }
+        });
+        let clubs = Clubs.find({});
+        clubs.forEach(function (i) {
+            let newCat = new Option(i.name, i.name);
+            $('#firstClubSelect').append(newCat);
+            $('#clubInterest').append(newCat);
+        });
+        $('#categoryInterest').select2({
+            placeholder: "Click to select",
+            allowClear: true
+        });
+        $('#clubInterest').select2({
+            placeholder: "Click to select",
+            allowClear: true
+        });
     },
     'click #skipNext': function (evt,template) {
         evt.preventDefault();

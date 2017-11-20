@@ -59,15 +59,15 @@
                 <a href=""><i class="fa fa-gear"></i> Settings</a>
             {{else}}
                 <a href="/">{{_ "nav.side_items.stream"}}</a>
-                <a href="/stories">{{_ "nav.side_items.stories"}}</a>
+                <!--<a href="/stories">{{_ "nav.side_items.stories"}}</a>-->
                 {{#if isStudent}}
-                    <a href="" id="academics"><div class="expand-text">{{_ "nav.side_items.marks"}}</div><i class="fa fa-times academics-icon"></i></a>
+<!--                    <a href="" id="academics"><div class="expand-text">{{_ "nav.side_items.marks"}}</div><i class="fa fa-times academics-icon"></i></a>
                     <ul class="course-list">
                         {{#each courses}}
                             <li><a href="/course/{{subject_id}}" class="course-link">{{course}}<i class="{{state}}">{{mark}}</i></a></li>
                         {{/ each}}
                     </ul>
-                    <a href="">{{_ "nav.side_items.suggest"}}</a>
+                    <a href="">{{_ "nav.side_items.suggest"}}</a>-->
                 {{/ if}}
                 {{#if isAdmin}}
                     <a href="/dashboard">{{_ "nav.side_items.admin"}}</a>
