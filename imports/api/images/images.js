@@ -4,7 +4,6 @@ import { FilesCollection } from 'meteor/ostrio:files';
 const Images = new FilesCollection({
     collectionName: 'Images',
     allowClientCode: true,
-    storagePath: '/data',
     onbeforeunloadMessage() {
         return 'Upload is still in progress! Upload will be aborted if you leave this page!';
     },
