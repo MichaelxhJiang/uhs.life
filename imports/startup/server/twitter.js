@@ -3,7 +3,7 @@ import { Images } from '../../api/images/images.js';
 import fs from 'fs';
 import Twitter from 'twitter';
 
-let T = new Twitter({
+const T = new Twitter({
     consumer_key:         'cwR4tCHFOTFRIyiLQVacIzns8',
     consumer_secret:      'MP0Pphmcp6HL0FF6WXYhZa2M8b8cTH297MNqRR7M6wwCOBxfwU',
     access_token_key:         '882355763771043840-8uCzofs2q4HHE8m0GS2QZUxqNxzOvEG',
