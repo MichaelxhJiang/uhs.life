@@ -2,8 +2,7 @@
   "name": "production",
   "private": true,
   "scripts": {
-    "start": "meteor npm remove jquery && meteor run",
-    "postinstall": "meteor npm remove jquery"
+    "start": "meteor run"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",

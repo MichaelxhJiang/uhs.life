@@ -68,10 +68,10 @@ let admin = FlowRouter.group({
                             Session.set('token',user.private.token);
                             Session.set('user_img', user.services.google.picture);
                         }
-                        /*else if(!Roles.userIsInRole(user._id, 'admin')){
-                         alertError('Sorry', "You do not have access to this area.");
-                         FlowRouter.go('/')
-                         }*/
+                        if(!Roles.userIsInRole(user._id, 'admin')){
+                            alertError('Sorry', "You do not have access to this area.");
+                            FlowRouter.go('/');
+                        }
                     }
                 });
             }
@@ -151,11 +151,11 @@ loggedIn.route('/blog/:postId',{
             Session.setPersistent('post_data', Session.get('preview_json'));
         }else{
             Tracker.autorun(function () {
-               let post = Posts.findOne({_id: params.postId});
-               if(post){
-                   Session.set("DocumentTitle", post.title + " | uhs.life");
-                   Session.setPersistent('post_data', post);
-               }
+                let post = Posts.findOne({_id: params.postId});
+                if(post){
+                    Session.set("DocumentTitle", post.title + " | uhs.life");
+                    Session.setPersistent('post_data', post);
+                }
             });
         }
         window.scrollTo(0, 0);
@@ -243,15 +243,15 @@ loggedIn.route('/first', {
         Session.set("DocumentTitle","Welcome to uhs.life!");
         BlazeLayout.render('applicationLayout',{main: 'firstTime'});
         /*Tracker.autorun(function () {
-            let user = Meteor.user();
-            if(user){
-                if(user.profile.init){
-                    FlowRouter.go('/')
-                }else{
-                    BlazeLayout.render('applicationLayout',{main: 'firstTime'});
-                }
-            }
-        });*/
+         let user = Meteor.user();
+         if(user){
+         if(user.profile.init){
+         FlowRouter.go('/')
+         }else{
+         BlazeLayout.render('applicationLayout',{main: 'firstTime'});
+         }
+         }
+         });*/
     },
     name: 'first'
 });
