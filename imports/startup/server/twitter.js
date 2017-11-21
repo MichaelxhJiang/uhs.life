@@ -1,11 +1,20 @@
 import { Meteor } from 'meteor/meteor';
 import { Images } from '../../api/images/images.js';
 import fs from 'fs';
+import Twitter from 'twitter';
+
+let T = new Twitter({
+    consumer_key:         'cwR4tCHFOTFRIyiLQVacIzns8',
+    consumer_secret:      'MP0Pphmcp6HL0FF6WXYhZa2M8b8cTH297MNqRR7M6wwCOBxfwU',
+    access_token_key:         '882355763771043840-8uCzofs2q4HHE8m0GS2QZUxqNxzOvEG',
+    access_token_secret:  'vpw7YwWu9tic20VI2qDh8W73zJoROenAnDEQoh7PMlM5l'
+});
+
 Meteor.methods({
     //setup the twitter api
     'setupTwitterAPI' : function () {
         //Initialize the twitter API
-        T = new Twit({
+        T = new Twitter({
             consumer_key:         'cwR4tCHFOTFRIyiLQVacIzns8',
             consumer_secret:      'MP0Pphmcp6HL0FF6WXYhZa2M8b8cTH297MNqRR7M6wwCOBxfwU',
             access_token:         '882355763771043840-8uCzofs2q4HHE8m0GS2QZUxqNxzOvEG',
