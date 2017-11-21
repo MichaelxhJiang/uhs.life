@@ -4,7 +4,7 @@ App.setPreference('Orientation', 'portrait');
 
 App.info({
     id: 'com.life.uhs',
-    description: 'A desceiption i wrote about the app',
+    description: 'UHS LIFE NEWS APP',
     author: 'Linus j',
     email: 'Xxx@xxx.com',
     website: 'http://xxxx.com'
