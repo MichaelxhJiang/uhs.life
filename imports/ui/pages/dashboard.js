@@ -62,6 +62,7 @@ Template.dashHome.helpers({
     },
     'imageLink': function () {
         try{
+            console.log(Images.findOne({_id: this.imgId}));
             return Images.findOne({_id: this.imgId}).link();
         }catch(e){
             //console.log('error getting photo')

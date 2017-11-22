@@ -5,6 +5,7 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "aws-sdk": "^2.154.0",
     "babel-runtime": "^6.26.0",
     "bootstrap-select": "^1.12.4",
     "bson": "^1.0.4",
@@ -18,7 +19,7 @@
     "jquery": "^1.9.1",
     "keyword-extractor": "0.0.14",
     "mailchimp-api-v3": "^1.7.1",
-    "meteor-node-stubs": "~0.2.4",
+    "meteor-node-stubs": "^0.2.11",
     "mfb": "^0.12.0",
     "node-rake": "0.0.9",
     "node-schedule": "^1.2.5",
