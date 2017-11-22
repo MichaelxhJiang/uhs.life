@@ -47,7 +47,7 @@ Accounts.onCreateUser(function (options,user){
         user.private = {
             courses: null,
             token: null
-        }
+        };
     }
     const email = user.services.google.email;
     const hasNumbers = email.match(/\d+/g);
@@ -59,7 +59,7 @@ Accounts.onCreateUser(function (options,user){
 Accounts.validateLoginAttempt(function (info) {
     let status = true;
     try{
-        status = !Roles.userIsInRole(info.user._id, 'banned')
+        status = !Roles.userIsInRole(info.user._id, 'banned');
     }catch(e){
         status = true;
     }
@@ -87,7 +87,7 @@ Meteor.methods({
         if (hasNumbers) {
             Roles.addUsersToRoles(this.userId,['student']);
         } else {
-            Roles.addUsersToRoles(this.userId,['teacher'])
+            Roles.addUsersToRoles(this.userId,['teacher']);
         }
     },
     'accounts.ban': function (id,reason) {

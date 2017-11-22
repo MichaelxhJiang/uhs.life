@@ -22,7 +22,6 @@ session@1.1.7
 kadira:blaze-layout
 twbs:bootstrap
 less@2.7.11
-schiller:twit
 biasport:facebook-sdk
 acemtp:algolia
 isotope:isotope
@@ -50,3 +49,4 @@ raix:push
 standard-minifiers
 ostrio:files
 ostrio:meteor-root
+random
