@@ -10,6 +10,7 @@
     "bootstrap-select": "^1.12.4",
     "bson": "^1.0.4",
     "chart.js": "^2.7.1",
+    "core-js": "^2.5.1",
     "es6-promise": "^4.1.1",
     "file-system": "^2.2.2",
     "flickity": "^2.0.10",
