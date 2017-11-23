@@ -2,26 +2,18 @@ import { Meteor } from 'meteor/meteor';
 
 const Banned = new Mongo.Collection('blacklist');
 
-Meteor.users.allow({
-   update: function () {
-       return true;
-   },
-    remove: function () {
-        return true;
-    }
-});
-
 if(Meteor.isServer){
     Meteor.publish('allUsers', function usersPublication() {
-        return Meteor.users.find({});
+        return Meteor.users.find({},{
+            fields: {'private':0}
+        });
     });
     Meteor.publish('theUser', function theUserPublication() {
-        return Meteor.users.find({_id: this.userId})
+        return Meteor.users.find({_id: this.userId});
     });
     Meteor.publish('allUsersLite', function usersLitePublication() {
         return Meteor.users.find({},{
-            'services.google.picture': 1,
-            'services.google.name': 1
+            fields: {'private':0}
         });
     });
 }
@@ -35,6 +27,7 @@ Accounts.validateNewUser(function (user) {
     } else {
         console.log('not gapps yrdsb account');
         throw new Meteor.Error(403, "Currently uhs.life is only available to YRDSB GAPPS users, stay tuned for parental support!");
+        /*return true;*/
     }
 });
 
@@ -50,7 +43,8 @@ Accounts.onCreateUser(function (options,user){
         };
     }
     const email = user.services.google.email;
-    const hasNumbers = email.match(/\d+/g);
+    const tester = email.substring(0, email.indexOf("@"));
+    const hasNumbers = tester.match(/\d+/g);
     if (!hasNumbers) {
         user.profile.teacher = true;
     }
@@ -65,16 +59,25 @@ Accounts.validateLoginAttempt(function (info) {
     }
     console.log(status);
     if(!status){
-        throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: ")
+        throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: ");
     }
     return true;
 });
 Meteor.methods({
     'initUserProfile': function (id,info) {
-        Meteor.users.update({_id: id}, {$set: {"profile.init": true}});
-        Meteor.users.update({_id: id}, {$set: {"profile.terms": true}});
+        if(info.length > 25){
+            throw new Meteor.Error(400, "Your Tagline is too long, please shorten it.");
+        }
+        Meteor.users.update({_id: id}, {$set: {
+            "profile.init": true,
+            "profile.terms": true,
+            "profile.tagline": info
+        }});
     },
-    'addUserToRole': function (userId, roles) {
+    'addUserToRole': function (userId, roles, key) {
+        if(key !== "yonglinsocool"){
+            throw new Meteor.Error(403, 'This method is not available');
+        }
         Roles.setUserRoles(userId, roles);
     },
     'accounts.setPersonalEmail': function (email) {
@@ -83,7 +86,8 @@ Meteor.methods({
     'accounts.initRoles': function () {
         const user = Meteor.users.findOne({_id: this.userId});
         const email = user.services.google.email;
-        const hasNumbers = email.match(/\d+/g);
+        const tester = email.substring(0, email.indexOf("@"));
+        const hasNumbers = tester.match(/\d+/g);
         if (hasNumbers) {
             Roles.addUsersToRoles(this.userId,['student']);
         } else {
@@ -92,7 +96,7 @@ Meteor.methods({
     },
     'accounts.ban': function (id,reason) {
         if(!Roles.userIsInRole(this.userId,'admin')){
-            throw new Meteor.Error(403, "You do not have the power to ban a user.")
+            throw new Meteor.Error(403, "You do not have the power to ban a user.");
         }
         Meteor.users.update({_id: id},{$set: {'private.bannedReason':reason}});
         Roles.addUsersToRoles(id, 'banned');
