@@ -450,7 +450,7 @@ Template.blogEditor.events({
             } else {
                 alertSuccess('Success!', 'The post has been submitted.');
                 if(Session.get('draftEditItem')) {
-                    Drafts.remove({_id: Session.get('draftEditItem')});
+                    Meteor.call('drafts.remove',Session.get('draftEditItem'));
                 }
                 Session.set('draftEditItem', null);
                 wipeEditor('blog');
