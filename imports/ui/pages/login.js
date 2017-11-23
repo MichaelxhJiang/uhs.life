@@ -49,9 +49,9 @@ Template.login.events({
         },function(err){
             if(err){
                 alert("error");
-                console.log(err)
+                console.log(err);
             }else{
-                console.log("Success")
+                console.log("Success");
             }
         });
     },
