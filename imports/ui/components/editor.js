@@ -449,7 +449,9 @@ Template.blogEditor.events({
                 alertError('Post Failed!', err.message);
             } else {
                 alertSuccess('Success!', 'The post has been submitted.');
-                Drafts.remove({_id: Session.get('draftEditItem')});
+                if(Session.get('draftEditItem')) {
+                    Drafts.remove({_id: Session.get('draftEditItem')});
+                }
                 Session.set('draftEditItem', null);
                 wipeEditor('blog');
                 // Go back
@@ -598,7 +600,9 @@ Template.announcementOptions.events({
                     alertError('Posting Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Meteor.call('drafts.remove',Session.get('draftEditItem'));
+                    if (Session.get('draftEditItem')) {
+                        Meteor.call('drafts.remove',Session.get('draftEditItem'));
+                    }
                     Session.set('draftEditItem', null);
                     wipeEditor('announcement','imageOnly');
                     if (operationStack.length - 2 === 0) {
@@ -619,7 +623,9 @@ Template.announcementOptions.events({
                     alertError('Post Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Meteor.call('drafts.remove',Session.get('draftEditItem'));
+                    if (Session.get('draftEditItem')) {
+                        Meteor.call('drafts.remove',Session.get('draftEditItem'));
+                    }
                     Session.set('draftEditItem', null);
                     wipeEditor('announcement','textOnly');
                     if (operationStack.length - 2 === 0) {
@@ -639,7 +645,9 @@ Template.announcementOptions.events({
                     alertError('Post Failed!', err.message);
                 } else {
                     alertSuccess('Success!', 'The post has been submitted.');
-                    Meteor.call('drafts.remove',Session.get('draftEditItem'));
+                    if (Session.get('draftEditItem')) {
+                        Meteor.call('drafts.remove',Session.get('draftEditItem'));
+                    }
                     Session.set('draftEditItem', null);
                     wipeEditor('announcement','imageText');
                     if (operationStack.length - 2 === 0) {
