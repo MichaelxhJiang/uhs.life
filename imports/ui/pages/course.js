@@ -8,7 +8,7 @@ import './course.html';
 Template.course.onRendered(function () {
     Tracker.autorun(function () {
         let sub = Meteor.subscribe('allCourses',1000);
-        Meteor.subscribe('images');
+        Meteor.subscribe('files.images.all');
         if(sub.ready()){
             let code = Session.get('courseData').data.course.substring(0,Session.get('courseData').data.course.indexOf("-"));
             let item = Courses.findOne({

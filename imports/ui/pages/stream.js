@@ -16,6 +16,7 @@ Template.stream.onRendered(function () {
     let $grid = $('.grid');
     Tracker.autorun(function () {
         let postSub = Meteor.subscribe('announcements', 100);
+        Meteor.subscribe('allUsersLite');
         Meteor.subscribe('files.images.all');
         let categorySub = Meteor.subscribe('categories');
         if(postSub.ready()){

@@ -65,6 +65,23 @@ Template.firstTime.events({
             allowClear: true
         });
     },
+    'click #startFirstTeach': function (evt,template) {
+        evt.preventDefault();
+/*        swapElements('#firstIntro','#interestIntro');
+        swapElements('#beginIntro','#interestFormIntro');*/
+        swapElements('#firstIntro','#teachIntro');
+        swapElements('#beginIntro','#teachAssistInfo');
+        let clubs = Clubs.find({});
+        clubs.forEach(function (i) {
+            let newCat = new Option(i.name, i.name);
+            $('#firstClubSelect').append(newCat);
+            $('#clubInterest').append(newCat);
+        });
+        $('#clubInterest').select2({
+            placeholder: "Click to select",
+            allowClear: true
+        });
+    },
     'click #skipNext': function (evt,template) {
         evt.preventDefault();
         swapElements('#teachIntro', '#interestIntro');
@@ -161,7 +178,7 @@ Template.firstTime.events({
     'submit #newsletterEmailForm': function (evt) {
         evt.preventDefault();
         let email = $('#personalEmail').val();
-        let userInfo = Meteor.user().services.google;
+        const userInfo = Meteor.user().services.google;
         if(email.length === 0){
             email = userInfo.email;
         }
@@ -188,8 +205,9 @@ Template.firstTime.events({
     'submit #finalForm': function (evt,template) {
         evt.preventDefault();
         if(document.getElementById('checkboxTerms').checked){
-            let id = Meteor.userId();
-            Meteor.call('initUserProfile', id, function (err) {
+            const id = Meteor.userId();
+            const tag = $('#introTagLine').val();
+            Meteor.call('initUserProfile', id, tag, function (err) {
                 if(err){
                     alertError('Error Initiating Your Account', err.message);
                 }else{
