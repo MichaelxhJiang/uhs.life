@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import schedule from 'node-schedule';
 import {Posts} from '../../api/posts/posts.js';
-
+import {pushPostNotification} from './push.js';
 Meteor.methods({
     //call this for scheduling an announcement or rescheduling after server reset
     'scheduleAnnouncement': function (announcementId) {
@@ -79,13 +79,14 @@ Meteor.methods({
                     console.log("DISPLAY TRUE");
                     Posts.update({'_id': announcementId}, {$set: {'meta.display': true}});
                     //Push a notification
-                    Meteor.call('postNotification', announcementId, function(err, response) {
+                    /*Meteor.call('postNotification', announcementId, function(err, response) {
                         if (err) {
                             console.log("Push notification error: " + err);
                         } else {
                             console.log(response);
                         }
-                    })
+                    })*/
+                    pushPostNotification(announcementId);
                 }));
                 let k = schedule.scheduleJob(eDate, Meteor.bindEnvironment(function () {
                     //Set display to FALSE
@@ -223,5 +224,8 @@ Meteor.methods({
             console.log('not a blog');
             return -1;
         }
+    },
+    'testNotification': function(postId) {
+        pushPostNotification(postId);
     }
 });

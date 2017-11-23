@@ -1,5 +1,31 @@
 import {Posts} from '../../api/posts/posts.js'
 
+export const pushPostNotification = (postId) => {
+    try {
+        let post = Posts.find({"_id":postId}).fetch()[0];
+        let categories = post.categories;
+        let userId = new Set();
+        for (let i = 0; i < categories.length; i++) {
+            let users = Meteor.users.find({'private.categories' : categories[i]}).fetch();
+            for (let j = 0; j < users.length; j++) {
+                userId.add(users[j]._id);
+            }
+        }
+        console.log("Push: subscriber count: " + userId.size);
+        let array = Array.from(userId);
+        Push.send({
+            title: "New Post: ",
+            text: post.headline,
+            from: "uhs.life",
+            query: {
+                userId: {$in: array}
+            }
+        });
+    } catch (e) {
+        console.log("Push notification error: " + e);
+    }
+};
+
 Push.debug = true;  //need to remove later
 
 Push.Configure({
