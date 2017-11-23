@@ -28,6 +28,10 @@ App.accessRule('http://*.algolia.net', {
     'minimum-tls-version': 'TLSv1.0',
     'requires-forward-secrecy': false,
 });
+App.accessRule('https://fonts.googleapis.com');
+
+App.accessRule('https://fonts.gstatic.com');
+
 App.configurePlugin('phonegap-plugin-push', {
     SENDER_ID: 737004764701
 });
