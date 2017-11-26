@@ -3,6 +3,10 @@
  */
 import './firstTime.html';
 
+Meteor.users.allow({
+    update(userId, doc) { return (doc && doc.userId === userId); }
+});
+
 Template.firstTime.onRendered(function () {
     Tracker.autorun(function () {
         let courseSub = Meteor.subscribe('allCourses',1000);
@@ -151,13 +155,19 @@ Template.firstTime.events({
         evt.preventDefault();
         const categories = $('#categoryInterest').val();
         const clubs = $('#clubInterest').val();
-        Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.categories": categories, "private.clubs": clubs}}, function (err) {
+        Meteor.call('accounts.updateSubscriptionClubs', clubs, function (err) {
             if(err){
                 alertError("Error Occurred when updating your profile", err.message);
             }else {
-                alertSuccess("Thank you!", "We have recorded the information you provided");
-                swapElements('#interestIntro', '#emailIntro');
-                swapElements('#interestFormIntro', '#subscriptionEmail');
+                Meteor.call('accounts.updateSubscriptionCategories', categories, function(err) {
+                    if (err) {
+                        alertError("Error Occurred when updating your profile", err.message);
+                    } else {
+                        alertSuccess("Thank you!", "We have recorded the information you provided");
+                        swapElements('#interestIntro', '#emailIntro');
+                        swapElements('#interestFormIntro', '#subscriptionEmail');
+                    }
+                });
             }
         });
     },
@@ -165,13 +175,19 @@ Template.firstTime.events({
         evt.preventDefault();
         const courses = $('#firstCourseSelect').val();
         const clubs = $('#firstClubSelect').val();
-        Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.courses": courses, "private.clubs": clubs}}, function (err) {
+        Meteor.call('accounts.updateSubscriptionClubs', clubs, function (err) {
             if(err){
                 alertError("Error Occurred when updating your profile", err.message);
             }else {
-                alertSuccess("Thank you!", "We have recorded the information you provided");
-                swapElements('#teachIntro', '#emailIntro');
-                swapElements('#teachAssistInfo', '#subscriptionEmail');
+                Meteor.call('accounts.updateSubscriptionCourses', courses, function(err) {
+                    if (err) {
+                        alertError("Error Occurred when updating your profile", err.message);
+                    } else {
+                        alertSuccess("Thank you!", "We have recorded the information you provided");
+                        swapElements('#teachIntro', '#emailIntro');
+                        swapElements('#teachAssistInfo', '#subscriptionEmail');
+                    }
+                });
             }
         });
     },
@@ -207,7 +223,7 @@ Template.firstTime.events({
         if(document.getElementById('checkboxTerms').checked){
             const id = Meteor.userId();
             const tag = $('#introTagLine').val();
-            Meteor.call('initUserProfile', id, tag, function (err) {
+            Meteor.call('initUserProfile', id, "Member of UHS", function (err) {
                 if(err){
                     alertError('Error Initiating Your Account', err.message);
                 }else{
