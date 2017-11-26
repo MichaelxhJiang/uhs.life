@@ -43,6 +43,7 @@ force-ssl@1.1.0
 force-ssl-common@1.1.0
 fortawesome:fontawesome@4.7.0
 froala:editor@2.7.1
+froatsnook:request@2.74.0
 geojson-utils@1.0.10
 google-oauth@1.2.4
 hot-code-push@1.0.4

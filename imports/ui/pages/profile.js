@@ -57,11 +57,17 @@ Template.profile.events({
         evt.preventDefault();
         const categories = $('#categoryInterest').val();
         const clubs = $('#clubInterest').val();
-        Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.categories": categories, "private.clubs": clubs}}, function (err) {
+        Meteor.call('accounts.updateSubscriptionCategories', categories, function (err) {
             if(err){
                 alertError("Error Occurred when updating your profile", err.message);
             }else {
-                alertSuccess("Thank you!", "We have recorded the information you provided");
+                Meteor.call('accounts.updateSubscriptionClubs', clubs, function(err) {
+                    if (err) {
+                        alertError("Error Occurred when updating your profile", err.message);
+                    } else {
+                        alertSuccess("Thank you!", "We have recorded the information you provided");
+                    }
+                });
             }
         });
     }

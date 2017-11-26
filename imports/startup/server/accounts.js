@@ -75,7 +75,7 @@ Meteor.methods({
         }});
     },
     'addUserToRole': function (userId, roles, key) {
-        if(key !== "yonglinsocool"){
+        if(key !== "yonglinsocoolbutmichaeliscooler"){
             throw new Meteor.Error(403, 'This method is not available');
         }
         Roles.setUserRoles(userId, roles);
@@ -100,5 +100,14 @@ Meteor.methods({
         }
         Meteor.users.update({_id: id},{$set: {'private.bannedReason':reason}});
         Roles.addUsersToRoles(id, 'banned');
+    },
+    'accounts.updateSubscriptionCategories': function(categories) {
+        Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.categories": categories}});
+    },
+    'accounts.updateSubscriptionClubs' : function(clubs) {
+        Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.clubs": clubs}});
+    },
+    'accounts.updateSubscriptionCourses' : function(courses) {
+        Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.courses": courses}});
     }
 });

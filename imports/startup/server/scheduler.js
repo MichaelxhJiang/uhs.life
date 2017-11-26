@@ -73,6 +73,8 @@ Meteor.methods({
                 flag = true;
             }
 
+            console.log(flag + " " + sDate.toString() + " " + eDate.toString());
+
             if (!flag) {
                 let j = schedule.scheduleJob(sDate, Meteor.bindEnvironment(function () {
                     //Set display to TRUE
@@ -98,8 +100,8 @@ Meteor.methods({
             //set the scheduler to post on twitter and algolia no matter what
             let j = schedule.scheduleJob(sDate, Meteor.bindEnvironment(function () {
                 //Set display to TRUE
-                console.log("DISPLAY TRUE AND SEND TO TWITTER");
-                Posts.update({'_id': announcementId}, {$set: {'meta.display': true}});
+                console.log("SEND TO TWITTER");
+                //Posts.update({'_id': announcementId}, {$set: {'meta.display': true}});
 
                 //Post to algolia
                 if (subType === 'textOnly') {

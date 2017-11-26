@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Images } from '../../api/images/images.js';
+import { Posts } from '../../api/posts/posts.js'
 import fs from 'fs';
 import Twitter from 'twitter';
+import { request } from 'meteor/froatsnook:request';
 
 const T = new Twitter({
     consumer_key:         'cwR4tCHFOTFRIyiLQVacIzns8',
@@ -97,6 +99,7 @@ Meteor.methods({
 
         let file = Images.findOne({'_id': obj.imgId});
         getBase64DataSync(file, function(err, b64content) {
+            //console.log(b64content);
             // first we must post the media to Twitter
             T.post('media/upload', { media_data: b64content }, function (err, data, response) {
 
@@ -110,5 +113,72 @@ Meteor.methods({
                 });
             });
         });
-    }
+    },
+    'postImageTest' : function(id) {
+        /*let PATH = path.join(__dirname, `path/to/video`);
+
+        T.postMediaChunked({ file_path: PATH }, function (err, data, response) {
+            const mediaIdStr = data.media_id_string;
+            const meta_params = { media_id: mediaIdStr };
+
+            T.post('media/metadata/create', meta_params, function (err, data, response) {
+                if (!err) {
+                    const params = { status: myTweetObj.content, media_ids: [mediaIdStr] };
+
+                    T.post('statuses/update', params, function (err, tweet, response) {
+                        console.log(tweet);
+                    });
+                }
+            });
+        });
+               // post a tweet with media
+        let getBase64Data = function(doc, callback) {
+            let buffer = new Buffer(0);
+            // callback has the form function (err, res) {}
+            let readStream = doc.createReadStream();
+            readStream.on('data', function(chunk) {
+                buffer = Buffer.concat([buffer, chunk]);
+            });
+            readStream.on('error', function(err) {
+                callback(err, null);
+            });
+            readStream.on('end', function() {
+                // done
+                callback(null, buffer.toString('base64'));
+            });
+        };
+        let getBase64DataSync = Meteor.wrapAsync(getBase64Data);
+        */
+
+
+        let obj = Posts.findOne({_id:id});
+
+        let downloadImage = function (imageUrl, callback) {
+            //https://atmospherejs.com/froatsnook/request
+            console.log("downloading");
+            let result = request.getSync(imageUrl, {encoding: null});
+            callback(null, new Buffer(result.body).toString('base64'));
+        }
+
+        let downloadImageSync = Meteor.wrapAsync(downloadImage);
+
+        //let link = Images.findOne({'_id': obj.imgId}).link();
+        let link = "http://www.somebodymarketing.com/wp-content/uploads/2013/05/Stock-Dock-House.jpg"
+        console.log('link'+link);
+
+        downloadImageSync(link, function(err, b64content) {
+            console.log('download finished');
+            // first we must post the media to Twitter
+            T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+
+                // now we can reference the media and post a tweet (media will attach to the tweet)
+                let mediaIdStr = data.media_id_string;
+                let params = { status: obj.headline, media_ids: [mediaIdStr] };
+
+                T.post('statuses/update', params, function (err, data, response) {
+                    console.log("Image Text Twitter Post Posted", data);
+                });
+            });
+        });
+    },
 })
