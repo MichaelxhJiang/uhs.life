@@ -99,6 +99,11 @@ Template.firstTime.events({
             allowClear: true
         });
     },
+    'click #skipNextTeach': function (evt,template) {
+        evt.preventDefault();
+        swapElements('#teachIntro', '#emailIntro');
+        swapElements('#teachAssistInfo', '#subscriptionEmail');
+    },
     'click #skipInterest': function (evt) {
         evt.preventDefault();
         swapElements('#interestIntro', '#emailIntro');
