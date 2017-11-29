@@ -290,7 +290,7 @@ Template.allPosts.helpers({
         return "";
     },
     'rejected': function () {
-      return (this.meta.screeningStage === -1);
+        return (this.meta.screeningStage === -1);
     },
     'rejectedReason': function () {
         return "Rejected Because: \n" + this.meta.rejectedReason;
@@ -372,6 +372,8 @@ Template.editor.events({
         operationStack.push('.text-and-image');
         Session.set('announcementType', 'textAndImage');
     },
+    'click #googleDrive': function () {
+    },
     'input .announcement-text': function (evt) {
         let maxlength = $(evt.target).attr("maxlength");
         let length = $(evt.target).val().length;
@@ -426,20 +428,20 @@ Template.allPosts.events({
     }
 });
 Template.republishTime.events({
-   'submit #republishForm': function (evt) {
-       evt.preventDefault();
-       Meteor.call('posts.updatePost',this.id, {
-           'meta.approved': false,
-           'meta.screeningStage': 0,
-           'startDate': new Date($('#republishStart').val()),
-           'endDate': new Date($('#republishEnd').val()),
-           'meta.rejectedReason': ""
-       }, function (err) {
-           if(err){
-               alertError("Error occurred When Republishing Post", err.message);
-           }
-       });
-   }
+    'submit #republishForm': function (evt) {
+        evt.preventDefault();
+        Meteor.call('posts.updatePost',this.id, {
+            'meta.approved': false,
+            'meta.screeningStage': 0,
+            'startDate': new Date($('#republishStart').val()),
+            'endDate': new Date($('#republishEnd').val()),
+            'meta.rejectedReason': ""
+        }, function (err) {
+            if(err){
+                alertError("Error occurred When Republishing Post", err.message);
+            }
+        });
+    }
 });
 Template.blogEditor.events({
     'click .publish': function (event, template) {

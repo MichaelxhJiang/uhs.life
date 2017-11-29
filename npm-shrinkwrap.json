@@ -82,7 +82,7 @@
     "bluebird": {
       "version": "3.5.1",
       "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.5.1.tgz",
-      "integrity": "sha512-MKiLiV+I1AA596t9w1sQJ8jkiSr5+ZKi0WKrYGUn6d1Fx+Ij4tIj+m2WMQSGczs5jZVxV339chE8iwk6F64wjA=="
+      "integrity": "sha1-2VUfnemPH82h5oPRfukaBgLuLrk="
     },
     "boom": {
       "version": "4.3.1",
@@ -123,7 +123,7 @@
     "chart.js": {
       "version": "2.7.1",
       "resolved": "https://registry.npmjs.org/chart.js/-/chart.js-2.7.1.tgz",
-      "integrity": "sha512-pX1oQAY86MiuyZ2hY593Acbl4MLHKrBBhhmZ1YqSadzQbbsBE2rnd6WISoHjIsdf0WDeC0hbePYCz2ZxkV8L+g==",
+      "integrity": "sha1-rpC0qk/x8C3s1rGiqNq/1zyfmIY=",
       "requires": {
         "chartjs-color": "2.2.0",
         "moment": "2.18.1"
@@ -141,7 +141,7 @@
     "chartjs-color-string": {
       "version": "0.5.0",
       "resolved": "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.5.0.tgz",
-      "integrity": "sha512-amWNvCOXlOUYxZVDSa0YOab5K/lmEhbFNKI55PWc4mlv28BDzA7zaoQTGxSBgJMHIW+hGX8YUrvw/FH4LyhwSQ==",
+      "integrity": "sha1-jTdS2Fgdhmh8Nb/iy4CsUhPOuME=",
       "requires": {
         "color-name": "1.1.3"
       }
@@ -187,7 +187,7 @@
     "cron-parser": {
       "version": "2.4.3",
       "resolved": "https://registry.npmjs.org/cron-parser/-/cron-parser-2.4.3.tgz",
-      "integrity": "sha512-IcAjsFKIF7C3zCIqRDs5sKMNtiyPuj07JN94LP4IjwaZYgKm/Tc4pihanHqJhq6FeqMp0SG0wUTb+LAmPqexAw==",
+      "integrity": "sha1-yuhEwgEX/HLGePY6yDx4hL4Znng=",
       "requires": {
         "is-nan": "1.2.1",
         "moment-timezone": "0.5.14"
@@ -268,12 +268,12 @@
     "es6-promise": {
       "version": "4.1.1",
       "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-4.1.1.tgz",
-      "integrity": "sha512-OaU1hHjgJf+b0NzsxCg7NdIYERD6Hy/PEmFLTjw+b65scuisG3Kt4QoTvJ66BBkPZ581gr0kpoVzKnxniM8nng=="
+      "integrity": "sha1-iBHpCRXZoNujYnTwskLb2nj5ySo="
     },
     "ev-emitter": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/ev-emitter/-/ev-emitter-1.1.1.tgz",
-      "integrity": "sha512-ipiDYhdQSCZ4hSbX4rMW+XzNKMD1prg/sTvoVmSLkuQ1MVlwjJQQA+sW8tMYR3BLUr9KjodFV4pvzunvRhd33Q=="
+      "integrity": "sha1-jxiwzlx2pdGAF/ccCnlcZbkTjyo="
     },
     "events": {
       "version": "1.1.1",
@@ -328,7 +328,7 @@
     "flickity": {
       "version": "2.0.10",
       "resolved": "https://registry.npmjs.org/flickity/-/flickity-2.0.10.tgz",
-      "integrity": "sha512-fqMaOVDnT7QbqHgkk2RNuJt3yJ2LQVON26toeZQYg5cKi62waZ3PgsIZG3IJdoVeCKHeeLwbBkAZfoguGKk7AQ==",
+      "integrity": "sha1-3b14AABt9Erg6JtP66TOO5z2e2Q=",
       "requires": {
         "desandro-matches-selector": "2.0.2",
         "ev-emitter": "1.1.1",
@@ -432,7 +432,7 @@
     "iconv-lite": {
       "version": "0.4.19",
       "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.19.tgz",
-      "integrity": "sha512-oTZqweIP51xaGPI4uPa56/Pri/480R+mo7SeU+YETByQNhDG55ycFyNLIgta9vXhILrxXDmF7ZGhqZIcuN0gJQ=="
+      "integrity": "sha1-90aPYBNfXl2tM5nAqBvpoWA6CCs="
     },
     "ieee754": {
       "version": "1.1.8",
@@ -442,7 +442,7 @@
     "imagesloaded": {
       "version": "4.1.3",
       "resolved": "https://registry.npmjs.org/imagesloaded/-/imagesloaded-4.1.3.tgz",
-      "integrity": "sha512-cjwkbOXFgDAuh1kpAwIvWfcUkQF9NXLlzS38L4szgiYeNCFFyNetblG5/OFzo4JweNxuDOk+5AIPlqFVIBIInA==",
+      "integrity": "sha1-lLgqBp5TLJ2hEqTqOWDlhCSkK+Q=",
       "requires": {
         "ev-emitter": "1.1.1"
       }
@@ -1196,7 +1196,7 @@
     "node-fetch": {
       "version": "1.7.3",
       "resolved": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.7.3.tgz",
-      "integrity": "sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ==",
+      "integrity": "sha1-mA9vcthSEaU0fGsrwYxbhMPrR+8=",
       "requires": {
         "encoding": "0.1.12",
         "is-stream": "1.1.0"
@@ -1210,7 +1210,7 @@
     "node-schedule": {
       "version": "1.2.5",
       "resolved": "https://registry.npmjs.org/node-schedule/-/node-schedule-1.2.5.tgz",
-      "integrity": "sha512-15EhURVgJz1kIms3H6rKcOOcZGSaHGCwB6mTRUBWZnpv4OPbX6e01OTPeSzx0W+f5Hx7iWafmk17+PyhD9fejg==",
+      "integrity": "sha1-+zD05NHdHoHFNvlJXV2g6eLX3hQ=",
       "requires": {
         "cron-parser": "2.4.3",
         "long-timeout": "0.1.1",
@@ -1249,12 +1249,12 @@
     "regenerator-runtime": {
       "version": "0.11.0",
       "resolved": "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.11.0.tgz",
-      "integrity": "sha512-/aA0kLeRb5N9K0d4fw7ooEbI+xDe+DKD499EQqygGqeS8N3xto15p09uY2xj7ixP81sNPXvRLnAQIqdVStgb1A=="
+      "integrity": "sha1-flT+W1zNXWYk6mJVw0c74JC4AuE="
     },
     "request": {
       "version": "2.83.0",
       "resolved": "https://registry.npmjs.org/request/-/request-2.83.0.tgz",
-      "integrity": "sha512-lR3gD69osqm6EYLk9wB/G1W/laGWjzH90t1vEa2xuxHD5KUrSzp9pUSfTm+YC5Nxt2T8nMPEvKlhbQayU7bgFw==",
+      "integrity": "sha1-ygtl2gLtYpNYh4COb1EDgQNOM1Y=",
       "requires": {
         "aws-sign2": "0.7.0",
         "aws4": "1.6.0",
@@ -1392,7 +1392,7 @@
     "unidragger": {
       "version": "2.2.3",
       "resolved": "https://registry.npmjs.org/unidragger/-/unidragger-2.2.3.tgz",
-      "integrity": "sha512-jRVxEZjW2rq9x5GcUT3wNu6bj1Pus2gn73B/aq6pk++9T/hjq9v1bMOkIR00WolOelNf7ws3qZnXepqmLGYvKw==",
+      "integrity": "sha1-phiAG5tinhBF49N5NxPnrdCh4Ws=",
       "requires": {
         "unipointer": "2.2.1"
       }

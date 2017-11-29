@@ -24,6 +24,8 @@ let loggedIn = FlowRouter.group({
                             FlowRouter.go('/first');
                         }else{
                             Session.setPersistent('name', user.services.google.name);
+                            Session.setPersistent('accessToken', user.services.google.accessToken);
+                            Session.setPersistent('refreshToken', user.services.google.refreshToken);
                             if(Roles.userIsInRole(Meteor.userId(),'student')){
                                 try{
                                     Session.setPersistent('courses',user.private.courses);

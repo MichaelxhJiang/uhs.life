@@ -21,7 +21,7 @@ Meteor.startup(() => {
                 console.log(err);
             }
         });
-    })
+    });
     /*
     Meteor.call('posts.getApprovedPosts', function(err, data) {
     console.log("getting approved posts");

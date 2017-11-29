@@ -20,7 +20,9 @@ Template.login.events({
     'click #googleLogin':function () {
         Meteor.loginWithGoogle({
             loginStyle: "redirect",
-            requestPermissions: ['profile','email', 'https://www.googleapis.com/auth/user.birthday.read'],
+            requestPermissions: ['profile','email', 'https://www.googleapis.com/auth/user.birthday.read', 'https://www.googleapis.com/auth/drive'],
+            requestOfflineToken: true,
+            forceApprovalPrompt: true
         },(err)=>{
             if(err){
                 alertError("Sorry...", err.message);
