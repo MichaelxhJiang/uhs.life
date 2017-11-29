@@ -75,7 +75,7 @@ Meteor.methods({
         }});
     },
     'addUserToRole': function (userId, roles, key) {
-        if(key !== "yonglinsocoolbutmichaeliscooler"){
+        if(key !== "yonglinsocoolbutmichaeliscooler" && !Roles.userIsInRole(this.userId, 'admin')){
             throw new Meteor.Error(403, 'This method is not available');
         }
         Roles.setUserRoles(userId, roles);
