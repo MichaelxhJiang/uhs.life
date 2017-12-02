@@ -292,8 +292,8 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-30 hidden-xs" id="video" tabindex="0">
                     <div class="editor-options">
-                        <i class="fa fa-play fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
-                        <h3>Video</h3>
+                        <i class="fa fa-youtube-play fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
+                        <h3>YouTube Video</h3>
                         <p class="text-muted">Found an interesting video? Post it with this option!</p>
                     </div>
                 </div>
@@ -307,7 +307,7 @@
         <div class="text-center image-only" hidden>
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                    <h2>Upload an image announcement</h2>
+                    <h2>Post A Poster</h2>
                     <h4>Simply drop your image in the box below, and add a headline</h4>
                 </div>
             </div>
@@ -320,34 +320,63 @@
         <div class="text-center text-only" hidden>
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                    <h2>Text Only Announcements</h2>
+                    <h2>Post Some Text</h2>
                     <h4>Write/Paste your information in the big box below, 140 characters max.</h4>
                 </div>
             </div>
             {{> announcementHeadline id="textOnlyHeadline"}}
-            {{> announcementTextInput max="1000"}}
+            {{> announcementTextInput max="250"}}
             {{> announcementOptions imgAndText=false}}
         </div>
         <div class="text-center text-and-image" hidden>
             <div class="row mb-30">
                 <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                    <h2>Text and Image Announcements</h2>
+                    <h2>Post A Mixed Information Announcement</h2>
                     <h4>Write/Paste your information in the big box below, 140 characters max.</h4>
                 </div>
             </div>
             {{> announcementHeadline id="textImageHeadline"}}
-            {{> announcementTextInput max="1000"}}
+            {{> announcementTextInput max="250"}}
             {{> announcementImageInput id="announcementImageTwo"}}
             {{> announcementOptions imgAndText=true}}
-
         </div>
+        {{> videoAnnouncement}}
     </div>
 </template>
+
+<template name="videoAnnouncement">
+    <div class="text-center video-announcement" hidden>
+        <div class="row mb-30">
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                <h2>Post A YouTube Video</h2>
+                <h4>Paste the link to the video in the video link box, then give you announcement a headline!</h4>
+            </div>
+        </div>
+        {{> announcementHeadline id="videoHeadline"}}
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <form class="form post-info-form full-width">
+                    <input type="text" placeholder="Link To Video*" id="videoLink">
+                </form>
+            </div>
+        </div>
+        <div class="row mb-30" id="videoPreview" hidden>
+            <div class="col-lg-12 col-md-12">
+                <h3>Video Preview</h3>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/{{id}}?rel=0&amp;controls=0" frameborder="0" id="videoPreviewFrame"></iframe>
+                </div>
+            </div>
+        </div>
+        {{> announcementOptions imgAndText=false}}
+    </div>
+</template>
+
 <template name="announcementHeadline">
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <form class="form post-info-form full-width">
-                <input type="text" placeholder="Headline*" id="{{id}}" maxlength="50">
+                <input type="text" placeholder="{{#with title}}{{title}}{{else}}Headline*{{/with}}" id="{{id}}" maxlength="50">
             </form>
         </div>
     </div>
@@ -446,7 +475,7 @@
     <div class="row mb-45">
         <div class="col-lg-12 col-md-12">
             <h3>Text Portion</h3>
-            <textarea placeholder="Add your information here! 140 characters max." class="announcement-text" maxlength="{{max}}" id="textContent"></textarea>
+            <textarea placeholder="Add your information here! Keep it within {{max}} characters." class="announcement-text" maxlength="{{max}}" id="textContent"></textarea>
             <p class="text-left">You have <span class="announcement-counter">{{max}}</span> characters left.</p>
         </div>
     </div>
