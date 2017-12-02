@@ -36,4 +36,33 @@ App.configurePlugin('phonegap-plugin-push', {
     SENDER_ID: 737004764701
 });
 
+App.icons({
+    'iphone_2x': 'mobile_resources/icons/ios/icon-60@2x.png',
+    'iphone_3x': 'mobile_resources/icons/ios/icon-60@3x.png',
+    'ipad': 'mobile_resources/icons/ios/icon-76.png',
+    'ipad_2x': 'mobile_resources/icons/ios/icon-76@2x.png',
+    'android_mdpi': 'mobile_resources/icons/android/drawable-mdpi-icon.png',
+    'android_hdpi': 'mobile_resources/icons/android/drawable-hdpi-icon.png',
+    'android_xhdpi': 'mobile_resources/icons/android/drawable-xhdpi-icon.png',
+    'android_xxhdpi': 'mobile_resources/icons/android/drawable-xhdpi-icon.png'
+});
+
+App.launchScreens({
+    'iphone_2x': 'mobile_resources/screens/ios/Default@2x~iphone.png',
+    'iphone5': 'mobile_resources/screens/ios/Default-568h@2x~iphone.png',
+    'iphone6': 'mobile_resources/screens/ios/Default-667h.png',
+    'iphone6p_portrait': 'mobile_resources/screens/ios/Default-736h.png',
+    'iphone6p_landscape': 'mobile_resources/screens/ios/Default-Landscape-736h.png',
+    'ipad_portrait': 'mobile_resources/screens/ios/Default-Portrait~ipad.png',
+    'ipad_portrait_2x': 'mobile_resources/screens/ios/Default-Portrait@2x~ipad.png',
+    'ipad_landscape': 'mobile_resources/screens/ios/Default-Landscape~ipad.png',
+    'ipad_landscape_2x': 'mobile_resources/screens/ios/Default-Landscape@2x~ipad.png',
+    'android_mdpi_portrait': 'mobile_resources/screens/android/drawable-port-mdpi-screen.png',
+    'android_mdpi_landscape': 'mobile_resources/screens/android/drawable-land-mdpi-screen.png',
+    'android_hdpi_portrait': 'mobile_resources/screens/android/drawable-port-hdpi-screen.png',
+    'android_hdpi_landscape': 'mobile_resources/screens/android/drawable-land-hdpi-screen.png',
+    'android_xhdpi_portrait': 'mobile_resources/screens/android/drawable-port-xhdpi-screen.png',
+    'android_xhdpi_landscape': 'mobile_resources/screens/android/drawable-land-xhdpi-screen.png',
+});
+
 //App.accessRule('*');
