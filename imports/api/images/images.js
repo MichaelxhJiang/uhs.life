@@ -33,7 +33,7 @@ const Images = new FilesCollection({
         return 'Upload is still in progress! Upload will be aborted if you leave this page!';
     },
     onBeforeUpload(file){
-        if(file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)){
+        if(file.size <= 10485760 && /png|jpg|jpeg|gif/i.test(file.extension)){
             return true;
         }else{
             return 'Please upload an image, with size equal or less than 10MB';

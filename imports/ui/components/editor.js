@@ -3,6 +3,7 @@
  */
 import { FilesCollection } from 'meteor/ostrio:files';
 import { Images } from "../../api/images/images.js";
+
 import './editor.html';
 import './editorComponents/videoAnnouncement.js';
 import './editorComponents/editorLib.js';
