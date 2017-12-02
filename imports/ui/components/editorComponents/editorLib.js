@@ -3,6 +3,8 @@
  *
  * This file contains all the methods used in uhs.life editor
  */
+import { FilesCollection } from 'meteor/ostrio:files';
+import { Images } from "../../../api/images/images.js";
 initDropZone = function (id, info) {
     return new Dropzone("form#" + id, {
         maxFiles: info.number || 1,
