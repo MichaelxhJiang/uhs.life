@@ -54,7 +54,6 @@ Template.dashHome.helpers({
         });
     },
     'writer': function () {
-        //console.log(this);
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'noImage': function () {
@@ -62,10 +61,8 @@ Template.dashHome.helpers({
     },
     'imageLink': function () {
         try{
-            console.log(Images.findOne({_id: this.imgId}));
             return Images.findOne({_id: this.imgId}).link();
         }catch(e){
-            //console.log('error getting photo')
         }
     },
     'hasContent': function () {
@@ -92,18 +89,15 @@ Template.dashAnnouncements.helpers({
         });
     },
     'writer': function () {
-        //console.log(this);
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'noImage': function () {
         return (this.subType === 'textOnly');
     },
     'imageLink': function () {
-        console.log(this);
         try{
             return Images.findOne({_id: this.imgId}).link();
         }catch(e){
-            //console.log('error getting photo')
         }
     },
     'hasContent': function () {
@@ -116,7 +110,6 @@ Template.dashSuggestions.helpers({
         return Suggestions.find({});
     },
     'writer': function () {
-        //console.log(this);
         return Meteor.users.findOne({_id: this.author}).services.google.name;
     },
     'noImage': function () {
@@ -250,7 +243,6 @@ Template.dashAnnouncements.events({
         Session.set('dashEditorData', info);
 
         if(!$(evt.target).attr('class').includes('btn-remove')){
-            console.log('test');
             Modal.show('dashPostEditor');
         }
 
@@ -261,7 +253,6 @@ Template.dashAnnouncements.events({
         let id = obj.attr('id');
         alertConfirm('Are you sure','This action cannot be reverted, if you don\'t want this post to show up in the list, we recommend you archive it.', function (accepted) {
             if(accepted){
-                console.log(id);
                 Meteor.call('posts.removePost', id, function (err) {
                     if(err){
                         alertError("Error Removing Post", "Please try again later.\n"+ err.message);
@@ -386,13 +377,12 @@ Template.dashRoleEditor.events({
     'submit .dash-role-edit': function (evt) {
         let data = Session.get('editingUser');
         evt.preventDefault();
-        console.log($('#newUserRoles').val());
         Meteor.call('addUserToRole', data._id, $('#newUserRoles').val(), function (err) {
             if(err){
                 alertError("Role Modification Failed!", err.message);
             }else{
                 Modal.hide('dashRoleEditor');
-                alertSuccess("Success!", "User Role has been successfully modified!")
+                alertSuccess("Success!", "User Role has been successfully modified!");
             }
         });
     }
@@ -417,7 +407,7 @@ Template.dashCategoryEditor.onRendered(function () {
 Template.dashPostEditor.onRendered(function () {
     let data = Session.get('dashEditorData');
     if(data.subType === 'imageOnly'){
-        $('#newPostBody').hide()
+        $('#newPostBody').hide();
     }else{
         $('#newPostBody').val(data.content);
     }
@@ -457,7 +447,6 @@ Template.dashCategoryEditor.events({
             imgId: Session.get('categoryImageId'),
             featured: $('#newCategoryFeatured').is(':checked')
         };
-        //console.log(json);
         if(!Session.get('editingBlogCategory')){
             Meteor.call('category.addNew',json,function (err) {
                 Modal.hide('dashCategoryEditor');

@@ -267,6 +267,16 @@ wipeEditor = function(type, subType) {
             Session.set('priority', 'image');
             $('.is-checked').removeClass('is-checked');
             $(".priority-toggle[data-priority="+ Session.get('priority') +"]").addClass('is-checked');
+        }else if(subType === 'video'){
+            $('#videoHeadline').val(null);
+            Session.set('videoId', null);
+            $('#videoLink').val(null);
+            $('#videoPreview').fadeOut('fast');
+            $('.announce-tags:eq(3)').tagsinput('removeAll');
+            $(".announcement-category:eq(3)").val(null).trigger("change");
+            $(".clubs-category:eq(3)").val(null).trigger("change");
+            $('.startDate:eq(3)').datepicker('update',null);
+            $('.endDate:eq(3)').datepicker('update',null);
         }
     }
 };
@@ -498,6 +508,60 @@ constructAnnouncementJson = function(type){
             meta: {
                 priority: priority || 'image',
                 hasUnsplash: hasUnsplash,
+                visibility: visibility
+            }
+        };
+    } else if(type === 'video'){
+        let headline = $('#videoHeadline').val();
+        let videoId = Session.get('videoId');
+        let separators = [' , ', ', ', ',', ' ,'];
+        let tags = $(".announce-tags")[3].value.split(new RegExp(separators.join('|'), 'g'));
+        let options = $('.announcement-category')[3].options;
+        let categories = [];
+        for (let i = 0; i < options.length; i++) {
+            let opt = options[i];
+            if (opt.selected) {
+                categories.push(opt.value);
+            }
+        }
+        let clubs = $('.clubs-category')[3].options;
+        let clubList = [];
+        for (let i = 0; i < clubs.length; i++) {
+            let opt = clubs[i];
+            if (opt.selected) {
+                clubList.push(opt.value);
+            }
+        }
+        let authorId = Meteor.userId();
+        let startDate = new Date($('.startDate')[3].value);
+        let endDate = new Date($('.endDate')[3].value);
+        let draftedDate = new Date();
+        let visibility = $('.visibility-select')[4].value;
+        if (!videoId) {
+            alertError('Post Incomplete!', "You haven't uploaded an image yet!");
+            throw new Error('A Video Was Not Added');
+        }
+        if (!headline) {
+            //TODO
+            alertError('Post Incomplete!', "You haven't added a headline!");
+        }
+        if(!startDate || !endDate){
+            alertError('Post Incomplete!', "You haven't added a date!");
+        }
+        return {
+            author: authorId,
+            type: 'announcement',
+            subType: 'video',
+            startDate: startDate,
+            endDate: endDate,
+            draftedDate: draftedDate,
+            headline: headline,
+            tags: tags,
+            categories: categories,
+            videoId: videoId,
+            clubs: clubList,
+            meta: {
+                hasUnsplash: false,
                 visibility: visibility
             }
         };

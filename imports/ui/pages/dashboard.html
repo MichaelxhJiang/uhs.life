@@ -44,6 +44,11 @@
                                     <div class="flexed mb-15">
                                         <div class="image-preview">
                                             <img src="{{imageLink}}" class="img-responsive">
+                                            {{#if videoId}}
+                                                <div class="video-wrapper">
+                                                    <iframe src="https://www.youtube-nocookie.com/embed/{{videoId}}?rel=0&amp;controls=1" frameborder="0" id="videoPreviewFrame" allowfullscreen></iframe>
+                                                </div>
+                                            {{/if}}
                                         </div>
                                         <div class="content-preview">
                                             <h3 class="draft-title">{{headline}}</h3>
@@ -185,6 +190,9 @@
                                     <div class="flexed mb-15">
                                         <div class="image-preview">
                                             <img src="{{imageLink}}" class="img-responsive">
+                                            <div class="video-wrapper">
+                                                <iframe src="https://www.youtube-nocookie.com/embed/{{videoId}}?rel=0&amp;controls=0" frameborder="0" id="videoPreviewFrame"></iframe>
+                                            </div>
                                         </div>
                                         <div class="content-preview">
                                             <h3 class="draft-title">{{headline}}</h3>

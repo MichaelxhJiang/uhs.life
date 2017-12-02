@@ -58,6 +58,64 @@ Meteor.methods({
         throw new Meteor.Error(403, "No, just no.");
         //Posts.remove({});
     },
+    'posts.submit': function (json) {
+        if (!Roles.userIsInRole( this.userId, ['teacher','admin','announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission to execute the following action.");
+        }
+        let errStr = "", err = false;
+        if (json.type === "announcement") {
+            if (!json.headline) {
+                err = true;
+                errStr += "Missing headline. ";
+            }
+            if (!json.imgId && !json.videoId && !json.content) {
+                err = true;
+                errStr += "Missing Content. ";
+            }
+            let sDate = new Date(json.startDate),
+                eDate = new Date(json.endDate),
+                currentDate = new Date();
+            if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
+                err = true;
+                errStr = "Your date selection will break our system. ";
+            }
+        }else if(json.type === 'blog'){
+            if (!json.title) {
+                err = true;
+                errStr += "Missing title. ";
+            }
+            if (!json.subtitle) {
+                err = true;
+                errStr += "Missing subtitle. ";
+            }
+            if (!json.content) {
+                err = true;
+                errStr += "Missing content. ";
+            }
+            if (!json.imgId) {
+                err = true;
+                errStr += "Missing image. ";
+            }
+            let sDate = new Date(json.releaseDate),
+                currentDate = new Date();
+            if(sDate < currentDate){
+                err = true;
+                errStr = "Your date selection will break our system. ";
+            }
+        }
+        if (err) {
+            throw new Meteor.Error(400, errStr);
+        }
+        json.meta.approved = false;
+        json.meta.screeningStage = 0;
+        json.meta.display = false;
+        Posts.insert(json, function(err, content) {
+            if(err) {
+                console.error(err);
+            }
+        });
+
+    },
     'posts.postTextImage' : function(json) {
         if (!Roles.userIsInRole( this.userId, ['teacher','admin','announcementEditor'])) {
             throw new Meteor.Error(403, "You do not have permission to execute the following action.");
@@ -79,7 +137,6 @@ Meteor.methods({
             err = true;
             errStr += "Missing content. ";
         }
-        console.log(json.imgId);
         if (!json.imgId) {
             err = true;
             errStr += "Missing image. ";
@@ -89,7 +146,7 @@ Meteor.methods({
             currentDate = new Date();
         if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
             err = true;
-            errStr = "Your date selection is illegal. "
+            errStr = "Your date selection is illegal. ";
         }
         if (err) {
             throw new Meteor.Error(400, errStr);

@@ -669,6 +669,29 @@ Template.announcementOptions.events({
                     operationStack.pop();
                 }
             });
+        } else if (type === 'video') {
+            console.log(json);
+            Meteor.call('posts.submit', json, function (err) {
+                if (err) {
+                    alertError('Post Failed!', err.message);
+                } else {
+                    alertSuccess('Success!', 'The post has been submitted.');
+                    if (Session.get('draftEditItem')) {
+                        Meteor.call('drafts.remove',Session.get('draftEditItem'));
+                    }
+                    Session.set('draftEditItem', null);
+                    wipeEditor('announcement','video');
+                    if (operationStack.length - 2 === 0) {
+                        swapElements('.editor-main', '.editor-open');
+                        $('html, body').css({
+                            overflow: 'visible'
+                        }); // Enables the Scrolling
+                    } else {
+                        swapElements(operationStack[operationStack.length - 1], operationStack[operationStack.length - 2]);
+                    }
+                    operationStack.pop();
+                }
+            });
         }
 
     },

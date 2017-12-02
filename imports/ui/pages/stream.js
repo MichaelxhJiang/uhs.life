@@ -71,30 +71,30 @@ Template.stream.helpers({
         return (this.startDate === this.endDate) ? moment(this.startDate).format("MMMM Do YYYY") : moment(this.startDate).format("MMMM Do YYYY") + " - " + moment(this.endDate).format("MMMM Do YYYY");
     },
     'isImageOnly': function () {
-        return this.subType === 'imageOnly' && this.type === 'announcement'
+        return this.subType === 'imageOnly';
     },
     'isTextOnly': function () {
-        return this.subType === 'textOnly' && this.type === 'announcement'
+        return this.subType === 'textOnly';
     },
     'isImageText': function () {
-        return this.subType === 'imageText' && this.type === 'announcement'
+        return this.subType === 'imageText';
     },
-    'isBlog': function () {
-        return this.type === 'blog'
+    'isVideo': function () {
+        return this.subType === 'video';
     },
     'categories': function () {
         let list = this.categories;
         let text = "";
         _.forEach(list,function (item) {
-            text += item + " "
+            text += item + " ";
         });
         return text;
     },
     'textOverImage': function () {
-        return this.subType === 'imageText' && this.type === 'announcement' && this.meta.priority === 'text'
+        return this.subType === 'imageText' && this.type === 'announcement' && this.meta.priority === 'text';
     },
     'imageOverText': function () {
-        return this.subType === 'imageText' && this.type === 'announcement' && this.meta.priority === 'image'
+        return this.subType === 'imageText' && this.type === 'announcement' && this.meta.priority === 'image';
     },
     'writer': function () {
         return Meteor.users.findOne({_id: this.author}).services.google.name;
@@ -131,7 +131,6 @@ getUnsplashLink = function (id) {
         if(err){
             console.log(err);
         }else{
-            console.log(id);
             Meteor.call('getPhoto', id, function (err,data) {
                 if(err){
                     console.log(err);
@@ -139,7 +138,7 @@ getUnsplashLink = function (id) {
                     Session.set('unsplashFeatured', data.urls.full);
                     $('.grid').isotope();
                 }
-            })
+            });
         }
     });
 };
