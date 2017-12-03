@@ -18,6 +18,7 @@ import '../../ui/pages/dashboard.js';
 import '../../ui/pages/blogs.js';
 import '../../ui/pages/bigPicture.js';
 import '../../ui/pages/profile.js';
+import '../../ui/pages/public.js';
 
 //This file defines functions to post and setup the facebook API
 import './facebook.js';

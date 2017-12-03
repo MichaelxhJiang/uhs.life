@@ -134,6 +134,13 @@ FlowRouter.route('/login',{
     name: 'login'
 });
 
+FlowRouter.route('/privacy', {
+    action: function () {
+        Session.set('DocumentTitle', 'Privacy Policy of Uhs.life');
+        BlazeLayout.render('applicationLayout', {main: 'legal'});
+    }
+});
+
 loggedIn.route('/stories',{
     action: function () {
         BlazeLayout.render('applicationLayout',{main: 'blogs'});
@@ -142,6 +149,7 @@ loggedIn.route('/stories',{
 
 loggedIn.route('/profile',{
     action: function () {
+        Session.set('DocumentTitle', 'Your Profile | uhs.life');
         BlazeLayout.render('applicationLayout',{main: 'profile'});
     },
     name: 'profile'
@@ -209,6 +217,7 @@ loggedIn.route('/course/:courseId',{
 
 loggedIn.route( '/big-picture', {
     action: function() {
+        Session.set('DocumentTitle', 'Big Picture Mode | uhs.life');
         BlazeLayout.render('applicationLayout', {main: 'bigPicture'});
     },
     name: 'bigPicture' // Optional route name.
@@ -224,6 +233,7 @@ loggedIn.route( '/', {
 
 loggedIn.route( '/stream', {
     action: function() {
+        Session.set("DocumentTitle", "Stream | uhs.life");
         BlazeLayout.render('applicationLayout', {main: 'stream'});
     },
     name: 'stream' // Optional route name.
@@ -234,6 +244,7 @@ loggedIn.route('/logout',{
         Session.set("DocumentTitle","Logging out...");
         Meteor.logout(function() {
             Session.clear();
+
             FlowRouter.go('/');
         });
     },
