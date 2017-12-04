@@ -1,13 +1,13 @@
 App.setPreference('StatusBarOverlaysWebView', 'false');
-App.setPreference('StatusBarBackgroundColor', '#000000');
+App.setPreference('StatusBarBackgroundColor', '#333333');
 App.setPreference('Orientation', 'portrait');
 
 App.info({
     id: 'com.life.uhs',
     description: 'UHS LIFE NEWS APP',
-    author: 'Linus j',
-    email: 'Xxx@xxx.com',
-    website: 'http://xxxx.com'
+    author: 'Yong Liwn Wang, Michael Jiang',
+    email: 'hello@uhs.life',
+    website: 'https://www.uhs.life'
 });
 
 App.configurePlugin('cordova-plugin-googleplus', {
