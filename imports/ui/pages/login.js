@@ -25,7 +25,7 @@ Template.login.events({
             forceApprovalPrompt: false
         },(err)=>{
             if(err){
-                alertError("Sorry...", err.message);
+                alertError("Sorry...", JSON.stringify(err,null,2));
             }
         });
     }
