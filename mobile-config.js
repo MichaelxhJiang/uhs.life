@@ -1,13 +1,13 @@
 App.setPreference('StatusBarOverlaysWebView', 'false');
-App.setPreference('StatusBarBackgroundColor', '#000000');
+App.setPreference('StatusBarBackgroundColor', '#333333');
 App.setPreference('Orientation', 'portrait');
 
 App.info({
     id: 'com.life.uhs',
     description: 'UHS LIFE NEWS APP',
-    author: 'Linus j',
-    email: 'Xxx@xxx.com',
-    website: 'http://xxxx.com'
+    author: 'Yong Liwn Wang, Michael Jiang',
+    email: 'hello@uhs.life',
+    website: 'https://www.uhs.life'
 });
 
 App.configurePlugin('cordova-plugin-googleplus', {
@@ -28,10 +28,23 @@ App.accessRule('http://*.algolia.net', {
     'minimum-tls-version': 'TLSv1.0',
     'requires-forward-secrecy': false,
 });
+/*
 App.accessRule('https://fonts.googleapis.com');
 
 App.accessRule('https://fonts.gstatic.com');
 
+App.accessRule('https://www.youtube-nocookie.com');
+
+App.accessRule('https://*.ytimg.com');
+
+App.accessRule('https://www.google.com');
+
+App.accessRule('https://static.doubleclick.net');
+
+App.accessRule('https://*.googlevideo.com');
+*/
+
+App.accessRule('*');
 App.configurePlugin('phonegap-plugin-push', {
     SENDER_ID: 737004764701
 });

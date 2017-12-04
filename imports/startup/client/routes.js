@@ -246,6 +246,9 @@ loggedIn.route('/logout',{
             Session.clear();
 
             FlowRouter.go('/');
+            if (Meteor.isCordova) {
+                window.location.replace('https://accounts.google.com/Logout');
+            }
         });
     },
     name: 'logout'

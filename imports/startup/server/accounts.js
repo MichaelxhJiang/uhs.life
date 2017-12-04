@@ -21,6 +21,7 @@ if(Meteor.isServer){
 Accounts.validateNewUser(function (user) {
     const email = user.services.google.email;
     if (email.indexOf("gapps.yrdsb.ca") !== -1) {
+        console.log("validatedNewUser");
         //check for teacher or student
         return true;
 
@@ -48,6 +49,7 @@ Accounts.onCreateUser(function (options,user){
     if (!hasNumbers) {
         user.profile.teacher = true;
     }
+    console.log(JSON.stringify(user, null, 2));
     return user;
 });
 Accounts.validateLoginAttempt(function (info) {
@@ -57,7 +59,7 @@ Accounts.validateLoginAttempt(function (info) {
     }catch(e){
         status = true;
     }
-    console.log(status);
+    console.log("validateLoginAttempt");
     if(!status){
         throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: ");
     }

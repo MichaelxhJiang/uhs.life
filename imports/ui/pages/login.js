@@ -22,10 +22,10 @@ Template.login.events({
             loginStyle: "redirect",
             requestPermissions: ['profile','email', 'https://www.googleapis.com/auth/user.birthday.read'],
             requestOfflineToken: true,
-            forceApprovalPrompt: true
+            forceApprovalPrompt: false
         },(err)=>{
             if(err){
-                alertError("Sorry...", err.message);
+                alertError("Sorry...", JSON.stringify(err,null,2));
             }
         });
     }
