@@ -29,6 +29,13 @@ Template.login.events({
         });
     }
 });
+
+Template.login.helpers({
+    'url': function () {
+        return window.location.href;
+    }
+});
+
 /**
  * This local method validates the state of a String to see if it is a proper email
  * **/
