@@ -22,13 +22,9 @@ Accounts.validateNewUser(function (user) {
     const email = user.services.google.email;
     if (email.indexOf("gapps.yrdsb.ca") !== -1) {
         console.log("validatedNewUser");
-        //check for teacher or student
-        return true;
-
     } else {
         console.log('not gapps yrdsb account');
         throw new Meteor.Error(403, "Currently uhs.life is only available to YRDSB GAPPS users, stay tuned for parental support!");
-        /*return true;*/
     }
 });
 
@@ -49,10 +45,9 @@ Accounts.onCreateUser(function (options,user){
     if (!hasNumbers) {
         user.profile.teacher = true;
     }
-    console.log(JSON.stringify(user, null, 2));
     return user;
 });
-Accounts.validateLoginAttempt(function (info) {
+/*Accounts.validateLoginAttempt(function (info) {
     let status = true;
     try{
         status = !Roles.userIsInRole(info.user._id, 'banned');
@@ -64,15 +59,19 @@ Accounts.validateLoginAttempt(function (info) {
         throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: ");
     }
     return true;
-});
+});*/
 Meteor.methods({
     'initUserProfile': function (id,info) {
         if(info.length > 25){
             throw new Meteor.Error(400, "Your Tagline is too long, please shorten it.");
         }
-        Meteor.users.update({_id: id}, {$set: {
+        const person = Meteor.users.findOne({_id: this.userId});
+        const email = person.services.google.email;
+        const tester = email.substring(0, email.indexOf("@"));
+        Meteor.users.update({_id: this.userId}, {$set: {
             "profile.init": true,
             "profile.terms": true,
+            "profile.identity": tester,
             "profile.tagline": info
         }});
     },

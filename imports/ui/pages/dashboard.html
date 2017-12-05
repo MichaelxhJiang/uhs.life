@@ -128,11 +128,11 @@
                             <div class="detailed-user-info">
                                 <div class="col-lg-6 text-muted">
                                     <p>Email: {{services.google.email}}</p>
-                                    <p>Student Number: {{profile.studentNum}}</p>
+                                    <p>Student Number: {{profile.identity}}</p>
                                     <p>Roles: {{roles}}</p>
                                 </div>
                                 <div class="col-lg-6 text-muted">
-                                    <p>Gender: {{services.google.gender}}</p>
+                                    <p>Gender: {{#if services.google.gender}}{{services.google.gender}}{{else}}Unspecified{{/if}}</p>
                                     <p>Initialized: {{profile.init}}</p>
                                     <p>Mailing List Email: {{profile.email}}</p>
                                 </div>

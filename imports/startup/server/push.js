@@ -1,4 +1,4 @@
-import {Posts} from '../../api/posts/posts.js'
+import {Posts} from '../../api/posts/posts.js';
 
 export const pushPostNotification = (postId) => {
     try {

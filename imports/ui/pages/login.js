@@ -20,12 +20,11 @@ Template.login.events({
     'click #googleLogin':function () {
         Meteor.loginWithGoogle({
             loginStyle: "redirect",
-            requestPermissions: ['profile','email', 'https://www.googleapis.com/auth/user.birthday.read'],
-            requestOfflineToken: true,
-            forceApprovalPrompt: false
+            requestPermissions: ['profile','email']
         },(err)=>{
+            console.log(err);
             if(err){
-                alertError("Sorry...", JSON.stringify(err,null,2));
+                alertError("Sorry...", err.message);
             }
         });
     }
@@ -40,9 +39,6 @@ function validateEmail(email) {
 
 Accounts.onLogin( ()=>{
     const redirect = Session.get('redirectAfterLogin');
-    Tracker.autorun(function () {
-        Meteor.subscribe('theUser');
-    });
     if(redirect){
         if(redirect !== '/login'){
             FlowRouter.go(redirect);

@@ -21,7 +21,7 @@ let loggedIn = FlowRouter.group({
                         Session.setPersistent('inDash', false);
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
-                            FlowRouter.go('/first');
+                            FlowRouter.go('/welcome');
                         }else{
                             Session.setPersistent('name', user.services.google.name);
                             Session.setPersistent('accessToken', user.services.google.accessToken);
@@ -61,7 +61,7 @@ let admin = FlowRouter.group({
                     if(user && userSub.ready()){
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
-                            FlowRouter.go('/first');
+                            FlowRouter.go('/welcome');
                         }else{
                             Session.set('name', user.services.google.name);
                             Session.set('id', user.profile.id);
@@ -254,20 +254,19 @@ loggedIn.route('/logout',{
     name: 'logout'
 });
 
-loggedIn.route('/first', {
+loggedIn.route('/welcome', {
     action: function () {
         Session.set("DocumentTitle","Welcome to uhs.life!");
-        BlazeLayout.render('applicationLayout',{main: 'firstTime'});
-        /*Tracker.autorun(function () {
-         let user = Meteor.user();
-         if(user){
-         if(user.profile.init){
-         FlowRouter.go('/')
-         }else{
-         BlazeLayout.render('applicationLayout',{main: 'firstTime'});
-         }
-         }
-         });*/
+        Tracker.autorun(function () {
+            let user = Meteor.user();
+            if(user){
+                if(user.profile.init){
+                    FlowRouter.go('/');
+                }else{
+                    BlazeLayout.render('applicationLayout',{main: 'firstTime'});
+                }
+            }
+        });
     },
     name: 'first'
 });

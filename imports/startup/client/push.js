@@ -20,10 +20,10 @@ Meteor.startup(() =>
         });
 
         Push.addListener('message', function (notification) {
-            console.log('notification: ' + JSON.stringify(notification))
+            console.log('notification: ' + JSON.stringify(notification));
         });
         Push.addListener('token', function (token) {
-            console.log('token: ' + JSON.stringify(notification))
+            console.log('token: ' + JSON.stringify(notification));
         });
     }
 });
