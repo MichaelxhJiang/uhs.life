@@ -141,6 +141,12 @@ FlowRouter.route('/privacy', {
     }
 });
 
+FlowRouter.route('/android', {
+    action: function () {
+        window.location = 'https://play.google.com/store/apps/details?id=com.life.uhs&hl=en';
+    }
+});
+
 loggedIn.route('/stories',{
     action: function () {
         BlazeLayout.render('applicationLayout',{main: 'blogs'});
