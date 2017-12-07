@@ -26,6 +26,7 @@ Accounts.validateNewUser(function (user) {
         console.log('not gapps yrdsb account');
         throw new Meteor.Error(403, "Currently uhs.life is only available to YRDSB GAPPS users, stay tuned for parental support!");
     }
+    return true;
 });
 
 Accounts.onCreateUser(function (options,user){
