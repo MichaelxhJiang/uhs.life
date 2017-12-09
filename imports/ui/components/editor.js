@@ -6,6 +6,7 @@ import { Images } from "../../api/images/images.js";
 
 import './editor.html';
 import './editorComponents/videoAnnouncement.js';
+import './editorComponents/announcementEditor.js';
 import './editorComponents/editorLib.js';
 
 let operationStack = ['.editor-open'];
@@ -361,6 +362,24 @@ Template.editor.events({
         }
         operationStack.pop();
     },
+    'input .announcement-text': function (evt) {
+        let maxlength = $(evt.target).attr("maxlength");
+        let length = $(evt.target).val().length;
+
+        if (length >= maxlength) {
+            $('.announcement-counter').text(0);
+        } else {
+            $('.announcement-counter').text(maxlength - length);
+        }
+    },
+    'click .priority-toggle': function (evt) {
+        let priority = $(evt.target).attr('data-priority');
+        $('.is-checked').removeClass('is-checked');
+        $(evt.target).addClass('is-checked');
+        Session.set('priority', priority);
+    }
+});
+Template.announcementMenu.events({
     'click #imageOnly': function () {
         swapElements('.announcement-menu', '.image-only');
         operationStack.push('.image-only');
@@ -381,22 +400,6 @@ Template.editor.events({
         operationStack.push('.video-announcement');
         Session.set('announcementType', 'video');
     },
-    'input .announcement-text': function (evt) {
-        let maxlength = $(evt.target).attr("maxlength");
-        let length = $(evt.target).val().length;
-
-        if (length >= maxlength) {
-            $('.announcement-counter').text(0);
-        } else {
-            $('.announcement-counter').text(maxlength - length);
-        }
-    },
-    'click .priority-toggle': function (evt) {
-        let priority = $(evt.target).attr('data-priority');
-        $('.is-checked').removeClass('is-checked');
-        $(evt.target).addClass('is-checked');
-        Session.set('priority', priority);
-    }
 });
 Template.allPosts.events({
     'click .load-more-posts': function (evt) {
@@ -777,8 +780,6 @@ Template.announcementOptions.events({
                 });
             }
         }
-
-
     }
 });
 Template.blogDraft.events({

@@ -18,7 +18,9 @@
         </nav>
         <div>
             <form class="global-search">
-                <input type="text" placeholder="Type something here to search" class="main-search" id="globalSearch" autocomplete="off">
+                <div>
+                    <input type="text" placeholder="Type something here to search" class="main-search" id="globalSearch" autocomplete="off">
+                </div>
             </form>
             <div class="search-content">
                 <div class="container pt-60">
@@ -27,9 +29,9 @@
                         <p class="unselectable">{{_ "nav.search_prompt.init"}}</p>
                     </div>
                     {{#each searchContent}}
-                        <div class="col-lg-6 ">
+                        <div class="col-lg-12">
                             <div class="search-result">
-                                <h2>{{headline}}</h2>
+                                <h3>{{headline}}</h3>
                                 <p>{{content}}</p>
                                 <img class="img-responsive" src="{{img}}">
                             </div>

@@ -7,7 +7,7 @@ import './navigation.html';
 import '../lib/morphext.js';
 Template.navigation.onRendered(function () {
     //$('.course-list').hide();
-    $('.main-search').hide();
+    $('.global-search').hide();
     $('.search-content').hide();
     $('.nav-overlay').hide();
     Session.set('searchContent', {hits:[]});
@@ -95,16 +95,18 @@ Template.navigation.events({
         }
     },
     'click .nav-oper': function () {
-        let searchBox = $('.main-search');
+        let searchBox = $('.global-search');
+        let input = $('.main-search');
         let searchContent = $('.search-content');
         let prompt = $('.top-operation-prompt');
         Session.set('searchContent', {hits:[]});
         if(!searchBox.is(':visible')){
-            searchBox.fadeIn('fast');
+            $('nav').fadeOut('fast', function () {
+                searchBox.fadeIn('fast');
+                searchContent.fadeIn('fast');
+            });
             $('.search-result').show();
-            searchContent.fadeIn("<i class='fa fa-times'></i> <span class='hidden-sm hidden-xs'>SEARCH</span>");
-            prompt.html("CLOSE");
-            searchBox.typed({
+            input.typed({
                 strings: [
                     "\"Volleyball\"",
                     "\"Octoberfest\"",
@@ -119,18 +121,27 @@ Template.navigation.events({
                 showCursor: true,
                 cursorChar: "|",
             });
-            $('html, body').css({
+/*            $('html, body').css({
                 overflow: 'hidden',
-            });
+            });*/
         }else{
             searchBox.fadeOut('fast');
             $('.search-result').hide();
             searchContent.fadeOut('fast');
-            prompt.html("<i class='fa fa-search'></i> <span class='hidden-sm hidden-xs'>SEARCH</span>");
-            $('html, body').css({
+/*            $('html, body').css({
                 overflow: 'auto',
-            });
+            });*/
         }
+    },
+    'click .search-content': function () {
+        let searchBox = $('.global-search');
+        let searchContent = $('.search-content');
+        searchBox.fadeOut('fast');
+        $('.search-result').hide();
+        searchContent.fadeOut('fast', function () {
+            $('nav').fadeIn('fast');
+        });
+
     },
     'click #academics': function () {
         if(!Session.get('token')){
@@ -153,7 +164,6 @@ Template.navigation.events({
         let searchPrompt = $('.search-prompt');
         if(searchBox.val().length > 0){
             searchPrompt.css('display','none');
-            console.log(searchBox.val());
             searchPost(searchBox.val());
         }else{
             searchPrompt.css('display','block');

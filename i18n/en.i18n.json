@@ -17,7 +17,7 @@
     "right": "SEARCH",
     "close": "CLOSE",
     "search_prompt": {
-      "init": "Type something in the box above to search"
+      "init": "Type something in the box above to search, click anywhere to exit."
     },
     "logout": "LOGOUT",
     "side_items": {
