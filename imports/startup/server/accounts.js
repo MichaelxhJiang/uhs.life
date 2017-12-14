@@ -83,7 +83,7 @@ Meteor.methods({
         Roles.setUserRoles(userId, roles);
     },
     'accounts.setPersonalEmail': function (email) {
-        Meteor.users.update({_id: this.userId}, {$set: {"profile.email": email}});
+        Meteor.users.update({_id: this.userId}, {$set: {"profile.subEmail": email}});
     },
     'accounts.initRoles': function () {
         const user = Meteor.users.findOne({_id: this.userId});

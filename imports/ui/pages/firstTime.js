@@ -210,7 +210,7 @@ Template.firstTime.events({
                 if(err){
                     alertError("Something went wrong", err.message + "\nYou can subscribe to the newsletter anytime later.");
                 }else{
-                    Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.subEmail": email}}, function (err) {
+                    Meteor.call('accounts.setPersonalEmail', email, function (err) {
                         if(err){
                             alertError("Error Occurred when updating your profile", err.message);
                         }
@@ -252,6 +252,6 @@ function swapElements(a,b){
     });
 }
 function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
