@@ -16,8 +16,9 @@ let loggedIn = FlowRouter.group({
             }else{
                 Tracker.autorun(function () {
                     let userSub = Meteor.subscribe('allUsers');
-                    let user = Meteor.user();
-                    if(user && userSub.ready()){
+                    let thisUser = Meteor.subscribe('theUser');
+                    if(thisUser.ready() && userSub.ready()){
+                        let user = Meteor.user();
                         Session.setPersistent('inDash', false);
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
