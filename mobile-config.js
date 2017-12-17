@@ -5,7 +5,7 @@ App.setPreference('Orientation', 'portrait');
 App.info({
     id: 'com.life.uhs',
     description: 'UHS LIFE NEWS APP',
-    author: 'Yong Liwn Wang, Michael Jiang',
+    author: 'Yong Lin Wang, Michael Jiang',
     email: 'hello@uhs.life',
     website: 'https://www.uhs.life'
 });
