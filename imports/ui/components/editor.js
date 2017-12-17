@@ -9,11 +9,11 @@ import './editorComponents/videoAnnouncement.js';
 import './editorComponents/announcementEditor.js';
 import './editorComponents/editorLib.js';
 
-let operationStack = ['.editor-open'];
-let hasUnsplash = false;
-let originalTitle = "";
-let allPosts = null;
-let blogDrop = null;
+operationStack = ['.editor-open'];
+hasUnsplash = false;
+originalTitle = "";
+allPosts = null;
+blogDrop = null;
 let selectConfig = {
     placeholder: "Click to select",
     allowClear: true,
