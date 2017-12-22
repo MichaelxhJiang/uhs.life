@@ -44,7 +44,13 @@ App.accessRule('https://static.doubleclick.net');
 App.accessRule('https://*.googlevideo.com');
 */
 
-App.accessRule('*');
+App.accessRule('*');    //let everything through
+
+App.configurePlugin('cordova-plugin-camera', {
+    'CAMERA_USAGE_DESCRIPTION': 'Camera can be used to provide an image when submitting announcements that require an image.',
+    'PHOTOLIBRARY_USAGE_DESCRIPTION':'Photos can be chosen by user when submitting announcements that require an image'
+});
+
 App.configurePlugin('phonegap-plugin-push', {
     SENDER_ID: 737004764701
 });
