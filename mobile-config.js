@@ -1,5 +1,5 @@
 App.setPreference('StatusBarOverlaysWebView', 'false');
-App.setPreference('StatusBarBackgroundColor', '#333333');
+App.setPreference('StatusBarBackgroundColor', '#ecebea');
 App.setPreference('Orientation', 'portrait');
 
 App.info({
@@ -54,6 +54,24 @@ App.icons({
     'iphone_3x': 'mobile_resources/icons/ios/icon-60@3x.png',
     'ipad': 'mobile_resources/icons/ios/icon-76.png',
     'ipad_2x': 'mobile_resources/icons/ios/icon-76@2x.png',
+
+    // iOS Settings
+    'ios_settings': 'mobile_resources/icons/ios/icon-29.png',
+    'ios_settings_2x': 'mobile_resources/icons/ios/icon-58.png',
+    'ios_settings_3x': 'mobile_resources/icons/ios/icon-87.png',
+
+    "ios_spotlight": "mobile_resources/icons/ios/icon-40.png", // 40x40
+    "ios_spotlight_2x": "mobile_resources/icons/ios/icon-80.png", // 80x80
+    "ios_notification": "mobile_resources/icons/ios/icon-20.png", // 20x20
+    "ios_notification_2x": "mobile_resources/icons/ios/icon-40.png", // 40x40
+    "ios_notification_3x":"mobile_resources/icons/ios/icon-60.png", // 60x60
+    "iphone_legacy": "mobile_resources/icons/ios/icon-57.png", // 57x57
+    "iphone_legacy_2x": "mobile_resources/icons/ios/icon-114.png", // 114x114
+    "ipad_spotlight_legacy": "mobile_resources/icons/ios/icon-50.png", // 50x50
+    "ipad_spotlight_legacy_2x": "mobile_resources/icons/ios/icon-100.png", // 100x100
+    "ipad_app_legacy": "mobile_resources/icons/ios/icon-72.png", // 72x72
+    "ipad_app_legacy_2x": "mobile_resources/icons/ios/icon-144.png", // 144x144
+
     'android_mdpi': 'mobile_resources/icons/android/drawable-mdpi-icon.png',
     'android_hdpi': 'mobile_resources/icons/android/drawable-hdpi-icon.png',
     'android_xhdpi': 'mobile_resources/icons/android/drawable-xhdpi-icon.png',
