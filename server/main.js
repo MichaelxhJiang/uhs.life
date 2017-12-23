@@ -1,6 +1,7 @@
+
 import {Meteor} from 'meteor/meteor';
 
-import '/imports/startup/server'
+import '/imports/startup/server';
 
 import {Posts} from '../imports/api/posts/posts.js';
 
@@ -16,7 +17,7 @@ Meteor.startup(() => {
 //on server restart, always re-run scheduler to reschedule all announcements
 //TODO
     Posts.find({'meta.approved': true, 'meta.screeningStage': 3}).forEach(function (obj) {
-        Meteor.call('scheduleAnnouncement', obj._id, function (err, res) {
+        Meteor.call('scheduleAnnouncement', obj._id, function (err) {
             if (err) {
                 console.log(err);
             }

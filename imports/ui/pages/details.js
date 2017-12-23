@@ -1,3 +1,4 @@
+"use strict";
 import { Images } from '../../api/images/images.js';
 import './details.html';
 

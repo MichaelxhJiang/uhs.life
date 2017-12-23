@@ -40,7 +40,7 @@ Template.stream.helpers({
             'meta.display': true
         });
         query.observeChanges({
-            added: function(id, fields) {
+            added: function() {
                 setTimeout(function () {
                     $('.grid').isotope('reloadItems');
                     $('.grid').imagesLoaded().progress( function() {
@@ -48,7 +48,7 @@ Template.stream.helpers({
                     });
                 }, 500);
             },
-            changed: function(id, fields) {
+            changed: function() {
                 setTimeout(function () {
                     $('.grid').isotope('reloadItems');
                     $('.grid').imagesLoaded().progress( function() {

@@ -1,26 +1,16 @@
 /**
  * Created by Yonglin Wang on 9/24/2017.
  */
+
 import './bigPicture.html';
 import { Images } from '../../api/images/images.js';
 import flickity from 'flickity';
 import imagesLoaded from 'imagesloaded';
 
-let morphSettings = {
-    // The [in] animation type. Refer to Animate.css for a list of available animations.
-    animation: "flipInX",
-    // An array of phrases to rotate are created based on this separator. Change it if you wish to separate the phrases differently (e.g. So Simple | Very Doge | Much Wow | Such Cool).
-    separator: ";;",
-    // The delay between the changing of each phrase in milliseconds.
-    speed: 8000,
-    complete: function () {
-        // Called after the entrance animation is executed.
-    }
-};
 Template.bigPicture.onRendered(function () {
     Tracker.autorun(function () {
         let newsSub = Meteor.subscribe('announcements', 10, Meteor.userId());
-        let imageSub = Meteor.subscribe('images');
+        Meteor.subscribe('images');
         if(newsSub.ready()){
             $('.flickity').flickity({
                 cellAlign: 'left',

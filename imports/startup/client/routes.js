@@ -162,6 +162,16 @@ loggedIn.route('/profile',{
     name: 'profile'
 });
 
+loggedIn.route('/calendar',{
+    action: function() {
+        Session.set('DocumentTitle','School Calendar');
+        BlazeLayout.render('applicationLayout', {
+            main: 'calendar'
+        });
+    },
+    name: 'calendar'
+});
+
 loggedIn.route('/blog/:postId',{
     action: function (params) {
         if(params.postId === 'preview'){

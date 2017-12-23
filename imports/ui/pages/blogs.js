@@ -1,6 +1,7 @@
 /**
  * Created by Yonglin Wang on 9/12/2017.
  */
+
 import { Images } from '../../api/images/images.js';
 import './blogs.html';
 
@@ -74,4 +75,4 @@ Template.blogItem.events({
         let id = obj.attr('id');
         FlowRouter.go('/blog/'+id);
     }
-})
+});

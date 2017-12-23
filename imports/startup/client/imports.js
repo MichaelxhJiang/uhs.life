@@ -5,6 +5,7 @@
  *
  * A semi-colon is not necessary at the end of an import, please omit it.
  */
+
 //import ui files
 import '../../ui/layouts/applicationLayout.js';
 import '../../ui/components/navigation.js';
@@ -19,6 +20,7 @@ import '../../ui/pages/blogs.js';
 import '../../ui/pages/bigPicture.js';
 import '../../ui/pages/profile.js';
 import '../../ui/pages/public.js';
+import '../../ui/pages/calendar.js';
 
 //This file defines functions to post and setup the facebook API
 import './facebook.js';
