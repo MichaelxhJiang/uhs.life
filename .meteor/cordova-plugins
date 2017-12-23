@@ -1,2 +1,6 @@
+cordova-android-play-services-gradle-release@1.1.4
+cordova-plugin-camera@2.4.1
 cordova-plugin-device@1.1.5
-phonegap-plugin-push@1.9.4
+cordova-plugin-dialogs@1.2.1
+cordova-plugin-vibration@2.1.1
+phonegap-plugin-push@1.10.5
