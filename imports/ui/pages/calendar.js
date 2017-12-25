@@ -1,14 +1,18 @@
-import '../lib/fullcalendar.js';
-import '../lib/gcal.js';
+import {moment} from 'meteor/momentjs:moment';
+
 import './calendar.html';
 Template.calendar.onRendered(function(){
     setTitle('Calendar');
-    $('.calendar').fullCalendar({
-        weekends: false,
+    this.$('.calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,listYear'
+          },
         googleCalendarApiKey:'AIzaSyCYvWxCfU4knsjla015YTHeGHChKdrDf_c',
-        events: {
-            googleCalendarId: 'unionville.hs@gapps.yrdsb.ca',
-            className: 'schoolcal-event'
-        },
+        events: 'uhslifeoffficial@gmail.com',
+        loading: function(state){
+            $('.loader').toggle(state);
+        }
     });
 });
