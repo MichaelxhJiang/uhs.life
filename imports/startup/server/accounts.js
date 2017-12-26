@@ -48,19 +48,17 @@ Accounts.onCreateUser(function (options,user){
     }
     return user;
 });
-/*Accounts.validateLoginAttempt(function (info) {
-    let status = true;
-    try{
-        status = !Roles.userIsInRole(info.user._id, 'banned');
-    }catch(e){
-        status = true;
-    }
-    console.log("validateLoginAttempt");
-    if(!status){
-        throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: ");
+Accounts.validateLoginAttempt(function (info) {
+    console.log("User just logged in:", info.user._id);
+    console.log(info);
+    if(Roles.userIsInRole(info.user._id, 'banned')){
+        console.log('ban detected');
+        throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: " + info.user.private.ban.reason);
+    }else{
+        console.log('login attempt valid');
     }
     return true;
-});*/
+});
 Meteor.methods({
     'initUserProfile': function (id,info) {
         if(info.length > 25){
@@ -100,8 +98,18 @@ Meteor.methods({
         if(!Roles.userIsInRole(this.userId,'admin')){
             throw new Meteor.Error(403, "You do not have the power to ban a user.");
         }
-        Meteor.users.update({_id: id},{$set: {'private.bannedReason':reason}});
+        const now = new Date();
+        Meteor.users.update({_id: id},{$set: {'private.ban':{
+            reason:reason,
+            time: now
+        }}});
         Roles.addUsersToRoles(id, 'banned');
+    },
+    'accounts.unban': function (id,reason) {
+        if(!Roles.userIsInRole(this.userId,'admin')){
+            throw new Meteor.Error(403, "You do not have the power to ban a user.");
+        }
+        Roles.removeUsersFromRoles(id, 'banned');
     },
     'accounts.updateSubscriptionCategories': function(categories) {
         Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.categories": categories}});

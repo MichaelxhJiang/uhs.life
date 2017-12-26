@@ -59,16 +59,24 @@ let admin = FlowRouter.group({
                 Tracker.autorun(function () {
                     let userSub = Meteor.subscribe('allUsers');
                     let user = Meteor.user();
+                    let thisUser = Meteor.subscribe('theUser');
                     if(user && userSub.ready()){
                         if(!user.profile.init){
                             Meteor.call('accounts.initRoles');
                             FlowRouter.go('/welcome');
                         }else{
-                            Session.set('name', user.services.google.name);
-                            Session.set('id', user.profile.id);
-                            Session.set('courses',user.private.courses);
-                            Session.set('tokenExpiry',user.private.tokenDate);
-                            Session.set('token',user.private.token);
+                            Session.setPersistent('name', user.services.google.name);
+                            Session.setPersistent('accessToken', user.services.google.accessToken);
+                            Session.setPersistent('refreshToken', user.services.google.refreshToken);
+                            if(Roles.userIsInRole(Meteor.userId(),'student')){
+                                try{
+                                    Session.setPersistent('courses',user.private.courses);
+                                    Session.setPersistent('token',user.private.token);
+                                    Session.setPersistent('tokenExpiry',user.private.tokenDate);
+                                }catch(e){
+                                    console.log('Teach Assist Credentials Not Yet Added');
+                                }
+                            }
                             Session.set('user_img', user.services.google.picture);
                         }
                         if(!Roles.userIsInRole(user._id, 'admin')){

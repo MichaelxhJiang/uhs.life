@@ -166,6 +166,9 @@ Template.dashUsers.helpers({
 	},
 	'id': function () {
 		return this._id;
+	},
+	'userBanned': function () {
+		return Roles.userIsInRole(this._id, 'banned');
 	}
 });
 
@@ -306,14 +309,41 @@ Template.dashUsers.events({
 		let obj = $(evt.target).closest($('.dash-user-container'));
 		let id = obj.attr('id');
 		alertPrompt("This doesn't have to happen. Please give a reason for the banning.",function (result) {
-			Meteor.call('accounts.ban',id,result,function (err) {
-				if(err){
-					alertError("Failed to ban user", err.message);
-				}else{
-					alertSuccess("User has been successfully banned", "");
-				}
-			});
+			if(result){
+				Meteor.call('accounts.ban',id,result,function (err) {
+					if(err){
+						alertError("Failed to ban user", err.message);
+					}else{
+						alertSuccess("User has been successfully banned", "");
+					}
+				});
+			}
 		});
+	},
+	'click .btn-unban-user': function(evt){
+		let obj = $(evt.target).closest($('.dash-user-container'));
+		let id = obj.attr('id');
+		alertConfirm("Are you sure?","You are about to unban this user.", function(result){
+			if(result){
+				Meteor.call('accounts.unban',id,function (err) {
+					if(err){
+						alertError("Failed to ban user", err.message);
+					}else{
+						alertSuccess("Success", "User has been successfully unbanned");
+					}
+				});
+			}
+		});
+	},
+	'click .user-expand': function(evt){
+		$(evt.target).hide();
+		$(evt.target).prev().show();
+		$(evt.target).next().slideDown('500');
+	},
+	'click .user-hide': function(evt){
+		$(evt.target).hide();
+		$(evt.target).next().show();
+		$(evt.target).next().next().slideUp('500');
 	}
 });
 

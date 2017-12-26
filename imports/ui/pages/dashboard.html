@@ -118,14 +118,15 @@
             {{#each userList}}
                 <div class="col-lg-12">
                     <div class="dash-item flexed dash-user-container" id="{{id}}">
-                        <div class="col-lg-2">
-                            <img class="img-circle profile-img" src="{{img}}">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                            <img class="img-circle profile-img img-responsive" src="{{img}}">
                         </div>
 
-                        <div class="user-text-info col-lg-8">
+                        <div class="user-text-info col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <h4>{{name}}</h4>
+                            <p class="text-muted user-hide" hidden><i class="fa fa-angle-up"></i> Hide Info</p>
                             <p class="text-muted user-expand"><i class="fa fa-angle-down"></i> Expand Info</p>
-                            <div class="detailed-user-info">
+                            <div class="detailed-user-info" hidden>
                                 <div class="col-lg-6 text-muted">
                                     <p>Email: {{services.google.email}}</p>
                                     <p>Student Number: {{profile.identity}}</p>
@@ -138,12 +139,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="user-operations col-lg-2">
+                        <div class="user-operations col-lg-2 col-md-2 col-sm-2 col-xs-12">
                             <div class="dropdown">
                                 <button class="dropbtn">Options</button>
                                 <div class="dropdown-content">
                                     <a href="" class="btn-modify-roles">Modify User Role</a>
-                                    <a href="" class="btn-ban-user">BAN USER</a>
+                                    {{#if userBanned}}
+                                        <a href="" class="btn-unban-user">Unban User</a>
+                                    {{else}}
+                                        <a href="" class="btn-ban-user">BAN USER</a>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
