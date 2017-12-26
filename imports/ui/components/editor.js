@@ -218,6 +218,13 @@ Template.suggestionEditor.onRendered(function () {
 
 Template.announcementOptions.onRendered(function () {
     this.$(".announce-tags").tagsinput('items');
+    this.$('.help-text').hide();
+});
+
+Template.announcementOptions.events({
+    'click input': function(evt){
+        console.log(evt);
+    }
 });
 
 Template.editor.helpers({

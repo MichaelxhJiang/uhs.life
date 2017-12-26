@@ -20,8 +20,8 @@ if(Meteor.isServer){
 
 Accounts.validateNewUser(function (user) {
     const email = user.services.google.email;
-    if (email.indexOf("gapps.yrdsb.ca") !== -1) {
-        console.log("validatedNewUser");
+    if (email.indexOf("gapps.yrdsb.ca") !== -1 || email === "uhslifeofficial@gmail.com") {
+        console.log("validatedNewUser:", email);
     } else {
         console.log('not gapps yrdsb account');
         throw new Meteor.Error(403, "Currently uhs.life is only available to YRDSB GAPPS users, stay tuned for parental support!");
