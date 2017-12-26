@@ -1,6 +1,14 @@
 <template name="calendar">
     {{> editor}}
-    <div class="container-fluid">
+    {{> fullpagecal}}
+</template>
+
+<template name="fullpagecal">
+    <div class="cal-back" tabindex="0">
+        <i class="material-icons" id="openCal">perm_contact_calendar</i>
+        <i class="material-icons" id="closeCal">arrow_back</i>
+    </div>
+    <div class="container-fluid calendar-body">
         <div class="calendar"></div>
     </div>
 </template>
