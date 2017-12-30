@@ -1,5 +1,6 @@
 import './dashboard.html';
 import { Images } from '../../api/images/images.js';
+
 //import {Suggestions} from '../../api/suggestions/suggestions.js';
 let courseSub;
 let clubSub;

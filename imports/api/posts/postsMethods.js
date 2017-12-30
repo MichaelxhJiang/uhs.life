@@ -393,11 +393,15 @@ Meteor.methods({
         if (!Roles.userIsInRole( this.userId, ['admin'])) {
             throw new Meteor.Error(403, "You do not have permission...Reported");
         }
-
+        //remove from algolia
         let algoliaId = Posts.findOne({_id:postId}).meta.algoliaId;
         if (algoliaId) {
             Meteor.call("removeAnnouncement", algoliaId);
         }
+        //notify author of post for reason of rejection
+        let userId = Posts.findOne({_id:postId}).author;
+        Meteor.call("userNotification", userId, "Post Rejected", reason);
+        //update meta data of post
         Posts.update ({'_id':postId}, { $set: {'meta.approved':false, 'meta.screeningStage': -1, 'meta.rejectedReason': reason}});
     },
     'posts.unRejectPost' : function (postId) {

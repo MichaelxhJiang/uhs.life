@@ -101,6 +101,19 @@ Meteor.methods({
             }
         });
     },
+    userNotification(userId, title, text) {
+        if (!Roles.userIsInRole( this.userId, ['admin'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
+        }
+        Push.send({
+            title: title,
+            text: text,
+            from: "uhs.life",
+            query: {
+                userId: userId
+            }
+        });
+    },
     'testSubscribeQuery'(category) {
         if (!Roles.userIsInRole( this.userId, ['admin'])) {
             throw new Meteor.Error(403, "You do not have permission...Reported");
