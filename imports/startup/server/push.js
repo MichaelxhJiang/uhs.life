@@ -30,20 +30,21 @@ Push.debug = true;  //need to remove later
 
 Push.Configure({
     //still need to configure apple developer account
-    /*apn: {
+    apn: {
         certData: Assets.getText('meteorApp-cert-prod.pem'),
         keyData: Assets.getText('meteorApp-key-prod.pem'),
         passphrase: 'xXx_l1t_developers_xXx',
         production: true,
         //gateway: 'gateway.push.apple.com',
-    },*/
+    },
+    /*
     apn: {
         certData: Assets.getText('meteorApp-cert-dev.pem'),
         keyData: Assets.getText('meteorApp-key-dev.pem'),
         passphrase: 'xXx_l1t_developers_xXx',
         production: false,  //resolves error8 in raix push
         //gateway: 'gateway.push.apple.com',
-    },
+    },*/
     gcm: {
         apiKey: 'AIzaSyD9HJ2HMoQdfGrDMf-OcNSUXCv7IyQwkFM',
         projectNumber: 111111111111
