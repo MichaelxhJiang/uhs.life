@@ -18,6 +18,7 @@ Template.login.events({
         $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     },
     'click #googleLogin':function () {
+        console.log("logging in with google");
         Meteor.loginWithGoogle({
             loginStyle: "redirect",
             requestPermissions: ['profile','email']

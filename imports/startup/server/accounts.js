@@ -31,6 +31,7 @@ Accounts.validateNewUser(function (user) {
 });
 
 Accounts.onCreateUser(function (options,user){
+    console.log("creating user");
     if (!user.profile) {
         user.profile = {
             init: false,
@@ -50,8 +51,8 @@ Accounts.onCreateUser(function (options,user){
     return user;
 });
 Accounts.validateLoginAttempt(function (info) {
-    console.log("User just logged in:", info.user._id);
-    console.log(info);
+    //console.log("User just logged in:", info.user._id);
+    console.log("validating login attempt: ", info);
     if(Roles.userIsInRole(info.user._id, 'banned')){
         console.log('ban detected');
         throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: " + info.user.private.ban.reason);
