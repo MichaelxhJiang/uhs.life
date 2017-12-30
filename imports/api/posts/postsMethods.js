@@ -328,7 +328,10 @@ Meteor.methods({
             } else {
                 let obj = Posts.findOne({'_id':postId});
                 let type = obj.type, subType = obj.subType;
-
+                //send notification to author to inform post is approved
+                let userId = Posts.findOne({_id:userId}).author;
+                Meteor.call("userNotification", userId, "Post Approved", "");
+                //schedule announcement to display
                 Meteor.call('postAndScheduleAnnouncement', postId, function(err) {
                     if (err) {
                         console.log(err);
