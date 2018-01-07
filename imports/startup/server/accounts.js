@@ -19,6 +19,7 @@ if(Meteor.isServer){
 }
 
 Accounts.validateNewUser(function (user) {
+    console.log("validating new user");
     const email = user.services.google.email;
     if (email.indexOf("gapps.yrdsb.ca") !== -1 || email === "uhslifeofficial@gmail.com" || email === "wuonlabs@gmail.com") {
         console.log("validatedNewUser:", email);
@@ -30,6 +31,7 @@ Accounts.validateNewUser(function (user) {
 });
 
 Accounts.onCreateUser(function (options,user){
+    console.log("creating user");
     if (!user.profile) {
         user.profile = {
             init: false,
