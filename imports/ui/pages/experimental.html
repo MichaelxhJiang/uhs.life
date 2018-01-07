@@ -1,0 +1,200 @@
+<template name="sandbox">
+    <h1>This is a experimental playgound for uhs.life.</h1>
+    <div class="seating">
+    </div>
+    <div class="booking-details">
+        <h2>Booking Details</h2>
+        
+        <h3> Selected Seats (<span id="counter">0</span>):</h3>
+        <ul id="selected-seats"></ul>
+        
+        Total: <b>$<span id="total">0</span></b>
+        
+        <button class="checkout-button">Checkout &raquo;</button>
+        <button class="create-new-show-btn">Checkout &raquo;</button>
+        <div id="legend"></div>
+    </div>
+
+</template>
+
+<template name="bookingModal">
+    <div class="modal fade">
+        <div class="modal-dialog booking-modal">
+            <div class="modal-content">
+                <div class="modal-header special-bg">
+                    <h4 class="modal-title">Complete Booking Details</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="booking-form">
+                        {{#each seats}}
+                            <div class="ticket-info">
+                                <h4>Seat {{seatNum}} - <span class="ticket-cost pre-cash" hidden>0</span><span class="no-select">Please Select Ticket Type</span></h4>
+                            </div>
+                            <div class="form-group flexed" id="{{id}}">
+                                <div class="form-item">
+                                    <label for="name_{{id}}">Name*</label>
+                                    <input type="text" id="name_{{id}}" class="required-input">
+                                </div>
+                                <div class="form-item">
+                                    <label for="type_{{id}}">Ticket Type*</label>
+                                    <select class="select-booking required-input" id="type_{{id}}">
+                                        <option value="" data-cost=""></option>
+                                        <option value="student" data-cost="15">Student Regular</option>
+                                        <option value="studentSac" data-cost="12">Student With SAC</option>
+                                        <option value="general" data-cost="20">General Admission</option>
+                                    </select>
+                                </div>
+                                <div class="form-item">
+                                    <label for="payment_{{id}}">Prefered Payment*</label>
+                                    <select class="select-booking required-input" id="payment_{{id}}">
+                                        <option value=""></option>
+                                        <option value="cash">Cash</option>
+                                        <option value="online">School Cash Online</option>
+                                    </select>
+                                </div>
+                                <a href="" class="add-req-trigger">+ Additional Requests</a>
+                                <div class="form-item add-req" hidden>
+                                    <label for="request_{{id}}">Additional Requests</label>
+                                    <input type="text" id="request_{{id}}">
+                                </div>
+                            </div>
+                        {{/ each}}
+                        <hr>
+                        <div class="ticket-info">
+                            <h4>Additional Information</h4>
+                        </div>
+                        <div class="form-group flexed">
+                            <div class="form-item">
+                                <label for="discountCode">Discout Code</label>
+                                <input type="text" id="discountCode">
+                            </div>
+                            <div class="form-item">
+                                <label for="seller">Booking Reference*</label>
+                                <select class="select-booking required-input" id="seller">
+                                    <option selected="selected">Cash</option>
+                                    <option>School Cash Online</option>
+                                </select>
+                            </div>
+                            <a href="" class="add-req-trigger">I'm the seller</a>
+                        </div>
+                        <hr>
+                        <h4>Booking Summary</h4>
+                        <div class="form-group flexed summary-container text-center">
+                            <div class="form-item">
+                                <h5>Total Cost:</h5>
+                                <h3 class="pre-cash" id="bookingSum">0</h3>
+                            </div>
+                            <div class="form-item">
+                                <h5>Number of Tickets:</h5>
+                                <h3 id="ticketCount">0</h3>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-green btn-wide">Submit</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="newShowModal">
+    <div class="modal fade">
+        <div class="modal-dialog booking-modal">
+            <div class="modal-content">
+                <div class="modal-header special-bg">
+                    <h4 class="modal-title">Create a New Show <span class="show-title" hidden></span></h4>
+                </div>
+                <div class="modal-body">
+                    <form class="new-show-form">
+                        <div class="ticket-info">
+                            <h4>Basic Information*</h4>
+                        </div>
+                        <div class="form-item">
+                            <label for="showTitle">Title*</label>
+                            <input type="text" id="showTitle" class="required-input" maxlength="50">
+                        </div>
+                        <div class="form-item">
+                            <label for="showSummary">Summary*</label>
+                            <textarea id="showSummary" class="required-input" maxlength="1000"></textarea>
+                        </div>
+                        <div class="form-group flexed">
+                            <div class="form-item">
+                                <label for="showDate">Date*</label>
+                                <input type="text" id="showDate" class="required-input">
+                            </div>
+                            <div class="form-item">
+                                <label for="showTime">Show Time*</label>
+                                <input type="time" id="showTime" class="required-input">
+                            </div>
+                        </div>
+                        <div class="form-item">
+                            <label for="showSummary">Upload a cover photo*</label>
+                            <textarea id="showSummary" class="required-input"></textarea>
+                        </div>
+                        <hr>
+                        <div class="ticket-info">
+                            <h4>Cast Information</h4>
+                        </div>
+                        <p>No Cast Members Added Yet.</p>
+                        <a href="" class="add-new-cast">+ Add another Cast Member</a>
+                        <hr>
+                        <div class="seatmap-container" hidden>
+                            <div class="close-window">
+                                <i class="fa fa-times"></i>
+                            </div>
+                            <h4>Select Seats for <span class="ticket-name-display"></span></h4>
+                            <p>Drag to select seats</p>
+                            <div class="seats-small"></div>
+                            <div>
+                                <button class="btn btn-grey btn-wide remove-select mb-15">Remove Current Selection</button>
+                                <button class="btn btn-green btn-wide confirm-select">Confirm Selection</button>
+                            </div>
+                        </div>
+                        <div class="ticket-info">
+                            <h4>Ticket Information*</h4>
+                            <p>Only map the seats if the ticket should show different color on seller map.</p>
+                        </div>
+                        <div class="form-group flexed ticket-item first-ticket-item" data-index="0">
+                            <div class="form-item">
+                                <label>Name*</label>
+                                <input type="text" class="ticket-name">
+                            </div>
+                            <div class="form-item">
+                                <label>Price*</label>
+                                <input type="number" class="ticket-price">
+                            </div>
+                            <div class="form-item">
+                                <label>Select Seats*</label>
+                                <button class="btn btn-green btn-wide open-seatmap">Map Seats</button>
+                            </div>
+                            <div class="form-item">
+                                <label>Additional Info</label>
+                                <input type="text" class="ticket-info">
+                            </div>
+                        </div>
+                        <a href="" class="add-new-ticket">+ Add another Ticket Type</a>
+                        <hr>
+                        <div class="ticket-info">
+                            <h4>Additional Information</h4>
+                        </div>
+                        <div class="form-item">
+                            <label for="showFine">Ticket Policy and Fine Print</label>
+                            <textarea id="showFine"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-green btn-wide">Create Show</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>

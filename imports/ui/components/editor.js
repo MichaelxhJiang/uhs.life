@@ -210,7 +210,7 @@ Template.republishTime.onRendered(function () {
 });
 
 Template.suggestionEditor.onRendered(function () {
-    let suggestionDrop = initDropZone('suggestionImage', {
+    initDropZone('suggestionImage', {
         number: 1,
         size: 8
     });

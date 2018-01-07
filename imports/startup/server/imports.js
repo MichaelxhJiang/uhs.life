@@ -39,3 +39,7 @@ import '../../api/organizations/clubs.js';
 import '../../api/organizations/clubsMethods.js';
 import '../../api/organizations/courses.js';
 import '../../api/organizations/coursesMethods.js';
+import '../../api/booking/booking';
+import '../../api/booking/bookingMethods';
+import '../../api/booking/shows';
+import '../../api/booking/showsMethods';

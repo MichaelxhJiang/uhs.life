@@ -162,6 +162,13 @@ loggedIn.route('/stories',{
     }
 });
 
+loggedIn.route('/sandbox',{
+    action: function () {
+        BlazeLayout.render('applicationLayout',{main: 'sandbox'});
+    },
+    name: 'sandbox'
+});
+
 loggedIn.route('/profile',{
     action: function () {
         Session.set('DocumentTitle', 'Your Profile | uhs.life');

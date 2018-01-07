@@ -34,10 +34,10 @@
 
 .btn-grey{
   background: #ddd ;
-  color: #4CAF50 ;
+  color: #333 ;
   border-color: #ddd;
   &:hover{
-    color: #4CAF50;
+    color: #333;
     background-color: #bbb;
     border-color: #bbb;
   }
@@ -48,7 +48,20 @@
   background-color: #4CAF50;
   background: @primary-gradient;
   &:hover, &:active, &:focus{
-    background: #43A047;
+    background: @primary-gradient;
+  }
+  &:disabled{
+    cursor: not-allowed;
+    background: #dddddd;
+  }
+}
+
+.btn-green{
+  color: #FFFFFF;
+  background-color: @primary;
+  &:hover, &:active, &:focus{
+    background: @primary-dark;
+    color: #fff;
   }
   &:disabled{
     cursor: not-allowed;

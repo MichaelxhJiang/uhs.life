@@ -20,7 +20,7 @@ if(Meteor.isServer){
 
 Accounts.validateNewUser(function (user) {
     const email = user.services.google.email;
-    if (email.indexOf("gapps.yrdsb.ca") !== -1 || email === "uhslifeofficial@gmail.com") {
+    if (email.indexOf("gapps.yrdsb.ca") !== -1 || email === "uhslifeofficial@gmail.com" || email === "wuonlabs@gmail.com") {
         console.log("validatedNewUser:", email);
     } else {
         console.log('not gapps yrdsb account');
@@ -50,7 +50,6 @@ Accounts.onCreateUser(function (options,user){
 });
 Accounts.validateLoginAttempt(function (info) {
     console.log("User just logged in:", info.user._id);
-    console.log(info);
     if(Roles.userIsInRole(info.user._id, 'banned')){
         console.log('ban detected');
         throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: " + info.user.private.ban.reason);
@@ -121,3 +120,5 @@ Meteor.methods({
         Meteor.users.update({_id: Meteor.userId()}, {$set: {"private.courses": courses}});
     }
 });
+
+

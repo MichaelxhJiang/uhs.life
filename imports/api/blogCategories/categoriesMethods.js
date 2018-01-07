@@ -1,7 +1,7 @@
 /**
  * Created by Yonglin Wang on 8/30/2017.
  */
-import { BlogCategories } from './blogCategories.js'
+import { BlogCategories } from './blogCategories.js';
 
 Meteor.methods({
     'blogCategory.addNew': function (details) {
