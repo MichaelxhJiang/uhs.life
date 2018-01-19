@@ -480,8 +480,10 @@ i.material-icons:hover {
   background-color: gray ;
   width: 100%;
   padding: 15px;
+  color: #fff;
   &:hover, &:focus, &:active{
     background-color: darkgrey;
+    color: #fff;
   }
 }
 .editable{
@@ -518,5 +520,28 @@ i.material-icons:hover {
     input[name='sub']{
       font-size: medium;
     }
+  }
+  .bootstrap-tagsinput{
+    width: 100%;
+  }
+  .editor-control{
+    position: relative;
+    font-size: 40px;
+    margin-left: 0;
+    float: none;
+    i{
+      -webkit-text-stroke: 0px;
+    }
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  .mobile-editor-nav{
+    box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+  }
+  .editor-main{
+    padding: 0;
+  }
+  .editor-close{
+    display: none;
   }
 }

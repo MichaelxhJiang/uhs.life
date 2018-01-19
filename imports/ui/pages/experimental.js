@@ -298,7 +298,7 @@ Template.bookingModal.events({
         if(checked){
             Meteor.call('booking.addTransaction', transactionData, function(err){
                 if(err){
-                    alertError('Booking Failed', err.message)
+                    alertError('Booking Failed', err.message);
                 }
             });
         }
@@ -306,6 +306,7 @@ Template.bookingModal.events({
 });
 
 Template.newShowModal.onRendered(function(){
+    $('.ticket-variant-container').hide();
     let seatMap = [
         'fffff____ffffffffffffffff____fffff',
         'fffff____ffffffffffffffff____fffff',
@@ -497,6 +498,12 @@ Template.newShowModal.onRendered(function(){
             $('.seatmap-container').fadeIn('fast');
             drag.start();
         });
+        $('.ticket-name').blur((evt)=>{
+            if($(evt.target).val()) {
+                $('.add-ticket-variant').fadeIn('fast');
+                $('#ticketVariant').append(new Option($(evt.target).val(),$(evt.target).val(),false,false));
+            }
+        });
     });
     $('#showTitle').blur(function(){
         if($(this).val()) {
@@ -521,7 +528,7 @@ Template.newShowModal.onRendered(function(){
         const ALPHABET = 'fghijklmnopqrstuvwxyzabcde';
         $('.ticket-item').each((index,element)=>{
             const ticketInfo = {
-                price: $(element).find('.ticket-price').val(),
+                price: parseInt($(element).find('.ticket-price').val()),
                 category: $(element).find('.ticket-name').val(),
                 classes: 'seat-'+ALPHABET.charAt(index),
                 info: $(element).find('.ticket-info').val(),
@@ -555,7 +562,149 @@ Template.newShowModal.onRendered(function(){
             tickets: tickets,
             finePrint: $('#showFine').val()
         };
+        const ticketSchema = new SimpleSchema({
+            price: {
+                type: Number,
+                min: 0,
+                label: "Ticket price"
+            },
+            category: {
+                type: String,
+                min: 1,
+                max: 50,
+                label: "Ticket Name"
+            },
+            classes: {
+                type: String,
+                regEx: /seat-[a-z]/,
+            },
+            info: {
+                type: String,
+                optional: true,
+                max: 500,
+                label: "Ticket details"
+            },
+            seats: {
+                type: [String],
+                optional: true,
+            }
+        });
+        const castSchema = new SimpleSchema({
+            name: {
+                type: String,
+                min: 1,
+                max: 50,
+                label: "Cast name"
+            },
+            role: {
+                type: String,
+                min: 1,
+                max: 50,
+                label: "Cast Role"
+            },
+            grade: {
+                type: String,
+                min: 1,
+                max: 10,
+                label: "Cast Grade"
+            },
+            intro: {
+                type: String,
+                min: 1,
+                max: 500,
+                label: "Cast Introduction"
+            },
+            image: {
+                type: String,
+                optional: true,
+                label: "Cast Image"
+            }
+        });
+        const showSchema = new SimpleSchema({
+            title: {
+                type: String,
+                min: 1,
+                max: 50,
+                label: "Title"
+            },
+            summary: {
+                type: String,
+                min: 1,
+                max: 800,
+                label: "Summary"
+            },
+            date: {
+                type: String,
+                min:1,
+                max: 20,
+                label: "Date"
+            },
+            time:{
+                type: String,
+                min: 4,
+                max: 5,
+                label: "Show Time"
+            },
+            cover: {
+                type: String,
+                min: 1,
+                label: "Cover Photo"
+            },
+            cast: {
+                type: [castSchema],
+                optional: true,
+                label: "Cast Information"
+            },
+            tickets: {
+                type: [ticketSchema],
+                minCount: 1,
+                maxCount: 6,
+                label: "Ticket Information"
+            },
+            finePrint: {
+                type: String,
+                max: 10000,
+                optional: true,
+                label: "Fine Print"
+            }
+        });
+        try{
+            check(json, showSchema);
+            console.log('passed');
+        }catch(e){
+            alertError("Failed to create show, ", e.message.substring(e.message.indexOfEnd('Match error: Match error: ')));
+        }
         console.log(json);
+    });
+    $('.add-ticket-variant').click((evt)=>{
+        evt.preventDefault();
+        $('.ticket-variant-container').fadeIn('fast');
+        $('.ticket-variant-container').find('.select2').css('width', '50%');
+    });
+    $('#ticketVariant').select2({
+        placeholder: "Click to select Variant"
+    });
+    $('.ticket-name').blur((evt)=>{
+        if($(evt.target).val()) {
+            $('.add-ticket-variant').fadeIn('fast');
+            $('#ticketVariant').append(new Option($(evt.target).val(),$(evt.target).val(),false,false));
+        }
+    });
+    $('#ticketVariant').on('select2:close', (evt) => {
+        $(evt.target).after("<h5>Ticket Variant of - " + $("#ticketVariant").val() +"</h5><div class='form-group flexed ticket-item' id='"+ randId() +"'>"+
+            "<div class='form-item'>"+
+                "<label>Name*</label>"+
+                "<input type='text' class='ticket-name required-input'>"+
+            "</div>"+
+            "<div class='form-item'>"+
+                "<label>Price*</label>"+
+                "<input type='number' class='ticket-price required-input'>"+
+            "</div>"+
+            "<div class='form-item'>"+
+                "<label>Additional Info</label>"+
+                "<input type='text' class='ticket-info'>"+
+            "</div>"+
+        "</div>");
     });
 });
 
@@ -608,8 +757,9 @@ String.prototype.replaceAt=function(index, replacement) {
 };
 
 String.prototype.insert = function (index, string) {
-    if (index > 0)
-      return this.substring(0, index) + string + this.substring(index, this.length);
-    else
-      return string + this;
-  };
+    if (index > 0){
+        return this.substring(0, index) + string + this.substring(index, this.length);
+    }else{
+        return string + this;
+    }
+};

@@ -4,7 +4,10 @@
             <i class="material-icons" id="openEditor">add</i>
         </div>
         <div class="container-fluid editor-main" hidden>
-            <a class="editor-control editor-back"><i class="fa fa-arrow-left"></i></a>
+            <div class="mobile-editor-nav">
+                <a class="editor-control editor-back"><i class="fa fa-arrow-left"></i></a>
+            </div>
+            
             <a class="editor-control editor-close"><i class="fa fa-times"></i></a>
             {{> announcementMenu}}
             {{> blogEditor}}
@@ -14,7 +17,7 @@
             {{> allPosts}}
             <div class="container blog-intro text-center">
                 <div class="center-wrapper">
-                    <div class="post-source mb-45">
+                    <div class="post-source ">
                         <div class="row mb-30">
                             <div class="col-lg-12 col-md-12 col-sm-12 mb-30" tabindex="0">
                                 <h2>Welcome to The Composer</h2>
@@ -31,7 +34,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" tabindex="0">
                                 <div class="editor-options" id="checkDrafts" >
                                     <i class="fa fa-file-text-o fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
-                                    <p>Resume a Draft</p>
+                                    <p>Resume a draft</p>
                                 </div>
                             </div>
                         </div>
@@ -48,11 +51,10 @@
             </div>
             <div class="container post-type text-center" hidden>
                 <div class="center-wrapper">
-                    <div class="mb-45">
+                    <div class="">
                         <div class="row mb-30">
-                            <div class="col-lg-12 col-md-12 col-sm-12 mb-30" tabindex="0">
-                                <h2>Nice,</h2>
-                                <h4>What would you like to compose?</h4>
+                            <div class="col-lg-12 col-md-12 col-sm-12" tabindex="0">
+                                <h2>Pick a post type</h2>
                             </div>
                         </div>
                         <div class="row text-center mb-30">
@@ -89,9 +91,9 @@
 <template name="blogDraft">
     <div class="container blog-drafts" hidden>
         <div class="center-wrapper">
-            <div class="mb-45">
+            <div class="">
                 <div class="row mb-30">
-                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30 text-center mt-30" tabindex="0">
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center mt-30" tabindex="0">
                         <h2>Here are all your drafts,</h2>
                         <h4>Click on one to continue editing</h4>
                     </div>
@@ -129,9 +131,9 @@
 <template name="allPosts">
     <div class="container all-posts" hidden>
         <div class="center-wrapper">
-            <div class="mb-45">
+            <div>
                 <div class="row mb-30">
-                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30 text-center mt-30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center mt-30">
                         <h2>Here are all your posts,</h2>
                         <h4>Click on one to continue editing</h4>
                     </div>
@@ -181,7 +183,7 @@
                 </form>
             </div>
         </div>
-        <div class="row mb-45">
+        <div class="row ">
             <div class="col-lg-12 col-md-12">
                 <div class="editable" id="blogContent"></div >
             </div>
@@ -254,12 +256,11 @@
     <div class="container announcement-menu" hidden>
         <div class="announcement-type text-center">
             <div class="row mb-30">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-30">
-                    <h2>Solid,</h2>
-                    <h4>How would you like to present your news?</h4>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2>Pick an announcement style</h2>
                 </div>
             </div>
-            <div class="row mb-30">
+            <div class="row">
                 <div class="col-lg-4 col-sm-12 col-xs-12 mb-30" id="imageOnly" tabindex="0">
                     <div class="editor-options" >
                         <i class="fa fa-picture-o fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
@@ -274,7 +275,7 @@
                         <p class="text-muted">Got a quick announcement to make? Post it with this option!</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-12 col-xs-12" id="textAndImage" tabindex="0">
+                <div class="col-lg-4 col-sm-12 col-xs-12 mb-30" id="textAndImage" tabindex="0">
                     <div class="editor-options">
                         <i class="fa fa-heart-o fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
                         <h3>Mixed</h3>
@@ -282,19 +283,18 @@
                     </div>
                 </div>
             </div>
-            <div class="row text-center mb-30">
-<!--                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-30 hidden-xs" id="link" tabindex="0">
+            <div class="row text-center">
+<!--                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 hidden-xs" id="link" tabindex="0">
                     <div class="editor-options">
                         <i class="fa fa-link fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
                         <h3>Link</h3>
                         <p class="text-muted">Want to share an article or a file? Post it with this option!</p>
                     </div>
                 </div>-->
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-30" id="video" tabindex="0">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="video" tabindex="0">
                     <div class="editor-options">
                         <i class="fa fa-youtube-play fa-5x mb-15 hidden-xs" aria-hidden="true"></i>
                         <h3>YouTube Video</h3>
-                        <p class="text-muted">Found an interesting video? Post it with this option!</p>
                     </div>
                 </div>
             </div>
@@ -305,10 +305,9 @@
 <template name="announcementEditor">
     <div class="container blog-announcements">
         <div class="text-center image-only" hidden>
-            <div class="row mb-30">
-                <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                    <h2>Post A Poster</h2>
-                    <h4>Simply drop your image in the box below, and add a headline</h4>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2>Posting a poster</h2>
                 </div>
             </div>
             {{> announcementHeadline id="imageOnlyHeadline"}}
@@ -318,10 +317,9 @@
         </div>
 
         <div class="text-center text-only" hidden>
-            <div class="row mb-30">
-                <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                    <h2>Post Some Text</h2>
-                    <h4>Write/Paste your information in the big box below, 140 characters max.</h4>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2>Posting text</h2>
                 </div>
             </div>
             {{> announcementHeadline id="textOnlyHeadline"}}
@@ -329,10 +327,9 @@
             {{> announcementOptions imgAndText=false}}
         </div>
         <div class="text-center text-and-image" hidden>
-            <div class="row mb-30">
-                <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                    <h2>Post A Mixed Information Announcement</h2>
-                    <h4>Write/Paste your information in the big box below, 140 characters max.</h4>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2>Post a mixed information announcement</h2>
                 </div>
             </div>
             {{> announcementHeadline id="textImageHeadline"}}
@@ -346,10 +343,9 @@
 
 <template name="videoAnnouncement">
     <div class="text-center video-announcement" hidden>
-        <div class="row mb-30">
-            <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
                 <h2>Post A YouTube Video</h2>
-                <h4>Paste the link to the video in the video link box, then give you announcement a headline!</h4>
             </div>
         </div>
         {{> announcementHeadline id="videoHeadline"}}
@@ -360,7 +356,7 @@
                 </form>
             </div>
         </div>
-        <div class="row mb-30" id="videoPreview" hidden>
+        <div class="row" id="videoPreview" hidden>
             <div class="col-lg-12 col-md-12">
                 <h3>Video Preview</h3>
                 <div class="video-wrapper">
@@ -383,7 +379,7 @@
 </template>
 <template name="announcementOptions">
     {{#if imgAndText}}
-        <div class="row mb-45 text-left">
+        <div class="row text-left">
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <h4>Tags</h4>
                 <p class="help-text" data-for="announce-tags">Tags helps users locate your post through uhs.life's search engine. To add a tag, simply type in the text box below, use enter key to separate tags.</p>
@@ -395,7 +391,7 @@
                 <p class="help-text" data-for="club-category">If this announcement is for student clubs or teams, please select them below. This will notified users in the club when your announcment goes live.</p>
                 <select name="category-selector" class="category-select clubs-category" multiple style="width: 100%"></select>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" hidden>
                 <h3>Set Priority</h3>
                 <p class="mb-15">Priority helps us determine the best way to present your announcement to other users.</p>
                 <div class="col-md-6 col-sm-6 col-xs-6 text-center">
@@ -430,7 +426,7 @@
             </div>
         </div>
     {{else}}
-        <div class="row mb-45 text-left">
+        <div class="row  text-left">
             <div class="col-lg-4 col-md-3">
                 <h3>Add Some Tags</h3>
                 <p>By adding some tags, other users can more easily find your post by search. To add a tag, simply write in the text box below, hit enter after every tag.</p>
@@ -462,7 +458,7 @@
             </div>
         </div>
     {{/ if}}
-    <div class="row mb-45">
+    <div class="row ">
         <div class="col-lg-6 col-md-6 mb-15">
             <button class="btn btn-login btn-post">POST</button>
         </div>
@@ -472,16 +468,15 @@
     </div>
 </template>
 <template name="announcementTextInput">
-    <div class="row mb-45">
+    <div class="row ">
         <div class="col-lg-12 col-md-12">
-            <h3>Text Portion</h3>
             <textarea placeholder="Add your information here! Keep it within {{max}} characters." class="announcement-text" maxlength="{{max}}" id="textContent"></textarea>
             <p class="text-left">You have <span class="announcement-counter">{{max}}</span> characters left.</p>
         </div>
     </div>
 </template>
 <template name="announcementImageInput">
-    <div class="row mb-45">
+    <div class="row ">
         <div class="col-lg-12 col-md-12">
             <form action="/file-upload" class="dropzone" id="{{id}}"></form>
         </div>
@@ -490,9 +485,9 @@
 
 <template name="suggestionEditor">
     <div class="container suggestions" hidden>
-        <div class="mb-45">
-            <div class="row mb-30 text-center">
-                <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+        <div class="">
+            <div class="row text-center">
+                <div class="col-lg-12 col-md-12 col-sm-12">
                     <h2>Feedback and suggestions,</h2>
                     <h4>Voice your concerns to the school admins and the developers of uhs.life directly.</h4>
                 </div>
@@ -502,7 +497,7 @@
         {{> announcementTextInput max="1000"}}
         <h3>Add an image if you like!</h3>
         {{> announcementImageInput id="suggestionImage"}}
-        <div class="row mb-45">
+        <div class="row ">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <button class="btn btn-login btn-post">POST</button>
             </div>

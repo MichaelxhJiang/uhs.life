@@ -65,6 +65,11 @@ Template.stream.helpers({
                 }, 500);
             }
         });
+        if(query.fetch().length === 0){
+            Meteor.defer(()=>{
+                $('.filter-button-group').hide();
+            });
+        }
         return query.fetch().reverse();
     },
     'effectiveDate': function () {
@@ -110,7 +115,6 @@ Template.stream.helpers({
             }
         }
     }
-
 });
 
 Template.stream.events({

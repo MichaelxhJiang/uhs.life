@@ -1,7 +1,6 @@
 <template name="stream">
     {{> navigation}}
     {{> editor}}
-    {{> fullpagecal}}
     <div class="container main">
         <div class="col-lg-12 content">
             <div class="button-group filter-button-group mb-30">
@@ -79,7 +78,7 @@
                         {{/ if}}
                     {{/ if}}
                 {{else}}
-                    <h2 class="text-center" tabindex="0">{{_ "stream.no"}}</h2>
+                    <h3 class="text-center" tabindex="0">{{_ "stream.no"}}</h3>
                 {{/ each}}
             </div>
         </div>
