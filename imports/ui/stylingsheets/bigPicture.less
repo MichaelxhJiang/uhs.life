@@ -1,26 +1,12 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.css);
+
 .flickity-fullscreen {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  text-align: center;
-  img {
-    // Normal Responsive Image Settings
-    max-width: 100%;
-    max-height: 80%;
-    // Use object-fit
-    object-fit: contain;
-    height: auto;
-    width: auto;
-  }
-  h3 {
-    margin: 0.5em auto 0.5 auto;
-    max-width: 50em;
-  }
-  h1,h2,h3,h4,h5 {
-    margin: 0 0 0.5em 0;
-  }
+  overflow:hidden;
 
   .flickity-viewport {
     width: 100%!important;
@@ -32,7 +18,6 @@
     height: 100%;
     padding: 40px;
     overflow-y: auto;
-    // Flexbox Settings
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -42,14 +27,12 @@
   }
   .gallery-cell > div {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
     height: 100%;
-    width: 100%;
+    width: 80%;
     overflow: hidden;
+    margin-right: 0px;
     img {
       flex: 0 1 auto;
       max-width: 48% !important;
@@ -84,4 +67,151 @@
   padding-top: 15px;
   padding-bottom: 15px;
   text-align: center;
+}
+
+.sidePanelContainer{
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 20%;
+  background: #222222;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  z-index: 1;
+}
+
+.clockText{
+  font-weight: 700;
+  font-size: 9em;
+}
+
+.clockContainer{
+  vertical-align:middle;
+  text-align:center;
+  margin-top: 2em;
+}
+
+.dateText{
+  font-size: 3em;
+}
+
+.dateContainer{
+  vertical-align:middle;
+  text-align:center;
+  margin-top: -2em;
+}
+
+.weatherText{
+  font-size: 3.5em;
+}
+
+.weatherContainer{
+  vertical-align:middle;
+  text-align:center;
+}
+
+.iconText{
+  font-size: 4em;
+}
+
+.iconContainer{
+  vertical-align:middle;
+  text-align:center;
+  margin-top: 10em;
+  margin-bottom: -2em;
+}
+
+.coverageText{
+  font-size: 2em;
+}
+
+.coverageContainer{
+  vertical-align:middle;
+  text-align:center;
+  margin-bottom: -1em;
+}
+
+.contentContainer{
+  position: absolute;
+  left: 20%;
+  height: 100%;
+  width: 80%;
+  background-image: linear-gradient(
+                      rgba(0, 0, 0, 0.7), 
+                      rgba(0, 0, 0, 0.7)
+                    ),
+                    url('http://vikpahwa.com/wp-content/uploads/2015/03/20150327_4789-20146D_1700x1179.jpg');
+  background-size: cover;
+  opacity: 0.7;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  padding: 5em;
+}
+
+.headlineText{
+  /*padding: 0.5em 0.5em 0em 0.8em;*/
+}
+
+.descriptionText{
+  padding: 0 0 2em 0;
+  line-height: 1.3em;
+}
+
+.metaText{
+  /*padding: 0 0 0 5em*/;
+}
+
+.lineFragment{
+  /*margin-left: 5.1em*/;
+  width:2em;
+  height:0.2em;
+  background: white;
+}
+
+.posterContainer{
+  position: absolute;
+  left: 20%;
+  height: 100%;
+  width: 80%;
+  background-image: url('https://learn.canva.com/wp-content/uploads/2015/05/How-To-Design-With-Personality_Thumbnail.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  background-position: center; 
+}
+
+.hybridContainer{
+  position: absolute;
+  left: 20%;
+  height: 100%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  padding: 5em;
+}
+
+.imageContainer{
+  position: absolute;
+  height: 100%;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  padding: 5em;
+}
+
+.textContainer{
+  position: absolute;
+  left: 60%;
+  height: 100%;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  color: #222222;
 }

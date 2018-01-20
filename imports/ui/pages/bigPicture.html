@@ -1,4 +1,7 @@
 <template name="bigPicture">
+    {{> sidePanel}}
+    {{> contentPanel}}
+    <!--
     <div class="flickity flickity-fullscreen">
         {{#each announcement}}
             <div class="gallery-cell">
@@ -7,6 +10,7 @@
         {{/ each}}
     </div>
     {{> bottomBar}}
+-->
 </template>
 
 <template name="bigPictureItem">
@@ -23,4 +27,83 @@
         </div>
 
     </nav>
+</template>
+
+<template name="sidePanel">
+    <div class="sidePanelContainer">
+        <div class="iconContainer">
+            <h2 class="iconText">
+                <i id="icon" class="wi wi-day-sunny"></i>
+            </h2>
+        </div>
+        <div class="coverageContainer">
+            <h2 class="coverageText">
+                <span id="coverage"></span>
+            </h2>
+        </div>
+        <div class="weatherContainer">
+            <h2 class="weatherText">
+                <span id="weather"></span>
+            </h2>
+        </div>
+        <div class="clockContainer">
+            <h1 class="clockText"><span id="clock"></span></h1>
+        </div>
+        <div class="dateContainer">
+            <h2 class="dateText"><span id="date"></span></h2>
+        </div>
+        <!--
+        <h2><span id="clock" class="clock"></span> - <span id="rotatingMessage">All visitors please report to main office!</span></h2>
+    -->
+    </div>
+</template>
+
+<template name="contentPanel">
+    <div class="flickity flickity-fullscreen">
+        {{#each announcement}}
+            <div class="gallery-cell">
+                <div class="contentContainer" style="background-image: {{imageLink}}">
+                    <h1 class="headlineText">{{headline}}</h1>
+                    <h5 class="metaText">Announcement | January 9 2018 | By: Daniel Wu</h5>
+                    <h3 class="descriptionText">{{content}}</h3>
+                    <div class="lineFragment"></div>
+                </div>
+            </div>
+        {{/ each}}
+        <div class="gallery-cell">
+            <div class="contentContainer">
+                <h1 class="headlineText">Test1</h1>
+                <h5 class="metaText">Announcement | January 10 2018 | By: Daniel Wu</h5>
+                <h3 class="descriptionText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
+                <div class="lineFragment"></div>
+            </div>
+        </div>
+        <div class="gallery-cell">
+            <div class="contentContainer">
+                <h1 class="headlineText">Test2</h1>
+                <h5 class="metaText">Announcement | January 11 2018 | By: Daniel Wu</h5>
+                <h3 class="descriptionText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
+                <div class="lineFragment"></div>
+            </div>
+        </div>
+        <div class="gallery-cell">
+            <div class="posterContainer">
+            </div>
+        </div>
+        <!--
+        <div class="gallery-cell">
+            <div class="hybridContainer">
+                <div class="imageContainer">
+                    <img src="https://about.canva.com/wp-content/uploads/sites/3/2015/01/sports_poster.png" class="imagePanel">
+                </div>
+                <div class="textContainer">
+                    <h1 class="headlineText">Test2</h1>
+                    <h5 class="metaText">Announcement | January 11 2018 | By: Daniel Wu</h5>
+                    <h3 class="descriptionText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
+                    <div class="lineFragment"></div>
+                </div>
+            </div>
+        </div>
+    -->
+    </div>
 </template>
