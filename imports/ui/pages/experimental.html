@@ -1,8 +1,13 @@
 <template name="sandbox">
-    <h1>This is a experimental playgound for uhs.life.</h1>
-    <div class="seating">
+    <div class="open-booking-details">
+        <a class="no-underline" href="">
+            <i class="fa fa-2x fa-ticket" aria-hidden="true"></i>
+        </a>
     </div>
-    <div class="booking-details">
+    <div class="booking-details hidden-side">
+        <div class="hide-booking-icon" tabindex="0">
+            <i class="fa fa-arrow-right" id="hideBooking"></i>
+        </div>
         <h2>Booking Details</h2>
         
         <h3> Selected Seats (<span id="counter">0</span>):</h3>
@@ -10,11 +15,46 @@
         
         Total: <b>$<span id="total">0</span></b>
         
-        <button class="checkout-button">Checkout &raquo;</button>
-        <button class="create-new-show-btn">Checkout &raquo;</button>
-        <div id="legend"></div>
+        <button class="btn btn-green checkout-button" disabled>Checkout &raquo;</button>
+        
+        <div id="legend">
+            <h4>Seat legend</h4>
+        </div>
     </div>
-
+    
+        <div class="container-fluid full-page-content text-center" style="background-image: url('/img/drama.jpg')" id="{{showId}}">
+            <div class="">
+                {{#with show}}
+                    <div class="mb-60">
+                        <h1>{{title}}</h1>
+                        <h5>{{date}} | {{time}}</h5>
+                    </div>
+                {{/with}}
+                <div class="container noselect">
+                    <div class="seating mb-30">
+                    </div>
+                </div>
+                <div>
+                    <button id="testBtn">Test Button</button>
+                </div>        
+                <div id="scrollDown"><a href="#summary"><span></span></a></div>
+            </div>
+        </div>
+        <div class="container">
+            <div id="summary">
+                <div class="col-lg-12 mb-15">
+                    <h2>Show Summary</h2>
+                </div>
+                <div class="col-lg-12 show-description text-justify">
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                </div>
+            </div>
+            <button class="create-new-show-btn">Create New Show &raquo;</button>
+        </div>
+    
 </template>
 
 <template name="bookingModal">
@@ -25,7 +65,7 @@
                     <h4 class="modal-title">Complete Booking Details</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="booking-form">
+                    <form class="booking-form" autocomplete="off">
                         {{#each seats}}
                             <div class="ticket-info">
                                 <h4>Seat {{seatNum}} - <span class="ticket-cost pre-cash" hidden>0</span><span class="no-select">Please Select Ticket Type</span></h4>
@@ -39,9 +79,10 @@
                                     <label for="type_{{id}}">Ticket Type*</label>
                                     <select class="select-booking required-input" id="type_{{id}}">
                                         <option value="" data-cost=""></option>
-                                        <option value="student" data-cost="15">Student Regular</option>
-                                        <option value="studentSac" data-cost="12">Student With SAC</option>
-                                        <option value="general" data-cost="20">General Admission</option>
+                                        <option value="{{data.category}}" data-cost="{{generalCost}}">Regular</option>
+                                        {{#each ticketVariant}}
+                                            <option value="{{category}}" data-cost="{{price}}">{{category}}</option>
+                                        {{/each}}
                                     </select>
                                 </div>
                                 <div class="form-item">
@@ -120,7 +161,7 @@
                         </div>
                         <div class="form-item">
                             <label for="showSummary">Summary*</label>
-                            <textarea id="showSummary" class="required-input" maxlength="1000"></textarea>
+                            <textarea id="showSummary" class="required-input" maxlength="5000"></textarea>
                         </div>
                         <div class="form-group flexed">
                             <div class="form-item">
@@ -143,7 +184,7 @@
                         <p>No Cast Members Added Yet.</p>
                         <a href="" class="add-new-cast">+ Add another Cast Member</a>
                         <hr>
-                        <div class="seatmap-container" hidden>
+                        <div class="seatmap-container noselect" hidden>
                             <div class="close-window">
                                 <i class="fa fa-times"></i>
                             </div>
@@ -167,7 +208,7 @@
                             <div class="form-item">
                                 <label>Price*</label>
                                 <input type="number" class="ticket-price">
-                            </div>
+                            </div> 
                             <div class="form-item">
                                 <label>Select Seats*</label>
                                 <button class="btn btn-green btn-wide open-seatmap">Map Seats</button>
@@ -176,14 +217,11 @@
                                 <label>Additional Info</label>
                                 <input type="text" class="ticket-info">
                             </div>
+                            <div class="form-item">
+                                <a href="" class="add-ticket-variant">+ Add a Ticket Variant</a>
+                            </div>
                         </div>
                         <a href="" class="add-new-ticket mr-30">+ Add another Ticket Type</a>
-                        <a href="" class="add-ticket-variant" hidden>+ Add a Ticket Variant</a>
-                        <div class="form-item mt-25 center-input ticket-variant-container">
-                            <select class="smaller" id="ticketVariant">
-                                <option value="" data-cost=""></option>
-                            </select>
-                        </div>
                         <hr>
                         <div class="ticket-info">
                             <h4>Additional Information</h4>

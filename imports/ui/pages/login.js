@@ -21,11 +21,14 @@ Template.login.events({
         console.log("logging in with google");
         Meteor.loginWithGoogle({
             loginStyle: "redirect",
-            requestPermissions: ['profile','email']
+            requestPermissions: ['profile','email'],
+            prompt: 'select_account',
+            hd: 'gapps.yrdsb.ca'
         },(err)=>{
             console.log(err);
             if(err){
                 alertError("Sorry...", err.message);
+                Meteor.logout();
             }
         });
     }

@@ -1,14 +1,29 @@
-.front-indicator {
-	width: 145px;
-	margin: 5px 32px 15px 32px;
-	background-color: #f6f6f6;	
-	color: #adadad;
-	text-align: center;
-	padding: 3px;
-	border-radius: 5px;
-}
 .form-item{
 	margin-bottom: 15px;
+}
+.hidden-side{
+	margin-right: -15%;
+}
+.open-booking-details{
+	position: fixed;
+	color: #efefef;
+	opacity: 0.9;
+	font-size: 25px;
+	right: 30px;
+	top: 30px;
+	transition: all 0.2s;
+	&:hover{
+		opacity: 1 
+	}
+}
+.no-underline{
+	border:none;
+	box-shadow: none;
+	&:hover,&:focus,&:active{
+		color: #efefef;
+		text-decoration: none;
+		background-color: transparent;
+	}
 }
 textarea{
 	width: 100%;
@@ -29,27 +44,51 @@ textarea{
 	width: 100%;
 	text-align: center;
 }
+.show-description{
+	p{
+		margin-bottom: 15px;
+	}
+}
+.full-page-content{
+	height: 100vh;
+	color: #fff;
+	background-size: cover;
+	background-position: center;
+}
+.seating{
+	background: #fff;
+	padding: 25px;
+	box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    &:hover {
+      box-shadow: 0 11px 20px rgba(50,50,93,.1), 0 6px 11px rgba(0,0,0,.08);
+    }
+}
 .booking-details {
-	float: left;
+	padding: 25px;
+	width: 15%;
+	background: #fff;
+	box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+	height: 100vh;
+	right: 0;
 	text-align: left;
-	margin-left: 35px;
-	font-size: 12px;
-	position: relative;
-}
-.booking-details h2 {
-	margin: 25px 0 20px 0;
-	font-size: 17px;
-}
-.booking-details h3 {
-	margin: 5px 5px 0 0;
-	font-size: 14px;
+	position: fixed;
+	transition: all 0.5s;
+	h2 {
+		margin: 25px 0 20px 0;
+		font-size: 50px;
+	}
+	h3 {
+		margin: 5px 5px 0 0;
+		font-size: 25px;
+	}
 }
 div.seatCharts-cell {
 	color: #182C4E;
 	height: 25px;
 	width: 25px;
 	line-height: 25px;
-	
+	transition: all 0.2s;
 }
 div.seatCharts-seat {
 	color: #FFFFFF;
@@ -88,8 +127,8 @@ div.seatCharts-container {
 }
 div.seatCharts-legend {
 	padding-left: 0px;
-	position: absolute;
-	bottom: 16px;
+	position: fixed;
+    bottom: 5%;
 }
 ul.seatCharts-legendList {
 	padding-left: 0px;
@@ -104,10 +143,8 @@ span.seatCharts-legendDescription {
 	font-size: 14px;
 }
 #selected-seats {
-	max-height: 90px;
-	overflow-y: scroll;
-	overflow-x: none;
-	width: 170px;
+	max-height: 30vh;
+	overflow: auto;
 }
 .booking-modal{
 	width: 50% !important;
@@ -129,7 +166,7 @@ span.seatCharts-legendDescription {
 	text-align: left;
 	margin-right: 10px;
 	.select2{
-		width: 100%;
+		width: 100% !important;
 		font-size: 14px;
 	}
 	.select2-container--default .select2-selection--single{
@@ -160,6 +197,9 @@ span.seatCharts-legendDescription {
 .warning-label{
 	color:red;
 }
+li.seatCharts-legendItem {
+    margin-top: 20px;
+}
 .seatmap-container{
 	position: fixed;
     top: 0;
@@ -181,4 +221,114 @@ span.seatCharts-legendDescription {
 }
 .center-input{
 	text-align: center !important;
+}
+.ds-selector{
+	z-index: 7;
+}
+#hideBooking{
+	cursor: pointer;
+	font-size: 35px;
+	transition: all 0.2s;
+	&:hover{
+		color: #111111;
+	}
+}
+
+#scrollDown a {
+	position: absolute;
+    bottom: 3%;
+    left: 50%;
+    width: 50px;
+	margin-left: -25px;
+	border-bottom: none;
+  }
+  #scrollDown a span {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 30px;
+	height: 50px;
+	margin-left: -15px;
+	border: 2px solid #fff;
+	border-radius: 50px;
+	box-sizing: border-box;
+  }
+  #scrollDown a span::before {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	content: '';
+	width: 6px;
+	height: 6px;
+	margin-left: -3px;
+	background-color: #fff;
+	border-radius: 100%;
+	-webkit-animation: sdb10 2s infinite;
+	animation: sdb10 2s infinite;
+	box-sizing: border-box;
+  }
+  @-webkit-keyframes sdb10 {
+	0% {
+	  -webkit-transform: translate(0, 0);
+	  opacity: 0;
+	}
+	40% {
+	  opacity: 1;
+	}
+	80% {
+	  -webkit-transform: translate(0, 20px);
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 0;
+	}
+  }
+  @keyframes sdb10 {
+	0% {
+	  transform: translate(0, 0);
+	  opacity: 0;
+	}
+	40% {
+	  opacity: 1;
+	}
+	80% {
+	  transform: translate(0, 20px);
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 0;
+	}
+	}
+	.noselect {
+		-webkit-touch-callout: none; /* iOS Safari */
+			-webkit-user-select: none; /* Safari */
+			 -khtml-user-select: none; /* Konqueror HTML */
+				 -moz-user-select: none; /* Firefox */
+					-ms-user-select: none; /* Internet Explorer/Edge */
+							user-select: none; /* Non-prefixed version, currently
+																		supported by Chrome and Opera */
+	}
+div.seatCharts-seat.available.seat-f{
+	background-color: #009688; 	
+}
+div.seatCharts-seat.available.seat-g{
+	background-color: #673AB7;
+	.focused{
+		background-color: #4527A0;
+	}	
+}
+div.seatCharts-seat.available.seat-h{
+	background-color: #00BCD4; 	
+}
+div.seatCharts-seat.available.seat-i{
+	background-color: #4CAF50; 	
+}
+div.seatCharts-seat.available.seat-j{
+	background-color: #FFEB3B; 	
+}
+div.seatCharts-seat.available.seat-k{
+	background-color: #FF9800; 	
+}
+div.seatCharts-seat.available.seat-l{
+	background-color: #f44336; 	
 }

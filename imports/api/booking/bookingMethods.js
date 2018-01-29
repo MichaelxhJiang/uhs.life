@@ -1,7 +1,7 @@
 import { Booking } from './booking.js';
 import { check } from 'meteor/check';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-
+import { Shows } from './shows';
 if(Meteor.isServer){
     Meteor.methods({
         'booking.addTransaction': function(details){
@@ -78,13 +78,20 @@ if(Meteor.isServer){
             check(details, ts);
             let json = details, customers = details.customers;
             // TODO double check seat avaliability and all input matches show database record, then reserve the seat to reflect the new map.
-
+            const theShow = Shows.findOne({'_id': details.showId});
+            console.log(theShow);
+            _.each(details.seats,(seat)=>{
+                if(_.contains(theShow.taken,seat)){
+                    throw new Meteor.Error(400, "Seat has already been taken, please select another one.");
+                }
+            });
             // calculate the costs and store them in the object
             let total = 0;
             _.each(customers, function(item){
                 // TODO connect these with show database
-                item.subTotal = 12;
-                item.grandTotal = 12;
+                const ticketInfo = _.findWhere(theShow.tickets, {category: item.type});
+                item.subTotal = ticketInfo.price;
+                item.grandTotal = ticketInfo.price;
                 item.tracking = {
                     delivery: "pending",
                     payment: "notPaid",

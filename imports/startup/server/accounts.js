@@ -24,7 +24,7 @@ Accounts.validateNewUser(function (user) {
     if (email.indexOf("gapps.yrdsb.ca") !== -1 || email === "uhslifeofficial@gmail.com" || email === "wuonlabs@gmail.com") {
         console.log("validatedNewUser:", email);
     } else {
-        console.log('not gapps yrdsb account');
+        console.log('not gapps yrdsb account', email);
         throw new Meteor.Error(403, "Currently uhs.life is only available to YRDSB GAPPS users, stay tuned for parental support!");
     }
     return true;
@@ -51,14 +51,18 @@ Accounts.onCreateUser(function (options,user){
     return user;
 });
 Accounts.validateLoginAttempt(function (info) {
-    console.log("User just logged in:", info.user._id);
-    if(Roles.userIsInRole(info.user._id, 'banned')){
-        console.log('ban detected');
-        throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: " + info.user.private.ban.reason);
+    if(info.user){
+        console.log("User just logged in:", info.user._id);
+        if(Roles.userIsInRole(info.user._id, 'banned')){
+            console.log('ban detected');
+            throw new Meteor.Error(403, "Sorry you have been banned from uhs.life by the administration for the following reason: " + info.user.private.ban.reason);
+        }else{
+            console.log('login attempt valid');
+        }
+        return true;
     }else{
-        console.log('login attempt valid');
+        throw new Meteor.Error(403, "Currently uhs.life is only available to YRDSB GAPPS users, stay tuned for parental support!");
     }
-    return true;
 });
 Meteor.methods({
     'initUserProfile': function (id,info) {

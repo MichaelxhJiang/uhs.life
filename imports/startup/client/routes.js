@@ -276,7 +276,6 @@ loggedIn.route('/logout',{
         Session.set("DocumentTitle","Logging out...");
         Meteor.logout(function() {
             Session.clear();
-
             FlowRouter.go('/');
             if (Meteor.isCordova) {
                 window.location.replace('https://accounts.google.com/Logout');
