@@ -52,29 +52,46 @@
                 <a href="/dashboard"><i class="fa fa-home"></i> Home</a>
                 <a href="/dashboard/announcements"><i class="fa fa-bullhorn"></i> Posts</a>
                 <a href="/dashboard/suggestions"><i class="fa fa-pencil-square-o"></i> Suggestions</a>
-                <a href="/dashboard/categories"><i class="fa fa-list"></i> Manage Categories</a>
-                <a href="/dashboard/organizations"><i class="fa fa-list"></i> Manage Organizations</a>
-                <a href="/dashboard/users"><i class="fa fa-group"></i> Manage Users</a>
+                <a href="/dashboard/categories"><i class="fa fa-list"></i> Categories</a>
+                <a href="/dashboard/organizations"><i class="fa fa-list"></i> Organizations</a>
+                <a href="/dashboard/users"><i class="fa fa-group"></i> Users</a>
                 <a href=""><i class="fa fa-newspaper-o"></i> Newsletters</a>
                 <a href=""><i class="fa fa-gear"></i> Settings</a>
                 <a href="/">Go Back</a>
             {{else}}
-                <a href="/">{{_ "nav.side_items.stream"}}</a>
-                <a href="/profile">Profile</a>
-                <a href="/calendar">Calendar</a>
-                <!--<a href="/stories">{{_ "nav.side_items.stories"}}</a>-->
-                {{#if isStudent}}
-<!--                    <a href="" id="academics"><div class="expand-text">{{_ "nav.side_items.marks"}}</div><i class="fa fa-times academics-icon"></i></a>
-                    <ul class="course-list">
-                        {{#each courses}}
-                            <li><a href="/course/{{subject_id}}" class="course-link">{{course}}<i class="{{state}}">{{mark}}</i></a></li>
-                        {{/ each}}
-                    </ul>
-                    <a href="">{{_ "nav.side_items.suggest"}}</a>-->
-                {{/ if}}
-                {{#if isAdmin}}
-                    <a href="/dashboard">{{_ "nav.side_items.admin"}}</a>
-                {{/ if}}
+                {{#if booking}}
+                    <a href="/dashboard"><i class="fa fa-home"></i> Dashboard</a>
+                    <a href="/dashboard/announcements"><i class="fa fa-bullhorn"></i> Create New Show</a>
+                    <a href="/dashboard/suggestions"><i class="fa fa-pencil-square-o"></i> Ticket Sellers</a>
+                    <a href="/dashboard/categories"><i class="fa fa-list"></i> Leaderboard</a>
+                    <a href="" id="academics"><div class="expand-text"> Shows</div><i class="fa fa-times academics-icon"></i></a>
+                        <ul class="course-list">
+                            <li><a href="" class="course-link">Show A</a></li>
+                            <li><a href="" class="course-link">Show B</a></li>
+                            <li><a href="" class="course-link">Show C</a></li>
+                            <li><a href="" class="course-link">Show D</a></li>
+                        </ul>
+                    <a href=""><i class="fa fa-gear"></i> Settings</a>
+                    <a href="/">Go Back</a>
+                {{else}}
+                    <a href="/">{{_ "nav.side_items.stream"}}</a>
+                    <a href="/profile">Profile</a>
+                    <a href="/calendar">Calendar</a>
+                    <!--<a href="/stories">{{_ "nav.side_items.stories"}}</a>-->
+                    {{#if isStudent}}
+    <!--                    <a href="" id="academics"><div class="expand-text">{{_ "nav.side_items.marks"}}</div><i class="fa fa-times academics-icon"></i></a>
+                        <ul class="course-list">
+                            {{#each courses}}
+                                <li><a href="/course/{{subject_id}}" class="course-link">{{course}}<i class="{{state}}">{{mark}}</i></a></li>
+                            {{/ each}}
+                        </ul>
+                        <a href="">{{_ "nav.side_items.suggest"}}</a>-->
+                    {{/ if}}
+                    {{#if isAdmin}}
+                        <a href="/dashboard">{{_ "nav.side_items.admin"}}</a>
+                    {{/ if}}
+                {{/if}}
+                
             {{/if}}
         </div>
     </div>

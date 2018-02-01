@@ -3,7 +3,6 @@
  *
  * This file manages the importing of all layouts and pages.
  *
- * A semi-colon is not necessary at the end of an import, please omit it.
  */
 
 //import ui files
@@ -22,6 +21,7 @@ import '../../ui/pages/profile.js';
 import '../../ui/pages/public.js';
 import '../../ui/pages/calendar.js';
 import '../../ui/pages/experimental.js';
+import '../../ui/pages/bookingAdmin.js';
 
 //This file defines functions to post and setup the facebook API
 import './facebook.js';
@@ -34,6 +34,7 @@ import './push.js';
 
 import '../../api/images/images.js';
 
+// The following defines all the mini-mongo local databases on the client
 Drafts = new Mongo.Collection('drafts');
 Clubs = new Mongo.Collection('clubs');
 Posts = new Mongo.Collection('posts');

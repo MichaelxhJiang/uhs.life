@@ -144,9 +144,9 @@ Template.navigation.events({
 
     },
     'click #academics': function () {
-        if(!Session.get('token')){
-            Modal.show('teachAssistConnect');
-        }
+        // if(!Session.get('token')){
+        //     Modal.show('teachAssistConnect');
+        // }
         let list = $('.course-list');
         let icon = $('.academics-icon');
         if(!list.is(':visible')){

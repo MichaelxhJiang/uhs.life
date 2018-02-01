@@ -5,6 +5,7 @@ import { check } from 'meteor/check';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import DragSelect from 'dragselect';
 import { Session } from 'meteor/session';
+import { Random } from 'meteor/random';
 let seats = [];
 let show;
 Template.sandbox.onRendered(function(){
@@ -106,6 +107,15 @@ Template.sandbox.onRendered(function(){
             $('#testBtn').click((evt)=>{
                 evt.preventDefault();
                 sc.get(['BD_2', 'K_1', 'D_12', 'B_22']).status('unavailable');
+            });
+            const cursor = Shows.find({'summary': '12345'});
+            cursor.observeChanges({
+                added(id, fields){
+                    sc.get(fields.taken).status('unavailable');
+                },
+                changed(id, fields){
+                    sc.get(fields.taken).status('unavailable');
+                }
             });
         }
     });
@@ -526,7 +536,7 @@ Template.newShowModal.onRendered(function(){
             evt.preventDefault();
             const id = $(evt.target).closest('.ticket-item').attr('id');
             $(evt.target).closest('.ticket-item').after(
-            "<div class='form-group flexed ticket-item' data-ticket-variant='"+ id +"'>"+
+            "<div class='form-group flexed ticket-item' data-ticket-variant='"+ id +"' id='"+ Random.id() +"' >"+
                 "<div class='form-item'>"+
                     "<label>Name*</label>"+
                     "<input type='text' class='ticket-name required-input'>"+
@@ -744,7 +754,7 @@ Template.newShowModal.onRendered(function(){
         evt.preventDefault();
         const id = $(evt.target).closest('.ticket-item').attr('id');
         $(evt.target).closest('.ticket-item').after(
-        "<div class='form-group flexed ticket-item' data-ticket-variant='"+ id +"'>"+
+        "<div class='form-group flexed ticket-item' data-ticket-variant='"+ id +"' id='"+ Random.id() +"'>"+
             "<div class='form-item'>"+
                 "<label>Name*</label>"+
                 "<input type='text' class='ticket-name required-input'>"+
@@ -769,7 +779,7 @@ Template.newShowModal.onRendered(function(){
 
 
 function randId() {
-    return Math.random().toString(36).substr(2, 10);
+    return Random.id();
 }
 function recalculateTotal(sc) {
     var total = 0;

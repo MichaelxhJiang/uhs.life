@@ -1,10 +1,19 @@
-import { Booking } from './booking.js';
+import { Transactions } from './booking.js';
 import { check } from 'meteor/check';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Shows } from './shows';
+
+/*
+
+    The following is all the apis that clients can use to access the
+    booking system.
+
+*/
+
 if(Meteor.isServer){
     Meteor.methods({
         'booking.addTransaction': function(details){
+            // The schemas are used to check inputs, if they do not satisfy the defined pattern, they will be rejected and client will be notified
             const cs = new SimpleSchema({
                 name:{
                     type: String,
@@ -76,22 +85,32 @@ if(Meteor.isServer){
                 }
             });
             check(details, ts);
-            let json = details, customers = details.customers;
-            // TODO double check seat avaliability and all input matches show database record, then reserve the seat to reflect the new map.
+            // Creating buffer to store the transaction input for processing
+            let json = details, 
+                customers = details.customers;
             const theShow = Shows.findOne({'_id': details.showId});
-            console.log(theShow);
+            // Check to make sure that all seats in the order are not already taken
             _.each(details.seats,(seat)=>{
                 if(_.contains(theShow.taken,seat)){
+                    // if we fine a repeating seat order, the order is rejected.
                     throw new Meteor.Error(400, "Seat has already been taken, please select another one.");
                 }
             });
             // calculate the costs and store them in the object
             let total = 0;
             _.each(customers, function(item){
-                // TODO connect these with show database
-                const ticketInfo = _.findWhere(theShow.tickets, {category: item.type});
-                item.subTotal = ticketInfo.price;
-                item.grandTotal = ticketInfo.price;
+                let inputCheck = true;
+                try{
+                    const ticketInfo = _.findWhere(theShow.tickets, {category: item.type});
+                    item.subTotal = ticketInfo.price;
+                    item.grandTotal = ticketInfo.price;
+                }catch(e){
+                    inputCheck = false;
+                }
+                if(!inputCheck){
+                    throw new Meteor.Error(400, "Failed to retrieve ticket information, please double check that the ticket options are valid.")
+                }
+                // Tracking info initialized
                 item.tracking = {
                     delivery: "pending",
                     payment: "notPaid",
@@ -100,11 +119,32 @@ if(Meteor.isServer){
                 };
                 total += item.grandTotal;
             });
-
+            // Add the culmulated information
             json.customers = customers;
             json.amount = total;
             json.ticketCount = json.seats.length;
+            // Update the show database
+            Shows.update({'_id': details.showId},{
+                $push: {
+                    taken: {
+                        $each: details.seats
+                    }
+                }
+            },{multi: true},function(err){
+                if(err){
+                    console.log(err.message);
+                    throw new Meteor.Error(500, "Failed to book seats, please contact the administrators.");
+                }
+            });
             console.log(json);
+            Transactions.insert(json,function(err){
+                if(err){
+                    throw new Meteor.Error(500, "Something went wrong on our end, please contact administrators.");
+                }
+            });
+        },
+        'booking.wipeTransactions': function(){
+
         }
     });
 }
