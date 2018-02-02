@@ -17,7 +17,9 @@ if(Meteor.isServer){
         });
     });
 }
-
+Accounts.config({
+    restrictCreationByEmailDomain: 'gapps.yrdsb.ca'
+});
 Accounts.validateNewUser(function (user) {
     console.log("validating new user");
     const email = user.services.google.email;

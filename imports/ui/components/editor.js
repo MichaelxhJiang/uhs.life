@@ -614,7 +614,7 @@ Template.announcementOptions.events({
         let type = Session.get('announcementType');
         let json = constructAnnouncementJson(type);
         if (type === "imageOnly") {
-            Meteor.call('posts.postImage', json, function (err) {
+            Meteor.call('posts.submit', json, function (err) {
                 if (err) {
                     alertError('Posting Failed!', err.message);
                 } else {
@@ -637,7 +637,7 @@ Template.announcementOptions.events({
             });
 
         } else if (type === "textOnly") {
-            Meteor.call('posts.postText', json, function (err) {
+            Meteor.call('posts.submit', json, function (err) {
                 if (err) {
                     alertError('Post Failed!', err.message);
                 } else {
@@ -659,7 +659,7 @@ Template.announcementOptions.events({
                 }
             });
         } else if (type === 'textAndImage') {
-            Meteor.call('posts.postTextImage', json, function (err) {
+            Meteor.call('posts.submit', json, function (err) {
                 if (err) {
                     alertError('Post Failed!', err.message);
                 } else {
