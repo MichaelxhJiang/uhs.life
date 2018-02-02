@@ -540,8 +540,8 @@ constructAnnouncementJson = function(type){
         let draftedDate = new Date();
         let visibility = $('.visibility-select')[4].value;
         if (!videoId) {
-            alertError('Post Incomplete!', "You haven't uploaded an image yet!");
-            throw new Error('A Video Was Not Added');
+            alertError('Post Incomplete!', "You haven't uploaded a video yet!");
+            //throw new Error('A Video Was Not Added');
         }
         if (!headline) {
             //TODO

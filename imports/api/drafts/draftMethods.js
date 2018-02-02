@@ -51,6 +51,18 @@ Meteor.methods({
             }
         });
     },
+    'drafts.postDraftVideo' : function (json) {
+        if (!Roles.userIsInRole( this.userId, ['teacher', 'admin', 'announcementEditor'])) {
+            throw new Meteor.Error(403, "You do not have permission...Reported");
+        }
+
+        //adds draft to the Draft collection
+        Drafts.insert(json, function(err, content) {
+            if (err) {
+                console.error(err);
+            }
+        })
+    },
     'drafts.postDraftBlog' : function(json) {
         if (!Roles.userIsInRole( this.userId, ['teacher', 'admin', 'announcementEditor'])) {
             throw new Meteor.Error(403, "You do not have permission...Reported");
