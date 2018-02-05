@@ -64,22 +64,102 @@ Meteor.methods({
         }
         let errStr = "", err = false;
         if (json.type === "announcement") {
-            if (!json.headline) {
-                err = true;
-                errStr += "Missing headline. ";
+            if (json.subType === "video") {
+                if (!json.headline) {
+                    err = true;
+                    errStr += "Missing headline. ";
+                }
+                if (!json.imgId && !json.videoId && !json.content) {
+                    err = true;
+                    errStr += "Missing Content. ";
+                }
+                let sDate = new Date(json.startDate),
+                    eDate = new Date(json.endDate),
+                    currentDate = new Date();
+                if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
+                    err = true;
+                    errStr = "Your date selection will break our system. ";
+                }
+            } else if (json.subType === "textOnly") {
+                if (json.type !== "announcement") {
+                    err = true;
+                    errStr += "Not an announcement. ";
+                }
+                if (json.subType !== "textOnly") {
+                    err = true;
+                    errStr += "Not correct announcement type. ";
+                }
+                if (!json.headline) {
+                    err = true;
+                    errStr += "Missing headline. ";
+                }
+                if (!json.content) {
+                    err = true;
+                    errStr += "Missing content. ";
+                }
+                let sDate = new Date(json.startDate),
+                    eDate = new Date(json.endDate),
+                    currentDate = new Date();
+                if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
+                    err = true;
+                    errStr = "Your date selection is illegal. "
+                }
+            } else if (json.subType === "imageOnly") {
+                if (json.type !== "announcement") {
+                    err = true;
+                    errStr += "Not an announcement. ";
+                }
+                if (json.subType !== "imageOnly") {
+                    err = true;
+                    errStr += "Not correct announcement type. ";
+                }
+                console.log(json.headline);
+                if (!json.headline) {
+                    err = true;
+                    errStr += "Missing headline. ";
+                }
+                if (!json.imgId) {
+                    err = true;
+                    errStr += "Missing image. ";
+                }
+                let sDate = new Date(json.startDate),
+                    eDate = new Date(json.endDate),
+                    currentDate = new Date();
+                if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
+                    err = true;
+                    errStr = "Your date selection is illegal. "
+                }
+            } else if (json.subType === "imageText") {
+                if (json.type !== "announcement") {
+                    err = true;
+                    errStr += "Not an announcement. ";
+                }
+                if (json.subType !== "imageText") {
+                    err = true;
+                    errStr += "Not correct announcement type. ";
+                }
+                if (!json.headline) {
+                    err = true;
+                    errStr += "Missing headline. ";
+                }
+                if (!json.content) {
+                    err = true;
+                    errStr += "Missing content. ";
+                }
+                if (!json.imgId) {
+                    err = true;
+                    errStr += "Missing image. ";
+                }
+                let sDate = new Date(json.startDate),
+                    eDate = new Date(json.endDate),
+                    currentDate = new Date();
+                if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
+                    err = true;
+                    errStr = "Your date selection is illegal. ";
+                }
             }
-            if (!json.imgId && !json.videoId && !json.content) {
-                err = true;
-                errStr += "Missing Content. ";
-            }
-            let sDate = new Date(json.startDate),
-                eDate = new Date(json.endDate),
-                currentDate = new Date();
-            if(sDate.getTime() < currentDate.getTime() || currentDate.getTime() > eDate.getTime() || sDate.getTime() > eDate.getTime()){
-                err = true;
-                errStr = "Your date selection will break our system. ";
-            }
-        }else if(json.type === 'blog'){
+
+        } else if(json.type === 'blog'){
             if (!json.title) {
                 err = true;
                 errStr += "Missing title. ";

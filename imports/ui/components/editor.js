@@ -614,7 +614,7 @@ Template.announcementOptions.events({
         let type = Session.get('announcementType');
         let json = constructAnnouncementJson(type);
         if (type === "imageOnly") {
-            Meteor.call('posts.postImage', json, function (err) {
+            Meteor.call('posts.submit', json, function (err) {
                 if (err) {
                     alertError('Posting Failed!', err.message);
                 } else {
@@ -637,7 +637,7 @@ Template.announcementOptions.events({
             });
 
         } else if (type === "textOnly") {
-            Meteor.call('posts.postText', json, function (err) {
+            Meteor.call('posts.submit', json, function (err) {
                 if (err) {
                     alertError('Post Failed!', err.message);
                 } else {
@@ -659,7 +659,7 @@ Template.announcementOptions.events({
                 }
             });
         } else if (type === 'textAndImage') {
-            Meteor.call('posts.postTextImage', json, function (err) {
+            Meteor.call('posts.submit', json, function (err) {
                 if (err) {
                     alertError('Post Failed!', err.message);
                 } else {
@@ -729,7 +729,6 @@ Template.announcementOptions.events({
             });
         }else{
             if (type === "imageOnly") {
-
                 Meteor.call('drafts.postDraftImage', json, function (err) {
                     if (err) {
                         alertError('Saving Draft Failed!', err.message);
@@ -749,7 +748,6 @@ Template.announcementOptions.events({
                 });
 
             } else if (type === "textOnly") {
-
                 Meteor.call('drafts.postDraftText', json, function (err) {
                     if (err) {
                         alertError('Saving Draft Failed!', err.message);
@@ -774,6 +772,24 @@ Template.announcementOptions.events({
                     } else {
                         alertSuccess('Success!', 'The draft has been saved.');
                         wipeEditor('announcement','imageText');
+                        if (operationStack.length - 2 === 0) {
+                            swapElements('.editor-main', '.editor-open');
+                            $('html, body').css({
+                                overflow: 'visible'
+                            }); // Enables the Scrolling
+                        } else {
+                            swapElements(operationStack[operationStack.length - 1], operationStack[operationStack.length - 2]);
+                        }
+                        operationStack.pop();
+                    }
+                });
+            } else if (type === 'video') {
+                Meteor.call('drafts.postDraftVideo', json, function (err) {
+                    if (err) {
+                        alertError('Saving Draft Failed!', err.message);
+                    } else {
+                        alertSuccess('Success!', 'The draft has been saved.');
+                        wipeEditor('announcement','video');
                         if (operationStack.length - 2 === 0) {
                             swapElements('.editor-main', '.editor-open');
                             $('html, body').css({
