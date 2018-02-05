@@ -1,3 +1,144 @@
 <template name="bookingAdminMain">
     {{> navigation booking="true"}}
+    {{> Template.dynamic template=booking}}
+</template>
+
+<template name="bookingHome">
+    <div class="container">
+        <div class="row content">
+            {{#each shows}}
+                <div class="col-lg-12">
+                    <div class="show-container flexed text-light menu-container clickable" style="background:linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('{{imageLink}}')" id="{{_id}}">
+                        <div class="show-preview">
+                            <div class="show-title">
+                                <h3>{{title}}</h3>
+                            </div>
+                            <div class="show-meta">
+                                <h5>{{date}} | {{time}} | Starring: Johny Ivy, Lord Heaven, Jason Tan</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+            <div class="col-lg-12">
+                <div class="show-container flexed text-light menu-container clickable" style="background:linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('img/drama4.jpg')" id="123">
+                    <div class="show-preview">
+                        <div class="show-title">
+                            <h3>Crazy For You (Friday Show)</h3>
+                        </div>
+                        <div class="show-meta">
+                            <h5>March 3rd 2018 | 7:00 PM | Starring: Johny Ivy, Lord Heaven, Jason Tan</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="bookingDetails">
+    <div class="container">
+        <div class="row content">
+            <div class="col-lg-12">
+                <div class="show-container flexed text-light menu-container animated fadeInUp" style="background:linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('/img/drama2.jpg')" id="abc">
+                    <div class="show-preview">
+                        <div class="show-title">
+                            <h3>Crazy For You</h3>
+                        </div>
+                        <div class="show-meta">
+                            <h5>March 3rd 2018 | 7:00 PM | Starring: Johny Ivy, Lord Heaven, Jason Tan</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="show-container show-details-container">
+                    <h4>Tickets Sold</h4>
+                    <h2>12</h2>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="show-container show-details-container">
+                    <h4>Estimated Income</h4>
+                    <h2>$12,000</h2>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="show-container show-details-container">
+                    <h4>Seats Remaining</h4>
+                    <h2>354</h2>
+                </div>
+            </div> 
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="show-container show-details-container">
+                    <div class="chart-title">
+                        <h4>Sales Chart</h4>
+                        <p class="text-muted">By <span class="chart-expand">Date</span></p>
+                    </div>
+                    <canvas id="salesChart" height="100px"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="show-container show-details-container">
+                    <div class="chart-title">
+                        <h4>Insights</h4>
+                        <p class="text-muted">Top Sales Person</p>
+                    </div>
+                    <div class="col-lg-4">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="show-container show-details-container">
+                    <div class="chart-title">
+                        <h4>Insights</h4>
+                        <p class="text-muted">Best Sellers</p>
+                    </div>
+                    <div class="col-lg-4">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="show-container show-details-container">
+                    <div class="container-title">
+                        <h4>All Orders</h4>
+                        <p class="text-muted">Sorted By <span class="chart-expand">Timestamp</span>, with no <span class="chart-expand">filters</span> enabled.</p>
+                    </div>
+                    <div>
+                        <table>
+                            <tr>
+                                <th>Time Stamp</th>
+                                <th>Seller</th>
+                                <th>Number of Tickets</th>
+                                <th>Value</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr>
+                                <td>July 1st 2018 3:30</td>
+                                <td>Yong Lin Wang</td>
+                                <td>4</td>
+                                <td>$39</td>
+                                <td>Paid, Not Deliverd</td>
+                                <td>
+                                    <button class="btn btn-green">Change Status</button>
+                                    <button class="btn btn-grey">Refund</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>

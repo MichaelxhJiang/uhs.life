@@ -131,6 +131,9 @@ if(Meteor.isServer){
                     throw new Meteor.Error(500, "Something is wrong on our side, we are really sorry...");
                 }
             });
+        },
+        'shows.removeAll': function(){
+            Shows.remove({});
         }
     });
 }

@@ -134,14 +134,15 @@ if(Meteor.isServer){
                 if(err){
                     console.log(err.message);
                     throw new Meteor.Error(500, "Failed to book seats, please contact the administrators.");
+                }else{
+                    Transactions.insert(json,function(err){
+                        if(err){
+                            throw new Meteor.Error(500, "Something went wrong on our end, please contact administrators.");
+                        }
+                    });
                 }
             });
-            console.log(json);
-            Transactions.insert(json,function(err){
-                if(err){
-                    throw new Meteor.Error(500, "Something went wrong on our end, please contact administrators.");
-                }
-            });
+            console.log('Successfully inserted', json);
         },
         'booking.wipeTransactions': function(){
 

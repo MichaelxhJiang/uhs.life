@@ -6,6 +6,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import DragSelect from 'dragselect';
 import { Session } from 'meteor/session';
 import { Random } from 'meteor/random';
+import { Images } from "../../api/images/images";
 let seats = [];
 let show;
 Template.sandbox.onRendered(function(){
@@ -17,8 +18,9 @@ Template.sandbox.onRendered(function(){
         let showSub = Meteor.subscribe('allShows');
         if(showSub.ready()){
             let seatObj = {};
-            show = Shows.findOne({'summary': '12345'});
-            Session.set('showId', Shows.findOne({'summary': '12345'})._id);
+            show = Shows.findOne();
+            Session.set('showId', Shows.findOne()._id);
+            Session.set('showCover', Shows.findOne().cover);
             _.each(show.tickets,(item)=>{
                 // if item has unique seat assignments
                 if(item.classes){
@@ -108,7 +110,7 @@ Template.sandbox.onRendered(function(){
                 evt.preventDefault();
                 sc.get(['BD_2', 'K_1', 'D_12', 'B_22']).status('unavailable');
             });
-            const cursor = Shows.find({'summary': '12345'});
+            const cursor = Shows.find();
             cursor.observeChanges({
                 added(id, fields){
                     sc.get(fields.taken).status('unavailable');
@@ -124,11 +126,19 @@ Template.sandbox.onRendered(function(){
 
 Template.sandbox.helpers({
     'show': ()=>{
-        return Shows.findOne({'summary': '12345'});
+
+        return Shows.findOne();
     },
     'showId': function(){
         console.log(Session.get('showId'));
         return Session.get('showId');
+    },
+    'imageLink': function () {
+        try{
+            return Images.findOne({_id: Session.get('showCover')}).link();
+        }catch(e){
+            //console.log('error getting photo')
+        }
     }
 });
 
@@ -363,6 +373,11 @@ Template.newShowModal.onRendered(function(){
     ];
     $('#showDate').datepicker({
         startDate: '+0d'
+    });
+    initPhotoUpload('showCoverPhoto',{
+        number: 1,
+        size: 8,
+        message: "<i class='fa fa-upload fa-5x' style='display:block'></i>\nUpload a cover photo."
     });
     initBooking();
 
@@ -603,7 +618,7 @@ Template.newShowModal.onRendered(function(){
             summary: $('#showSummary').val(),
             date: $('#showDate').val(),
             time: $('#showTime').val(),
-            cover: 'TODO Cover Photo ID',
+            cover: Session.get('newShowCoverId'),
             cast: cast,
             tickets: tickets,
             finePrint: $('#showFine').val()
@@ -831,4 +846,33 @@ String.prototype.insert = function (index, string) {
     }else{
         return string + this;
     }
+};
+function initPhotoUpload(id, info) {
+    return new Dropzone("form#" + id, {
+        maxFiles: info.number || 1,
+        maxFilesize: info.size || 8,
+        thumbnailWidth: 400,
+        addRemoveLinks: true,
+        dictDefaultMessage: info.message || "Drop your image here, or click to select an image using the browser.",
+        accept: function (file, done) {
+            $('.quick-image-prompt').html('');
+            const uploader = Images.insert({
+                file: file,
+                streams: 'dynamic',
+                chunkSize: 'dynamic'
+            }, false);
+            uploader.on('end', function (error, fileObj) {
+                if (error) {
+                    alert('Error during upload: ' + error);
+                } else {
+                    Session.set('newShowCoverId', fileObj._id); //update the image id to current image
+                    done();
+                }
+            });
+            uploader.on('error', function (error) {
+                alert('Error during upload: ' + error);
+            });
+            uploader.start();
+        }
+    });
 };
