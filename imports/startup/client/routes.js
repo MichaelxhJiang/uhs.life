@@ -171,7 +171,16 @@ loggedIn.route('/sandbox',{
 
 loggedIn.route('/booking-admin',{
     action: function () {
-        BlazeLayout.render('applicationLayout',{main: 'bookingAdminMain'});
+        Session.set("DocumentTitle","Booking Dashboard| uhs.life");
+        BlazeLayout.render('bookingAdminMain',{booking: 'bookingHome'});
+    },
+    name: 'Booking Admin'
+});
+
+loggedIn.route('/booking-admin/:showID',{
+    action: function (params) {
+        Session.set("DocumentTitle","Booking Dashboard| uhs.life");
+        BlazeLayout.render('bookingAdminMain',{booking: 'bookingDetails'});
     },
     name: 'Booking Admin'
 });

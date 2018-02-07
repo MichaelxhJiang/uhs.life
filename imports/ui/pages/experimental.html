@@ -22,7 +22,7 @@
         </div>
     </div>
     
-        <div class="container-fluid full-page-content text-center" style="background-image: url('/img/drama.jpg')" id="{{showId}}">
+        <div class="container-fluid full-page-content text-center" style="background-image: url('{{imageLink}}')" id="{{showId}}">
             <div class="">
                 {{#with show}}
                     <div class="mb-60">
@@ -175,7 +175,7 @@
                         </div>
                         <div class="form-item">
                             <label for="showSummary">Upload a cover photo*</label>
-                            <textarea id="showSummary" class="required-input"></textarea>
+                            <form action="/file-upload" class="dropzone" id="showCoverPhoto"></form>
                         </div>
                         <hr>
                         <div class="ticket-info">
@@ -203,11 +203,11 @@
                         <div class="form-group flexed ticket-item first-ticket-item" data-index="0">
                             <div class="form-item">
                                 <label>Name*</label>
-                                <input type="text" class="ticket-name">
+                                <input type="text" class="ticket-name required-input">
                             </div>
                             <div class="form-item">
                                 <label>Price*</label>
-                                <input type="number" class="ticket-price">
+                                <input type="number" class="ticket-price required-input">
                             </div> 
                             <div class="form-item">
                                 <label>Select Seats*</label>
