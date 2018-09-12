@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Posts } from './posts.js';
+import {pushPostNotification} from '../../startup/server/push.js';
 
 if (Meteor.isServer) {
     Meteor.publish('posts', function postsPublication() {
@@ -192,9 +193,52 @@ Meteor.methods({
         Posts.insert(json, function(err, content) {
             if(err) {
                 console.error(err);
+            } else {
+                let postId = json._id;
+                //Whitelist Mr. Pan
+                if (Meteor.user().services.google.email.indexOf("kuo.pan") > -1) {
+                    //APPROVE POST
+                    Posts.update({'_id':postId}, { $set: {'meta.approved':true, 'meta.screeningStage':3}}, function (err, response);
+                    Posts.update({'_id': postId}, {$set: {'meta.display': true}});
+                    pushPostNotification(postId);
+                    //Update Algolia
+                    if (json.subType === 'textOnly') {
+                        Meteor.call('postTextAlgolia', postId);
+                    } else if (json.subType === 'imageOnly') {
+                        Meteor.call('postImageAlgolia', postId);
+                    } else {
+                        Meteor.call('postTextImageAlgolia', postId);
+                    }
+                    //Post on twitter
+                    Meteor.call('setupTwitterAPI', function(err, response) {
+                        if(err) {
+                            console.log(err);
+                        } else {
+                            if (json.subType === 'textOnly') {
+                                Meteor.call('postTextAnnouncementTwitter', json, function(err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                            } else if (json.subType === 'imageOnly') {
+                                Meteor.call('postImageAnnouncementTwitter', json, function(err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                            } else {
+                                Meteor.call('postTextImageAnnouncementTwitter', json, function(err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                            }
+
+                        }
+                    });
+                }
             }
         });
-
     },
     'posts.postTextImage' : function(json) {
         if (!Roles.userIsInRole( this.userId, ['teacher','admin','announcementEditor'])) {

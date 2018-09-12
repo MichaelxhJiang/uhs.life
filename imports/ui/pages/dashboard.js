@@ -34,7 +34,7 @@ Template.dashOrganizations.onRendered(function () {
 	});
 });
 Template.dashUsers.onRendered(function () {
-	setTitle('Manage Organizations');
+	setTitle('Manage Users');
 	Tracker.autorun(function () {
 		Meteor.subscribe('allUsers');
 	});
