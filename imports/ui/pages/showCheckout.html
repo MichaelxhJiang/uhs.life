@@ -1,0 +1,55 @@
+<template name="showCheckout">
+    <div class="open-booking-details">
+        <a class="no-underline" href="">
+            <i class="fa fa-2x fa-ticket" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="booking-details">
+        <div class="hide-booking-icon" tabindex="0">
+            <i class="fa fa-arrow-right" id="hideBooking"></i>
+        </div>
+        <h2>Booking Details</h2>
+        
+        <h3> Selected Seats (<span id="counter">0</span>):</h3>
+        <ul id="selected-seats"></ul>
+        
+        Total: <b>$<span id="total">0</span></b>
+        
+        <button class="btn btn-green checkout-button btn-full" disabled>Checkout &raquo;</button>
+        
+        <div id="legend">
+            <h4>Seat legend</h4>
+        </div>
+    </div>
+    <div class="booking-functions">
+        <h2>Functions</h2>
+        <div class="row mb-25">
+            <div class="col-md-12">
+                <button class="btn btn-green btn-full">GET PAID</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-green btn-full">Update Info</button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-green btn-full">Info Lookup</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-fluid full-page-content text-center" style="background-image: url('{{imageLink}}')" id="{{showId}}">
+        <div class="">
+            {{#with show}}
+                <div class="mb-60">
+                    <h1>{{title}}</h1>
+                    <h5>{{date}} | {{time}}</h5>
+                </div>
+            {{/with}}
+            <div class="container noselect">
+                <div class="seating mb-30">
+                </div>
+            </div>       
+        </div>
+    </div>
+</template>

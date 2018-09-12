@@ -9,6 +9,6 @@ if (Meteor.isServer) {
         return Transactions.find({'seller': this.userId});
     });
     Meteor.publish('transactionsByShow', function showTransactions(showID){
-        return Transactions.findOne({'showId': showID});
+        return Transactions.find({'showId': showID});
     });
 }

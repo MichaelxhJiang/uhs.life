@@ -169,18 +169,32 @@ loggedIn.route('/sandbox',{
     name: 'sandbox'
 });
 
+loggedIn.route('/show-checkout',{
+    action: function () {
+        BlazeLayout.render('applicationLayout',{main: 'showCheckout'});
+    },
+});
+
 loggedIn.route('/booking-admin',{
     action: function () {
-        Session.set("DocumentTitle","Booking Dashboard| uhs.life");
+        Session.set("DocumentTitle","Booking Dashboard | uhs.life");
         BlazeLayout.render('bookingAdminMain',{booking: 'bookingHome'});
+    },
+    name: 'Booking Admin'
+});
+loggedIn.route('/booking-admin/sellers',{
+    action: function () {
+        Session.set("DocumentTitle","Booking Dashboard | uhs.life");
+        BlazeLayout.render('bookingAdminMain',{booking: 'bookingSellers'});
     },
     name: 'Booking Admin'
 });
 
 loggedIn.route('/booking-admin/:showID',{
     action: function (params) {
-        Session.set("DocumentTitle","Booking Dashboard| uhs.life");
-        BlazeLayout.render('bookingAdminMain',{booking: 'bookingDetails'});
+        Session.set("DocumentTitle","Booking Dashboard | uhs.life");
+        Session.set('workingShow', params.showID);
+        BlazeLayout.render('bookingAdminMain', {booking: 'bookingDetails'});
     },
     name: 'Booking Admin'
 });

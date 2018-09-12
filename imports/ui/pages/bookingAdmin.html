@@ -14,7 +14,7 @@
                                 <h3>{{title}}</h3>
                             </div>
                             <div class="show-meta">
-                                <h5>{{date}} | {{time}} | Starring: Johny Ivy, Lord Heaven, Jason Tan</h5>
+                                <h5>{{date}} | {{time}} | Starring: {{cast}}</h5>
                             </div>
                         </div>
                     </div>
@@ -40,35 +40,37 @@
     <div class="container">
         <div class="row content">
             <div class="col-lg-12">
-                <div class="show-container flexed text-light menu-container animated fadeInUp" style="background:linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('/img/drama2.jpg')" id="abc">
+                {{#with showDetails}}
+                <div class="show-container flexed text-light menu-container animated fadeInUp" style="background:linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('{{imageLink}}')" id="{{_id}}">
                     <div class="show-preview">
                         <div class="show-title">
-                            <h3>Crazy For You</h3>
+                            <h3>{{title}}</h3>
                         </div>
                         <div class="show-meta">
-                            <h5>March 3rd 2018 | 7:00 PM | Starring: Johny Ivy, Lord Heaven, Jason Tan</h5>
+                            <h5>{{date}} | {{time}} | Starring: {{cast}}</h5>
                         </div>
                     </div>
                 </div>
+                {{/with}}
             </div>
         </div>
         <div class="row">
             <div class="col-lg-4">
                 <div class="show-container show-details-container">
                     <h4>Tickets Sold</h4>
-                    <h2>12</h2>
+                    <h2>{{ticketsSold}}</h2>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="show-container show-details-container">
                     <h4>Estimated Income</h4>
-                    <h2>$12,000</h2>
+                    <h2>${{income}}</h2>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="show-container show-details-container">
                     <h4>Seats Remaining</h4>
-                    <h2>354</h2>
+                    <h2>{{remainingSeats}}</h2>
                 </div>
             </div> 
         </div>
@@ -79,7 +81,7 @@
                         <h4>Sales Chart</h4>
                         <p class="text-muted">By <span class="chart-expand">Date</span></p>
                     </div>
-                    <canvas id="salesChart" height="100px"></canvas>
+                    <canvas id="salesChart" height="50"></canvas>
                 </div>
             </div>
         </div>
@@ -99,7 +101,7 @@
                 <div class="show-container show-details-container">
                     <div class="chart-title">
                         <h4>Insights</h4>
-                        <p class="text-muted">Best Sellers</p>
+                        <p class="text-muted">Preferred Payment Method</p>
                     </div>
                     <div class="col-lg-4">
                         
@@ -124,21 +126,79 @@
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
-                            <tr>
-                                <td>July 1st 2018 3:30</td>
-                                <td>Yong Lin Wang</td>
-                                <td>4</td>
-                                <td>$39</td>
-                                <td>Paid, Not Deliverd</td>
-                                <td>
-                                    <button class="btn btn-green">Change Status</button>
-                                    <button class="btn btn-grey">Refund</button>
-                                </td>
-                            </tr>
+                            {{#each allTransactions}}
+                                <tr id="row_{{_id}}" class="transaction-overview">
+                                    <td>{{timestamp}}</td>
+                                    <td>{{sellerId}}</td>
+                                    <td>{{ticketCount}}</td>
+                                    <td>${{amount}}</td>
+                                    <td>Paid, Not Deliverd</td>
+                                    <td>
+                                        <button class="btn btn-green">Change Status</button>
+                                        <button class="btn btn-grey">Refund</button>
+                                    </td>
+                                </tr>
+                                <tr class="more-info" hidden>
+                                    <td colspan=6>
+                                        {{#each customers}}
+                                            <div class="col-lg-3">
+                                                <h4>SEAT {{seatId}}</h4>
+                                                <ul>
+                                                    <li>Name: {{name}}</li>
+                                                    <li>Ticket type: {{type}}</li>
+                                                    <li>Pay Method: {{payType}}</li>
+                                                    <li>Requests: {{comment}}</li>
+                                                </ul>
+                                            </div>
+                                        {{/each}}
+                                    </td>
+                                </tr>
+                            {{/each}}
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</template>
+
+<template name="bookingSellers">
+    <div class="container">
+        <div class="row content">
+            <div class="col-lg-12 mb-30">
+                <form id="newSellerForm">
+                    <div class="search mb-15">
+                        <input type="text" class="bigInput" placeholder="Search for a user" id="userSearchBox"/>
+                    </div>
+                    <div class="seller-suggestions" hidden>
+                        {{#each userList}}
+                            <div class="seller-person" id="{{_id}}">
+                                <h4>{{services.google.name}}</h4>
+                            </div>
+                        {{else}}
+                            <h4>No user found</h4>
+                        {{/each}}
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mb-15">
+                <h3>Active Sellers</h3>
+                <p class="text-muted">Click on a seller to remove him/her. You will not loose his/her sales record.</p>
+            </div>
+            {{#each currentSellers}}
+                <div class="col-lg-3">
+                    <div class="common-container text-center seller-container" id="{{_id}}">
+                        <img class="img-responsive img-circle" src="{{services.google.picture}}">
+                        <h4>{{services.google.name}}</h4>
+                    </div>
+                </div>
+            {{else}}
+                <h4 class="text-center">
+                    There are currently no sellers! Add one using the search box above!
+                </h4>
+            {{/each}}
         </div>
     </div>
 </template>

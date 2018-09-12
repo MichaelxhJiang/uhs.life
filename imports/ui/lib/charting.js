@@ -166,7 +166,7 @@ drawPolyChart = function(chartId, assignments, marks){
 }
 
 drawPolyChartBetter = function(chartId, labels, values){
-
+    $( "canvas#"+chartId ).replaceWith( "<canvas id="+chartId+"></canvas>" );
     //Get context with jQuery - using jQuery's .get() method.
     var ctx = document.getElementById(chartId).getContext("2d");
 

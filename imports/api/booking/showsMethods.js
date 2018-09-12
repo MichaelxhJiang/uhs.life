@@ -134,6 +134,12 @@ if(Meteor.isServer){
         },
         'shows.removeAll': function(){
             Shows.remove({});
+        },
+        'shows.addSeller': function(id){
+            Roles.addUsersToRoles(id,'ticketSeller');
+        },
+        'shows.removeSeller': function(id){
+            Roles.removeUsersFromRoles(id,'ticketSeller');
         }
     });
 }

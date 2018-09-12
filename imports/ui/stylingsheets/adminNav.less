@@ -26,6 +26,27 @@
         transform: translateY(-2px);
     }
 }
+.common-container{
+    background: #FFFFFF;
+    margin-bottom: 30px;
+    border-radius: 6px;
+    padding: 20px;
+    min-height: 200px;
+    box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    &:hover {
+        box-shadow: 0 11px 20px rgba(50,50,93,.1), 0 6px 11px rgba(0,0,0,.08);
+        transform: translateY(-2px);
+    }
+}
+.seller-container{
+    &:hover{
+        cursor: pointer;
+    }
+}
 .menu-container{
     padding-left: 50px;
     padding-right: 50px;
@@ -77,5 +98,40 @@ td, th {
     &:hover{
         cursor: pointer;
         background: @primary-dark;
+    }
+}
+tr{
+    transition: all 0.2s;
+    &:hover{
+        background: #eee;
+        cursor: pointer;
+    }
+    ul{
+        list-style:none;
+        padding-left:0;
+    }
+}
+.more-info{
+    list-style: none;
+}
+.seller-suggestions{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+    h4{
+        margin-top: 0;
+    }
+}
+.seller-person{
+    transition: all 0.2s;
+    padding: 15px;
+    border-bottom: #eee solid 1px;
+    &:hover{
+        background: #eee;
+        cursor: pointer;
+    }
+    h4{
+        margin: 0;
     }
 }

@@ -169,6 +169,9 @@ Template.navigation.events({
             searchPrompt.css('display','block');
             Session.set('searchContent', {hits:[]});
         }
+    },
+    'click #openShowCreation': function(){
+        Modal.show('newShowModal');
     }
 });
 

@@ -22,6 +22,7 @@ import '../../ui/pages/public.js';
 import '../../ui/pages/calendar.js';
 import '../../ui/pages/experimental.js';
 import '../../ui/pages/bookingAdmin.js';
+import '../../ui/pages/showCheckout.js';
 
 //This file defines functions to post and setup the facebook API
 import './facebook.js';

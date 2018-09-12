@@ -53,6 +53,7 @@ Template.sandbox.onRendered(function(){
                             firstClick = false;
                         }
                         seats.push(this.settings);
+                        Session.set('selectedSeats', seats);
                         $('<li>'+this.data().category+' Seat '+this.settings.id.substring(0,1)+this.settings.label+'<a href="" class="cancel-cart-item"> [Remove]</a></li>')
                             .attr('id', 'cart-item-'+this.settings.id)
                             .data('seatId', this.settings.id)
@@ -126,7 +127,6 @@ Template.sandbox.onRendered(function(){
 
 Template.sandbox.helpers({
     'show': ()=>{
-
         return Shows.findOne();
     },
     'showId': function(){
@@ -144,7 +144,7 @@ Template.sandbox.helpers({
 
 Template.sandbox.events({
     'click .checkout-button': function(){
-        Modal.show('bookingModal', seats);
+        Modal.show('bookingModal', Session.get('selectedSeats'));
     },
     'click .create-new-show-btn': function(){
         Modal.show('newShowModal');
@@ -212,7 +212,8 @@ Template.bookingModal.helpers({
     'ticketVariant': function(){
         const id = this.data.id;
         let variants = [];
-        _.each(show.tickets, (item)=>{
+        const theShow = Session.get('show');
+        _.each(theShow.tickets, (item)=>{
             if(item.variantOf === id){
                 variants.push(item);
             }
@@ -229,11 +230,13 @@ Template.bookingModal.events({
     'submit .booking-form': function(evt){
         evt.preventDefault();
         let customers = [];
-        _.each(seats, function(item){
+        let selectedSeats = Session.get('selectedSeats', seats);
+        _.each(selectedSeats, function(item){
             // If no more action is going to be added to this operation, combine the following two lines of operation
             const json = {
                 name: $('#name_'+item.id).val(),
                 seatId: item.id,
+                seatName: item.id.substring(0,1) + item.label,
                 type: $('#type_'+item.id).val(),
                 payType: $('#payment_'+item.id).val(),
                 comment: $('#request_'+item.id).val(),
@@ -243,7 +246,7 @@ Template.bookingModal.events({
             customers.push(json);
         });
         let seatArr = [];
-        _.each(seats, function(item){
+        _.each(selectedSeats, function(item){
             seatArr.push(item.id);
         });
         const transactionData = {
@@ -270,6 +273,10 @@ Template.bookingModal.events({
                 type: String,
                 min: 1,
                 label: 'Customer Seat ID'
+            },
+            seatName: {
+                type: String,
+                min: 1,
             },
             comment: {
                 type: String,
@@ -340,6 +347,11 @@ Template.bookingModal.events({
                 }else{
                     Modal.hide('bookingModal');
                     alertSuccess('Thank You!', 'We have sucessfully recorded the transaction.');
+                    Session.set('selectedSeats', []);
+                    console.log(Session.get('selectedSeats'))
+                    $('#selected-seats').empty();
+                    $('#counter').text(0);
+                    $('.checkout-button').prop('disabled', false);
                 }
             });
         }

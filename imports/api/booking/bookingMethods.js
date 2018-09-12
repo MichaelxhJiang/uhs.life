@@ -30,6 +30,10 @@ if(Meteor.isServer){
                     min: 1,
                     label: 'Customer Seat ID'
                 },
+                seatName: {
+                    type: String,
+                    min: 1,
+                },
                 comment: {
                     type: String,
                     max: 250,
